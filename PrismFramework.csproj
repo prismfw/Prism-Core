@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF3EDE00-0B3E-4C83-82E0-3ED08BE0E2E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Prism</RootNamespace>
+    <AssemblyName>PrismFramework</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\PrismFramework.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>PrismFramework.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\PrismFramework.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>PrismFramework.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Data\BindingBase.cs" />
+    <Compile Include="Data\DataContextChangedEventArgs.cs" />
+    <Compile Include="Data\MultiBindingFailedEventArgs.cs" />
+    <Compile Include="Data\BindingFailedEventArgs.cs" />
+    <Compile Include="Data\MultiBinding.cs" />
+    <Compile Include="Data\MultiValueConverter.cs" />
+    <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Foundation\ResolveParameter.cs" />
+    <Compile Include="Native\NativeGeolocator.cs" />
+    <Compile Include="Native\NativeAudioPlayer.cs" />
+    <Compile Include="Native\NativeMenu.cs" />
+    <Compile Include="Native\NativeActionMenu.cs" />
+    <Compile Include="Native\NativeMenuButton.cs" />
+    <Compile Include="Native\NativeMenuSeparator.cs" />
+    <Compile Include="Native\NativeMenuItem.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Systems\Geolocation\Coordinate.cs" />
+    <Compile Include="Systems\Geolocation\GeolocationAccuracy.cs" />
+    <Compile Include="Systems\Geolocation\GeolocationUpdatedEventArgs.cs" />
+    <Compile Include="Systems\Geolocation\Geolocator.cs" />
+    <Compile Include="UI\Controls\ActionMenu.cs" />
+    <Compile Include="UI\Controls\MenuButton.cs" />
+    <Compile Include="UI\Controls\MenuSeparator.cs" />
+    <Compile Include="UI\Controls\MenuItem.cs" />
+    <Compile Include="UI\Controls\ObservableSection.cs" />
+    <Compile Include="Foundation\FrameworkPropertyChangedEventArgs.cs" />
+    <Compile Include="Foundation\FrameworkPropertyMetadata.cs" />
+    <Compile Include="Foundation\FrameworkPropertyMetadataOptions.cs" />
+    <Compile Include="Foundation\PropertyMetadataOptions.cs" />
+    <Compile Include="Native\NativeViewStackPoppingEventArgs.cs" />
+    <Compile Include="UI\Controls\MenuItemCollection.cs" />
+    <Compile Include="UI\Media\AudioPlayer.cs" />
+    <Compile Include="UI\Views\ViewStackPoppingEventArgs.cs" />
+    <Compile Include="UI\WindowSizeChangedEventArgs.cs" />
+    <Compile Include="Native\NativeBorder.cs" />
+    <Compile Include="Native\NativeFontFamily.cs" />
+    <Compile Include="Native\NativeObject.cs" />
+    <Compile Include="Native\NativeSessionManager.cs" />
+    <Compile Include="Native\NativeViewStackHeader.cs" />
+    <Compile Include="Native\PlatformInitializer.cs" />
+    <Compile Include="FrameworkObject.cs" />
+    <Compile Include="Foundation\CancelEventArgs.cs" />
+    <Compile Include="Data\Binding.cs" />
+    <Compile Include="Data\BindingMode.cs" />
+    <Compile Include="Data\BindingOperations.cs" />
+    <Compile Include="Data\BindingStatus.cs" />
+    <Compile Include="Data\DataContext.cs" />
+    <Compile Include="Data\ValueConverter.cs" />
+    <Compile Include="Utilities\CommonLogger.cs" />
+    <Compile Include="Foundation\ErrorEventArgs.cs" />
+    <Compile Include="Foundation\EventDescriptor.cs" />
+    <Compile Include="Foundation\PlatformMask.cs" />
+    <Compile Include="Foundation\PropertyMetadata.cs" />
+    <Compile Include="UI\Controls\ViewStackHeader.cs" />
+    <Compile Include="UI\Media\Imaging\CommonImageCache.cs" />
+    <Compile Include="UI\Media\Imaging\ImageCache.cs" />
+    <Compile Include="UI\Media\Imaging\ImageCreationOptions.cs" />
+    <Compile Include="Native\NativeApplication.cs" />
+    <Compile Include="Native\NativeButton.cs" />
+    <Compile Include="Native\NativeContentView.cs" />
+    <Compile Include="Native\NativeControl.cs" />
+    <Compile Include="Native\NativeDevice.cs" />
+    <Compile Include="Native\NativeDirectory.cs" />
+    <Compile Include="Native\NativeFile.cs" />
+    <Compile Include="Native\NativeFonts.cs" />
+    <Compile Include="Native\NativeListBoxSectionHeader.cs" />
+    <Compile Include="Native\NativeSearchBox.cs" />
+    <Compile Include="Native\NativeSystemParameters.cs" />
+    <Compile Include="Native\NativeTimePicker.cs" />
+    <Compile Include="Native\NativeDatePicker.cs" />
+    <Compile Include="Native\NativeElement.cs" />
+    <Compile Include="Native\NativeImage.cs" />
+    <Compile Include="Native\NativeLabel.cs" />
+    <Compile Include="Native\NativeListBox.cs" />
+    <Compile Include="Native\NativeListBoxItem.cs" />
+    <Compile Include="Native\NativePasswordBox.cs" />
+    <Compile Include="Native\NativeScrollViewer.cs" />
+    <Compile Include="Native\NativeTimer.cs" />
+    <Compile Include="Native\NativeWebBrowser.cs" />
+    <Compile Include="Native\NativeSelectList.cs" />
+    <Compile Include="Native\NativeSlider.cs" />
+    <Compile Include="Native\NativeSplitView.cs" />
+    <Compile Include="Native\NativeTabbedSplitView.cs" />
+    <Compile Include="Native\NativeTabItem.cs" />
+    <Compile Include="Native\NativeTabView.cs" />
+    <Compile Include="Native\NativeTextArea.cs" />
+    <Compile Include="Native\NativeTextBox.cs" />
+    <Compile Include="Native\NativeToggleSwitch.cs" />
+    <Compile Include="Native\NativeViewStack.cs" />
+    <Compile Include="Native\NativeVisualTreeHelper.cs" />
+    <Compile Include="Native\NativeAlert.cs" />
+    <Compile Include="Native\NativeImageCompositor.cs" />
+    <Compile Include="Native\NativeImageSource.cs" />
+    <Compile Include="Native\NativeLoadIndicator.cs" />
+    <Compile Include="Native\NativePanel.cs" />
+    <Compile Include="Native\NativeVisual.cs" />
+    <Compile Include="Native\NativeWindow.cs" />
+    <Compile Include="Native\ObjectRetriever.cs" />
+    <Compile Include="Navigation\NavigationOptions.cs" />
+    <Compile Include="Navigation\Panes.cs" />
+    <Compile Include="Navigation\PreferredPanesAttribute.cs" />
+    <Compile Include="UI\Media\Imaging\ImageCompositor.cs" />
+    <Compile Include="UI\Media\Imaging\ImageSource.cs" />
+    <Compile Include="UI\Media\Imaging\ImageFormat.cs" />
+    <Compile Include="MVC\ViewAttribute.cs" />
+    <Compile Include="Foundation\NamedTypeMap.cs" />
+    <Compile Include="Foundation\Platform.cs" />
+    <Compile Include="Foundation\PropertyDescriptor.cs" />
+    <Compile Include="Foundation\PropertyPath.cs" />
+    <Compile Include="Foundation\RegisterAttribute.cs" />
+    <Compile Include="Foundation\HandledEventArgs.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="SystemParameters.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="Foundation\TypedEventHandler.cs" />
+    <Compile Include="UI\Alert.cs" />
+    <Compile Include="UI\AlertButton.cs" />
+    <Compile Include="UI\Animate.cs" />
+    <Compile Include="UI\Media\Brush.cs" />
+    <Compile Include="UI\Color.cs" />
+    <Compile Include="UI\Colors.cs" />
+    <Compile Include="UI\Controls\AccessorySelectedEventArgs.cs" />
+    <Compile Include="UI\ActionKeyType.cs" />
+    <Compile Include="UI\Controls\Border.cs" />
+    <Compile Include="UI\Controls\Button.cs" />
+    <Compile Include="UI\Controls\ColumnDefinitionCollection.cs" />
+    <Compile Include="UI\ContentDirection.cs" />
+    <Compile Include="UI\Controls\ColumnDefinition.cs" />
+    <Compile Include="UI\Controls\Control.cs" />
+    <Compile Include="UI\Controls\ListBoxItemAccessory.cs" />
+    <Compile Include="UI\Controls\ListBoxSectionHeader.cs" />
+    <Compile Include="UI\Controls\ListBoxItemStyle.cs" />
+    <Compile Include="UI\Controls\QuerySubmittedEventArgs.cs" />
+    <Compile Include="UI\Controls\QueryChangedEventArgs.cs" />
+    <Compile Include="UI\Controls\SearchBox.cs" />
+    <Compile Include="UI\Controls\TimePicker.cs" />
+    <Compile Include="UI\Controls\TimeChangedEventArgs.cs" />
+    <Compile Include="UI\Controls\DateChangedEventArgs.cs" />
+    <Compile Include="UI\Controls\DatePicker.cs" />
+    <Compile Include="UI\Controls\Dock.cs" />
+    <Compile Include="UI\Controls\DockPanel.cs" />
+    <Compile Include="UI\Controls\Element.cs" />
+    <Compile Include="UI\Controls\ElementCollection.cs" />
+    <Compile Include="UI\Controls\Grid.cs" />
+    <Compile Include="UI\Media\Fonts.cs" />
+    <Compile Include="UI\GridUnitType.cs" />
+    <Compile Include="UI\Controls\Image.cs" />
+    <Compile Include="UI\Controls\Label.cs" />
+    <Compile Include="UI\Controls\ListBox.cs" />
+    <Compile Include="UI\Controls\ListBoxItem.cs" />
+    <Compile Include="UI\Controls\ListBoxAdapter.cs" />
+    <Compile Include="UI\Controls\PasswordBox.cs" />
+    <Compile Include="UI\Controls\RowDefinition.cs" />
+    <Compile Include="UI\Controls\ScrollViewer.cs" />
+    <Compile Include="UI\Controls\SelectionChangedEventArgs.cs" />
+    <Compile Include="UI\Controls\SelectionMode.cs" />
+    <Compile Include="UI\Controls\SelectList.cs" />
+    <Compile Include="UI\Controls\SelectListAdapter.cs" />
+    <Compile Include="UI\Controls\Slider.cs" />
+    <Compile Include="UI\Controls\StackPanel.cs" />
+    <Compile Include="UI\Controls\TabItemCollection.cs" />
+    <Compile Include="UI\Controls\TextArea.cs" />
+    <Compile Include="UI\Controls\TextBox.cs" />
+    <Compile Include="UI\Controls\TextChangedEventArgs.cs" />
+    <Compile Include="UI\VerticalAlignment.cs" />
+    <Compile Include="UI\HorizontalAlignment.cs" />
+    <Compile Include="UI\Controls\Panel.cs" />
+    <Compile Include="UI\Controls\WebBrowser.cs" />
+    <Compile Include="UI\Controls\WebNavigationCompletedEventArgs.cs" />
+    <Compile Include="UI\Controls\WebNavigationStartingEventArgs.cs" />
+    <Compile Include="UI\Controls\WebScriptCompletedEventArgs.cs" />
+    <Compile Include="UI\Media\FontFamily.cs" />
+    <Compile Include="UI\Media\FontStyle.cs" />
+    <Compile Include="UI\Media\ImageBrush.cs" />
+    <Compile Include="UI\GridLength.cs" />
+    <Compile Include="UI\LoadIndicator.cs" />
+    <Compile Include="UI\Orientation.cs" />
+    <Compile Include="UI\Controls\RowDefinitionCollection.cs" />
+    <Compile Include="UI\Controls\Scrollable.cs" />
+    <Compile Include="UI\Media\LinearGradientBrush.cs" />
+    <Compile Include="UI\Media\SolidColorBrush.cs" />
+    <Compile Include="UI\Stretch.cs" />
+    <Compile Include="UI\TabItemSelectedEventArgs.cs" />
+    <Compile Include="UI\TextAlignment.cs" />
+    <Compile Include="UI\Views\SplitView.cs" />
+    <Compile Include="UI\Controls\TabItem.cs" />
+    <Compile Include="UI\Views\TabbedSplitView.cs" />
+    <Compile Include="UI\Views\TabView.cs" />
+    <Compile Include="UI\Views\View.cs" />
+    <Compile Include="UI\Views\ViewStack.cs" />
+    <Compile Include="Systems\DeviceOrientation.cs" />
+    <Compile Include="Systems\OperatingSystem.cs" />
+    <Compile Include="Systems\PowerSource.cs" />
+    <Compile Include="Systems\Device.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\LoggingLevel.cs" />
+    <Compile Include="Systems\FormFactor.cs" />
+    <Compile Include="IO\Directory.cs" />
+    <Compile Include="IO\File.cs" />
+    <Compile Include="IO\SearchOption.cs" />
+    <Compile Include="IO\FileMode.cs" />
+    <Compile Include="MVC\Controller.cs" />
+    <Compile Include="Navigation\NavigationContext.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Navigation\NavigationParameterDictionary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\SerializableDictionary.cs" />
+    <Compile Include="Foundation\SessionSettings.cs" />
+    <Compile Include="MVC\View.cs" />
+    <Compile Include="Foundation\TypeLoader.cs" />
+    <Compile Include="Utilities\TypeSwitch.cs" />
+    <Compile Include="UI\Visibility.cs" />
+    <Compile Include="UI\Visual.cs" />
+    <Compile Include="UI\VisualTreeHelper.cs" />
+    <Compile Include="UI\Window.cs" />
+    <Compile Include="UI\Views\ContentView.cs" />
+    <Compile Include="UI\Controls\Canvas.cs" />
+    <Compile Include="UI\Controls\ListBoxStyle.cs" />
+    <Compile Include="UI\Controls\ToggleSwitch.cs" />
+    <Compile Include="Foundation\Point.cs" />
+    <Compile Include="Foundation\Rectangle.cs" />
+    <Compile Include="Foundation\Size.cs" />
+    <Compile Include="Foundation\Thickness.cs" />
+    <Compile Include="Foundation\ValueChangedEventArgs.cs" />
+    <Compile Include="Navigation\NavigationAttribute.cs" />
+    <Compile Include="Utilities\WeakEventManager.cs" />
+    <Compile Include="Native\NativeItemSelectedEventArgs.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <None Include="PrismFramework.ruleset">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup />
+</Project>

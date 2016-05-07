@@ -1,0 +1,21 @@
+﻿<Dictionary>
+    <Words>
+        <Recognized>
+            <Word>Cornsilk</Word>
+            <Word>Gainsboro</Word>
+            <Word>Geolocation</Word>
+            <Word>Geolocator</Word>
+            <Word>Multi</Word>
+            <Word>Png</Word>
+            <Word>Unfocus</Word>
+        </Recognized>
+        <DiscreteExceptions>
+            <Term>OneTime</Term>
+        </DiscreteExceptions>
+    </Words>
+    <Acronyms>
+        <CasingExceptions>
+            <Acronym>iOS</Acronym>
+        </CasingExceptions>
+    </Acronyms>
+</Dictionary>
