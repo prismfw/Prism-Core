@@ -76,6 +76,7 @@
     <Compile Include="Native\NativeViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\Controls\MenuItemCollection.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
+    <Compile Include="UI\Scrollable.cs" />
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />
     <Compile Include="UI\Views\ViewStackPoppingEventArgs.cs" />
@@ -224,7 +225,6 @@
     <Compile Include="UI\LoadIndicator.cs" />
     <Compile Include="UI\Orientation.cs" />
     <Compile Include="UI\Controls\RowDefinitionCollection.cs" />
-    <Compile Include="UI\Controls\Scrollable.cs" />
     <Compile Include="UI\Media\LinearGradientBrush.cs" />
     <Compile Include="UI\Media\SolidColorBrush.cs" />
     <Compile Include="UI\Stretch.cs" />

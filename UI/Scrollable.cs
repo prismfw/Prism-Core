@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-namespace Prism.UI.Controls
+namespace Prism.UI
 {
     /// <summary>
     /// Defines a UI container that is able to scroll its contents.
