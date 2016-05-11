@@ -250,6 +250,8 @@ namespace Prism.UI.Controls
                     Text = value?.ToString()
                 };
 
+                (element.Parent as Panel)?.Children.Remove(element);
+                
                 return ObjectRetriever.GetNativeObject(new Grid()
                 {
                     Children = { element },
