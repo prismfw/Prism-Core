@@ -47,6 +47,7 @@
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
     <Compile Include="Foundation\ResolveParameter.cs" />
+    <Compile Include="Native\NativeStatusBar.cs" />
     <Compile Include="Native\NativeGeolocator.cs" />
     <Compile Include="Native\NativeAudioPlayer.cs" />
     <Compile Include="Native\NativeMenu.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Native\NativeViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\Controls\MenuItemCollection.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
+    <Compile Include="UI\StatusBar.cs" />
+    <Compile Include="UI\StatusBarStyle.cs" />
     <Compile Include="UI\Views\ViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\WindowSizeChangedEventArgs.cs" />
     <Compile Include="Native\NativeBorder.cs" />
