@@ -46,6 +46,8 @@
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Input\PointerType.cs" />
+    <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Foundation\ResolveParameter.cs" />
     <Compile Include="Native\NativeStatusBar.cs" />
     <Compile Include="Native\NativeGeolocator.cs" />

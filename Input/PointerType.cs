@@ -19,42 +19,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System;
-using Prism.Input;
-using Prism.UI;
-using Prism.UI.Controls;
-
-namespace Prism.Native
+namespace Prism.Input
 {
     /// <summary>
-    /// Defines a UI element inside of a view that is native to a particular platform.
-    /// These objects are meant to be paired with platform-agnostic <see cref="Element"/> objects.
+    /// Describes the type of a pointer device.
     /// </summary>
-    public interface INativeElement : INativeVisual
+    public enum PointerType
     {
         /// <summary>
-        /// Occurs when the system loses track of the pointer for some reason.
+        /// The type of the pointer is unknown.
         /// </summary>
-        event EventHandler<PointerEventArgs> PointerCanceled;
-
+        Unknown = 0,
         /// <summary>
-        /// Occurs when the pointer has moved while over the element.
+        /// The pointer device is of a type that is not listed.
         /// </summary>
-        event EventHandler<PointerEventArgs> PointerMoved;
-
+        Other = 1,
         /// <summary>
-        /// Occurs when the pointer has been pressed while over the element.
+        /// The pointer device is a mouse.
         /// </summary>
-        event EventHandler<PointerEventArgs> PointerPressed;
-
+        Mouse = 2,
         /// <summary>
-        /// Occurs when the pointer has been released while over the element.
+        /// The pointer device is a stylus/pen.
         /// </summary>
-        event EventHandler<PointerEventArgs> PointerReleased;
-
+        Stylus = 3,
         /// <summary>
-        /// Gets or sets the display state of the element.
+        /// The pointer device is a finger on a touch screen.
         /// </summary>
-        Visibility Visibility { get; set; }
+        Touch = 4
     }
 }

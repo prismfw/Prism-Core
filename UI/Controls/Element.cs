@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Prism.Input;
 using Prism.Native;
 
 namespace Prism.UI.Controls
@@ -32,6 +33,32 @@ namespace Prism.UI.Controls
     /// </summary>
     public abstract class Element : Visual
     {
+        #region Event Descriptors
+        /// <summary>
+        /// Describes the <see cref="E:PointerCanceled"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor PointerCanceledEvent = EventDescriptor.Create(nameof(PointerCanceled), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+
+        /// <summary>
+        /// Describes the <see cref="E:PointerMoved"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor PointerMovedEvent = EventDescriptor.Create(nameof(PointerMoved), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+
+        /// <summary>
+        /// Describes the <see cref="E:PointerPressed"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor PointerPressedEvent = EventDescriptor.Create(nameof(PointerPressed), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+
+        /// <summary>
+        /// Describes the <see cref="E:PointerReleased"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor PointerReleasedEvent = EventDescriptor.Create(nameof(PointerReleased), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+        #endregion
+
         #region Property Descriptors
         /// <summary>
         /// Describes the <see cref="P:Height"/> property.  This field is read-only.
@@ -99,6 +126,30 @@ namespace Prism.UI.Controls
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
         public static readonly PropertyDescriptor WidthProperty = PropertyDescriptor.Create(nameof(Width), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
+
+        /// <summary>
+        /// Occurs when the system loses track of the pointer for some reason.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<Element, PointerEventArgs> PointerCanceled;
+
+        /// <summary>
+        /// Occurs when the pointer has moved while over the element.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<Element, PointerEventArgs> PointerMoved;
+
+        /// <summary>
+        /// Occurs when the pointer has been pressed while over the element.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<Element, PointerEventArgs> PointerPressed;
+
+        /// <summary>
+        /// Occurs when the pointer has been released while over the element.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<Element, PointerEventArgs> PointerReleased;
 
         /// <summary>
         /// Gets or sets the suggested height for the element.
@@ -388,6 +439,11 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeElement).FullName), nameof(resolveType));
             }
 
+            nativeObject.PointerCanceled += (o, e) => OnPointerCanceled(e);
+            nativeObject.PointerMoved += (o, e) => OnPointerMoved(e);
+            nativeObject.PointerPressed += (o, e) => OnPointerPressed(e);
+            nativeObject.PointerReleased += (o, e) => OnPointerReleased(e);
+
             Visibility = Visibility.Visible;
         }
 
@@ -557,6 +613,66 @@ namespace Prism.UI.Controls
             constraints.Height = Math.Max(MinHeight, Math.Min(MaxHeight, constraints.Height));
 
             return nativeObject.Measure(constraints);
+        }
+
+        /// <summary>
+        /// Called when the system loses track of the pointer and raises the <see cref="PointerCanceled"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing details about the pointer.</param>
+        protected virtual void OnPointerCanceled(PointerEventArgs e)
+        {
+            PointerCanceled?.Invoke(this, e);
+            if (e == null || !e.IsHandled)
+            {
+                var parent = VisualTreeHelper.GetParent<Element>(this);
+                parent?.OnPointerCanceled(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                    TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
+            }
+        }
+
+        /// <summary>
+        /// Called when the pointer has moved while over the element and raises the <see cref="PointerMoved"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing details about the pointer.</param>
+        protected virtual void OnPointerMoved(PointerEventArgs e)
+        {
+            PointerMoved?.Invoke(this, e);
+            if (e == null || !e.IsHandled)
+            {
+                var parent = VisualTreeHelper.GetParent<Element>(this);
+                parent?.OnPointerMoved(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                    TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
+            }
+        }
+
+        /// <summary>
+        /// Called when the pointer has been pressed while over the element and raises the <see cref="PointerPressed"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing details about the pointer.</param>
+        protected virtual void OnPointerPressed(PointerEventArgs e)
+        {
+            PointerPressed?.Invoke(this, e);
+            if (e == null || !e.IsHandled)
+            {
+                var parent = VisualTreeHelper.GetParent<Element>(this);
+                parent?.OnPointerPressed(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                    TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
+            }
+        }
+
+        /// <summary>
+        /// Called when the pointer has been released while over the element and raises the <see cref="PointerReleased"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing details about the pointer.</param>
+        protected virtual void OnPointerReleased(PointerEventArgs e)
+        {
+            PointerReleased?.Invoke(this, e);
+            if (e == null || !e.IsHandled)
+            {
+                var parent = VisualTreeHelper.GetParent<Element>(this);
+                parent?.OnPointerReleased(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                    TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
+            }
         }
     }
 }
