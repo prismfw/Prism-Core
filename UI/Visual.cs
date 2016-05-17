@@ -427,7 +427,7 @@ namespace Prism.UI
         /// <param name="ancestor">The ancestor of this instance into which the point is to be translated.</param>
         /// <returns>A <see cref="Point"/> containing the translated values.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="ancestor"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="ancestor"/> is not an ancestor is this instance.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="ancestor"/> is not an ancestor of this instance.</exception>
         public Point TranslatePointToAncestor(Point point, Visual ancestor)
         {
             if (ancestor == null)
@@ -458,7 +458,7 @@ namespace Prism.UI
         /// <param name="descendant">The descendant of this instance into which the point is to be translated.</param>
         /// <returns>A <see cref="Point"/> containing the translated values.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="descendant"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="descendant"/> is not an ancestor is this instance.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="descendant"/> is not a descendant of this instance.</exception>
         public Point TranslatePointToDescendant(Point point, Visual descendant)
         {
             if (descendant == null)
