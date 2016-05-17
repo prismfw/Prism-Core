@@ -377,16 +377,21 @@ namespace Prism.Data
 
         private static object GetValue(object obj, PropertyDescriptor descriptor, object[] indices)
         {
+            if (obj == null)
+            {
+                return null;
+            }
+        
             if (indices != null)
             {
                 obj = descriptor.GetValue(obj);
                 if (descriptor.PropertyType.IsArray)
                 {
-                    return ((Array)obj).GetValue(indices.Cast<int>().ToArray());
+                    return ((Array)obj)?.GetValue(indices.Cast<int>().ToArray());
                 }
                 else
                 {
-                    return obj.GetType().GetRuntimeProperty("Item").GetValue(obj, indices);
+                    return obj?.GetType().GetRuntimeProperty("Item").GetValue(obj, indices);
                 }
             }
 
@@ -523,7 +528,7 @@ namespace Prism.Data
                                     }
                                 }
 
-                                sourceObj = GetValue(sourceDescriptor.GetValue(sourceObj), sourceDescriptor, Path.GetIndexValues(j));
+                                sourceObj = GetValue(sourceObj, sourceDescriptor, Path.GetIndexValues(j));
                                 fwObject = sourceObj as FrameworkObject;
                                 if (fwObject != null)
                                 {
