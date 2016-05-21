@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Collections.Generic;
 using Prism.Native;
 
 #if !DEBUG
@@ -87,27 +88,26 @@ namespace Prism.UI
             {
                 throw new ArgumentNullException(nameof(reference));
             }
-
-            var parent = ObjectRetriever.GetNativeObject(reference);
-            int count = Current.GetChildrenCount(parent);
-            for (int i = 0; i < count; i++)
+            
+            var parents = new List<object>() { reference };
+            while (parents.Count > 0)
             {
-                var child = Current.GetChild(parent, i);
-                if (child == null)
+                var parent = ObjectRetriever.GetNativeObject(parents[0]);
+                parents.RemoveAt(0);
+                
+                int count = Current.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
                 {
-                    continue;
-                }
-
-                child = ObjectRetriever.GetAgnosticObject(child);
-                if (predicate == null || predicate.Invoke(child))
-                {
-                    return child;
-                }
-
-                child = GetChild(child, predicate);
-                if (child != null)
-                {
-                    return child;
+                    var child = ObjectRetriever.GetAgnosticObject(Current.GetChild(parent, i));
+                    if (predicate == null || predicate(child))
+                    {
+                        return child;
+                    }
+                    
+                    if (Current.GetChildrenCount(child) > 0)
+                    {
+                        parents.Add(child);
+                    }
                 }
             }
 
@@ -141,27 +141,26 @@ namespace Prism.UI
                 throw new ArgumentNullException(nameof(reference));
             }
 
-            var parent = ObjectRetriever.GetNativeObject(reference);
-            int count = Current.GetChildrenCount(parent);
-            for (int i = 0; i < count; i++)
+            var parents = new List<object>() { ObjectRetriever.GetNativeObject(reference) };
+            while (parents.Count > 0)
             {
-                var child = Current.GetChild(parent, i);
-                if (child == null)
+                var parent = parents[0];
+                parents.RemoveAt(0);
+                
+                int count = Current.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
                 {
-                    continue;
-                }
-
-                child = ObjectRetriever.GetAgnosticObject(child);
-                var tChild = child as T;
-                if (tChild != null && (predicate == null || predicate(tChild)))
-                {
-                    return tChild;
-                }
-
-                tChild = GetChild(child, predicate);
-                if (tChild != null)
-                {
-                    return tChild;
+                    var child = Current.GetChild(parent, i);
+                    var tChild = ObjectRetriever.GetAgnosticObject(child) as T ?? child as T;
+                    if (tChild != null && (predicate == null || predicate(tChild)))
+                    {
+                        return tChild;
+                    }
+                    
+                    if (Current.GetChildrenCount(child) > 0)
+                    {
+                        parents.Add(child);
+                    }
                 }
             }
 
@@ -222,25 +221,7 @@ namespace Prism.UI
         public static T GetParent<T>(object reference)
             where T : class
         {
-            if (reference == null)
-            {
-                throw new ArgumentNullException(nameof(reference));
-            }
-            
-            var parent = Current.GetParent(ObjectRetriever.GetNativeObject(reference));
-            if (parent != null)
-            {
-                parent = ObjectRetriever.GetAgnosticObject(parent);
-                var tParent = parent as T;
-                if (tParent != null)
-                {
-                    return tParent;
-                }
-
-                return GetParent<T>(parent);
-            }
-
-            return null;
+            return GetParent<T>(reference, null);
         }
 
         /// <summary>
@@ -261,8 +242,7 @@ namespace Prism.UI
             var parent = Current.GetParent(ObjectRetriever.GetNativeObject(reference));
             if (parent != null)
             {
-                parent = ObjectRetriever.GetAgnosticObject(parent);
-                var tParent = parent as T;
+                var tParent = ObjectRetriever.GetAgnosticObject(parent) as T ?? parent as T;
                 if (tParent != null && (predicate == null || predicate(tParent)))
                 {
                     return tParent;
