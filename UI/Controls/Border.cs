@@ -144,6 +144,8 @@ namespace Prism.UI.Controls
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeBorder).FullName), nameof(resolveType));
             }
+
+            BorderThickness = new Thickness(1);
         }
 
         /// <summary>
