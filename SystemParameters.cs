@@ -171,6 +171,14 @@ namespace Prism
         }
 
         /// <summary>
+        /// Gets the size of a <see cref="Popup"/> when presented with <see cref="PopupPresentationStyle.Default"/>.
+        /// </summary>
+        public static Size PopupSize
+        {
+            get { return Current.PopupSize; }
+        }
+
+        /// <summary>
         /// Gets the preferred amount of space between the right edge of a UI element and the right edge of its parent.
         /// </summary>
         public static double RightMargin

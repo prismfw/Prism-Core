@@ -57,6 +57,7 @@
     <Compile Include="Native\NativeMenuButton.cs" />
     <Compile Include="Native\NativeMenuSeparator.cs" />
     <Compile Include="Native\NativeMenuItem.cs" />
+    <Compile Include="Native\NativePopup.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,11 +78,13 @@
     <Compile Include="Foundation\PropertyMetadataOptions.cs" />
     <Compile Include="Native\NativeViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\Controls\MenuItemCollection.cs" />
+    <Compile Include="UI\PopupPresentationStyle.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
     <Compile Include="UI\Scrollable.cs" />
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />
     <Compile Include="UI\Views\ViewStackPoppingEventArgs.cs" />
+    <Compile Include="UI\Popup.cs" />
     <Compile Include="UI\WindowSizeChangedEventArgs.cs" />
     <Compile Include="Native\NativeBorder.cs" />
     <Compile Include="Native\NativeFontFamily.cs" />

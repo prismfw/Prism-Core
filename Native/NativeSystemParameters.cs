@@ -112,6 +112,11 @@ namespace Prism.Native
         double PasswordBoxBorderWidth { get; }
 
         /// <summary>
+        /// Gets the size of a popup when presented with the default style.
+        /// </summary>
+        Size PopupSize { get; }
+
+        /// <summary>
         /// Gets the preferred amount of space between the right edge of a UI element and the right edge of its parent.
         /// </summary>
         double RightMargin { get; }

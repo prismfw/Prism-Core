@@ -784,13 +784,12 @@ namespace Prism
             }
 
             var masterStack = Window.MainWindow.Content as ViewStack;
-            ViewStack detailStack = null, modalStack = null;
+            ViewStack detailStack = null;
 
             // gather the master and detail stacks
             if (masterStack == null)
             {
-                var content = Window.MainWindow.Content;
-                var splitView = content as SplitView;
+                var splitView = Window.MainWindow.Content as SplitView;
                 if (splitView != null)
                 {
                     if (splitView.MasterContent == null)
@@ -812,7 +811,7 @@ namespace Prism
                     }
                 }
 
-                var tabView = content as TabView;
+                var tabView = Window.MainWindow.Content as TabView;
                 if (tabView != null)
                 {
                     var tabItem = tabView.TabItems[tabView.SelectedIndex];
@@ -847,48 +846,22 @@ namespace Prism
              * - If none of the above, honor the attribute.
             */
 
-            if (Window.ModalWindow != null)
+            var popupStack = Window.MainWindow.PresentedPopup?.Content as ViewStack;
+            if (PopToView(popupStack, view))
             {
-                if (Window.ModalWindow.Content == null)
-                {
-                    Window.ModalWindow.Content = new ViewStack();
-                }
-
-                modalStack = Window.ModalWindow.Content as ViewStack;
-            }
-
-            if (modalStack == null && masterStack == null && detailStack == null)
-            {
-                Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewStack);
-                return;
-            }
-
-            if (PopToView(modalStack, view))
-            {
-                Window.ModalWindow.Show(Animate.Default);
                 return;
             }
 
             if (PopToView(detailStack, view))
             {
-                if (Window.ModalWindow != null)
-                {
-                    Window.ModalWindow.Close(Animate.Default);
-                }
+                Window.MainWindow.PresentedPopup?.Close();
                 return;
             }
 
             if (PopToView(masterStack, view))
             {
-                if (detailStack != null)
-                {
-                    detailStack.PopToRoot(Animate.Off);
-                }
-
-                if (Window.ModalWindow != null)
-                {
-                    Window.ModalWindow.Close(Animate.Default);
-                }
+                detailStack?.PopToRoot(Animate.Off);
+                Window.MainWindow.PresentedPopup?.Close();
                 return;
             }
 
@@ -899,36 +872,38 @@ namespace Prism
                 preferredPanes |= att.PreferredPanes;
             }
 
-            if (modalStack != null && (preferredPanes == Panes.Modal ||
-                ((preferredPanes == Panes.Unknown || preferredPanes.HasFlag(Panes.Modal)) && Window.ModalWindow.IsVisible)))
+            if (preferredPanes == Panes.Popup || ((preferredPanes == Panes.Unknown || preferredPanes.HasFlag(Panes.Popup)) && popupStack != null))
             {
-                modalStack.PushView(view, Animate.Default);
-                Window.ModalWindow.Show(Animate.Default);
+                if (popupStack == null)
+                {
+                    popupStack = new ViewStack();
+                    popupStack.PushView(view, Animate.Off);
+                    new Popup() { Content = popupStack }.Open(Window.MainWindow);
+                }
+                else
+                {
+                    popupStack.PushView(view, Animate.Default);
+                }
                 return;
             }
 
-            if (Window.ModalWindow != null)
+            if (masterStack == null && detailStack == null)
             {
-                Window.ModalWindow.Close(Animate.Default);
+                Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewStack);
+                return;
             }
 
-            if (masterStack != null)
+            Window.MainWindow.PresentedPopup?.Close();
+
+            if (masterStack != null && (!masterStack.Views.Any() || detailStack == null || (preferredPanes.HasFlag(Panes.Master) &&
+                (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1))))
             {
-                if (!masterStack.Views.Any() || detailStack == null || (preferredPanes.HasFlag(Panes.Master) &&
-                    (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1)))
-                {
-                    masterStack.PushView(view, Animate.Default);
-                    if (detailStack != null)
-                    {
-                        detailStack.PopToRoot(Animate.Off);
-                    }
-                    return;
-                }
+                masterStack.PushView(view, Animate.Default);
+                detailStack?.PopToRoot(Animate.Off);
             }
-            
-            if (detailStack != null)
+            else
             {
-                detailStack.PushView(view, Animate.Default);
+                detailStack?.PushView(view, Animate.Default);
             }
         }
 

@@ -19,34 +19,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using Prism.UI;
-
-namespace Prism
+namespace Prism.UI
 {
     /// <summary>
-    /// Describes the available built-in panes that views can be rendered within.
+    /// Describes the style in which to present a <see cref="Popup"/>.
     /// </summary>
-    [Flags]
-    [SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "'Unknown' is preferred over 'None' in the context that this is used.")]
-    public enum Panes
+    public enum PopupPresentationStyle
     {
         /// <summary>
-        /// The pane is unknown.
+        /// The popup is sized according to system preferences.
         /// </summary>
-        Unknown = 0,
+        Default = 0,
         /// <summary>
-        /// The master pane of a <see cref="SplitView"/>, or the full-screen pane when a <see cref="SplitView"/> is not used.
+        /// The popup is sized to match the size of the application window.
         /// </summary>
-        Master = 1,
+        FullScreen = 1,
         /// <summary>
-        /// The detail pane of a <see cref="SplitView"/>.
+        /// The popup is sized according to the values of its width and height properties.
         /// </summary>
-        Detail = 2,
-        /// <summary>
-        /// A pane that is rendered above the rest of the application's content.
-        /// </summary>
-        Popup = 4
+        Custom = 2,
     }
 }

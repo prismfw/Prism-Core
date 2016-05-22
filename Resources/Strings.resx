@@ -330,4 +330,10 @@
   <data name="ValueCannotBeLessThanOne" xml:space="preserve">
     <value>Value cannot be less than 1.</value>
   </data>
+  <data name="PresenterAlreadyPresentingPopup" xml:space="preserve">
+    <value>The specified object is already presenting a popup.  Only one popup may be presented by an object at a time.</value>
+  </data>
+  <data name="PopupCannotPresentSelf" xml:space="preserve">
+    <value>A popup cannot present itself.</value>
+  </data>
 </root>

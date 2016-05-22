@@ -71,16 +71,6 @@ namespace Prism.UI
         private readonly static Window mainWindow = new Window("main");
 
         /// <summary>
-        /// Gets the window used for presenting content modally.
-        /// </summary>
-        public static Window ModalWindow
-        {
-            get { return modalWindow; }
-        }
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly static Window modalWindow = new Window("modal");
-
-        /// <summary>
         /// Occurs when the window is brought to the foreground.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
@@ -160,6 +150,11 @@ namespace Prism.UI
         {
             get { return nativeObject.IsVisible; }
         }
+
+        /// <summary>
+        /// Gets the popup that is currently being presented by the window.
+        /// </summary>
+        public Popup PresentedPopup { get; internal set; }
 
         /// <summary>
         /// Gets (or sets, but see Remarks) the width of the window.
@@ -243,6 +238,14 @@ namespace Prism.UI
             if (!e.IsHandled)
             {
                 (VisualTreeHelper.GetChild<Visual>(this))?.InvalidateMeasure();
+
+                var popup = PresentedPopup;
+                while (popup != null)
+                {
+                    popup.InvalidateMeasure();
+                    popup.InvalidateArrange();
+                    popup = popup.PresentedPopup;
+                }
             }
         }
     }
