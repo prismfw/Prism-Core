@@ -373,11 +373,11 @@ namespace Prism.UI
 
             VisualTreeHelper.GetChild<Visual>(this)?.Arrange(new Rectangle(0, 0, frame.Width, frame.Height));
 
-            frame.X = (Window.MainWindow.Width - frame.Width) / 2;
-            frame.Y = (Window.MainWindow.Height - frame.Height) / 2;
+            frame.X = (Window.Current.Width - frame.Width) / 2;
+            frame.Y = (Window.Current.Height - frame.Height) / 2;
             nativeObject.Frame = frame;
 
-            PresentedPopup?.Arrange(new Rectangle(0, 0, Window.MainWindow.Width, Window.MainWindow.Height));
+            PresentedPopup?.Arrange(new Rectangle(0, 0, Window.Current.Width, Window.Current.Height));
         }
 
         /// <summary>
@@ -396,8 +396,8 @@ namespace Prism.UI
                     constraints.Height = SystemParameters.PopupSize.Height;
                     break;
                 case PopupPresentationStyle.FullScreen:
-                    constraints.Width = Window.MainWindow.Width;
-                    constraints.Height = Window.MainWindow.Height;
+                    constraints.Width = Window.Current.Width;
+                    constraints.Height = Window.Current.Height;
                     break;
                 case PopupPresentationStyle.Custom:
                     constraints.Width = Math.Min(constraints.Width, double.IsNaN(Width) ? SystemParameters.PopupSize.Width : Width);
@@ -405,8 +405,8 @@ namespace Prism.UI
                     break;
             }
 
-            constraints.Width = Math.Min(constraints.Width, Window.MainWindow.Width);
-            constraints.Height = Math.Min(constraints.Height, Window.MainWindow.Height);
+            constraints.Width = Math.Min(constraints.Width, Window.Current.Width);
+            constraints.Height = Math.Min(constraints.Height, Window.Current.Height);
 
             VisualTreeHelper.GetChild<Visual>(this)?.Measure(constraints);
             PresentedPopup?.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));

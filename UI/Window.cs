@@ -30,7 +30,7 @@ using Prism.UI.Media.Imaging;
 namespace Prism.UI
 {
     /// <summary>
-    /// Represents an area that can contain renderable content (IViews).
+    /// Represents a window for housing an application's renderable content.
     /// </summary>
     public sealed class Window : FrameworkObject
     {
@@ -61,14 +61,14 @@ namespace Prism.UI
         #endregion
 
         /// <summary>
-        /// Gets the primary application window.
+        /// Gets the current application window.
         /// </summary>
-        public static Window MainWindow
+        public static Window Current
         {
-            get { return mainWindow; }
+            get { return current; }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly static Window mainWindow = new Window("main");
+        private readonly static Window current = new Window(typeof(INativeWindow), null);
 
         /// <summary>
         /// Occurs when the window is brought to the foreground.
@@ -131,16 +131,11 @@ namespace Prism.UI
         private object content;
 
         /// <summary>
-        /// Gets (or sets, but see Remarks) the height of the window.
+        /// Gets the height of the window.
         /// </summary>
-        /// <remarks>
-        /// Setting the height of a window is generally only supported on desktop environments.
-        /// Most platforms will ignore any attempts to set the height explicitly.
-        /// </remarks>
         public double Height
         {
             get { return nativeObject.Height; }
-            set { nativeObject.Height = value; }
         }
 
         /// <summary>
@@ -157,16 +152,20 @@ namespace Prism.UI
         public Popup PresentedPopup { get; internal set; }
 
         /// <summary>
-        /// Gets (or sets, but see Remarks) the width of the window.
+        /// Gets or sets the style for the window.
         /// </summary>
-        /// <remarks>
-        /// Setting the width of a window is generally only supported on desktop environments.
-        /// Most platforms will ignore any attempts to set the width explicitly.
-        /// </remarks>
+        public WindowStyle Style
+        {
+            get { return nativeObject.Style; }
+            set { nativeObject.Style = value; }
+        }
+
+        /// <summary>
+        /// Gets the width of the window.
+        /// </summary>
         public double Width
         {
             get { return nativeObject.Width; }
-            set { nativeObject.Width = value; }
         }
 
 #if !DEBUG
@@ -175,13 +174,13 @@ namespace Prism.UI
         // this field is to avoid casting
         private readonly INativeWindow nativeObject;
         
-        private Window(string windowName)
-            : base(typeof(INativeWindow), windowName)
+        private Window(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
+            : base(resolveType, resolveName, resolveParams)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeWindow;
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.RegisteredWindowWithNameRequired, windowName));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeVisual).FullName), nameof(resolveType));
             }
 
             nativeObject.Activated += (o, e) => OnActivated(e);
@@ -193,19 +192,37 @@ namespace Prism.UI
         /// <summary>
         /// Attempts to close the window. If this is the main window, attempts to shut down the application.
         /// </summary>
-        /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        public void Close(Animate animate)
+        public void Close()
         {
-            nativeObject.Close(animate);
+            nativeObject.Close();
+        }
+
+        /// <summary>
+        /// Sets the preferred minimum size of the window.
+        /// </summary>
+        /// <param name="minSize">The preferred minimum size.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="minSize"/> contains a negative, NaN, or infinite value.</exception>
+        public void SetPreferredMinSize(Size minSize)
+        {
+            if (double.IsNaN(minSize.Width) || double.IsInfinity(minSize.Width) || double.IsNaN(minSize.Height) || double.IsInfinity(minSize.Height))
+            {
+                throw new ArgumentException(Resources.Strings.SizeContainsNaNOrInfiniteValue, nameof(minSize));
+            }
+
+            if (minSize.Width < 0 || minSize.Height < 0)
+            {
+                throw new ArgumentException(Resources.Strings.SizeContainsNegativeValue, nameof(minSize));
+            }
+
+            nativeObject.SetPreferredMinSize(minSize);
         }
 
         /// <summary>
         /// Displays the window if it is not already visible.
         /// </summary>
-        /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        public void Show(Animate animate)
+        public void Show()
         {
-            nativeObject.Show(animate);
+            nativeObject.Show();
         }
 
         /// <summary>
@@ -214,6 +231,16 @@ namespace Prism.UI
         public async Task<ImageSource> TakeScreenshotAsync()
         {
             return await nativeObject.TakeScreenshotAsync();
+        }
+
+        /// <summary>
+        /// Attempts to resize the window to the specified <see cref="Size"/>.
+        /// </summary>
+        /// <param name="newSize">The width and height at which to size the window.</param>
+        /// <returns><c>true</c> if the window was successfully resized; otherwise, <c>false</c>.</returns>
+        public bool TryResize(Size newSize)
+        {
+            return nativeObject.TryResize(newSize);
         }
 
         private void OnActivated(EventArgs e)

@@ -336,4 +336,10 @@
   <data name="PopupCannotPresentSelf" xml:space="preserve">
     <value>A popup cannot present itself.</value>
   </data>
+  <data name="SizeContainsNaNOrInfiniteValue" xml:space="preserve">
+    <value>Size contains a NaN or infinite value.</value>
+  </data>
+  <data name="SizeContainsNegativeValue" xml:space="preserve">
+    <value>Size contains a negative value.</value>
+  </data>
 </root>

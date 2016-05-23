@@ -27,7 +27,7 @@ using Prism.UI.Media.Imaging;
 namespace Prism.Native
 {
     /// <summary>
-    /// Defines an area for renderable content that is native to a particular platform.
+    /// Defines a window that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="Window"/> objects.
     /// </summary>
     public interface INativeWindow
@@ -59,13 +59,9 @@ namespace Prism.Native
         object Content { get; set; }
 
         /// <summary>
-        /// Gets (or sets, but see Remarks) the height of the window.
+        /// Gets the height of the window.
         /// </summary>
-        /// <remarks>
-        /// Setting the height of a window is generally only supported on desktop environments.
-        /// Most platforms will ignore any attempts to set the height explicitly.
-        /// </remarks>
-        double Height { get; set; }
+        double Height { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is currently visible.
@@ -73,30 +69,42 @@ namespace Prism.Native
         bool IsVisible { get; }
 
         /// <summary>
-        /// Gets (or sets, but see Remarks) the width of the window.
+        /// Gets or sets the style for the window.
         /// </summary>
-        /// <remarks>
-        /// Setting the width of a window is generally only supported on desktop environments.
-        /// Most platforms will ignore any attempts to set the width explicitly.
-        /// </remarks>
-        double Width { get; set; }
+        WindowStyle Style { get; set; }
+
+        /// <summary>
+        /// Gets the width of the window.
+        /// </summary>
+        double Width { get; }
 
         /// <summary>
         /// Attempts to close the window.  If this is the main window, attempts to shut down the application.
         /// </summary>
-        /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        void Close(Animate animate);
+        void Close();
+
+        /// <summary>
+        /// Sets the preferred minimum size of the window.
+        /// </summary>
+        /// <param name="minSize">The preferred minimum size.</param>
+        void SetPreferredMinSize(Size minSize);
 
         /// <summary>
         /// Displays the window if it is not already visible.
         /// </summary>
-        /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        void Show(Animate animate);
+        void Show();
 
         /// <summary>
         /// Captures the contents of the window in an image and returns the result.
         /// </summary>
         /// <returns>The captured image as an <see cref="ImageSource"/> instance.</returns>
         Task<ImageSource> TakeScreenshotAsync();
+
+        /// <summary>
+        /// Attempts to resize the window to the specified size.
+        /// </summary>
+        /// <param name="newSize">The width and height at which to size the window.</param>
+        /// <returns><c>true</c> if the window was successfully resized; otherwise, <c>false</c>.</returns>
+        bool TryResize(Size newSize);
     }
 }

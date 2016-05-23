@@ -765,7 +765,7 @@ namespace Prism
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
         private static void PresentView(IView view)
         {
-            if (Window.MainWindow == null)
+            if (Window.Current == null)
             {
                 throw new InvalidOperationException(Resources.Strings.MainWindowMustBeInitialized);
             }
@@ -773,23 +773,23 @@ namespace Prism
             // Tab views and split views can only be the content of the main window.  Having them elsewhere is unsupported!
             if (view is TabView || view is SplitView)
             {
-                Window.MainWindow.Content = view;
+                Window.Current.Content = view;
                 return;
             }
 
-            if (Window.MainWindow.Content == null)
+            if (Window.Current.Content == null)
             {
-                Window.MainWindow.Content = Device.Current.FormFactor == FormFactor.Tablet || Device.Current.FormFactor == FormFactor.Desktop ?
+                Window.Current.Content = Device.Current.FormFactor == FormFactor.Tablet || Device.Current.FormFactor == FormFactor.Desktop ?
                     (object)new SplitView() { MasterContent = new ViewStack(), DetailContent = new ViewStack() } : new ViewStack();
             }
 
-            var masterStack = Window.MainWindow.Content as ViewStack;
+            var masterStack = Window.Current.Content as ViewStack;
             ViewStack detailStack = null;
 
             // gather the master and detail stacks
             if (masterStack == null)
             {
-                var splitView = Window.MainWindow.Content as SplitView;
+                var splitView = Window.Current.Content as SplitView;
                 if (splitView != null)
                 {
                     if (splitView.MasterContent == null)
@@ -811,7 +811,7 @@ namespace Prism
                     }
                 }
 
-                var tabView = Window.MainWindow.Content as TabView;
+                var tabView = Window.Current.Content as TabView;
                 if (tabView != null)
                 {
                     var tabItem = tabView.TabItems[tabView.SelectedIndex];
@@ -846,7 +846,7 @@ namespace Prism
              * - If none of the above, honor the attribute.
             */
 
-            var popupStack = Window.MainWindow.PresentedPopup?.Content as ViewStack;
+            var popupStack = Window.Current.PresentedPopup?.Content as ViewStack;
             if (PopToView(popupStack, view))
             {
                 return;
@@ -854,14 +854,14 @@ namespace Prism
 
             if (PopToView(detailStack, view))
             {
-                Window.MainWindow.PresentedPopup?.Close();
+                Window.Current.PresentedPopup?.Close();
                 return;
             }
 
             if (PopToView(masterStack, view))
             {
                 detailStack?.PopToRoot(Animate.Off);
-                Window.MainWindow.PresentedPopup?.Close();
+                Window.Current.PresentedPopup?.Close();
                 return;
             }
 
@@ -878,7 +878,7 @@ namespace Prism
                 {
                     popupStack = new ViewStack();
                     popupStack.PushView(view, Animate.Off);
-                    new Popup() { Content = popupStack }.Open(Window.MainWindow);
+                    new Popup() { Content = popupStack }.Open(Window.Current);
                 }
                 else
                 {
@@ -893,7 +893,7 @@ namespace Prism
                 return;
             }
 
-            Window.MainWindow.PresentedPopup?.Close();
+            Window.Current.PresentedPopup?.Close();
 
             if (masterStack != null && (!masterStack.Views.Any() || detailStack == null || (preferredPanes.HasFlag(Panes.Master) &&
                 (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1))))

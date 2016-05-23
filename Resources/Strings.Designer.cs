@@ -575,6 +575,24 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Size contains a NaN or infinite value..
+        /// </summary>
+        internal static string SizeContainsNaNOrInfiniteValue {
+            get {
+                return ResourceManager.GetString("SizeContainsNaNOrInfiniteValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size contains a negative value..
+        /// </summary>
+        internal static string SizeContainsNegativeValue {
+            get {
+                return ResourceManager.GetString("SizeContainsNegativeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The specified string resource could not be found..
         /// </summary>
         internal static string StringResourceCouldNotBeFound {

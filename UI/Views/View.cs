@@ -142,20 +142,37 @@ namespace Prism.UI
         {
             constraints = MeasureOverride(constraints);
 
-            Window parent = null;
+            Popup parent = null;
             if (double.IsInfinity(constraints.Width))
             {
-                parent = VisualTreeHelper.GetParent<Window>(this) ?? Window.MainWindow;
-                constraints.Width = parent.Width;
+                parent = VisualTreeHelper.GetParent<Popup>(this);
+                if (parent == null || parent.PresentationStyle == PopupPresentationStyle.FullScreen)
+                {
+                    constraints.Width = Window.Current.Width;
+                }
+                else
+                {
+                    constraints.Width = parent.PresentationStyle == PopupPresentationStyle.Custom && !double.IsNaN(parent.Width) ?
+                        parent.Width : SystemParameters.PopupSize.Width;
+                }
             }
 
             if (double.IsInfinity(constraints.Height))
             {
                 if (parent == null)
                 {
-                    parent = VisualTreeHelper.GetParent<Window>(this) ?? Window.MainWindow;
+                    parent = VisualTreeHelper.GetParent<Popup>(this);
                 }
-                constraints.Height = parent.Height;
+
+                if (parent == null || parent.PresentationStyle == PopupPresentationStyle.FullScreen)
+                {
+                    constraints.Height = Window.Current.Height;
+                }
+                else
+                {
+                    constraints.Height = parent.PresentationStyle == PopupPresentationStyle.Custom && !double.IsNaN(parent.Height) ?
+                        parent.Height : SystemParameters.PopupSize.Height;
+                }
             }
 
             return constraints;

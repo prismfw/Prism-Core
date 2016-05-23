@@ -83,6 +83,7 @@
     <Compile Include="UI\Scrollable.cs" />
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />
+    <Compile Include="UI\WindowStyle.cs" />
     <Compile Include="UI\Views\ViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\Popup.cs" />
     <Compile Include="UI\WindowSizeChangedEventArgs.cs" />
