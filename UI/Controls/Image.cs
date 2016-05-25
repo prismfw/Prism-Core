@@ -60,17 +60,17 @@ namespace Prism.UI.Controls
             set
             {
                 var oldSource = Source;
-                if (oldSource != null)
+                if (oldSource is BitmapImage)
                 {
                     sourceLoadedEventManager.RemoveHandler(oldSource, sourceLoadedEventHandler);
                 }
 
-                nativeObject.Source = (INativeImageSource)ObjectRetriever.GetNativeObject(value);
-
-                if (value != null)
+                if (value is BitmapImage)
                 {
                     sourceLoadedEventManager.AddHandler(value, sourceLoadedEventHandler);
                 }
+
+                nativeObject.Source = (INativeImageSource)ObjectRetriever.GetNativeObject(value);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private static WeakEventManager sourceLoadedEventManager = new WeakEventManager(ImageSource.ImageLoadedEvent);
+        private static WeakEventManager sourceLoadedEventManager = new WeakEventManager(BitmapImage.ImageLoadedEvent);
 
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -115,7 +115,7 @@ namespace Prism.UI.Controls
         {
             if (sourceUri != null)
             {
-                Source = new ImageSource(sourceUri);
+                Source = new BitmapImage(sourceUri);
             }
         }
 
@@ -152,7 +152,6 @@ namespace Prism.UI.Controls
                 if (nativeObject.Source != null && (RenderSize.Width != nativeObject.Source.PixelWidth || RenderSize.Height != nativeObject.Source.PixelHeight))
                 {
                     InvalidateMeasure();
-                    (Parent as Visual)?.InvalidateArrange();
                 }
             };
 

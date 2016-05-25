@@ -19,32 +19,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System.Threading.Tasks;
+using System;
 using Prism.UI.Media.Imaging;
 
 namespace Prism.Native
 {
     /// <summary>
-    /// Defines a container for digital image data that is native to a particular platform.
-    /// These objects are meant to be paired with platform-agnostic <see cref="ImageSource"/> objects.
+    /// Defines a bitmap image that is native to a particular platform.
+    /// These objects are meant to be paired with platform-agnostic <see cref="BitmapImage"/> objects.
     /// </summary>
-    public interface INativeImageSource
+    public interface INativeBitmapImage : INativeImageSource
     {
         /// <summary>
-        /// Gets the number of pixels along the image's Y-axis.
+        /// Occurs when the image fails to load.
         /// </summary>
-        int PixelHeight { get; }
+        event EventHandler<ErrorEventArgs> ImageFailed;
 
         /// <summary>
-        /// Gets the number of pixels along the image's X-axis.
+        /// Occurs when the image has been loaded into memory.
         /// </summary>
-        int PixelWidth { get; }
+        event EventHandler ImageLoaded;
 
         /// <summary>
-        /// Saves the image data to a file at the specified path using the specified file format.
+        /// Gets a value indicating whether the image has encountered an error during loading.
         /// </summary>
-        /// <param name="filePath">The path to the file in which to save the image data.</param>
-        /// <param name="fileFormat">The file format in which to save the image data.</param>
-        Task SaveAsync(string filePath, ImageFileFormat fileFormat);
+        bool IsFaulted { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the image has been loaded into memory.
+        /// </summary>
+        bool IsLoaded { get; }
+
+        /// <summary>
+        /// Gets the URI of the source file containing the image data.
+        /// </summary>
+        Uri SourceUri { get; }
     }
 }

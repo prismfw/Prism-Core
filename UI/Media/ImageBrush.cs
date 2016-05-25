@@ -72,7 +72,7 @@ namespace Prism.UI.Media
                 throw new ArgumentNullException(nameof(sourceUri));
             }
             
-            Image = new ImageSource(sourceUri);
+            Image = new BitmapImage(sourceUri);
             Stretch = stretch;
         }
 
