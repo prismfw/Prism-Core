@@ -20,9 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using System.Threading.Tasks;
 using Prism.UI;
-using Prism.UI.Media.Imaging;
 
 namespace Prism.Native
 {
@@ -93,12 +91,6 @@ namespace Prism.Native
         /// Displays the window if it is not already visible.
         /// </summary>
         void Show();
-
-        /// <summary>
-        /// Captures the contents of the window in an image and returns the result.
-        /// </summary>
-        /// <returns>The captured image as an <see cref="ImageSource"/> instance.</returns>
-        Task<ImageSource> TakeScreenshotAsync();
 
         /// <summary>
         /// Attempts to resize the window to the specified size.

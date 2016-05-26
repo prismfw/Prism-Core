@@ -23,9 +23,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Threading.Tasks;
 using Prism.Native;
-using Prism.UI.Media.Imaging;
 
 namespace Prism.UI
 {
@@ -180,7 +178,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeWindow;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeVisual).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeWindow).FullName), nameof(resolveType));
             }
 
             nativeObject.Activated += (o, e) => OnActivated(e);
@@ -223,14 +221,6 @@ namespace Prism.UI
         public void Show()
         {
             nativeObject.Show();
-        }
-
-        /// <summary>
-        /// Captures the contents of the window in an image and returns the result.
-        /// </summary>
-        public async Task<ImageSource> TakeScreenshotAsync()
-        {
-            return await nativeObject.TakeScreenshotAsync();
         }
 
         /// <summary>

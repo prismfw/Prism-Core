@@ -50,6 +50,7 @@
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Foundation\ResolveParameter.cs" />
     <Compile Include="Native\NativeBitmapImage.cs" />
+    <Compile Include="Native\NativeRenderTargetBitmap.cs" />
     <Compile Include="Native\NativeStatusBar.cs" />
     <Compile Include="Native\NativeGeolocator.cs" />
     <Compile Include="Native\NativeAudioPlayer.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Native\NativeViewStackPoppingEventArgs.cs" />
     <Compile Include="UI\Controls\MenuItemCollection.cs" />
     <Compile Include="UI\Media\Imaging\BitmapImage.cs" />
+    <Compile Include="UI\Media\Imaging\RenderTargetBitmap.cs" />
     <Compile Include="UI\PopupPresentationStyle.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
     <Compile Include="UI\Scrollable.cs" />
