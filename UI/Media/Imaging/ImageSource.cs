@@ -51,6 +51,14 @@ namespace Prism.UI.Media.Imaging
             get { return nativeObject.PixelWidth; }
         }
 
+        /// <summary>
+        /// Gets the scaling factor of the image.
+        /// </summary>
+        public double Scale
+        {
+            get { return nativeObject.Scale; }
+        }
+
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif

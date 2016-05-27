@@ -149,7 +149,8 @@ namespace Prism.UI.Controls
 
             sourceLoadedEventHandler = (o, e) =>
             {
-                if (nativeObject.Source != null && (RenderSize.Width != nativeObject.Source.PixelWidth || RenderSize.Height != nativeObject.Source.PixelHeight))
+                if (nativeObject.Source != null && (Math.Ceiling(RenderSize.Width) != Math.Ceiling(nativeObject.Source.PixelWidth / nativeObject.Source.Scale) ||
+                    Math.Ceiling(RenderSize.Height) != Math.Ceiling(nativeObject.Source.PixelHeight * nativeObject.Source.Scale)))
                 {
                     InvalidateMeasure();
                 }

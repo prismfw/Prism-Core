@@ -41,6 +41,11 @@ namespace Prism.Native
         int PixelWidth { get; }
 
         /// <summary>
+        /// Gets the scaling factor of the image.
+        /// </summary>
+        double Scale { get; }
+
+        /// <summary>
         /// Saves the image data to a file at the specified path using the specified file format.
         /// </summary>
         /// <param name="filePath">The path to the file in which to save the image data.</param>
