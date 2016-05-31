@@ -153,6 +153,7 @@ namespace Prism.UI.Controls
                     Math.Ceiling(RenderSize.Height) != Math.Ceiling(nativeObject.Source.PixelHeight * nativeObject.Source.Scale)))
                 {
                     InvalidateMeasure();
+                    InvalidateArrange();
                 }
             };
 
