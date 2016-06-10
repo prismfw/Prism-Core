@@ -46,9 +46,15 @@
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Native\NativeInkStroke.cs" />
+    <Compile Include="UI\Media\Inking\InkDrawingAttributes.cs" />
+    <Compile Include="UI\Media\Inking\InkInputMode.cs" />
+    <Compile Include="UI\Media\Inking\InkStroke.cs" />
     <Compile Include="Input\PointerType.cs" />
     <Compile Include="Input\PointerEventArgs.cs" />
     <Compile Include="Foundation\ResolveParameter.cs" />
+    <Compile Include="UI\Media\Inking\PenTipShape.cs" />
+    <Compile Include="Native\NativeInkCanvas.cs" />
     <Compile Include="Native\NativeBitmapImage.cs" />
     <Compile Include="Native\NativeRenderTargetBitmap.cs" />
     <Compile Include="Native\NativeStatusBar.cs" />
@@ -70,6 +76,7 @@
     <Compile Include="Systems\Geolocation\GeolocationUpdatedEventArgs.cs" />
     <Compile Include="Systems\Geolocation\Geolocator.cs" />
     <Compile Include="UI\Controls\ActionMenu.cs" />
+    <Compile Include="UI\Controls\InkCanvas.cs" />
     <Compile Include="UI\Controls\MenuButton.cs" />
     <Compile Include="UI\Controls\MenuSeparator.cs" />
     <Compile Include="UI\Controls\MenuItem.cs" />
@@ -82,6 +89,7 @@
     <Compile Include="UI\Controls\MenuItemCollection.cs" />
     <Compile Include="UI\Media\Imaging\BitmapImage.cs" />
     <Compile Include="UI\Media\Imaging\RenderTargetBitmap.cs" />
+    <Compile Include="UI\Media\Inking\InkStrokeContainer.cs" />
     <Compile Include="UI\PopupPresentationStyle.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
     <Compile Include="UI\Scrollable.cs" />
