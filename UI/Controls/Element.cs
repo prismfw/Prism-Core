@@ -456,8 +456,8 @@ namespace Prism.UI.Controls
         {
             frame.X += Margin.Left;
             frame.Y += Margin.Top;
-            frame.Width -= (Margin.Left + Margin.Right);
-            frame.Height -= (Margin.Top + Margin.Bottom);
+            frame.Width = Math.Max(frame.Width - (Margin.Left + Margin.Right), 0);
+            frame.Height = Math.Max(frame.Height - (Margin.Top + Margin.Bottom), 0);
 
             if (Visibility == Visibility.Collapsed)
             {
@@ -522,8 +522,8 @@ namespace Prism.UI.Controls
         protected virtual Size ArrangeOverride(Size constraints)
         {
             Size desiredSize = DesiredSize;
-            desiredSize.Width -= (Margin.Left + Margin.Right);
-            desiredSize.Height -= (Margin.Top + Margin.Bottom);
+            desiredSize.Width = Math.Max(desiredSize.Width - (Margin.Left + Margin.Right), 0);
+            desiredSize.Height = Math.Max(desiredSize.Height - (Margin.Top + Margin.Bottom), 0);
 
             Size renderSize = Size.Empty;
             renderSize.Width = Math.Max(MinWidth, Math.Min(MaxWidth, HorizontalAlignment == HorizontalAlignment.Stretch ?

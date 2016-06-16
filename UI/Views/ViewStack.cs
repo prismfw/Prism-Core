@@ -330,8 +330,8 @@ namespace Prism.UI
 
                 frame.X += offset.Left;
                 frame.Y += offset.Top;
-                frame.Width -= (offset.Left + offset.Right);
-                frame.Height -= (offset.Top + offset.Bottom);
+                frame.Width = Math.Max(frame.Width - (offset.Left + offset.Right), 0);
+                frame.Height = Math.Max(frame.Height - (offset.Top + offset.Bottom), 0);
                 currentView.Arrange(frame);
             }
         }
@@ -349,9 +349,20 @@ namespace Prism.UI
                 var offset = nativeObject.IsHeaderHidden ? new Thickness() : Window.Current.Width > Window.Current.Height ?
                     SystemParameters.ContentViewHeaderOffsetLandscape : SystemParameters.ContentViewHeaderOffsetPortrait;
 
-                currentView.Measure(new Size(constraints.Width - (offset.Left + offset.Right), constraints.Height - (offset.Top + offset.Bottom)));
+                currentView.Measure(new Size(Math.Max(constraints.Width - (offset.Left + offset.Right), 0), Math.Max(constraints.Height - (offset.Top + offset.Bottom), 0)));
+                return new Size(currentView.DesiredSize.Width + offset.Left + offset.Right, currentView.DesiredSize.Height + offset.Top + offset.Bottom);
             }
-            
+
+            if (double.IsInfinity(constraints.Width))
+            {
+                constraints.Width = int.MaxValue;
+            }
+
+            if (double.IsInfinity(constraints.Height))
+            {
+                constraints.Height = int.MaxValue;
+            }
+
             return constraints;
         }
 
