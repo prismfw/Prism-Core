@@ -31,6 +31,14 @@ namespace Prism.Systems
         /// </summary>
         Unknown = 0,
         /// <summary>
+        /// The device is in portrait orientation, either right-side up or upside down.
+        /// </summary>
+        Portrait = 1,
+        /// <summary>
+        /// The device is in landscape orientation, either facing left or facing right.
+        /// </summary>
+        Landscape = 2,
+        /// <summary>
         /// The device is in portrait orientation and right-side up.
         /// </summary>
         PortraitUp = 5,
