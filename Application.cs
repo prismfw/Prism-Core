@@ -697,6 +697,10 @@ namespace Prism
                     try
                     {
                         perspective = await controller.LoadAsync(new NavigationContext(current.LastNavigationContext));
+                        if (controller.ModelType == null)
+                        {
+                            throw new InvalidOperationException(Resources.Strings.ControllerModelTypeCannotBeNull);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -728,15 +732,39 @@ namespace Prism
                     {
                         LoadIndicator.DefaultIndicator.Hide();
                         current.EndIgnoringUserInput();
-                        
-                        var matches = viewMap.Where(kvp => kvp.Key.Perspective == perspective && kvp.Key.ModelType == controller.ModelType);
-                        var loader = matches.FirstOrDefault(kvp => kvp.Key.FormFactor.HasFlag(Device.Current.FormFactor)).Value;
+
+                        var potentials = viewMap.Where(kvp => kvp.Key.Perspective == perspective &&
+                            (kvp.Key.ModelType == controller.ModelType || kvp.Key.ModelType.GetTypeInfo().IsAssignableFrom(kvp.Key.ModelType.GetTypeInfo())));
+
+                        var matches = potentials.Where(kvp => kvp.Key.ModelType == controller.ModelType);
+                        var loader = matches.FirstOrDefault(kvp => kvp.Key.FormFactor.HasFlag(Device.Current.FormFactor)).Value ?? matches.FirstOrDefault().Value;
                         if (loader == null)
                         {
-                            loader = matches.FirstOrDefault().Value;
+                            var modelType = controller.GetModel()?.GetType();
+                            while (modelType != null)
+                            {
+                                matches = potentials.Where(kvp => kvp.Key.ModelType == modelType);
+                                loader = matches.FirstOrDefault(kvp => kvp.Key.FormFactor.HasFlag(Device.Current.FormFactor)).Value ?? matches.FirstOrDefault().Value;
+                                if (loader != null)
+                                {
+                                    break;
+                                }
+
+                                modelType = modelType.GetTypeInfo().BaseType;
+                            }
                         }
 
-                        var view = loader == null ? null : (IView)loader.Load();
+                        if (loader == null)
+                        {
+                            var interfaces = controller.GetModel()?.GetType()?.GetTypeInfo()?.ImplementedInterfaces;
+                            if (interfaces.Any())
+                            {
+                                matches = potentials.Where(kvp => interfaces.Contains(kvp.Key.ModelType));
+                                loader = matches.FirstOrDefault(kvp => kvp.Key.FormFactor.HasFlag(Device.Current.FormFactor)).Value ?? matches.FirstOrDefault().Value;
+                            }
+                        }
+
+                        var view = (IView)loader?.Load();
                         if (view == null)
                         {
                             Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewWithPerspectiveAndModelType, perspective, controller.ModelType.FullName);
@@ -765,11 +793,6 @@ namespace Prism
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
         private static void PresentView(IView view)
         {
-            if (Window.Current == null)
-            {
-                throw new InvalidOperationException(Resources.Strings.MainWindowMustBeInitialized);
-            }
-
             // Tab views and split views can only be the content of the main window.  Having them elsewhere is unsupported!
             if (view is TabView || view is SplitView)
             {

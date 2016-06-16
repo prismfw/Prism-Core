@@ -190,13 +190,13 @@
     <value>NaN or infinity width returned from arrangement.</value>
   </data>
   <data name="InvalidWidthReturnedFromMeasurement" xml:space="preserve">
-    <value>NaN or infinity width returned from arrangement.</value>
+    <value>NaN or infinity width returned from measurement.</value>
   </data>
   <data name="LoadingControllerOfType" xml:space="preserve">
     <value>Loading controller of type {0}.</value>
   </data>
-  <data name="MainWindowMustBeInitialized" xml:space="preserve">
-    <value>A main window must be initialized before any view can be presented.</value>
+  <data name="ControllerModelTypeCannotBeNull" xml:space="preserve">
+    <value>Controller's ModelType cannot be null.</value>
   </data>
   <data name="MatchedURIWithPattern" xml:space="preserve">
     <value>Matched URI {0} with pattern {1}.</value>

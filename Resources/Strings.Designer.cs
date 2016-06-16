@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
-    using System;
     using System.Reflection;
     
     
@@ -206,6 +205,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller&apos;s ModelType cannot be null..
+        /// </summary>
+        internal static string ControllerModelTypeCannotBeNull {
+            get {
+                return ResourceManager.GetString("ControllerModelTypeCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An EventDescriptor for the event &apos;{0}&apos; and owning type &apos;{1}&apos; has already been created.  Only one EventDescriptor is allowed per event..
         /// </summary>
         internal static string EventDescriptorAlreadyCreated {
@@ -287,7 +295,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NaN or infinity width returned from arrangement..
+        ///   Looks up a localized string similar to NaN or infinity width returned from measurement..
         /// </summary>
         internal static string InvalidWidthReturnedFromMeasurement {
             get {
@@ -310,15 +318,6 @@ namespace Prism.Resources {
         internal static string LoadingControllerOfType {
             get {
                 return ResourceManager.GetString("LoadingControllerOfType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A main window must be initialized before any view can be presented..
-        /// </summary>
-        internal static string MainWindowMustBeInitialized {
-            get {
-                return ResourceManager.GetString("MainWindowMustBeInitialized", resourceCulture);
             }
         }
         
