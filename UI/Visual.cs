@@ -227,6 +227,11 @@ namespace Prism.UI
 #endif
         private bool isMeasuring;
 
+#if METRICS
+        private static int arrangeRequestCount, arrangePerformCount, arrangeSkipCount;
+        private static int measureRequestCount, measurePerformCount, measureSkipCount;
+#endif
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Visual"/> class.
         /// </summary>
@@ -263,6 +268,10 @@ namespace Prism.UI
             isArranging = true;
             IsArrangeValid = false;
 
+#if METRICS
+            Utilities.Logger.Info(CultureInfo.CurrentCulture, "Layout Metrics: Arrangement performed {0} times (from {1} total requests)", ++arrangePerformCount, ++arrangeRequestCount);
+#endif
+
             if (double.IsNaN(frame.X) || double.IsNaN(frame.Y) || double.IsNaN(frame.Width) || double.IsNaN(frame.Height) ||
                 double.IsInfinity(frame.X) || double.IsInfinity(frame.Y) || double.IsInfinity(frame.Width) || double.IsInfinity(frame.Height))
             {
@@ -295,9 +304,9 @@ namespace Prism.UI
             if (oldFrame != newFrame)
             {
                 var parentVisual = Parent as Visual;
-                if (parentVisual != null && !(parentVisual is IScrollable) && !parentVisual.isArranging)
+                if (parentVisual != null && !parentVisual.isArranging)
                 {
-                    InvalidateArrange();
+                    VisualTreeHelper.GetParent<Visual>(this, (o) => !(o.Parent is Visual))?.InvalidateArrange();
                 }
             }
         }
@@ -350,6 +359,10 @@ namespace Prism.UI
             isMeasuring = true;
             IsMeasureValid = false;
 
+#if METRICS
+            Utilities.Logger.Info(CultureInfo.CurrentCulture, "Layout Metrics: Measurement performed {0} times (from {1} total requests)", ++measurePerformCount, ++measureRequestCount);
+#endif
+
             if (double.IsNaN(constraints.Width) || double.IsNegativeInfinity(constraints.Width))
             {
                 constraints.Width = double.PositiveInfinity;
@@ -391,15 +404,15 @@ namespace Prism.UI
                 OnPropertyChanged(DesiredSizeProperty);
 
                 var parentVisual = Parent as Visual;
-                if (parentVisual != null && !(parent is IScrollable))
+                if (parentVisual != null)
                 {
                     if (!parentVisual.isMeasuring)
                     {
-                        parentVisual.InvalidateMeasure();
+                        VisualTreeHelper.GetParent<Visual>(this, (o) => !(o.Parent is Visual))?.InvalidateMeasure();
                     }
                     if (!parentVisual.isArranging)
                     {
-                        parentVisual.InvalidateArrange();
+                        VisualTreeHelper.GetParent<Visual>(this, (o) => !(o.Parent is Visual))?.InvalidateArrange();
                     }
                 }
                 else if (IsArrangeValid)
@@ -591,6 +604,12 @@ namespace Prism.UI
 
                 Arrange(frame);
             }
+#if METRICS
+            else
+            {
+                Utilities.Logger.Info(CultureInfo.CurrentCulture, "Layout Metrics: Arrangement skipped {0} times (from {1} total requests)", ++arrangeSkipCount, ++arrangeRequestCount);
+            }
+#endif
         }
 
         private void OnLoad(object sender, EventArgs e)
@@ -621,24 +640,18 @@ namespace Prism.UI
         {
             if (!isMeasuring && (forceMeasure || !IsMeasureValid))
             {
-                Size constraints;
+                Size constraints = Size.Empty;
                 if (constraintsOverride == null)
                 {
-                    constraints = new Size(double.PositiveInfinity, double.PositiveInfinity);
-                    var parentVisual = Parent as Visual;
-                    if (parentVisual == null)
+                    var window = Parent as Window;
+                    if (window == null)
                     {
-                        var window = VisualTreeHelper.GetParent<Window>(this);
-                        if (window != null)
-                        {
-                            constraints.Width = window.Width;
-                            constraints.Height = window.Height;
-                        }
+                        constraints = (Parent as Popup)?.RenderSize ?? new Size(double.PositiveInfinity, double.PositiveInfinity);
                     }
                     else
                     {
-                        constraints.Width = parentVisual.RenderSize.Width;
-                        constraints.Height = parentVisual.RenderSize.Height;
+                        constraints.Width = window.Width;
+                        constraints.Height = window.Height;
                     }
                 }
                 else
@@ -648,6 +661,12 @@ namespace Prism.UI
 
                 Measure(constraints);
             }
+#if METRICS
+            else
+            {
+                Utilities.Logger.Info(CultureInfo.CurrentCulture, "Layout Metrics: Measurement skipped {0} times (from {1} total requests)", ++measureSkipCount, ++measureRequestCount);
+            }
+#endif
 
             return DesiredSize;
         }
