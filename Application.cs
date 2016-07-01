@@ -169,7 +169,7 @@ namespace Prism
                 return;
             }
 
-            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.MatchedURIWithPattern, uri, mapEntry.Key);
+            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.MatchedURIWithPattern, uri, mapEntry.Key.UriPattern);
 
             string[] patternParts = mapEntry.Key.UriPattern.Split('/');
             for (int i = 0; i < uriParts.Length; i++)
@@ -934,6 +934,7 @@ namespace Prism
         {
             if (stack != null)
             {
+                var vsc = view as IViewStackChild;
                 foreach (var currentView in stack.Views)
                 {
                     if (currentView == view)
@@ -941,8 +942,23 @@ namespace Prism
                         stack.PopToView(view, Animate.Default);
                         return true;
                     }
+                    
+                    if (vsc != null)
+                    {
+                        var currentVSC = currentView as IViewStackChild;
+                        if (currentVSC == null)
+                        {
+                            continue;
+                        }
 
-                    if (currentView.GetType() == view.GetType())
+                        if (currentVSC.StackId == vsc.StackId && (vsc.StackId != null || currentView.GetType() == view.GetType()))
+                        {
+                            stack.ReplaceView(currentView, view, Animate.Off);
+                            stack.PopToView(view, Animate.Default);
+                            return true;
+                        }
+                    }
+                    else if (currentView.GetType() == view.GetType())
                     {
                         stack.ReplaceView(currentView, view, Animate.Off);
                         stack.PopToView(view, Animate.Default);

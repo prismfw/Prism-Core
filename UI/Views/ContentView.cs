@@ -56,7 +56,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents a platform-agnostic view that can display a single piece of content.
     /// </summary>
-    public class ContentView : View
+    public class ContentView : View, IViewStackChild
     {
         #region Property Descriptors
         /// <summary>
@@ -82,6 +82,12 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
         public static readonly PropertyDescriptor MenuProperty = PropertyDescriptor.Create(nameof(Menu), typeof(ActionMenu), typeof(ContentView));
+
+        /// <summary>
+        /// Describes the <see cref="P:StackId"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor StackIdProperty = PropertyDescriptor.Create(nameof(StackId), typeof(string), typeof(ContentView));
 
         /// <summary>
         /// Describes the <see cref="P:Title"/> property.  This field is read-only.
@@ -155,6 +161,26 @@ namespace Prism.UI
             get { return (ActionMenu)ObjectRetriever.GetAgnosticObject(nativeObject.Menu); }
             set { nativeObject.Menu = (INativeActionMenu)ObjectRetriever.GetNativeObject(value); }
         }
+
+        /// <summary>
+        /// Gets or sets an identifier that determines the position in which this instance is placed in a <see cref="ViewStack"/>.
+        /// Objects with the same identifier value will replace each other within the same <see cref="ViewStack"/>, and
+        /// objects with different identifiers will be assigned different positions even if they are of the same type.
+        /// </summary>
+        public string StackId
+        {
+            get { return stackId; }
+            set
+            {
+                if (value != stackId)
+                {
+                    stackId = value;
+                    OnPropertyChanged(StackIdProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string stackId;
 
         /// <summary>
         /// Gets or sets the title of the view.

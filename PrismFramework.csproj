@@ -46,6 +46,7 @@
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="MVC\ViewStackChild.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\Media\Inking\InkDrawingAttributes.cs" />
