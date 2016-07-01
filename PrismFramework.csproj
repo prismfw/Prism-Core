@@ -47,6 +47,7 @@
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
+    <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\Media\Inking\InkDrawingAttributes.cs" />
     <Compile Include="UI\Media\Inking\InkInputMode.cs" />
     <Compile Include="UI\Media\Inking\InkStroke.cs" />
@@ -186,7 +187,7 @@
     <Compile Include="UI\Media\Brush.cs" />
     <Compile Include="UI\Color.cs" />
     <Compile Include="UI\Colors.cs" />
-    <Compile Include="UI\Controls\AccessorySelectedEventArgs.cs" />
+    <Compile Include="UI\Controls\AccessoryClickedEventArgs.cs" />
     <Compile Include="UI\ActionKeyType.cs" />
     <Compile Include="UI\Controls\Border.cs" />
     <Compile Include="UI\Controls\Button.cs" />

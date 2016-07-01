@@ -58,9 +58,14 @@ namespace Prism.Native
     public interface INativeListBox : INativeElement, IScrollable
     {
         /// <summary>
-        /// Occurs when an accessory in a list box item is selected.
+        /// Occurs when an accessory in a list box item is clicked or tapped.
         /// </summary>
-        event EventHandler<AccessorySelectedEventArgs> AccessorySelected;
+        event EventHandler<AccessoryClickedEventArgs> AccessoryClicked;
+
+        /// <summary>
+        /// Occurs when an item in the list box is clicked or tapped.
+        /// </summary>
+        event EventHandler<ItemClickedEventArgs> ItemClicked;
 
         /// <summary>
         /// Occurs when the selection of the list box is changed.

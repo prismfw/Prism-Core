@@ -24,20 +24,20 @@ using System;
 namespace Prism.UI.Controls
 {
     /// <summary>
-    /// Provides data for the <see cref="E:AccessorySelected"/> event.
+    /// Provides data for ItemClicked events.
     /// </summary>
-    public class AccessorySelectedEventArgs : EventArgs
+    public class ItemClickedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the item in the list box's Items collection whose accessory has been selected.
+        /// Gets the item that has been clicked or tapped.
         /// </summary>
         public object Item { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccessorySelectedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="ItemClickedEventArgs"/> class.
         /// </summary>
-        /// <param name="item">The item in the list box's Items collection whose accessory has been selected.</param>
-        public AccessorySelectedEventArgs(object item)
+        /// <param name="item">The item that has been clicked or tapped.</param>
+        public ItemClickedEventArgs(object item)
         {
             Item = item;
         }

@@ -36,10 +36,16 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:AccessorySelected"/> event.  This field is read-only.
+        /// Describes the <see cref="E:AccessoryClicked"/> event.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor AccessorySelectedEvent = EventDescriptor.Create(nameof(AccessorySelected), typeof(TypedEventHandler<ListBox, AccessorySelectedEventArgs>), typeof(ListBox));
+        public static readonly EventDescriptor AccessoryClickedEvent = EventDescriptor.Create(nameof(AccessoryClicked), typeof(TypedEventHandler<ListBox, AccessoryClickedEventArgs>), typeof(ListBox));
+
+        /// <summary>
+        /// Describes the <see cref="E:ItemClicked"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor ItemClickedEvent = EventDescriptor.Create(nameof(ItemClicked), typeof(TypedEventHandler<ListBox, ItemClickedEventArgs>), typeof(ListBox));
 
         /// <summary>
         /// Describes the <see cref="E:SelectionChanged"/> event.  This field is read-only.
@@ -105,10 +111,16 @@ namespace Prism.UI.Controls
         #endregion
 
         /// <summary>
-        /// Occurs when an accessory in a <see cref="ListBoxItem"/> is selected.
+        /// Occurs when an accessory in a <see cref="ListBoxItem"/> is clicked or tapped.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
-        public event TypedEventHandler<ListBox, AccessorySelectedEventArgs> AccessorySelected;
+        public event TypedEventHandler<ListBox, AccessoryClickedEventArgs> AccessoryClicked;
+
+        /// <summary>
+        /// Occurs when an item in the list box is clicked or tapped.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<ListBox, ItemClickedEventArgs> ItemClicked;
 
         /// <summary>
         /// Occurs when the selection of the list box is changed.
@@ -273,7 +285,8 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeListBox).FullName), nameof(resolveType));
             }
 
-            nativeObject.AccessorySelected += (o, e) => OnAccessorySelected(e);
+            nativeObject.AccessoryClicked += (o, e) => OnAccessoryClicked(e);
+            nativeObject.ItemClicked += (o, e) => OnItemClicked(e);
             nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
 
             nativeObject.ItemIdRequest = (value) =>
@@ -420,12 +433,21 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
-        /// Called when an accessory in a <see cref="ListBoxItem"/> is selected and raises the <see cref="AccessorySelected"/> event.
+        /// Called when an accessory in a <see cref="ListBoxItem"/> is clicked or tapped and raises the <see cref="AccessoryClicked"/> event.
         /// </summary>
         /// <param name="e">The event arguments containing the selection details.</param>
-        protected virtual void OnAccessorySelected(AccessorySelectedEventArgs e)
+        protected virtual void OnAccessoryClicked(AccessoryClickedEventArgs e)
         {
-            AccessorySelected?.Invoke(this, e);
+            AccessoryClicked?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Called when an item in the list box is clicked or tapped and raises the <see cref="ItemClicked"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing the selection details.</param>
+        protected virtual void OnItemClicked(ItemClickedEventArgs e)
+        {
+            ItemClicked?.Invoke(this, e);
         }
 
         /// <summary>
