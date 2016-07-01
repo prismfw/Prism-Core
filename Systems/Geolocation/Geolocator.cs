@@ -25,6 +25,10 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Prism.Native;
 
+#if !DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Prism.Systems.Geolocation
 {
     /// <summary>

@@ -27,10 +27,6 @@ using System.Globalization;
 using Prism.Native;
 using Prism.UI.Media.Inking;
 
-#if !DEBUG
-using System.Diagnostics;
-#endif
-
 namespace Prism.UI.Controls
 {
     /// <summary>

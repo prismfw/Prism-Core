@@ -24,6 +24,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 
+#if !DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Prism.UI.Controls
 {
     /// <summary>
