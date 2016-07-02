@@ -236,7 +236,15 @@ namespace Prism.UI
             var currentContent = (Content as Visual) ?? VisualTreeHelper.GetChild<Visual>(this);
             if (currentContent != null)
             {
-                currentContent.Arrange(new Rectangle(0, 0, constraints.Width, constraints.Height));
+                var inset = currentContent is IScrollable || ((Parent as ViewStack)?.IsHeaderHidden ?? true) ? new Thickness() :
+                    Window.Current.Width > Window.Current.Height ? SystemParameters.ViewStackHeaderInsetLandscape : SystemParameters.ViewStackHeaderInsetPortrait;
+
+                if (Menu != null)
+                {
+                    inset += Menu.Insets;
+                }
+
+                currentContent.Arrange(new Rectangle(inset.Left, inset.Top, constraints.Width - (inset.Left + inset.Right), constraints.Height - (inset.Top + inset.Bottom)));
             }
 
             return constraints;
@@ -252,7 +260,15 @@ namespace Prism.UI
             var currentContent = (Content as Visual) ?? VisualTreeHelper.GetChild<Visual>(this);
             if (currentContent != null)
             {
-                currentContent.Measure(constraints);
+                var inset = currentContent is IScrollable || ((Parent as ViewStack)?.IsHeaderHidden ?? true) ? new Thickness() :
+                    Window.Current.Width > Window.Current.Height ? SystemParameters.ViewStackHeaderInsetLandscape : SystemParameters.ViewStackHeaderInsetPortrait;
+
+                if (Menu != null)
+                {
+                    inset += Menu.Insets;
+                }
+
+                currentContent.Measure(new Size(Math.Max(constraints.Width - (inset.Left + inset.Right), 0), Math.Max(constraints.Height - (inset.Top + inset.Bottom), 0)));
             }
 
             return nativeObject.Measure(constraints);
