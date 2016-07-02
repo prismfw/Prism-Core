@@ -321,7 +321,14 @@ namespace Prism.UI.Controls
                 }
 
                 var item = ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultItem(value, agnosticItem)) as INativeListBoxItem;
-                item.Accessory = SelectionChanged == null ? ListBoxItemAccessory.None : ListBoxItemAccessory.Indicator;
+                if (AccessoryClicked == null)
+                {
+                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.None : ListBoxItemAccessory.Indicator;
+                }
+                else
+                {
+                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.InfoButton : ListBoxItemAccessory.InfoIndicator;
+                }
                 return item;
             };
 
