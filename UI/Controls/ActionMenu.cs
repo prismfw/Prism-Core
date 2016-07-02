@@ -56,6 +56,12 @@ namespace Prism.UI.Controls
         public static readonly PropertyDescriptor ForegroundProperty = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(ActionMenu));
 
         /// <summary>
+        /// Describes the <see cref="P:Insets"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor InsetsProperty = PropertyDescriptor.Create(nameof(Insets), typeof(Thickness), typeof(ActionMenu), true);
+
+        /// <summary>
         /// Describes the <see cref="P:MaxDisplayItems"/> property.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
@@ -93,6 +99,14 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.Foreground; }
             set { nativeObject.Foreground = value; }
+        }
+
+        /// <summary>
+        /// Gets the amount that the menu is inset on top of its parent view.
+        /// </summary>
+        public Thickness Insets
+        {
+            get { return nativeObject.Insets; }
         }
 
         /// <summary>
