@@ -326,7 +326,7 @@ namespace Prism.UI
             if (currentView != null)
             {
                 var offset = nativeObject.IsHeaderHidden ? new Thickness() : Window.Current.Width > Window.Current.Height ?
-                    SystemParameters.ContentViewHeaderOffsetLandscape : SystemParameters.ContentViewHeaderOffsetPortrait;
+                    SystemParameters.ViewStackHeaderOffsetLandscape : SystemParameters.ViewStackHeaderOffsetPortrait;
 
                 frame.X += offset.Left;
                 frame.Y += offset.Top;
@@ -347,7 +347,7 @@ namespace Prism.UI
             if (currentView != null)
             {
                 var offset = nativeObject.IsHeaderHidden ? new Thickness() : Window.Current.Width > Window.Current.Height ?
-                    SystemParameters.ContentViewHeaderOffsetLandscape : SystemParameters.ContentViewHeaderOffsetPortrait;
+                    SystemParameters.ViewStackHeaderOffsetLandscape : SystemParameters.ViewStackHeaderOffsetPortrait;
 
                 currentView.Measure(new Size(Math.Max(constraints.Width - (offset.Left + offset.Right), 0), Math.Max(constraints.Height - (offset.Top + offset.Bottom), 0)));
                 return new Size(currentView.DesiredSize.Width + offset.Left + offset.Right, currentView.DesiredSize.Height + offset.Top + offset.Bottom);

@@ -47,26 +47,6 @@ namespace Prism.Native
         Thickness ButtonPadding { get; }
 
         /// <summary>
-        /// Gets the amount that a header is inset on top of the content of a content view while in landscape orientation.
-        /// </summary>
-        Thickness ContentViewHeaderInsetLandscape { get; }
-
-        /// <summary>
-        /// Gets the amount that a header is inset on top of the content of a content view while in portrait orientation.
-        /// </summary>
-        Thickness ContentViewHeaderInsetPortrait { get; }
-
-        /// <summary>
-        /// Gets the amount that a header offsets the content of a content view while in landscape orientation.
-        /// </summary>
-        Thickness ContentViewHeaderOffsetLandscape { get; }
-
-        /// <summary>
-        /// Gets the amount that a header offsets the content of a content view while in portrait orientation.
-        /// </summary>
-        Thickness ContentViewHeaderOffsetPortrait { get; }
-
-        /// <summary>
         /// Gets the preferred width of the border around a date picker.
         /// </summary>
         double DatePickerBorderWidth { get; }
@@ -171,5 +151,25 @@ namespace Prism.Native
         /// Gets the width of a vertical scroll bar.
         /// </summary>
         double VerticalScrollBarWidth { get; }
+
+        /// <summary>
+        /// Gets the amount that a header is inset on top of the current view of a view stack while in landscape orientation.
+        /// </summary>
+        Thickness ViewStackHeaderInsetLandscape { get; }
+
+        /// <summary>
+        /// Gets the amount that a header is inset on top of the current view of a view stack while in portrait orientation.
+        /// </summary>
+        Thickness ViewStackHeaderInsetPortrait { get; }
+
+        /// <summary>
+        /// Gets the amount that a header offsets the current view of a view stack while in landscape orientation.
+        /// </summary>
+        Thickness ViewStackHeaderOffsetLandscape { get; }
+
+        /// <summary>
+        /// Gets the amount that a header offsets the current view of a view stack while in portrait orientation.
+        /// </summary>
+        Thickness ViewStackHeaderOffsetPortrait { get; }
     }
 }

@@ -67,38 +67,6 @@ namespace Prism
         }
 
         /// <summary>
-        /// Gets the amount that a header is inset on top of the content of a <see cref="ContentView"/> while in landscape orientation.
-        /// </summary>
-        public static Thickness ContentViewHeaderInsetLandscape
-        {
-            get { return Current.ContentViewHeaderInsetLandscape; }
-        }
-
-        /// <summary>
-        /// Gets the amount that a header is inset on top of the content of a <see cref="ContentView"/> while in portrait orientation.
-        /// </summary>
-        public static Thickness ContentViewHeaderInsetPortrait
-        {
-            get { return Current.ContentViewHeaderInsetPortrait; }
-        }
-
-        /// <summary>
-        /// Gets the amount that a header offsets the content of a <see cref="ContentView"/> while in landscape orientation.
-        /// </summary>
-        public static Thickness ContentViewHeaderOffsetLandscape
-        {
-            get { return Current.ContentViewHeaderOffsetLandscape; }
-        }
-
-        /// <summary>
-        /// Gets the amount that a header offsets the content of a <see cref="ContentView"/> while in portrait orientation.
-        /// </summary>
-        public static Thickness ContentViewHeaderOffsetPortrait
-        {
-            get { return Current.ContentViewHeaderOffsetPortrait; }
-        }
-
-        /// <summary>
         /// Gets the preferred width of the border around a <see cref="DatePicker"/>.
         /// </summary>
         public static double DatePickerBorderWidth
@@ -265,6 +233,38 @@ namespace Prism
         public static double VerticalScrollBarWidth
         {
             get { return Current.VerticalScrollBarWidth; }
+        }
+
+        /// <summary>
+        /// Gets the amount that a header is inset on top of the current view of a <see cref="ViewStack"/> while in landscape orientation.
+        /// </summary>
+        public static Thickness ViewStackHeaderInsetLandscape
+        {
+            get { return Current.ViewStackHeaderInsetLandscape; }
+        }
+
+        /// <summary>
+        /// Gets the amount that a header is inset on top of the current view of a <see cref="ViewStack"/> while in portrait orientation.
+        /// </summary>
+        public static Thickness ViewStackHeaderInsetPortrait
+        {
+            get { return Current.ViewStackHeaderInsetPortrait; }
+        }
+
+        /// <summary>
+        /// Gets the amount that a header offsets the current view of a <see cref="ViewStack"/> while in landscape orientation.
+        /// </summary>
+        public static Thickness ViewStackHeaderOffsetLandscape
+        {
+            get { return Current.ViewStackHeaderOffsetLandscape; }
+        }
+
+        /// <summary>
+        /// Gets the amount that a header offsets the current view of a <see cref="ViewStack"/> while in portrait orientation.
+        /// </summary>
+        public static Thickness ViewStackHeaderOffsetPortrait
+        {
+            get { return Current.ViewStackHeaderOffsetPortrait; }
         }
 
 #if !DEBUG
