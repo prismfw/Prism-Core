@@ -733,14 +733,15 @@ namespace Prism
                         LoadIndicator.DefaultIndicator.Hide();
                         current.EndIgnoringUserInput();
 
+                        var controllerModelType = controller.GetModel()?.GetType() ?? controller.ModelType;
                         var potentials = viewMap.Where(kvp => kvp.Key.Perspective == perspective &&
-                            (kvp.Key.ModelType == controller.ModelType || kvp.Key.ModelType.GetTypeInfo().IsAssignableFrom(kvp.Key.ModelType.GetTypeInfo())));
+                            (kvp.Key.ModelType == controllerModelType || kvp.Key.ModelType.GetTypeInfo().IsAssignableFrom(controllerModelType.GetTypeInfo())));
 
-                        var matches = potentials.Where(kvp => kvp.Key.ModelType == controller.ModelType);
+                        var matches = potentials.Where(kvp => kvp.Key.ModelType == controllerModelType);
                         var loader = matches.FirstOrDefault(kvp => kvp.Key.FormFactor.HasFlag(Device.Current.FormFactor)).Value ?? matches.FirstOrDefault().Value;
                         if (loader == null)
                         {
-                            var modelType = controller.GetModel()?.GetType();
+                            var modelType = controllerModelType;
                             while (modelType != null)
                             {
                                 matches = potentials.Where(kvp => kvp.Key.ModelType == modelType);
@@ -756,7 +757,7 @@ namespace Prism
 
                         if (loader == null)
                         {
-                            var interfaces = controller.GetModel()?.GetType()?.GetTypeInfo()?.ImplementedInterfaces;
+                            var interfaces = controllerModelType.GetTypeInfo().ImplementedInterfaces;
                             if (interfaces.Any())
                             {
                                 matches = potentials.Where(kvp => interfaces.Contains(kvp.Key.ModelType));
@@ -767,7 +768,7 @@ namespace Prism
                         var view = (IView)loader?.Load();
                         if (view == null)
                         {
-                            Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewWithPerspectiveAndModelType, perspective, controller.ModelType.FullName);
+                            Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewWithPerspectiveAndModelType, perspective, controllerModelType.FullName);
                             return;
                         }
 
