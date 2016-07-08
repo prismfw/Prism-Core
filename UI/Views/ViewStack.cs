@@ -45,6 +45,18 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
         public static readonly EventDescriptor PoppingEvent = EventDescriptor.Create(nameof(Popping), typeof(TypedEventHandler<ViewStack, ViewStackPoppingEventArgs>), typeof(ViewStack));
+
+        /// <summary>
+        /// Describes the <see cref="E:ViewChanged"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor ViewChangedEvent = EventDescriptor.Create(nameof(ViewChanged), typeof(TypedEventHandler<ViewStack>), typeof(ViewStack));
+
+        /// <summary>
+        /// Describes the <see cref="E:ViewChanging"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor ViewChangingEvent = EventDescriptor.Create(nameof(ViewChanging), typeof(TypedEventHandler<ViewStack, ViewStackViewChangingEventArgs>), typeof(ViewStack));
         #endregion
 
         #region Property Descriptors
@@ -60,6 +72,18 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
         public event TypedEventHandler<ViewStack, ViewStackPoppingEventArgs> Popping;
+
+        /// <summary>
+        /// Occurs when the current view of the view stack has changed.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<ViewStack> ViewChanged;
+
+        /// <summary>
+        /// Occurs when the current view of the view stack is being replaced by a different view.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<ViewStack, ViewStackViewChangingEventArgs> ViewChanging;
 
         /// <summary>
         /// Gets the view that is currently on top of the stack.
@@ -131,6 +155,16 @@ namespace Prism.UI
                 var args = new ViewStackPoppingEventArgs(ObjectRetriever.GetAgnosticObject(e.View) as IView);
                 OnPopping(args);
                 e.Cancel = args.Cancel;
+            };
+
+            nativeObject.ViewChanged += (o, e) =>
+            {
+                OnViewChanged(e);
+            };
+
+            nativeObject.ViewChanging += (o, e) =>
+            {
+                OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView, ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
             };
 
             Header = new ViewStackHeader(nativeObject.Header);
@@ -373,6 +407,24 @@ namespace Prism.UI
         protected virtual void OnPopping(ViewStackPoppingEventArgs e)
         {
             Popping?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Called when the current view of the view stack has changed and raises the <see cref="ViewChanged"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing the event details.</param>
+        protected virtual void OnViewChanged(EventArgs e)
+        {
+            ViewChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Called when the current view of the view stack is being replaced by a different view and raises the <see cref="ViewChanging"/> event.
+        /// </summary>
+        /// <param name="e">The event arguments containing the event details.</param>
+        protected virtual void OnViewChanging(ViewStackViewChangingEventArgs e)
+        {
+            ViewChanging?.Invoke(this, e);
         }
     }
 }

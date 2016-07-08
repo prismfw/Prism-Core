@@ -39,6 +39,16 @@ namespace Prism.Native
         event EventHandler<NativeViewStackPoppingEventArgs> Popping;
 
         /// <summary>
+        /// Occurs when the current view of the view stack has changed.
+        /// </summary>
+        event EventHandler ViewChanged;
+
+        /// <summary>
+        /// Occurs when the current view of the view stack is being replaced by a different view.
+        /// </summary>
+        event EventHandler<NativeViewStackViewChangingEventArgs> ViewChanging;
+
+        /// <summary>
         /// Gets the view that is currently on top of the stack.
         /// </summary>
         object CurrentView { get; }
