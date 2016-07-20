@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using Prism.Native;
 using Prism.Systems;
@@ -37,6 +38,7 @@ namespace Prism
     /// <summary>
     /// Represents a cross-platform application.  This class is abstract.
     /// </summary>
+    [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "Class is sufficiently maintainable.")]
     public abstract class Application : FrameworkObject
     {
         #region Property Descriptors
@@ -98,7 +100,10 @@ namespace Prism
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
         private static readonly Dictionary<ViewAttribute, TypeLoader> viewMap = new Dictionary<ViewAttribute,TypeLoader>();
-
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private static bool isNavigating;
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
@@ -189,8 +194,23 @@ namespace Prism
                 }
             }
 
-            Current.LastNavigationContext = context;
-            LoadController(loader.Load() as IController, options, fromView);
+            if (fromView == null)
+            {
+                LoadController(loader.Load() as IController, options, context, fromView);
+            }
+            else
+            {
+                var syncContext = SynchronizationContext.Current;
+                Current.BeginInvokeOnMainThread(() =>
+                {
+                    context.OriginatingPanes |= GetViewPane(fromView);
+                    syncContext.Post((state) =>
+                    {
+                        var array = (object[])state;
+                        LoadController(array[0] as IController, (NavigationOptions)array[1], (NavigationContext)array[2], (IView)array[3]);
+                    }, new object[] { loader.Load(), options, context, fromView });
+                });
+            }
         }
 
         /// <summary>
@@ -241,10 +261,25 @@ namespace Prism
                     context.Parameters[key] = options.Parameters[key];
                 }
             }
-            Current.LastNavigationContext = context;
 
             var loader = controllerMap.FirstOrDefault(e => e.Key.UriPattern == null && e.Value.InstanceType == controllerType).Value;
-            LoadController((loader == null ? Activator.CreateInstance(controllerType) : loader.Load()) as IController, options, fromView);
+            if (fromView == null)
+            {
+                LoadController((loader == null ? Activator.CreateInstance(controllerType) : loader.Load()) as IController, options, context, fromView);
+            }
+            else
+            {
+                var syncContext = SynchronizationContext.Current;
+                Current.BeginInvokeOnMainThread(() =>
+                {
+                    context.OriginatingPanes |= GetViewPane(fromView);
+                    syncContext.Post((state) =>
+                    {
+                        var array = (object[])state;
+                        LoadController(array[0] as IController, (NavigationOptions)array[1], (NavigationContext)array[2], (IView)array[3]);
+                    }, new object[] { loader == null ? Activator.CreateInstance(controllerType) : loader.Load(), options, context, fromView });
+                });
+            }
         }
         #endregion
 
@@ -629,6 +664,67 @@ namespace Prism
             appInstance.OnInitialized();
         }
 
+        private static bool CheckPaneForView(object paneContent, IView view)
+        {
+            return paneContent == view || ((paneContent as ViewStack)?.Views.Contains(view) ?? false);
+        }
+
+        private static Panes GetViewPane(IView view)
+        {
+            var parent = VisualTreeHelper.GetParent(view, (o) => o is Window || o is SplitView || o is TabbedSplitView || o is Popup);
+            if (parent is Window)
+            {
+                return Panes.Master;
+            }
+
+            if (parent is Popup)
+            {
+                return Panes.Popup;
+            }
+
+            var splitView = parent as SplitView;
+            if (splitView != null)
+            {
+                if (CheckPaneForView(splitView.MasterContent, view))
+                {
+                    return Panes.Master;
+                }
+                else if (CheckPaneForView(splitView.DetailContent, view))
+                {
+                    return Panes.Detail;
+                }
+            }
+
+            var tabView = Window.Current.Content as TabbedSplitView;
+            if (tabView != null)
+            {
+                if (CheckPaneForView(tabView.DetailContent, view))
+                {
+                    return Panes.Detail;
+                }
+
+                var tabItem = tabView.TabItems[tabView.SelectedIndex];
+                if (CheckPaneForView(tabItem.Content, view))
+                {
+                    return Panes.Master;
+                }
+
+                for (int i = 0; i < tabView.TabItems.Count; i++)
+                {
+                    if (i != tabView.SelectedIndex)
+                    {
+                        tabItem = tabView.TabItems[i];
+                        if (CheckPaneForView(tabItem.Content, view))
+                        {
+                            return Panes.Master;
+                        }
+                    }
+                }
+            }
+
+            return Panes.Unknown;
+        }
+
         private static bool IsMatch(string[] uriParts, string[] patternParts)
         {
             // the URI is considered a match to the pattern if they have equal parts and non-parameter parts are equal.
@@ -650,7 +746,7 @@ namespace Prism
             return true;
         }
 
-        private static void LoadController(IController controller, NavigationOptions options, IView fromView)
+        private static void LoadController(IController controller, NavigationOptions options, NavigationContext context, IView fromView)
         {
             if (controller == null)
             {
@@ -660,15 +756,23 @@ namespace Prism
             Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.LoadingControllerOfType, controller.GetType().FullName);
 
             var current = Current;
-            var args = new CancelEventArgs();
-            current.OnControllerLoading(controller, fromView, args);
-            if (args.Cancel)
-            {
-                return;
-            }
-
             lock (current)
             {
+                if (isNavigating)
+                {
+                    context.OriginatingPanes |= current.lastNavigatedContext.OriginatingPanes;
+                }
+
+                isNavigating = true;
+                current.LastNavigationContext = context;
+
+                var args = new CancelEventArgs();
+                current.OnControllerLoading(controller, fromView, args);
+                if (args.Cancel)
+                {
+                    return;
+                }
+
                 current.BeginInvokeOnMainThread(() => current.BeginIgnoringUserInput());
 
                 Task.Run(async () =>
@@ -696,7 +800,7 @@ namespace Prism
                     string perspective = null;
                     try
                     {
-                        perspective = await controller.LoadAsync(new NavigationContext(current.LastNavigationContext));
+                        perspective = await controller.LoadAsync(new NavigationContext(context));
                         if (controller.ModelType == null)
                         {
                             throw new InvalidOperationException(Resources.Strings.ControllerModelTypeCannotBeNull);
@@ -728,6 +832,7 @@ namespace Prism
                         return;
                     }
 
+                    isNavigating = false;
                     current.BeginInvokeOnMainThread(async () =>
                     {
                         LoadIndicator.DefaultIndicator.Hide();
@@ -784,7 +889,7 @@ namespace Prism
                         Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.ReadyToOutputViewOfType, view.GetType().FullName);
                         await view.ConfigureUIAsync();
 
-                        PresentView(view);
+                        PresentView(view, context);
                         current.OnViewPresented(view, controller);
                     });
                 });
@@ -792,7 +897,7 @@ namespace Prism
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
-        private static void PresentView(IView view)
+        private static void PresentView(IView view, NavigationContext context)
         {
             // Tab views and split views can only be the content of the main window.  Having them elsewhere is unsupported!
             if (view is TabView || view is SplitView)
@@ -884,7 +989,6 @@ namespace Prism
 
             if (PopToView(masterStack, view))
             {
-                detailStack?.PopToRoot(Animate.Off);
                 Window.Current.PresentedPopup?.Close();
                 return;
             }
@@ -925,9 +1029,24 @@ namespace Prism
                 masterStack.PushView(view, Animate.Default);
                 detailStack?.PopToRoot(Animate.Off);
             }
-            else
+            else if (detailStack != null)
             {
-                detailStack?.PushView(view, Animate.Default);
+                if (context.OriginatingPanes.HasFlag(Panes.Master))
+                {
+                    if (detailStack.Views.Count() > 1)
+                    {
+                        detailStack.InsertView(view, 1, Animate.Off);
+                        detailStack.PopToView(view, Animate.Off);
+                    }
+                    else
+                    {
+                        detailStack.PushView(view, Animate.Off);
+                    }
+                }
+                else
+                {
+                    detailStack.PushView(view, Animate.Default);
+                }
             }
         }
 

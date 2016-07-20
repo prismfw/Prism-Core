@@ -41,6 +41,12 @@ namespace Prism
         public string NavigatedUri { get; }
 
         /// <summary>
+        /// Gets the pane or panes from which the navigation originated.
+        /// This may contain multiple values if multiple navigations have been started since the last time a view has been presented.
+        /// </summary>
+        public Panes OriginatingPanes { get; internal set; }
+
+        /// <summary>
         /// Gets the parameters that are a part of the navigation.
         /// </summary>
         public NavigationParameterDictionary Parameters { get; }
@@ -49,6 +55,7 @@ namespace Prism
         {
             NavigatedUri = navigatedUri;
             NavigatedDateTime = DateTime.Now;
+            OriginatingPanes = Panes.Unknown;
             Parameters = new NavigationParameterDictionary();
         }
 
@@ -56,6 +63,7 @@ namespace Prism
         {
             NavigatedUri = context.NavigatedUri;
             NavigatedDateTime = context.NavigatedDateTime;
+            OriginatingPanes = context.OriginatingPanes;
             Parameters = new NavigationParameterDictionary();
             foreach (var key in context.Parameters.Keys)
             {
