@@ -53,6 +53,14 @@ namespace Prism.Systems
         /// <summary>
         /// The device is in landscape orientation and facing right.
         /// </summary>
-        LandscapeRight = 10
+        LandscapeRight = 10,
+        /// <summary>
+        /// The device is facing upward.
+        /// </summary>
+        FaceUp = 16,
+        /// <summary>
+        /// The device is facing downward.
+        /// </summary>
+        FaceDown = 32
     }
 }

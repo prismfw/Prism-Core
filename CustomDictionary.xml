@@ -11,6 +11,7 @@
             <Word>Unfocus</Word>
         </Recognized>
         <DiscreteExceptions>
+            <Term>FaceDown</Term>
             <Term>OneTime</Term>
         </DiscreteExceptions>
     </Words>
