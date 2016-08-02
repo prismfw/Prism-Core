@@ -70,7 +70,7 @@ namespace Prism
             set { items[key] = value; }
         }
 
-        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly IDictionary<string, object> items = new Dictionary<string, object>();
 
         /// <summary>
