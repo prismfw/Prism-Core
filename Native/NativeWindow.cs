@@ -47,9 +47,19 @@ namespace Prism.Native
         event EventHandler Deactivated;
 
         /// <summary>
+        /// Occurs when the orientation of the rendered content has changed.
+        /// </summary>
+        event EventHandler<DisplayOrientationChangedEventArgs> OrientationChanged;
+
+        /// <summary>
         /// Occurs when the size of the window has changed.
         /// </summary>
         event EventHandler<WindowSizeChangedEventArgs> SizeChanged;
+
+        /// <summary>
+        /// Gets or sets the preferred orientations in which to automatically rotate the window in response to orientation changes of the physical device.
+        /// </summary>
+        DisplayOrientations AutorotationPreferences { get; set; }
 
         /// <summary>
         /// Gets or sets the object that acts as the content of the window.
@@ -65,6 +75,11 @@ namespace Prism.Native
         /// Gets a value indicating whether this instance is currently visible.
         /// </summary>
         bool IsVisible { get; }
+
+        /// <summary>
+        /// Gets the current orientation of the rendered content within the window.
+        /// </summary>
+        DisplayOrientations Orientation { get; }
 
         /// <summary>
         /// Gets or sets the style for the window.

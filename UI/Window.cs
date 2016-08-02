@@ -52,6 +52,12 @@ namespace Prism.UI
         public static readonly EventDescriptor DeactivatedEvent = EventDescriptor.Create(nameof(Deactivated), typeof(TypedEventHandler<Window>), typeof(Window));
 
         /// <summary>
+        /// Describes the <see cref="E:OrientationChanged"/> event.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
+        public static readonly EventDescriptor OrientationChangedEvent = EventDescriptor.Create(nameof(OrientationChanged), typeof(TypedEventHandler<Window, DisplayOrientationChangedEventArgs>), typeof(Window));
+
+        /// <summary>
         /// Describes the <see cref="E:SizeChanged"/> event.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
@@ -88,10 +94,25 @@ namespace Prism.UI
         public event TypedEventHandler<Window> Deactivated;
 
         /// <summary>
+        /// Occurs when the orientation of the rendered content has changed.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
+        public event TypedEventHandler<Window, DisplayOrientationChangedEventArgs> OrientationChanged;
+
+        /// <summary>
         /// Occurs when the size of the window has changed.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
         public event TypedEventHandler<Window, WindowSizeChangedEventArgs> SizeChanged;
+
+        /// <summary>
+        /// Gets or sets the preferred orientations in which to automatically rotate the window in response to orientation changes of the physical device.
+        /// </summary>
+        public DisplayOrientations AutorotationPreferences
+        {
+            get { return nativeObject.AutorotationPreferences; }
+            set { nativeObject.AutorotationPreferences = value; }
+        }
 
         /// <summary>
         /// Gets or sets the object that acts as the content of the window.
@@ -145,6 +166,14 @@ namespace Prism.UI
         }
 
         /// <summary>
+        /// Gets the current orientation of the rendered content within the window.
+        /// </summary>
+        public DisplayOrientations Orientation
+        {
+            get { return nativeObject.Orientation; }
+        }
+
+        /// <summary>
         /// Gets the popup that is currently being presented by the window.
         /// </summary>
         public Popup PresentedPopup { get; internal set; }
@@ -184,7 +213,10 @@ namespace Prism.UI
             nativeObject.Activated += (o, e) => OnActivated(e);
             nativeObject.Closing += (o, e) => OnClosing(e);
             nativeObject.Deactivated += (o, e) => OnDeactivated(e);
+            nativeObject.OrientationChanged += (o, e) => OnOrientationChanged(e);
             nativeObject.SizeChanged += (o, e) => OnSizeChanged(e);
+
+            AutorotationPreferences = DisplayOrientations.Portrait | DisplayOrientations.Landscape;
         }
 
         /// <summary>
@@ -246,6 +278,11 @@ namespace Prism.UI
         private void OnDeactivated(EventArgs e)
         {
             Deactivated?.Invoke(this, e);
+        }
+
+        private void OnOrientationChanged(DisplayOrientationChangedEventArgs e)
+        {
+            OrientationChanged?.Invoke(this, e);
         }
 
         private void OnSizeChanged(WindowSizeChangedEventArgs e)
