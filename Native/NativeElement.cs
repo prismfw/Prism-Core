@@ -53,6 +53,11 @@ namespace Prism.Native
         event EventHandler<PointerEventArgs> PointerReleased;
 
         /// <summary>
+        /// Gets or sets the level of opacity for the element.
+        /// </summary>
+        double Opacity { get; set; }
+
+        /// <summary>
         /// Gets or sets the display state of the element.
         /// </summary>
         Visibility Visibility { get; set; }

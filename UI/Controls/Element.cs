@@ -109,6 +109,12 @@ namespace Prism.UI.Controls
         public static readonly PropertyDescriptor NameProperty = PropertyDescriptor.Create(nameof(Name), typeof(string), typeof(Element));
 
         /// <summary>
+        /// Describes the <see cref="P:Opacity"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor OpacityProperty = PropertyDescriptor.Create(nameof(Opacity), typeof(double), typeof(Element));
+
+        /// <summary>
         /// Describes the <see cref="P:VerticalAlignment"/> property.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
@@ -349,6 +355,15 @@ namespace Prism.UI.Controls
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string name;
+
+        /// <summary>
+        /// Gets or sets the level of opacity for the element.
+        /// </summary>
+        public double Opacity
+        {
+            get { return nativeObject.Opacity; }
+            set { nativeObject.Opacity = Math.Max(0, Math.Min(1, value)); }
+        }
 
         /// <summary>
         /// Gets or sets the manner in which the element is vertically aligned within its allocated space.
