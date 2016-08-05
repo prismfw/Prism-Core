@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using Prism.UI.Controls;
+using Prism.UI.Media;
 
 namespace Prism.Native
 {
@@ -34,6 +35,11 @@ namespace Prism.Native
         /// Occurs when the value of the toggle switch is changed.
         /// </summary>
         event EventHandler ValueChanged;
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control.
+        /// </summary>
+        Brush ThumbBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the toggle switch.

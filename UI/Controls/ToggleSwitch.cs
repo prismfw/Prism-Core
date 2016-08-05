@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.UI.Media;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -45,6 +46,12 @@ namespace Prism.UI.Controls
 
         #region Property Descriptors
         /// <summary>
+        /// Describes the <see cref="P:ThumbBrush"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor ThumbBrushProperty = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(ToggleSwitch));
+
+        /// <summary>
         /// Describes the <see cref="P:Value"/> property.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
@@ -56,7 +63,16 @@ namespace Prism.UI.Controls
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
         public event TypedEventHandler<ToggleSwitch> ValueChanged;
-        
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control.
+        /// </summary>
+        public Brush ThumbBrush
+        {
+            get { return nativeObject.ThumbBrush; }
+            set { nativeObject.ThumbBrush = value; }
+        }
+
         /// <summary>
         /// Gets or sets the value of the toggle switch.
         /// </summary>
