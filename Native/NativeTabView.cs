@@ -53,6 +53,11 @@ namespace Prism.Native
         int SelectedIndex { get; set; }
 
         /// <summary>
+        /// Gets the size and location of the bar that contains the tab items.
+        /// </summary>
+        Rectangle TabBarFrame { get; }
+
+        /// <summary>
         /// Gets a list of the tab items that are a part of the view.
         /// </summary>
         IList TabItems { get; }

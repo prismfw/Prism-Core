@@ -178,6 +178,17 @@ namespace Prism.UI
         /// <returns>The final rendering size of the object as a <see cref="Size"/> instance.</returns>
         protected override Size ArrangeOverride(Size constraints)
         {
+            var retVal = constraints;
+            var tabBarFrame = nativeObject.TabBarFrame;
+            if (tabBarFrame.Height > tabBarFrame.Width)
+            {
+                constraints.Width -= tabBarFrame.Width;
+            }
+            else
+            {
+                constraints.Height -= tabBarFrame.Height;
+            }
+
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
@@ -188,7 +199,7 @@ namespace Prism.UI
                 }
             }
 
-            return constraints;
+            return retVal;
         }
 
         /// <summary>
@@ -198,6 +209,17 @@ namespace Prism.UI
         /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
         protected override Size MeasureOverride(Size constraints)
         {
+            var retVal = constraints;
+            var tabBarFrame = nativeObject.TabBarFrame;
+            if (tabBarFrame.Height > tabBarFrame.Width)
+            {
+                constraints.Width -= tabBarFrame.Width;
+            }
+            else
+            {
+                constraints.Height -= tabBarFrame.Height;
+            }
+
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
@@ -208,7 +230,7 @@ namespace Prism.UI
                 }
             }
 
-            return constraints;
+            return retVal;
         }
 
         /// <summary>

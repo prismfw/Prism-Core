@@ -217,20 +217,36 @@ namespace Prism.UI
         /// <returns>The final rendering size of the object as a <see cref="Size"/> instance.</returns>
         protected override Size ArrangeOverride(Size constraints)
         {
+            Size masterSize = new Size(ActualMasterWidth, constraints.Height);
+            Size detailSize = new Size(ActualDetailWidth, constraints.Height);
+
+            var tabBarFrame = nativeObject.TabBarFrame;
+            if (tabBarFrame.Height < tabBarFrame.Width)
+            {
+                if (tabBarFrame.X <= ActualMasterWidth)
+                {
+                    masterSize.Height -= tabBarFrame.Height;
+                }
+                if (tabBarFrame.X > ActualMasterWidth || tabBarFrame.Width > ActualMasterWidth)
+                {
+                    detailSize.Height -= tabBarFrame.Height;
+                }
+            }
+
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
                 var masterVisual = tab.Content as Visual;
                 if (masterVisual != null && (tab == currentTab || masterVisual.IsLoaded))
                 {
-                    masterVisual.Arrange(new Rectangle(0, 0, ActualMasterWidth, constraints.Height));
+                    masterVisual.Arrange(new Rectangle(new Point(), masterSize));
                 }
             }
 
             var detailVisual = (DetailContent as Visual);
             if (detailVisual != null)
             {
-                detailVisual.Arrange(new Rectangle(0, 0, ActualDetailWidth, constraints.Height));
+                detailVisual.Arrange(new Rectangle(new Point(), detailSize));
             }
 
             return constraints;
@@ -243,20 +259,36 @@ namespace Prism.UI
         /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
         protected override Size MeasureOverride(Size constraints)
         {
+            Size masterConstraints = new Size(ActualMasterWidth, constraints.Height);
+            Size detailConstraints = new Size(ActualDetailWidth, constraints.Height);
+
+            var tabBarFrame = nativeObject.TabBarFrame;
+            if (tabBarFrame.Height < tabBarFrame.Width)
+            {
+                if (tabBarFrame.X <= ActualMasterWidth)
+                {
+                    masterConstraints.Height -= tabBarFrame.Height;
+                }
+                if (tabBarFrame.X > ActualMasterWidth || tabBarFrame.Width > ActualMasterWidth)
+                {
+                    detailConstraints.Height -= tabBarFrame.Height;
+                }
+            }
+
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
                 var masterVisual = tab.Content as Visual;
                 if (masterVisual != null && (tab == currentTab || masterVisual.IsLoaded))
                 {
-                    masterVisual.Measure(new Size(ActualMasterWidth, constraints.Height));
+                    masterVisual.Measure(masterConstraints);
                 }
             }
 
             var detailVisual = (DetailContent as Visual);
             if (detailVisual != null)
             {
-                detailVisual.Measure(new Size(ActualDetailWidth, constraints.Height));
+                detailVisual.Measure(detailConstraints);
             }
 
             return constraints;
