@@ -193,7 +193,7 @@ namespace Prism
         /// <returns><c>true</c> if the rectangle contains the <paramref name="point"/>; otherwise, <c>false</c>.</returns>
         public bool Contains(Point point)
         {
-            return X <= point.X && Y <= point.Y && Width >= point.X && Height >= point.Y;
+            return X <= point.X && Y <= point.Y && Right >= point.X && Bottom >= point.Y;
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Prism
         /// <returns><c>true</c> if the current rectangle contains the specified rectangle; otherwise, <c>false</c>.</returns>
         public bool Contains(Rectangle rect)
         {
-            return X <= rect.X && Y <= rect.Y && Width >= rect.Width && Height >= rect.Height;
+            return X <= rect.X && Y <= rect.Y && Right >= rect.Right && Bottom >= rect.Bottom;
         }
 
         /// <summary>
