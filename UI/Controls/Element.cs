@@ -359,10 +359,19 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets the level of opacity for the element.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public double Opacity
         {
             get { return nativeObject.Opacity; }
-            set { nativeObject.Opacity = Math.Max(0, Math.Min(1, value)); }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(Opacity));
+                }
+
+                nativeObject.Opacity = Math.Max(0, Math.Min(1, value));
+            }
         }
 
         /// <summary>
