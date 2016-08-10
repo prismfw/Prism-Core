@@ -220,7 +220,7 @@
     <value>Null reuse identifier returned.</value>
   </data>
   <data name="NullViewPerspectiveReturned" xml:space="preserve">
-    <value>Null view perspective given.  Cannot output a view.</value>
+    <value>Null view perspective given.  Cannot output a view.  If this was intentional, then this message can be ignored.</value>
   </data>
   <data name="ObjectIsNotADescendant" xml:space="preserve">
     <value>Object is not a descendant of this instance.</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="SizeContainsNegativeValue" xml:space="preserve">
     <value>Size contains a negative value.</value>
+  </data>
+  <data name="Identity" xml:space="preserve">
+    <value>Identity</value>
   </data>
 </root>

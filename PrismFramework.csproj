@@ -47,6 +47,7 @@
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
     <Compile Include="MVC\ViewStackChild.cs" />
+    <Compile Include="Native\NativeTransform.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
     <Compile Include="Native\NativeViewStackViewChangingEventArgs.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
@@ -94,6 +95,13 @@
     <Compile Include="UI\Media\Imaging\BitmapImage.cs" />
     <Compile Include="UI\Media\Imaging\RenderTargetBitmap.cs" />
     <Compile Include="UI\Media\Inking\InkStrokeContainer.cs" />
+    <Compile Include="UI\Media\Matrix.cs" />
+    <Compile Include="UI\Media\RotateTransform.cs" />
+    <Compile Include="UI\Media\MatrixTransform.cs" />
+    <Compile Include="UI\Media\SkewTransform.cs" />
+    <Compile Include="UI\Media\Transform.cs" />
+    <Compile Include="UI\Media\ScaleTransform.cs" />
+    <Compile Include="UI\Media\TranslateTransform.cs" />
     <Compile Include="UI\PopupPresentationStyle.cs" />
     <Compile Include="UI\Media\AudioPlayer.cs" />
     <Compile Include="UI\Scrollable.cs" />

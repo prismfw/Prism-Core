@@ -26,6 +26,7 @@ using System.Globalization;
 using Prism.Data;
 using Prism.Native;
 using Prism.UI.Controls;
+using Prism.UI.Media;
 
 namespace Prism.UI
 {
@@ -91,6 +92,12 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
         public static readonly PropertyDescriptor RenderSizeProperty = PropertyDescriptor.Create(nameof(RenderSize), typeof(Size), typeof(Visual), true);
+
+        /// <summary>
+        /// Describes the <see cref="P:RenderTransform"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor RenderTransformProperty = PropertyDescriptor.Create(nameof(RenderTransform), typeof(Transform), typeof(Visual));
 
         /// <summary>
         /// Describes the <see cref="P:Tag"/> property.  This field is read-only.
@@ -193,6 +200,15 @@ namespace Prism.UI
         /// Gets the rendering size of this instance.
         /// </summary>
         public Size RenderSize { get; private set; }
+
+        /// <summary>
+        /// Gets or sets transformation information that affects the rendering position of this instance.
+        /// </summary>
+        public Transform RenderTransform
+        {
+            get { return ObjectRetriever.GetAgnosticObject(nativeObject.RenderTransform) as Transform; }
+            set { nativeObject.RenderTransform = ObjectRetriever.GetNativeObject(value) as INativeTransform; }
+        }
 
         /// <summary>
         /// Gets or sets an arbitrary object that can be used for attaching custom information to this instance.

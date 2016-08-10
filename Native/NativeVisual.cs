@@ -86,6 +86,11 @@ namespace Prism.Native
         MeasureRequestHandler MeasureRequest { get; set; }
 
         /// <summary>
+        /// Gets or sets transformation information that affects the rendering position of this instance.
+        /// </summary>
+        INativeTransform RenderTransform { get; set; }
+
+        /// <summary>
         /// Invalidates the arrangement of this instance's children.
         /// </summary>
         void InvalidateArrange();

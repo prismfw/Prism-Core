@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
+    using System;
     using System.Reflection;
     
     
@@ -268,6 +269,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identity.
+        /// </summary>
+        internal static string Identity {
+            get {
+                return ResourceManager.GetString("Identity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NaN or infinity height returned from arrangement..
         /// </summary>
         internal static string InvalidHeightReturnedFromArrangement {
@@ -394,7 +404,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Null view perspective given.  Cannot output a view..
+        ///   Looks up a localized string similar to Null view perspective given.  Cannot output a view.  If this was intentional, then this message can be ignored..
         /// </summary>
         internal static string NullViewPerspectiveReturned {
             get {
