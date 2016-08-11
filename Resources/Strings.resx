@@ -345,4 +345,7 @@
   <data name="Identity" xml:space="preserve">
     <value>Identity</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
 </root>

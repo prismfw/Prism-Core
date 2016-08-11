@@ -129,16 +129,16 @@ namespace Prism.UI
         {
             if (GridUnitType == GridUnitType.Auto)
             {
-                return "{Auto}";
+                return Resources.Strings.Auto;
             }
 
-            string value = "{" + Value.ToString(CultureInfo.CurrentCulture);
+            string value = Value.ToString(CultureInfo.CurrentCulture);
             if (GridUnitType == GridUnitType.Star)
             {
                 value += "*";
             }
 
-            return value + "}";
+            return value;
         }
 
         /// <summary>
