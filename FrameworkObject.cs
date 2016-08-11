@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -27,6 +28,10 @@ using System.Linq;
 using System.Reflection;
 using Prism.Native;
 using Prism.Utilities;
+
+#if !DEBUG
+using System.Diagnostics;
+#endif
 
 namespace Prism
 {
@@ -37,6 +42,11 @@ namespace Prism
     public abstract class FrameworkObject
     {
         internal event PropertyChangedEventHandler PropertyChanged;
+
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private readonly Dictionary<PropertyDescriptor, PropertyValueChangedCallback> changeCallbacks = new Dictionary<PropertyDescriptor, PropertyValueChangedCallback>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameworkObject"/> class.
@@ -149,6 +159,38 @@ namespace Prism
             {
                 AddHandler(@event, handler);
             }
+        }
+
+        /// <summary>
+        /// Registers a handler to be called when the property described by the specified <see cref="PropertyDescriptor"/> is changed.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property for which to register the callback.</param>
+        /// <param name="callback">The handler to be called when the value of the property is changed.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c> -or- when <paramref name="callback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="property"/> does not describe a valid property on this instance.</exception>
+        public void RegisterPropertyChangedCallback(PropertyDescriptor property, PropertyValueChangedCallback callback)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (callback == null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            if (!property.OwnerType.GetTypeInfo().IsAssignableFrom(GetType().GetTypeInfo()))
+            {
+                throw new ArgumentException(Resources.Strings.OwnerTypeDoesNotMatchCurrentType, nameof(property));
+            }
+
+            PropertyValueChangedCallback pvc;
+            if (changeCallbacks.TryGetValue(property, out pvc))
+            {
+                callback = pvc + callback;
+            }
+            changeCallbacks[property] = callback;
         }
 
         /// <summary>
@@ -298,6 +340,45 @@ namespace Prism
         }
 
         /// <summary>
+        /// Unregisters a previously registered callback from the property described by the specified <see cref="PropertyDescriptor"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property from which to unregister the callback.</param>
+        /// <param name="callback">The handler to be unregistered.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c> -or- when <paramref name="callback"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="property"/> does not describe a valid property on this instance.</exception>
+        public void UnregisterPropertyChangedCallback(PropertyDescriptor property, PropertyValueChangedCallback callback)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (callback == null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            if (!property.OwnerType.GetTypeInfo().IsAssignableFrom(GetType().GetTypeInfo()))
+            {
+                throw new ArgumentException(Resources.Strings.OwnerTypeDoesNotMatchCurrentType, nameof(property));
+            }
+
+            PropertyValueChangedCallback pvc;
+            if (changeCallbacks.TryGetValue(property, out pvc))
+            {
+                pvc -= callback;
+                if (pvc == null)
+                {
+                    changeCallbacks.Remove(property);
+                }
+                else
+                {
+                    changeCallbacks[property] = pvc;
+                }
+            }
+        }
+
+        /// <summary>
         /// Called when a property value is changed.  Derived classes should invoke this method when their own property values are changed.
         /// </summary>
         /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property whose value has changed.</param>
@@ -311,24 +392,28 @@ namespace Prism
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property.Name));
 
             var metadata = property.GetMetadata(GetType()) as FrameworkPropertyMetadata;
-            if (metadata == null)
+            metadata?.ValueChangedCallback?.Invoke(this, property);
+
+            PropertyValueChangedCallback pvc;
+            if (changeCallbacks.TryGetValue(property, out pvc))
             {
-                return;
+                pvc?.Invoke(this, property);
             }
 
-            metadata.ValueChangedCallback?.Invoke(this, property);
-
-            var visual = this as UI.Visual;
-            if (visual != null)
+            if (metadata != null)
             {
-                if (metadata.AffectsMeasure)
+                var visual = this as UI.Visual;
+                if (visual != null)
                 {
-                    visual.InvalidateMeasure();
-                }
+                    if (metadata.AffectsMeasure)
+                    {
+                        visual.InvalidateMeasure();
+                    }
 
-                if (metadata.AffectsArrange)
-                {
-                    visual.InvalidateArrange();
+                    if (metadata.AffectsArrange)
+                    {
+                        visual.InvalidateArrange();
+                    }
                 }
             }
         }
