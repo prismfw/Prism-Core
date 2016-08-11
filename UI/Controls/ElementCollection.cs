@@ -136,6 +136,24 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Adds a range of UI elements to the collection.
+        /// </summary>
+        /// <param name="items">The UI elements to be added.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="items"/> is <c>null</c>.</exception>
+        public void AddRange(IEnumerable<Element> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            foreach (var item in items)
+            {
+                nativeObject.Children.Add(ObjectRetriever.GetNativeObject(item));
+            }
+        }
+
+        /// <summary>
         /// Removes all UI elements from the collection.
         /// </summary>
         public void Clear()

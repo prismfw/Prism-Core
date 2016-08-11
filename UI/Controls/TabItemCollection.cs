@@ -119,6 +119,24 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Adds a range of tab items to the collection.
+        /// </summary>
+        /// <param name="items">The tab items to be added.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="items"/> is <c>null</c>.</exception>
+        public void AddRange(IEnumerable<TabItem> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            foreach (var item in items)
+            {
+                nativeObject.TabItems.Add(ObjectRetriever.GetNativeObject(item));
+            }
+        }
+
+        /// <summary>
         /// Removes all tab items from the collection.
         /// </summary>
         public void Clear()

@@ -119,6 +119,24 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Adds a range of menu items to the collection.
+        /// </summary>
+        /// <param name="items">The menu items to be added.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="items"/> is <c>null</c>.</exception>
+        public void AddRange(IEnumerable<MenuItem> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            foreach (var item in items)
+            {
+                nativeObject.Items.Add(ObjectRetriever.GetNativeObject(item));
+            }
+        }
+
+        /// <summary>
         /// Removes all menu items from the collection.
         /// </summary>
         public void Clear()
