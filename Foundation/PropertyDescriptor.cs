@@ -83,7 +83,8 @@ namespace Prism
         internal PropertyDescriptor(PropertyInfo info)
         {
             propertyInfo = info;
-            typeMetadatas[info.DeclaringType] = new PropertyMetadata(PropertyMetadataOptions.None);
+            typeMetadatas[info.DeclaringType] = info.DeclaringType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject)) ?
+                new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None) : new PropertyMetadata(PropertyMetadataOptions.None);
 
             IsReadOnly = info.SetMethod == null || (!info.SetMethod.IsPublic && info.Module == GetType().GetTypeInfo().Module);
         }
@@ -98,10 +99,23 @@ namespace Prism
 
             IsReadOnly = isReadOnly;
 
+            bool isFOSubclass = ownerType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject));
             if (metadata == null)
             {
-                metadata = new PropertyMetadata(PropertyMetadataOptions.None);
+                metadata = isFOSubclass ? new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None) : new PropertyMetadata(PropertyMetadataOptions.None);
             }
+            else if (isFOSubclass && !(metadata is FrameworkPropertyMetadata))
+            {
+                var fwMetadata = new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None);
+                fwMetadata.Merge(metadata, this);
+                metadata = fwMetadata;
+            }
+            else if (!isFOSubclass && metadata is FrameworkPropertyMetadata)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.MetadataCanOnlyBeAppliedToPropertiesOwnedByType,
+                    typeof(FrameworkPropertyMetadata).FullName, typeof(FrameworkObject).FullName));
+            }
+
             typeMetadatas[ownerType] = metadata;
             metadata.OnApply(this, null);
             metadata.IsSealed = true;
@@ -217,7 +231,7 @@ namespace Prism
                 if (typeMetadatas.TryGetValue(forType, out metadata))
                 {
                     return metadata;
-                };
+                }
 
                 forType = forType.GetTypeInfo().BaseType;
             }

@@ -348,4 +348,7 @@
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
+  <data name="MetadataCanOnlyBeAppliedToPropertiesOwnedByType" xml:space="preserve">
+    <value>Metadata of type {0} can only be applied to properties owned by types that are derived from {1}.</value>
+  </data>
 </root>

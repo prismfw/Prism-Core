@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
-    using System;
     using System.Reflection;
     
     
@@ -346,6 +345,15 @@ namespace Prism.Resources {
         internal static string MatchedURIWithPattern {
             get {
                 return ResourceManager.GetString("MatchedURIWithPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metadata of type {0} can only be applied to properties owned by types that are derived from {1}..
+        /// </summary>
+        internal static string MetadataCanOnlyBeAppliedToPropertiesOwnedByType {
+            get {
+                return ResourceManager.GetString("MetadataCanOnlyBeAppliedToPropertiesOwnedByType", resourceCulture);
             }
         }
         
