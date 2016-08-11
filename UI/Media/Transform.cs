@@ -23,6 +23,10 @@ using System;
 using System.Globalization;
 using Prism.Native;
 
+#if !DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Prism.UI.Media
 {
     /// <summary>
