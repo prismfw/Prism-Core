@@ -77,8 +77,22 @@ namespace Prism
         /// <summary>
         /// Gets or sets a method to invoke whenever the value of the property changes.
         /// </summary>
-        public PropertyValueChangedCallback ValueChangedCallback { get; set; }
-        
+        public PropertyValueChangedCallback ValueChangedCallback
+        {
+            get { return valueChangedCallback; }
+            set
+            {
+                if (IsSealed)
+                {
+                    throw new InvalidOperationException(Resources.Strings.PropertyMetadataHasBeenSealed);
+                }
+
+                valueChangedCallback = value;
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private PropertyValueChangedCallback valueChangedCallback;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameworkPropertyMetadata"/> class.
         /// </summary>
@@ -144,7 +158,7 @@ namespace Prism
                     affectsMeasure = fwMetadata.affectsMeasure;
                 }
                 
-                ValueChangedCallback += fwMetadata.ValueChangedCallback;
+                valueChangedCallback += fwMetadata.valueChangedCallback;
             }
         }
     }
