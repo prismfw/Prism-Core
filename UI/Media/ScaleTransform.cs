@@ -32,28 +32,24 @@ namespace Prism.UI.Media
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:CenterX"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CenterX"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CenterXProperty = PropertyDescriptor.Create(nameof(CenterX), typeof(double), typeof(ScaleTransform));
+        public static PropertyDescriptor CenterXProperty { get; } = PropertyDescriptor.Create(nameof(CenterX), typeof(double), typeof(ScaleTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:CenterY"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CenterY"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CenterYProperty = PropertyDescriptor.Create(nameof(CenterY), typeof(double), typeof(ScaleTransform));
+        public static PropertyDescriptor CenterYProperty { get; } = PropertyDescriptor.Create(nameof(CenterY), typeof(double), typeof(ScaleTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:ScaleX"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ScaleX"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ScaleXProperty = PropertyDescriptor.Create(nameof(ScaleX), typeof(double), typeof(ScaleTransform));
+        public static PropertyDescriptor ScaleXProperty { get; } = PropertyDescriptor.Create(nameof(ScaleX), typeof(double), typeof(ScaleTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:ScaleY"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ScaleY"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ScaleYProperty = PropertyDescriptor.Create(nameof(ScaleY), typeof(double), typeof(ScaleTransform));
+        public static PropertyDescriptor ScaleYProperty { get; } = PropertyDescriptor.Create(nameof(ScaleY), typeof(double), typeof(ScaleTransform));
         #endregion
 
         /// <summary>

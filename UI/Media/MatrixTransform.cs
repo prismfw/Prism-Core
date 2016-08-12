@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Prism.UI.Media
 {
     /// <summary>
@@ -30,10 +28,9 @@ namespace Prism.UI.Media
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Matrix"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Matrix"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MatrixProperty = PropertyDescriptor.Create(nameof(Matrix), typeof(Matrix), typeof(MatrixTransform));
+        public static PropertyDescriptor MatrixProperty { get; } = PropertyDescriptor.Create(nameof(Matrix), typeof(Matrix), typeof(MatrixTransform));
         #endregion
 
         /// <summary>

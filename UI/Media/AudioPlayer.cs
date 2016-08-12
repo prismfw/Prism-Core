@@ -37,34 +37,29 @@ namespace Prism.UI.Media
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:AudioFailed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:AudioFailed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor AudioFailedEvent = EventDescriptor.Create(nameof(AudioFailed), typeof(TypedEventHandler<AudioPlayer, ErrorEventArgs>), typeof(AudioPlayer));
+        public static EventDescriptor AudioFailedEvent { get; } = EventDescriptor.Create(nameof(AudioFailed), typeof(TypedEventHandler<AudioPlayer, ErrorEventArgs>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Describes the <see cref="E:BufferingCompleted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BufferingCompleted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor BufferingCompletedEvent = EventDescriptor.Create(nameof(BufferingCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor BufferingCompletedEvent { get; } = EventDescriptor.Create(nameof(BufferingCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Describes the <see cref="E:BufferingStarted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BufferingStarted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor BufferingStartedEvent = EventDescriptor.Create(nameof(BufferingStarted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor BufferingStartedEvent { get; } = EventDescriptor.Create(nameof(BufferingStarted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Describes the <see cref="E:PlaybackCompleted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PlaybackCompleted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PlaybackCompletedEvent = EventDescriptor.Create(nameof(PlaybackCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor PlaybackCompletedEvent { get; } = EventDescriptor.Create(nameof(PlaybackCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Describes the <see cref="E:PlaybackStarted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PlaybackStarted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PlaybackStartedEvent = EventDescriptor.Create(nameof(PlaybackStarted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor PlaybackStartedEvent { get; } = EventDescriptor.Create(nameof(PlaybackStarted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
         #endregion
 
         /// <summary>

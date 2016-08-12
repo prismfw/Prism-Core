@@ -60,40 +60,34 @@ namespace Prism.UI
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Background"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BackgroundProperty = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ContentView));
+        public static PropertyDescriptor BackgroundProperty { get; } = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ContentView));
 
         /// <summary>
-        /// Describes the <see cref="P:Content"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Content"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentProperty = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ContentView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ContentView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:IsBackButtonEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsBackButtonEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsBackButtonEnabledProperty = PropertyDescriptor.Create(nameof(IsBackButtonEnabled), typeof(bool), typeof(ContentView));
+        public static PropertyDescriptor IsBackButtonEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsBackButtonEnabled), typeof(bool), typeof(ContentView));
 
         /// <summary>
-        /// Describes the <see cref="P:Menu"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Menu"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MenuProperty = PropertyDescriptor.Create(nameof(Menu), typeof(ActionMenu), typeof(ContentView));
+        public static PropertyDescriptor MenuProperty { get; } = PropertyDescriptor.Create(nameof(Menu), typeof(ActionMenu), typeof(ContentView));
 
         /// <summary>
-        /// Describes the <see cref="P:StackId"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:StackId"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor StackIdProperty = PropertyDescriptor.Create(nameof(StackId), typeof(string), typeof(ContentView));
+        public static PropertyDescriptor StackIdProperty { get; } = PropertyDescriptor.Create(nameof(StackId), typeof(string), typeof(ContentView));
 
         /// <summary>
-        /// Describes the <see cref="P:Title"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Title"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TitleProperty = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(ContentView));
+        public static PropertyDescriptor TitleProperty { get; } = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(ContentView));
         #endregion
 
         /// <summary>

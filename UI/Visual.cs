@@ -38,72 +38,61 @@ namespace Prism.UI
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:DataContextChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:DataContextChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor DataContextChangedEvent = EventDescriptor.Create(nameof(DataContextChanged), typeof(TypedEventHandler<IDataContext, DataContextChangedEventArgs>), typeof(Visual));
+        public static EventDescriptor DataContextChangedEvent { get; } = EventDescriptor.Create(nameof(DataContextChanged), typeof(TypedEventHandler<IDataContext, DataContextChangedEventArgs>), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="E:Loaded"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Loaded"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor LoadedEvent = EventDescriptor.Create(nameof(Loaded), typeof(TypedEventHandler<Visual>), typeof(Visual));
+        public static EventDescriptor LoadedEvent { get; } = EventDescriptor.Create(nameof(Loaded), typeof(TypedEventHandler<Visual>), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="E:Unloaded"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Unloaded"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor UnloadedEvent = EventDescriptor.Create(nameof(Unloaded), typeof(TypedEventHandler<Visual>), typeof(Visual));
+        public static EventDescriptor UnloadedEvent { get; } = EventDescriptor.Create(nameof(Unloaded), typeof(TypedEventHandler<Visual>), typeof(Visual));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:AreAnimationsEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:AreAnimationsEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor AreAnimationsEnabledProperty = PropertyDescriptor.Create(nameof(AreAnimationsEnabled), typeof(bool), typeof(Visual));
+        public static PropertyDescriptor AreAnimationsEnabledProperty { get; } = PropertyDescriptor.Create(nameof(AreAnimationsEnabled), typeof(bool), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="P:DataContext"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:DataContext"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor DataContextProperty = PropertyDescriptor.Create(nameof(DataContext), typeof(object), typeof(Visual));
+        public static PropertyDescriptor DataContextProperty { get; } = PropertyDescriptor.Create(nameof(DataContext), typeof(object), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="P:DesiredSize"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:DesiredSize"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor DesiredSizeProperty = PropertyDescriptor.Create(nameof(DesiredSize), typeof(Size), typeof(Visual), true);
+        public static PropertyDescriptor DesiredSizeProperty { get; } = PropertyDescriptor.Create(nameof(DesiredSize), typeof(Size), typeof(Visual), true);
 
         /// <summary>
-        /// Describes the <see cref="P:IsHitTestVisible"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsHitTestVisible"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsHitTestVisibleProperty = PropertyDescriptor.Create(nameof(IsHitTestVisible), typeof(bool), typeof(Visual));
+        public static PropertyDescriptor IsHitTestVisibleProperty { get; } = PropertyDescriptor.Create(nameof(IsHitTestVisible), typeof(bool), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="P:IsLoaded"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsLoaded"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsLoadedProperty = PropertyDescriptor.Create(nameof(IsLoaded), typeof(bool), typeof(Visual), true);
+        public static PropertyDescriptor IsLoadedProperty { get; } = PropertyDescriptor.Create(nameof(IsLoaded), typeof(bool), typeof(Visual), true);
 
         /// <summary>
-        /// Describes the <see cref="P:RenderSize"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:RenderSize"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor RenderSizeProperty = PropertyDescriptor.Create(nameof(RenderSize), typeof(Size), typeof(Visual), true);
+        public static PropertyDescriptor RenderSizeProperty { get; } = PropertyDescriptor.Create(nameof(RenderSize), typeof(Size), typeof(Visual), true);
 
         /// <summary>
-        /// Describes the <see cref="P:RenderTransform"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:RenderTransform"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor RenderTransformProperty = PropertyDescriptor.Create(nameof(RenderTransform), typeof(Transform), typeof(Visual));
+        public static PropertyDescriptor RenderTransformProperty { get; } = PropertyDescriptor.Create(nameof(RenderTransform), typeof(Transform), typeof(Visual));
 
         /// <summary>
-        /// Describes the <see cref="P:Tag"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Tag"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TagProperty = PropertyDescriptor.Create(nameof(Tag), typeof(object), typeof(Visual));
+        public static PropertyDescriptor TagProperty { get; } = PropertyDescriptor.Create(nameof(Tag), typeof(object), typeof(Visual));
         #endregion
 
         /// <summary>

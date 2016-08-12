@@ -38,16 +38,14 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Background"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BackgroundProperty = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ListBoxSectionHeader));
+        public static PropertyDescriptor BackgroundProperty { get; } = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ListBoxSectionHeader));
 
         /// <summary>
-        /// Describes the <see cref="P:ContentPanel"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentPanel"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentPanelProperty = PropertyDescriptor.Create(nameof(ContentPanel), typeof(Panel), typeof(ListBoxSectionHeader), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ContentPanelProperty { get; } = PropertyDescriptor.Create(nameof(ContentPanel), typeof(Panel), typeof(ListBoxSectionHeader), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
         #endregion
 
         /// <summary>

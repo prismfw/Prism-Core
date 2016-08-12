@@ -32,28 +32,24 @@ namespace Prism.UI.Media
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:AngleX"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:AngleX"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor AngleXProperty = PropertyDescriptor.Create(nameof(AngleX), typeof(double), typeof(SkewTransform));
+        public static PropertyDescriptor AngleXProperty { get; } = PropertyDescriptor.Create(nameof(AngleX), typeof(double), typeof(SkewTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:AngleY"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:AngleY"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor AngleYProperty = PropertyDescriptor.Create(nameof(AngleY), typeof(double), typeof(SkewTransform));
+        public static PropertyDescriptor AngleYProperty { get; } = PropertyDescriptor.Create(nameof(AngleY), typeof(double), typeof(SkewTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:CenterX"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CenterX"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CenterXProperty = PropertyDescriptor.Create(nameof(CenterX), typeof(double), typeof(SkewTransform));
+        public static PropertyDescriptor CenterXProperty { get; } = PropertyDescriptor.Create(nameof(CenterX), typeof(double), typeof(SkewTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:CenterY"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CenterY"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CenterYProperty = PropertyDescriptor.Create(nameof(CenterY), typeof(double), typeof(SkewTransform));
+        public static PropertyDescriptor CenterYProperty { get; } = PropertyDescriptor.Create(nameof(CenterY), typeof(double), typeof(SkewTransform));
         #endregion
 
         /// <summary>

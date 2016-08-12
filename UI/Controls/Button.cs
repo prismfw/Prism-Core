@@ -39,36 +39,31 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:Clicked"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Clicked"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ClickedEvent = EventDescriptor.Create(nameof(Clicked), typeof(TypedEventHandler<Button>), typeof(Button));
+        public static EventDescriptor ClickedEvent { get; } = EventDescriptor.Create(nameof(Clicked), typeof(TypedEventHandler<Button>), typeof(Button));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ContentDirection"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentDirection"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentDirectionProperty = PropertyDescriptor.Create(nameof(ContentDirection), typeof(ContentDirection), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ContentDirectionProperty { get; } = PropertyDescriptor.Create(nameof(ContentDirection), typeof(ContentDirection), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Image"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Image"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ImageProperty = PropertyDescriptor.Create(nameof(Image), typeof(ImageSource), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ImageProperty { get; } = PropertyDescriptor.Create(nameof(Image), typeof(ImageSource), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Padding"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Padding"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PaddingProperty = PropertyDescriptor.Create(nameof(Padding), typeof(Thickness), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor PaddingProperty { get; } = PropertyDescriptor.Create(nameof(Padding), typeof(Thickness), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Title"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Title"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TitleProperty = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor TitleProperty { get; } = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>

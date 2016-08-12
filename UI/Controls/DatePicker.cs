@@ -38,30 +38,26 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:DateChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:DateChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor DateChangedEvent = EventDescriptor.Create(nameof(DateChanged), typeof(TypedEventHandler<DatePicker, DateChangedEventArgs>), typeof(DatePicker));
+        public static EventDescriptor DateChangedEvent { get; } = EventDescriptor.Create(nameof(DateChanged), typeof(TypedEventHandler<DatePicker, DateChangedEventArgs>), typeof(DatePicker));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:DateStringFormat"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:DateStringFormat"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor DateStringFormatProperty = PropertyDescriptor.Create(nameof(DateStringFormat), typeof(string), typeof(DatePicker));
+        public static PropertyDescriptor DateStringFormatProperty { get; } = PropertyDescriptor.Create(nameof(DateStringFormat), typeof(string), typeof(DatePicker));
 
         /// <summary>
-        /// Describes the <see cref="P:IsOpen"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsOpen"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsOpenProperty = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(DatePicker));
+        public static PropertyDescriptor IsOpenProperty { get; } = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(DatePicker));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedDate"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedDate"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedDateProperty = PropertyDescriptor.Create(nameof(SelectedDate), typeof(DateTime?), typeof(DatePicker), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor SelectedDateProperty { get; } = PropertyDescriptor.Create(nameof(SelectedDate), typeof(DateTime?), typeof(DatePicker), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>

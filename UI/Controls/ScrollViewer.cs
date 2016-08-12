@@ -34,42 +34,36 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:Scrolled"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Scrolled"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ScrolledEvent = EventDescriptor.Create(nameof(Scrolled), typeof(TypedEventHandler<ScrollViewer>), typeof(ScrollViewer));
+        public static EventDescriptor ScrolledEvent { get; } = EventDescriptor.Create(nameof(Scrolled), typeof(TypedEventHandler<ScrollViewer>), typeof(ScrollViewer));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:CanScrollHorizontally"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanScrollHorizontally"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CanScrollHorizontallyProperty = PropertyDescriptor.Create(nameof(CanScrollHorizontally), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor CanScrollHorizontallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollHorizontally), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:CanScrollVertically"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanScrollVertically"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CanScrollVerticallyProperty = PropertyDescriptor.Create(nameof(CanScrollVertically), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor CanScrollVerticallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollVertically), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:Content"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Content"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentProperty = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:ContentOffset"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentOffset"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentOffsetProperty = PropertyDescriptor.Create(nameof(ContentOffset), typeof(Point), typeof(ScrollViewer), true);
+        public static PropertyDescriptor ContentOffsetProperty { get; } = PropertyDescriptor.Create(nameof(ContentOffset), typeof(Point), typeof(ScrollViewer), true);
 
         /// <summary>
-        /// Describes the <see cref="P:ContentSize"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentSize"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentSizeProperty = PropertyDescriptor.Create(nameof(ContentSize), typeof(Size), typeof(ScrollViewer), true);
+        public static PropertyDescriptor ContentSizeProperty { get; } = PropertyDescriptor.Create(nameof(ContentSize), typeof(Size), typeof(ScrollViewer), true);
         #endregion
 
         /// <summary>

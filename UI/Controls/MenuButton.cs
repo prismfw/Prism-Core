@@ -43,22 +43,19 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ImageUri"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ImageUri"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ImageUriProperty = PropertyDescriptor.Create(nameof(ImageUri), typeof(Uri), typeof(MenuButton));
+        public static PropertyDescriptor ImageUriProperty { get; } = PropertyDescriptor.Create(nameof(ImageUri), typeof(Uri), typeof(MenuButton));
 
         /// <summary>
-        /// Describes the <see cref="P:IsEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsEnabledProperty = PropertyDescriptor.Create(nameof(IsEnabled), typeof(bool), typeof(MenuButton));
+        public static PropertyDescriptor IsEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsEnabled), typeof(bool), typeof(MenuButton));
 
         /// <summary>
-        /// Describes the <see cref="P:Title"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Title"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TitleProperty = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(MenuButton));
+        public static PropertyDescriptor TitleProperty { get; } = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(MenuButton));
         #endregion
 
         /// <summary>

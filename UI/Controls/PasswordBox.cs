@@ -38,36 +38,31 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:ActionKeyPressed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ActionKeyPressed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ActionKeyPressedEvent = EventDescriptor.Create(nameof(ActionKeyPressed), typeof(TypedEventHandler<PasswordBox, HandledEventArgs>), typeof(PasswordBox));
+        public static EventDescriptor ActionKeyPressedEvent { get; } = EventDescriptor.Create(nameof(ActionKeyPressed), typeof(TypedEventHandler<PasswordBox, HandledEventArgs>), typeof(PasswordBox));
 
         /// <summary>
-        /// Describes the <see cref="E:PasswordChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PasswordChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PasswordChangedEvent = EventDescriptor.Create(nameof(PasswordChanged), typeof(TypedEventHandler<PasswordBox>), typeof(PasswordBox));
+        public static EventDescriptor PasswordChangedEvent { get; } = EventDescriptor.Create(nameof(PasswordChanged), typeof(TypedEventHandler<PasswordBox>), typeof(PasswordBox));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ActionKeyType"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActionKeyType"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ActionKeyTypeProperty = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(PasswordBox));
+        public static PropertyDescriptor ActionKeyTypeProperty { get; } = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(PasswordBox));
 
         /// <summary>
-        /// Describes the <see cref="P:Password"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Password"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PasswordProperty = PropertyDescriptor.Create(nameof(Password), typeof(string), typeof(PasswordBox));
+        public static PropertyDescriptor PasswordProperty { get; } = PropertyDescriptor.Create(nameof(Password), typeof(string), typeof(PasswordBox));
 
         /// <summary>
-        /// Describes the <see cref="P:Placeholder"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Placeholder"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PlaceholderProperty = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(PasswordBox));
+        public static PropertyDescriptor PlaceholderProperty { get; } = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(PasswordBox));
         #endregion
 
         /// <summary>

@@ -43,10 +43,9 @@ namespace Prism
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:LastNavigationContext"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:LastNavigationContext"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor LastNavigationContextProperty = PropertyDescriptor.Create(nameof(LastNavigationContext), typeof(NavigationContext), typeof(Application), true);
+        public static PropertyDescriptor LastNavigationContextProperty { get; } = PropertyDescriptor.Create(nameof(LastNavigationContext), typeof(NavigationContext), typeof(Application), true);
         #endregion
 
         /// <summary>

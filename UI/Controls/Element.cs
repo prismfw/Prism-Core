@@ -35,102 +35,86 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:PointerCanceled"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PointerCanceled"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PointerCanceledEvent = EventDescriptor.Create(nameof(PointerCanceled), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+        public static EventDescriptor PointerCanceledEvent { get; } = EventDescriptor.Create(nameof(PointerCanceled), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="E:PointerMoved"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PointerMoved"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PointerMovedEvent = EventDescriptor.Create(nameof(PointerMoved), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+        public static EventDescriptor PointerMovedEvent { get; } = EventDescriptor.Create(nameof(PointerMoved), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="E:PointerPressed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PointerPressed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PointerPressedEvent = EventDescriptor.Create(nameof(PointerPressed), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+        public static EventDescriptor PointerPressedEvent { get; } = EventDescriptor.Create(nameof(PointerPressed), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="E:PointerReleased"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PointerReleased"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PointerReleasedEvent = EventDescriptor.Create(nameof(PointerReleased), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
+        public static EventDescriptor PointerReleasedEvent { get; } = EventDescriptor.Create(nameof(PointerReleased), typeof(TypedEventHandler<Element, PointerEventArgs>), typeof(Element));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Height"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Height"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor HeightProperty = PropertyDescriptor.Create(nameof(Height), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor HeightProperty { get; } = PropertyDescriptor.Create(nameof(Height), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:HorizontalAlignment"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:HorizontalAlignment"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor HorizontalAlignmentProperty = PropertyDescriptor.Create(nameof(HorizontalAlignment), typeof(HorizontalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor HorizontalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(HorizontalAlignment), typeof(HorizontalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:Margin"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Margin"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MarginProperty = PropertyDescriptor.Create(nameof(Margin), typeof(Thickness), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor MarginProperty { get; } = PropertyDescriptor.Create(nameof(Margin), typeof(Thickness), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:MaxHeight"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxHeight"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MaxHeightProperty = PropertyDescriptor.Create(nameof(MaxHeight), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MaxHeightProperty { get; } = PropertyDescriptor.Create(nameof(MaxHeight), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:MaxWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MaxWidthProperty = PropertyDescriptor.Create(nameof(MaxWidth), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MaxWidthProperty { get; } = PropertyDescriptor.Create(nameof(MaxWidth), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:MinHeight"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinHeight"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MinHeightProperty = PropertyDescriptor.Create(nameof(MinHeight), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MinHeightProperty { get; } = PropertyDescriptor.Create(nameof(MinHeight), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:MinWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MinWidthProperty = PropertyDescriptor.Create(nameof(MinWidth), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MinWidthProperty { get; } = PropertyDescriptor.Create(nameof(MinWidth), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Name"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Name"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor NameProperty = PropertyDescriptor.Create(nameof(Name), typeof(string), typeof(Element));
+        public static PropertyDescriptor NameProperty { get; } = PropertyDescriptor.Create(nameof(Name), typeof(string), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="P:Opacity"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Opacity"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor OpacityProperty = PropertyDescriptor.Create(nameof(Opacity), typeof(double), typeof(Element));
+        public static PropertyDescriptor OpacityProperty { get; } = PropertyDescriptor.Create(nameof(Opacity), typeof(double), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="P:VerticalAlignment"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:VerticalAlignment"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor VerticalAlignmentProperty = PropertyDescriptor.Create(nameof(VerticalAlignment), typeof(VerticalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor VerticalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(VerticalAlignment), typeof(VerticalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:Visibility"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Visibility"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor VisibilityProperty = PropertyDescriptor.Create(nameof(Visibility), typeof(Visibility), typeof(Element));
+        public static PropertyDescriptor VisibilityProperty { get; } = PropertyDescriptor.Create(nameof(Visibility), typeof(Visibility), typeof(Element));
 
         /// <summary>
-        /// Describes the <see cref="P:Width"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Width"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor WidthProperty = PropertyDescriptor.Create(nameof(Width), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor WidthProperty { get; } = PropertyDescriptor.Create(nameof(Width), typeof(double), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>

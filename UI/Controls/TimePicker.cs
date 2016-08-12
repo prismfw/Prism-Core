@@ -38,30 +38,26 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:TimeChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:TimeChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor TimeChangedEvent = EventDescriptor.Create(nameof(TimeChanged), typeof(TypedEventHandler<TimePicker, TimeChangedEventArgs>), typeof(TimePicker));
+        public static EventDescriptor TimeChangedEvent { get; } = EventDescriptor.Create(nameof(TimeChanged), typeof(TypedEventHandler<TimePicker, TimeChangedEventArgs>), typeof(TimePicker));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:IsOpen"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsOpen"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsOpenProperty = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(TimePicker));
+        public static PropertyDescriptor IsOpenProperty { get; } = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(TimePicker));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedTime"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedTime"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedTimeProperty = PropertyDescriptor.Create(nameof(SelectedTime), typeof(TimeSpan?), typeof(TimePicker), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor SelectedTimeProperty { get; } = PropertyDescriptor.Create(nameof(SelectedTime), typeof(TimeSpan?), typeof(TimePicker), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:TimeStringFormat"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:TimeStringFormat"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TimeStringFormatProperty = PropertyDescriptor.Create(nameof(TimeStringFormat), typeof(string), typeof(TimePicker));
+        public static PropertyDescriptor TimeStringFormatProperty { get; } = PropertyDescriptor.Create(nameof(TimeStringFormat), typeof(string), typeof(TimePicker));
         #endregion
 
         /// <summary>

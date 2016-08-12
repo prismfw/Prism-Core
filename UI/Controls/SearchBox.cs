@@ -38,36 +38,31 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:QueryChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:QueryChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor QueryChangedEvent = EventDescriptor.Create(nameof(QueryChanged), typeof(TypedEventHandler<SearchBox, QueryChangedEventArgs>), typeof(SearchBox));
+        public static EventDescriptor QueryChangedEvent { get; } = EventDescriptor.Create(nameof(QueryChanged), typeof(TypedEventHandler<SearchBox, QueryChangedEventArgs>), typeof(SearchBox));
 
         /// <summary>
-        /// Describes the <see cref="E:QuerySubmitted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:QuerySubmitted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor QuerySubmittedEvent = EventDescriptor.Create(nameof(QuerySubmitted), typeof(TypedEventHandler<SearchBox, QuerySubmittedEventArgs>), typeof(SearchBox));
+        public static EventDescriptor QuerySubmittedEvent { get; } = EventDescriptor.Create(nameof(QuerySubmitted), typeof(TypedEventHandler<SearchBox, QuerySubmittedEventArgs>), typeof(SearchBox));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ActionKeyType"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActionKeyType"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ActionKeyTypeProperty = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(SearchBox));
+        public static PropertyDescriptor ActionKeyTypeProperty { get; } = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(SearchBox));
 
         /// <summary>
-        /// Describes the <see cref="P:Placeholder"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Placeholder"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PlaceholderProperty = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(SearchBox));
+        public static PropertyDescriptor PlaceholderProperty { get; } = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(SearchBox));
 
         /// <summary>
-        /// Describes the <see cref="P:QueryText"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:QueryText"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor QueryTextProperty = PropertyDescriptor.Create(nameof(QueryText), typeof(string), typeof(SearchBox), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor QueryTextProperty { get; } = PropertyDescriptor.Create(nameof(QueryText), typeof(string), typeof(SearchBox), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         /// <summary>

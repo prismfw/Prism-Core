@@ -38,54 +38,46 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:ActionKeyPressed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ActionKeyPressed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ActionKeyPressedEvent = EventDescriptor.Create(nameof(ActionKeyPressed), typeof(TypedEventHandler<TextArea, HandledEventArgs>), typeof(TextArea));
+        public static EventDescriptor ActionKeyPressedEvent { get; } = EventDescriptor.Create(nameof(ActionKeyPressed), typeof(TypedEventHandler<TextArea, HandledEventArgs>), typeof(TextArea));
 
         /// <summary>
-        /// Describes the <see cref="E:TextChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:TextChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor TextChangedEvent = EventDescriptor.Create(nameof(TextChanged), typeof(TypedEventHandler<TextArea, TextChangedEventArgs>), typeof(TextArea));
+        public static EventDescriptor TextChangedEvent { get; } = EventDescriptor.Create(nameof(TextChanged), typeof(TypedEventHandler<TextArea, TextChangedEventArgs>), typeof(TextArea));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ActionKeyType"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActionKeyType"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ActionKeyTypeProperty = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(TextArea));
+        public static PropertyDescriptor ActionKeyTypeProperty { get; } = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(TextArea));
 
         /// <summary>
-        /// Describes the <see cref="P:MaxLines"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxLines"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MaxLinesProperty = PropertyDescriptor.Create(nameof(MaxLines), typeof(int), typeof(TextArea), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MaxLinesProperty { get; } = PropertyDescriptor.Create(nameof(MaxLines), typeof(int), typeof(TextArea), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:MinLines"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinLines"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MinLinesProperty = PropertyDescriptor.Create(nameof(MinLines), typeof(int), typeof(TextArea), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor MinLinesProperty { get; } = PropertyDescriptor.Create(nameof(MinLines), typeof(int), typeof(TextArea), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Placeholder"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Placeholder"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PlaceholderProperty = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(TextArea));
+        public static PropertyDescriptor PlaceholderProperty { get; } = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(TextArea));
 
         /// <summary>
-        /// Describes the <see cref="P:Text"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Text"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TextProperty = PropertyDescriptor.Create(nameof(Text), typeof(string), typeof(TextArea), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor TextProperty { get; } = PropertyDescriptor.Create(nameof(Text), typeof(string), typeof(TextArea), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
 
         /// <summary>
-        /// Describes the <see cref="P:TextAlignment"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:TextAlignment"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TextAlignmentProperty = PropertyDescriptor.Create(nameof(TextAlignment), typeof(TextAlignment), typeof(TextArea));
+        public static PropertyDescriptor TextAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(TextAlignment), typeof(TextAlignment), typeof(TextArea));
         #endregion
 
         /// <summary>

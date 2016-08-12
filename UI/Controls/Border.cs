@@ -38,34 +38,29 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Background"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BackgroundProperty = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(Border));
+        public static PropertyDescriptor BackgroundProperty { get; } = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(Border));
 
         /// <summary>
-        /// Describes the <see cref="P:BorderBrush"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:BorderBrush"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BorderBrushProperty = PropertyDescriptor.Create(nameof(BorderBrush), typeof(Brush), typeof(Border));
+        public static PropertyDescriptor BorderBrushProperty { get; } = PropertyDescriptor.Create(nameof(BorderBrush), typeof(Brush), typeof(Border));
 
         /// <summary>
-        /// Describes the <see cref="P:BorderThickness"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:BorderThickness"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BorderThicknessProperty = PropertyDescriptor.Create(nameof(BorderThickness), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor BorderThicknessProperty { get; } = PropertyDescriptor.Create(nameof(BorderThickness), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:Child"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Child"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ChildProperty = PropertyDescriptor.Create(nameof(Child), typeof(Element), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ChildProperty { get; } = PropertyDescriptor.Create(nameof(Child), typeof(Element), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Padding"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Padding"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PaddingProperty = PropertyDescriptor.Create(nameof(Padding), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor PaddingProperty { get; } = PropertyDescriptor.Create(nameof(Padding), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
         #endregion
 
         /// <summary>

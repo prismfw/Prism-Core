@@ -354,9 +354,9 @@ namespace Prism
                     }
                 }
 
-                descriptors[i] = type.GetRuntimeFields()
-                    .Where(f => f.IsStatic && f.FieldType == typeof(PropertyDescriptor))
-                    .Select(f => f.GetValue(null) as PropertyDescriptor)
+               descriptors[i] = info.DeclaringType.GetRuntimeProperties()
+                    .Where(p => p.GetMethod != null && p.GetMethod.IsStatic && p.PropertyType == typeof(PropertyDescriptor))
+                    .Select(p => p.GetValue(null) as PropertyDescriptor)
                     .FirstOrDefault(pd => pd.OwnerType == info.DeclaringType && pd.PropertyType == info.PropertyType && pd.Name == info.Name) ?? new PropertyDescriptor(info);
             }
         }

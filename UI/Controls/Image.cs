@@ -39,16 +39,14 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Source"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Source"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SourceProperty = PropertyDescriptor.Create(nameof(Source), typeof(ImageSource), typeof(Image));
+        public static PropertyDescriptor SourceProperty { get; } = PropertyDescriptor.Create(nameof(Source), typeof(ImageSource), typeof(Image));
 
         /// <summary>
-        /// Describes the <see cref="P:Stretch"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Stretch"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor StretchProperty = PropertyDescriptor.Create(nameof(Stretch), typeof(Stretch), typeof(Image));
+        public static PropertyDescriptor StretchProperty { get; } = PropertyDescriptor.Create(nameof(Stretch), typeof(Stretch), typeof(Image));
         #endregion
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private static WeakEventManager sourceLoadedEventManager = new WeakEventManager(BitmapImage.ImageLoadedEvent);
+        private readonly static WeakEventManager sourceLoadedEventManager = new WeakEventManager(BitmapImage.ImageLoadedEvent);
 
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -96,7 +94,7 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private EventHandler sourceLoadedEventHandler;
+        private readonly EventHandler sourceLoadedEventHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Image"/> class.

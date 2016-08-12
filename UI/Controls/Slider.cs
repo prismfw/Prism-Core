@@ -38,48 +38,41 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:ValueChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ValueChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ValueChangedEvent = EventDescriptor.Create(nameof(ValueChanged), typeof(TypedEventHandler<Slider, ValueChangedEventArgs<double>>), typeof(Slider));
+        public static EventDescriptor ValueChangedEvent { get; } = EventDescriptor.Create(nameof(ValueChanged), typeof(TypedEventHandler<Slider, ValueChangedEventArgs<double>>), typeof(Slider));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:IsSnapToStepEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsSnapToStepEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsSnapToStepEnabledProperty = PropertyDescriptor.Create(nameof(IsSnapToStepEnabled), typeof(bool), typeof(Slider));
+        public static PropertyDescriptor IsSnapToStepEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsSnapToStepEnabled), typeof(bool), typeof(Slider));
 
         /// <summary>
-        /// Describes the <see cref="P:MaxValue"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxValue"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MaxValueProperty = PropertyDescriptor.Create(nameof(MaxValue), typeof(double), typeof(Slider));
+        public static PropertyDescriptor MaxValueProperty { get; } = PropertyDescriptor.Create(nameof(MaxValue), typeof(double), typeof(Slider));
 
         /// <summary>
-        /// Describes the <see cref="P:MinValue"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinValue"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MinValueProperty = PropertyDescriptor.Create(nameof(MinValue), typeof(double), typeof(Slider));
+        public static PropertyDescriptor MinValueProperty { get; } = PropertyDescriptor.Create(nameof(MinValue), typeof(double), typeof(Slider));
 
         /// <summary>
-        /// Describes the <see cref="P:StepFrequency"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:StepFrequency"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor StepFrequencyProperty = PropertyDescriptor.Create(nameof(StepFrequency), typeof(double), typeof(Slider));
+        public static PropertyDescriptor StepFrequencyProperty { get; } = PropertyDescriptor.Create(nameof(StepFrequency), typeof(double), typeof(Slider));
 
         /// <summary>
-        /// Describes the <see cref="P:ThumbBrush"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ThumbBrush"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ThumbBrushProperty = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(Slider));
+        public static PropertyDescriptor ThumbBrushProperty { get; } = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(Slider));
 
         /// <summary>
-        /// Describes the <see cref="P:Value"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Value"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ValueProperty = PropertyDescriptor.Create(nameof(Value), typeof(double), typeof(Slider), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor ValueProperty { get; } = PropertyDescriptor.Create(nameof(Value), typeof(double), typeof(Slider), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         /// <summary>

@@ -38,52 +38,44 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:FontFamily"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:FontFamily"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor FontFamilyProperty = PropertyDescriptor.Create(nameof(FontFamily), typeof(FontFamily), typeof(Label));
+        public static PropertyDescriptor FontFamilyProperty { get; } = PropertyDescriptor.Create(nameof(FontFamily), typeof(FontFamily), typeof(Label));
 
         /// <summary>
-        /// Describes the <see cref="P:FontSize"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:FontSize"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor FontSizeProperty = PropertyDescriptor.Create(nameof(FontSize), typeof(double), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor FontSizeProperty { get; } = PropertyDescriptor.Create(nameof(FontSize), typeof(double), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:FontStyle"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:FontStyle"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor FontStyleProperty = PropertyDescriptor.Create(nameof(FontStyle), typeof(FontStyle), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor FontStyleProperty { get; } = PropertyDescriptor.Create(nameof(FontStyle), typeof(FontStyle), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Foreground"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Foreground"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ForegroundProperty = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(Label));
+        public static PropertyDescriptor ForegroundProperty { get; } = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(Label));
 
         /// <summary>
-        /// Describes the <see cref="P:HighlightBrush"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:HighlightBrush"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor HighlightBrushProperty = PropertyDescriptor.Create(nameof(HighlightBrush), typeof(Brush), typeof(Label));
+        public static PropertyDescriptor HighlightBrushProperty { get; } = PropertyDescriptor.Create(nameof(HighlightBrush), typeof(Brush), typeof(Label));
 
         /// <summary>
-        /// Describes the <see cref="P:Lines"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Lines"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor LinesProperty = PropertyDescriptor.Create(nameof(Lines), typeof(int), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor LinesProperty { get; } = PropertyDescriptor.Create(nameof(Lines), typeof(int), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Text"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Text"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TextProperty = PropertyDescriptor.Create(nameof(Text), typeof(string), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor TextProperty { get; } = PropertyDescriptor.Create(nameof(Text), typeof(string), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:TextAlignment"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:TextAlignment"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TextAlignmentProperty = PropertyDescriptor.Create(nameof(TextAlignment), typeof(TextAlignment), typeof(Label));
+        public static PropertyDescriptor TextAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(TextAlignment), typeof(TextAlignment), typeof(Label));
         #endregion
 
         /// <summary>

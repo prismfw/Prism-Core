@@ -34,10 +34,9 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:LastChildFill"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:LastChildFill"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor LastChildFillProperty = PropertyDescriptor.Create(nameof(LastChildFill), typeof(bool), typeof(DockPanel), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor LastChildFillProperty { get; } = PropertyDescriptor.Create(nameof(LastChildFill), typeof(bool), typeof(DockPanel), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
         #endregion
 
         /// <summary>

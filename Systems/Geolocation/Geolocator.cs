@@ -38,10 +38,9 @@ namespace Prism.Systems.Geolocation
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:LocationUpdated"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:LocationUpdated"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor LocationUpdatedEvent = EventDescriptor.Create(nameof(LocationUpdated), typeof(TypedEventHandler<Geolocator, GeolocationUpdatedEventArgs>), typeof(Geolocator));
+        public static EventDescriptor LocationUpdatedEvent { get; } = EventDescriptor.Create(nameof(LocationUpdated), typeof(TypedEventHandler<Geolocator, GeolocationUpdatedEventArgs>), typeof(Geolocator));
         #endregion
 
         /// <summary>

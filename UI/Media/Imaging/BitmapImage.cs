@@ -39,16 +39,14 @@ namespace Prism.UI.Media.Imaging
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:ImageFailed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ImageFailed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ImageFailedEvent = EventDescriptor.Create(nameof(ImageFailed), typeof(TypedEventHandler<BitmapImage, ErrorEventArgs>), typeof(BitmapImage));
+        public static EventDescriptor ImageFailedEvent { get; } = EventDescriptor.Create(nameof(ImageFailed), typeof(TypedEventHandler<BitmapImage, ErrorEventArgs>), typeof(BitmapImage));
 
         /// <summary>
-        /// Describes the <see cref="E:ImageLoaded"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ImageLoaded"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ImageLoadedEvent = EventDescriptor.Create(nameof(ImageLoaded), typeof(TypedEventHandler<BitmapImage>), typeof(BitmapImage));
+        public static EventDescriptor ImageLoadedEvent { get; } = EventDescriptor.Create(nameof(ImageLoaded), typeof(TypedEventHandler<BitmapImage>), typeof(BitmapImage));
         #endregion
 
         /// <summary>

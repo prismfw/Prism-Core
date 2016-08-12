@@ -35,54 +35,46 @@ namespace Prism.UI
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:Closed"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Closed"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ClosedEvent = EventDescriptor.Create(nameof(Closed), typeof(TypedEventHandler<Popup>), typeof(Popup));
+        public static EventDescriptor ClosedEvent { get; } = EventDescriptor.Create(nameof(Closed), typeof(TypedEventHandler<Popup>), typeof(Popup));
 
         /// <summary>
-        /// Describes the <see cref="E:Opened"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Opened"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor OpenedEvent = EventDescriptor.Create(nameof(Opened), typeof(TypedEventHandler<Popup>), typeof(Popup));
+        public static EventDescriptor OpenedEvent { get; } = EventDescriptor.Create(nameof(Opened), typeof(TypedEventHandler<Popup>), typeof(Popup));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Content"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Content"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentProperty = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:Height"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Height"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor HeightProperty = PropertyDescriptor.Create(nameof(Height), typeof(double), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor HeightProperty { get; } = PropertyDescriptor.Create(nameof(Height), typeof(double), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:IsLightDismissEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsLightDismissEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsLightDismissEnabledProperty = PropertyDescriptor.Create(nameof(IsLightDismissEnabled), typeof(bool), typeof(Popup));
+        public static PropertyDescriptor IsLightDismissEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsLightDismissEnabled), typeof(bool), typeof(Popup));
 
         /// <summary>
-        /// Describes the <see cref="P:IsOpen"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsOpen"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsOpenProperty = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(Popup), true);
+        public static PropertyDescriptor IsOpenProperty { get; } = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(Popup), true);
 
         /// <summary>
-        /// Describes the <see cref="P:PresentationStyle"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:PresentationStyle"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PresentationStyleProperty = PropertyDescriptor.Create(nameof(PresentationStyle), typeof(PopupPresentationStyle), typeof(Popup));
+        public static PropertyDescriptor PresentationStyleProperty { get; } = PropertyDescriptor.Create(nameof(PresentationStyle), typeof(PopupPresentationStyle), typeof(Popup));
 
         /// <summary>
-        /// Describes the <see cref="P:Width"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Width"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor WidthProperty = PropertyDescriptor.Create(nameof(Width), typeof(double), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor WidthProperty { get; } = PropertyDescriptor.Create(nameof(Width), typeof(double), typeof(Popup), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>

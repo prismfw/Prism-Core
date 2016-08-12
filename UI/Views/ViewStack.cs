@@ -41,30 +41,26 @@ namespace Prism.UI
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:Popping"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Popping"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PoppingEvent = EventDescriptor.Create(nameof(Popping), typeof(TypedEventHandler<ViewStack, ViewStackPoppingEventArgs>), typeof(ViewStack));
+        public static EventDescriptor PoppingEvent { get; } = EventDescriptor.Create(nameof(Popping), typeof(TypedEventHandler<ViewStack, ViewStackPoppingEventArgs>), typeof(ViewStack));
 
         /// <summary>
-        /// Describes the <see cref="E:ViewChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ViewChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ViewChangedEvent = EventDescriptor.Create(nameof(ViewChanged), typeof(TypedEventHandler<ViewStack>), typeof(ViewStack));
+        public static EventDescriptor ViewChangedEvent { get; } = EventDescriptor.Create(nameof(ViewChanged), typeof(TypedEventHandler<ViewStack>), typeof(ViewStack));
 
         /// <summary>
-        /// Describes the <see cref="E:ViewChanging"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ViewChanging"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ViewChangingEvent = EventDescriptor.Create(nameof(ViewChanging), typeof(TypedEventHandler<ViewStack, ViewStackViewChangingEventArgs>), typeof(ViewStack));
+        public static EventDescriptor ViewChangingEvent { get; } = EventDescriptor.Create(nameof(ViewChanging), typeof(TypedEventHandler<ViewStack, ViewStackViewChangingEventArgs>), typeof(ViewStack));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:IsHeaderHidden"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsHeaderHidden"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsHeaderHiddenProperty = PropertyDescriptor.Create(nameof(IsHeaderHidden), typeof(bool), typeof(ViewStack), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor IsHeaderHiddenProperty { get; } = PropertyDescriptor.Create(nameof(IsHeaderHidden), typeof(bool), typeof(ViewStack), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>

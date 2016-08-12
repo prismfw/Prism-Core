@@ -36,16 +36,14 @@ namespace Prism.UI.Controls
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:DefaultDrawingAttributes"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:DefaultDrawingAttributes"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor DefaultDrawingAttributesProperty = PropertyDescriptor.Create(nameof(DefaultDrawingAttributes), typeof(InkDrawingAttributes), typeof(InkCanvas));
+        public static PropertyDescriptor DefaultDrawingAttributesProperty { get; } = PropertyDescriptor.Create(nameof(DefaultDrawingAttributes), typeof(InkDrawingAttributes), typeof(InkCanvas));
 
         /// <summary>
-        /// Describes the <see cref="P:InputMode"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:InputMode"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor InputModeProperty = PropertyDescriptor.Create(nameof(InputMode), typeof(InkInputMode), typeof(InkCanvas));
+        public static PropertyDescriptor InputModeProperty { get; } = PropertyDescriptor.Create(nameof(InputMode), typeof(InkInputMode), typeof(InkCanvas));
         #endregion
 
         /// <summary>

@@ -38,24 +38,21 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:ValueChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ValueChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ValueChangedEvent = EventDescriptor.Create(nameof(ValueChanged), typeof(TypedEventHandler<ToggleSwitch>), typeof(ToggleSwitch));
+        public static EventDescriptor ValueChangedEvent { get; } = EventDescriptor.Create(nameof(ValueChanged), typeof(TypedEventHandler<ToggleSwitch>), typeof(ToggleSwitch));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ThumbBrush"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ThumbBrush"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ThumbBrushProperty = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(ToggleSwitch));
+        public static PropertyDescriptor ThumbBrushProperty { get; } = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(ToggleSwitch));
 
         /// <summary>
-        /// Describes the <see cref="P:Value"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Value"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ValueProperty = PropertyDescriptor.Create(nameof(Value), typeof(bool), typeof(ToggleSwitch), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor ValueProperty { get; } = PropertyDescriptor.Create(nameof(Value), typeof(bool), typeof(ToggleSwitch), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
         #endregion
 
         /// <summary>

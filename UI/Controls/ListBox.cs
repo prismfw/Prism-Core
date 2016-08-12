@@ -36,78 +36,66 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:AccessoryClicked"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:AccessoryClicked"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor AccessoryClickedEvent = EventDescriptor.Create(nameof(AccessoryClicked), typeof(TypedEventHandler<ListBox, AccessoryClickedEventArgs>), typeof(ListBox));
+        public static EventDescriptor AccessoryClickedEvent { get; } = EventDescriptor.Create(nameof(AccessoryClicked), typeof(TypedEventHandler<ListBox, AccessoryClickedEventArgs>), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="E:ItemClicked"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ItemClicked"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ItemClickedEvent = EventDescriptor.Create(nameof(ItemClicked), typeof(TypedEventHandler<ListBox, ItemClickedEventArgs>), typeof(ListBox));
+        public static EventDescriptor ItemClickedEvent { get; } = EventDescriptor.Create(nameof(ItemClicked), typeof(TypedEventHandler<ListBox, ItemClickedEventArgs>), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="E:SelectionChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:SelectionChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor SelectionChangedEvent = EventDescriptor.Create(nameof(SelectionChanged), typeof(TypedEventHandler<ListBox, SelectionChangedEventArgs>), typeof(ListBox));
+        public static EventDescriptor SelectionChangedEvent { get; } = EventDescriptor.Create(nameof(SelectionChanged), typeof(TypedEventHandler<ListBox, SelectionChangedEventArgs>), typeof(ListBox));
         #endregion
 
         #region Property Descriptors
         /// <summary>
         /// Describes the <see cref="P:Adapter"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor AdapterProperty = PropertyDescriptor.Create(nameof(Adapter), typeof(ListBoxAdapter), typeof(ListBox));
+        public static PropertyDescriptor AdapterProperty { get; } = PropertyDescriptor.Create(nameof(Adapter), typeof(ListBoxAdapter), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="P:Background"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BackgroundProperty = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ListBox));
+        public static PropertyDescriptor BackgroundProperty { get; } = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="P:ContentOffset"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentOffset"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentOffsetProperty = PropertyDescriptor.Create(nameof(ContentOffset), typeof(Point), typeof(ListBox), true);
+        public static PropertyDescriptor ContentOffsetProperty { get; } = PropertyDescriptor.Create(nameof(ContentOffset), typeof(Point), typeof(ListBox), true);
 
         /// <summary>
-        /// Describes the <see cref="P:ContentSize"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentSize"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ContentSizeProperty = PropertyDescriptor.Create(nameof(ContentSize), typeof(Size), typeof(ListBox), true);
+        public static PropertyDescriptor ContentSizeProperty { get; } = PropertyDescriptor.Create(nameof(ContentSize), typeof(Size), typeof(ListBox), true);
 
         /// <summary>
-        /// Describes the <see cref="P:IsSectioningEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsSectioningEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsSectioningEnabledProperty = PropertyDescriptor.Create(nameof(IsSectioningEnabled), typeof(bool), typeof(ListBox));
+        public static PropertyDescriptor IsSectioningEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsSectioningEnabled), typeof(bool), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="P:Items"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Items"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ItemsProperty = PropertyDescriptor.Create(nameof(Items), typeof(IList), typeof(ListBox));
+        public static PropertyDescriptor ItemsProperty { get; } = PropertyDescriptor.Create(nameof(Items), typeof(IList), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedItems"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedItems"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedItemsProperty = PropertyDescriptor.Create(nameof(SelectedItems), typeof(IList), typeof(ListBox), true);
+        public static PropertyDescriptor SelectedItemsProperty { get; } = PropertyDescriptor.Create(nameof(SelectedItems), typeof(IList), typeof(ListBox), true);
 
         /// <summary>
-        /// Describes the <see cref="P:SelectionMode"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectionMode"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectionModeProperty = PropertyDescriptor.Create(nameof(SelectionMode), typeof(SelectionMode), typeof(ListBox));
+        public static PropertyDescriptor SelectionModeProperty { get; } = PropertyDescriptor.Create(nameof(SelectionMode), typeof(SelectionMode), typeof(ListBox));
 
         /// <summary>
-        /// Describes the <see cref="P:SeparatorBrush"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SeparatorBrush"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SeparatorBrushProperty = PropertyDescriptor.Create(nameof(SeparatorBrush), typeof(Brush), typeof(ListBox));
+        public static PropertyDescriptor SeparatorBrushProperty { get; } = PropertyDescriptor.Create(nameof(SeparatorBrush), typeof(Brush), typeof(ListBox));
         #endregion
 
         /// <summary>

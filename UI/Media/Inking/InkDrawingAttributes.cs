@@ -32,22 +32,19 @@ namespace Prism.UI.Media.Inking
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Color"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Color"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ColorProperty = PropertyDescriptor.Create(nameof(Color), typeof(Color), typeof(InkDrawingAttributes));
+        public static PropertyDescriptor ColorProperty { get; } = PropertyDescriptor.Create(nameof(Color), typeof(Color), typeof(InkDrawingAttributes));
 
         /// <summary>
-        /// Describes the <see cref="P:PenTip"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:PenTip"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PenTipProperty = PropertyDescriptor.Create(nameof(PenTip), typeof(PenTipShape), typeof(InkDrawingAttributes));
+        public static PropertyDescriptor PenTipProperty { get; } = PropertyDescriptor.Create(nameof(PenTip), typeof(PenTipShape), typeof(InkDrawingAttributes));
 
         /// <summary>
-        /// Describes the <see cref="P:Size"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Size"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SizeProperty = PropertyDescriptor.Create(nameof(Size), typeof(double), typeof(InkDrawingAttributes));
+        public static PropertyDescriptor SizeProperty { get; } = PropertyDescriptor.Create(nameof(Size), typeof(double), typeof(InkDrawingAttributes));
         #endregion
 
         /// <summary>

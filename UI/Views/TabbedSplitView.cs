@@ -60,46 +60,39 @@ namespace Prism.UI
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:ActualDetailWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActualDetailWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ActualDetailWidthProperty = PropertyDescriptor.Create(nameof(ActualDetailWidth), typeof(double), typeof(TabbedSplitView), true, new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ActualDetailWidthProperty { get; } = PropertyDescriptor.Create(nameof(ActualDetailWidth), typeof(double), typeof(TabbedSplitView), true, new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:ActualMasterWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActualMasterWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ActualMasterWidthProperty = PropertyDescriptor.Create(nameof(ActualMasterWidth), typeof(double), typeof(TabbedSplitView), true, new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor ActualMasterWidthProperty { get; } = PropertyDescriptor.Create(nameof(ActualMasterWidth), typeof(double), typeof(TabbedSplitView), true, new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Describes the <see cref="P:DetailContent"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:DetailContent"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor DetailContentProperty = PropertyDescriptor.Create(nameof(DetailContent), typeof(object), typeof(TabbedSplitView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor DetailContentProperty { get; } = PropertyDescriptor.Create(nameof(DetailContent), typeof(object), typeof(TabbedSplitView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:IsDetailAutoResetEnabled"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsDetailAutoResetEnabled"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsDetailAutoResetEnabledProperty = PropertyDescriptor.Create(nameof(IsDetailAutoResetEnabled), typeof(bool), typeof(TabbedSplitView));
+        public static PropertyDescriptor IsDetailAutoResetEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsDetailAutoResetEnabled), typeof(bool), typeof(TabbedSplitView));
 
         /// <summary>
-        /// Describes the <see cref="P:MaxMasterWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxMasterWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MaxMasterWidthProperty = PropertyDescriptor.Create(nameof(MaxMasterWidth), typeof(double), typeof(TabbedSplitView));
+        public static PropertyDescriptor MaxMasterWidthProperty { get; } = PropertyDescriptor.Create(nameof(MaxMasterWidth), typeof(double), typeof(TabbedSplitView));
 
         /// <summary>
-        /// Describes the <see cref="P:MinMasterWidth"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinMasterWidth"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor MinMasterWidthProperty = PropertyDescriptor.Create(nameof(MinMasterWidth), typeof(double), typeof(TabbedSplitView));
+        public static PropertyDescriptor MinMasterWidthProperty { get; } = PropertyDescriptor.Create(nameof(MinMasterWidth), typeof(double), typeof(TabbedSplitView));
 
         /// <summary>
-        /// Describes the <see cref="P:PreferredMasterWidthRatio"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:PreferredMasterWidthRatio"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor PreferredMasterWidthRatioProperty = PropertyDescriptor.Create(nameof(PreferredMasterWidthRatio), typeof(double), typeof(TabbedSplitView));
+        public static PropertyDescriptor PreferredMasterWidthRatioProperty { get; } = PropertyDescriptor.Create(nameof(PreferredMasterWidthRatio), typeof(double), typeof(TabbedSplitView));
         #endregion
 
         /// <summary>

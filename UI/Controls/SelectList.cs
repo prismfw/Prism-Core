@@ -36,42 +36,36 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:SelectionChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:SelectionChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor SelectionChangedEvent = EventDescriptor.Create(nameof(SelectionChanged), typeof(TypedEventHandler<SelectList, SelectionChangedEventArgs>), typeof(SelectList));
+        public static EventDescriptor SelectionChangedEvent { get; } = EventDescriptor.Create(nameof(SelectionChanged), typeof(TypedEventHandler<SelectList, SelectionChangedEventArgs>), typeof(SelectList));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Adapter"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Adapter"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor AdapterProperty = PropertyDescriptor.Create(nameof(Adapter), typeof(SelectListAdapter), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor AdapterProperty { get; } = PropertyDescriptor.Create(nameof(Adapter), typeof(SelectListAdapter), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:IsOpen"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsOpen"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor IsOpenProperty = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(SelectList));
+        public static PropertyDescriptor IsOpenProperty { get; } = PropertyDescriptor.Create(nameof(IsOpen), typeof(bool), typeof(SelectList));
 
         /// <summary>
-        /// Describes the <see cref="P:Items"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Items"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ItemsProperty = PropertyDescriptor.Create(nameof(Items), typeof(IList), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ItemsProperty { get; } = PropertyDescriptor.Create(nameof(Items), typeof(IList), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedIndex"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedIndex"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedIndexProperty = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(SelectList), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor SelectedIndexProperty { get; } = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(SelectList), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedItem"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedItem"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedItemProperty = PropertyDescriptor.Create(nameof(SelectedItem), typeof(object), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor SelectedItemProperty { get; } = PropertyDescriptor.Create(nameof(SelectedItem), typeof(object), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
         #endregion
 
         /// <summary>

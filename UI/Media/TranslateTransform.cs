@@ -31,16 +31,14 @@ namespace Prism.UI.Media
     {
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:X"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:X"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor XProperty = PropertyDescriptor.Create(nameof(X), typeof(double), typeof(TranslateTransform));
+        public static PropertyDescriptor XProperty { get; } = PropertyDescriptor.Create(nameof(X), typeof(double), typeof(TranslateTransform));
 
         /// <summary>
-        /// Describes the <see cref="P:Y"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Y"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor YProperty = PropertyDescriptor.Create(nameof(Y), typeof(double), typeof(TranslateTransform));
+        public static PropertyDescriptor YProperty { get; } = PropertyDescriptor.Create(nameof(Y), typeof(double), typeof(TranslateTransform));
         #endregion
 
         /// <summary>

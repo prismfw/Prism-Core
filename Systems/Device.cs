@@ -37,22 +37,19 @@ namespace Prism.Systems
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:BatteryLevelChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BatteryLevelChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor BatteryLevelChangedEvent = EventDescriptor.Create(nameof(BatteryLevelChanged), typeof(TypedEventHandler<Device>), typeof(Device));
+        public static EventDescriptor BatteryLevelChangedEvent { get; } = EventDescriptor.Create(nameof(BatteryLevelChanged), typeof(TypedEventHandler<Device>), typeof(Device));
 
         /// <summary>
-        /// Describes the <see cref="E:OrientationChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:OrientationChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor OrientationChangedEvent = EventDescriptor.Create(nameof(OrientationChanged), typeof(TypedEventHandler<Device>), typeof(Device));
+        public static EventDescriptor OrientationChangedEvent { get; } = EventDescriptor.Create(nameof(OrientationChanged), typeof(TypedEventHandler<Device>), typeof(Device));
 
         /// <summary>
-        /// Describes the <see cref="E:PowerSourceChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PowerSourceChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor PowerSourceChangedEvent = EventDescriptor.Create(nameof(PowerSourceChanged), typeof(TypedEventHandler<Device>), typeof(Device));
+        public static EventDescriptor PowerSourceChangedEvent { get; } = EventDescriptor.Create(nameof(PowerSourceChanged), typeof(TypedEventHandler<Device>), typeof(Device));
         #endregion
 
         /// <summary>

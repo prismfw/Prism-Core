@@ -64,36 +64,31 @@ namespace Prism.UI
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:TabItemSelected"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:TabItemSelected"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor TabItemSelectedEvent = EventDescriptor.Create(nameof(TabItemSelected), typeof(TypedEventHandler<TabView, TabItemSelectedEventArgs>), typeof(TabView));
+        public static EventDescriptor TabItemSelectedEvent { get; } = EventDescriptor.Create(nameof(TabItemSelected), typeof(TypedEventHandler<TabView, TabItemSelectedEventArgs>), typeof(TabView));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:Background"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor BackgroundProperty = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(TabView));
+        public static PropertyDescriptor BackgroundProperty { get; } = PropertyDescriptor.Create(nameof(Background), typeof(Brush), typeof(TabView));
 
         /// <summary>
-        /// Describes the <see cref="P:Foreground"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Foreground"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor ForegroundProperty = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(TabView));
+        public static PropertyDescriptor ForegroundProperty { get; } = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(TabView));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedIndex"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedIndex"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedIndexProperty = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(TabView), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+        public static PropertyDescriptor SelectedIndexProperty { get; } = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(TabView), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
 
         /// <summary>
-        /// Describes the <see cref="P:SelectedTabItem"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedTabItem"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor SelectedTabItemProperty = PropertyDescriptor.Create(nameof(SelectedTabItem), typeof(TabItem), typeof(TabView));
+        public static PropertyDescriptor SelectedTabItemProperty { get; } = PropertyDescriptor.Create(nameof(SelectedTabItem), typeof(TabItem), typeof(TabView));
         #endregion
 
         /// <summary>

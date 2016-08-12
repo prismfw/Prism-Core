@@ -34,34 +34,29 @@ namespace Prism.UI
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:Activated"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Activated"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ActivatedEvent = EventDescriptor.Create(nameof(Activated), typeof(TypedEventHandler<Window>), typeof(Window));
+        public static EventDescriptor ActivatedEvent { get; } = EventDescriptor.Create(nameof(Activated), typeof(TypedEventHandler<Window>), typeof(Window));
 
         /// <summary>
-        /// Describes the <see cref="E:Closing"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Closing"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ClosingEvent = EventDescriptor.Create(nameof(Closing), typeof(TypedEventHandler<Window, CancelEventArgs>), typeof(Window));
+        public static EventDescriptor ClosingEvent { get; } = EventDescriptor.Create(nameof(Closing), typeof(TypedEventHandler<Window, CancelEventArgs>), typeof(Window));
 
         /// <summary>
-        /// Describes the <see cref="E:Deactivated"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Deactivated"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor DeactivatedEvent = EventDescriptor.Create(nameof(Deactivated), typeof(TypedEventHandler<Window>), typeof(Window));
+        public static EventDescriptor DeactivatedEvent { get; } = EventDescriptor.Create(nameof(Deactivated), typeof(TypedEventHandler<Window>), typeof(Window));
 
         /// <summary>
-        /// Describes the <see cref="E:OrientationChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:OrientationChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor OrientationChangedEvent = EventDescriptor.Create(nameof(OrientationChanged), typeof(TypedEventHandler<Window, DisplayOrientationChangedEventArgs>), typeof(Window));
+        public static EventDescriptor OrientationChangedEvent { get; } = EventDescriptor.Create(nameof(OrientationChanged), typeof(TypedEventHandler<Window, DisplayOrientationChangedEventArgs>), typeof(Window));
 
         /// <summary>
-        /// Describes the <see cref="E:SizeChanged"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:SizeChanged"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor SizeChangedEvent = EventDescriptor.Create(nameof(SizeChanged), typeof(TypedEventHandler<Window, WindowSizeChangedEventArgs>), typeof(Window));
+        public static EventDescriptor SizeChangedEvent { get; } = EventDescriptor.Create(nameof(SizeChanged), typeof(TypedEventHandler<Window, WindowSizeChangedEventArgs>), typeof(Window));
         #endregion
 
         /// <summary>

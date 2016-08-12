@@ -37,48 +37,41 @@ namespace Prism.UI.Controls
     {
         #region Event Descriptors
         /// <summary>
-        /// Describes the <see cref="E:NavigationCompleted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:NavigationCompleted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor NavigationCompletedEvent = EventDescriptor.Create(nameof(NavigationCompleted), typeof(TypedEventHandler<WebBrowser, WebNavigationCompletedEventArgs>), typeof(WebBrowser));
+        public static EventDescriptor NavigationCompletedEvent { get; } = EventDescriptor.Create(nameof(NavigationCompleted), typeof(TypedEventHandler<WebBrowser, WebNavigationCompletedEventArgs>), typeof(WebBrowser));
 
         /// <summary>
-        /// Describes the <see cref="E:NavigationStarting"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:NavigationStarting"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor NavigationStartingEvent = EventDescriptor.Create(nameof(NavigationStarting), typeof(TypedEventHandler<WebBrowser, WebNavigationStartingEventArgs>), typeof(WebBrowser));
+        public static EventDescriptor NavigationStartingEvent { get; } = EventDescriptor.Create(nameof(NavigationStarting), typeof(TypedEventHandler<WebBrowser, WebNavigationStartingEventArgs>), typeof(WebBrowser));
 
         /// <summary>
-        /// Describes the <see cref="E:ScriptCompleted"/> event.  This field is read-only.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:ScriptCompleted"/> event.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "EventDescriptor is immutable.")]
-        public static readonly EventDescriptor ScriptCompletedEvent = EventDescriptor.Create(nameof(ScriptCompleted), typeof(TypedEventHandler<WebBrowser, WebScriptCompletedEventArgs>), typeof(WebBrowser));
+        public static EventDescriptor ScriptCompletedEvent { get; } = EventDescriptor.Create(nameof(ScriptCompleted), typeof(TypedEventHandler<WebBrowser, WebScriptCompletedEventArgs>), typeof(WebBrowser));
         #endregion
 
         #region Property Descriptors
         /// <summary>
-        /// Describes the <see cref="P:CanGoBack"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanGoBack"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CanGoBackProperty = PropertyDescriptor.Create(nameof(CanGoBack), typeof(bool), typeof(WebBrowser), true);
+        public static PropertyDescriptor CanGoBackProperty { get; } = PropertyDescriptor.Create(nameof(CanGoBack), typeof(bool), typeof(WebBrowser), true);
 
         /// <summary>
-        /// Describes the <see cref="P:CanGoForward"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanGoForward"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor CanGoForwardProperty = PropertyDescriptor.Create(nameof(CanGoForward), typeof(bool), typeof(WebBrowser), true);
+        public static PropertyDescriptor CanGoForwardProperty { get; } = PropertyDescriptor.Create(nameof(CanGoForward), typeof(bool), typeof(WebBrowser), true);
 
         /// <summary>
-        /// Describes the <see cref="P:Title"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Title"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor TitleProperty = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(WebBrowser), true);
+        public static PropertyDescriptor TitleProperty { get; } = PropertyDescriptor.Create(nameof(Title), typeof(string), typeof(WebBrowser), true);
 
         /// <summary>
-        /// Describes the <see cref="P:Uri"/> property.  This field is read-only.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Uri"/> property.
         /// </summary>
-        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
-        public static readonly PropertyDescriptor UriProperty = PropertyDescriptor.Create(nameof(Uri), typeof(Uri), typeof(WebBrowser), true);
+        public static PropertyDescriptor UriProperty { get; } = PropertyDescriptor.Create(nameof(Uri), typeof(Uri), typeof(WebBrowser), true);
         #endregion
 
         /// <summary>
