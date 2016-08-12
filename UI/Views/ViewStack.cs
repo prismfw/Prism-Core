@@ -165,6 +165,20 @@ namespace Prism.UI
             nativeObject.ViewChanging += (o, e) =>
             {
                 OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView, ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
+
+                var splitView = Parent as SplitView;
+                if (splitView != null && splitView.MasterContent == this)
+                {
+                    splitView.OnMasterContentChanged();
+                }
+                else
+                {
+                    var tabView = Parent as TabbedSplitView;
+                    if (tabView != null && tabView.SelectedTabItem?.Content == this)
+                    {
+                        tabView.OnMasterContentChanged();
+                    }
+                }
             };
 
             Header = new ViewStackHeader(nativeObject.Header);

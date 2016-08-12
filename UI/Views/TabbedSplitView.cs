@@ -78,6 +78,12 @@ namespace Prism.UI
         public static readonly PropertyDescriptor DetailContentProperty = PropertyDescriptor.Create(nameof(DetailContent), typeof(object), typeof(TabbedSplitView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
+        /// Describes the <see cref="P:IsDetailAutoResetEnabled"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor IsDetailAutoResetEnabledProperty = PropertyDescriptor.Create(nameof(IsDetailAutoResetEnabled), typeof(bool), typeof(TabbedSplitView));
+
+        /// <summary>
         /// Describes the <see cref="P:MaxMasterWidth"/> property.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
@@ -150,6 +156,24 @@ namespace Prism.UI
         private object detailContent;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the content of the detail pane should automatically reset upon changes to the content of the master pane.
+        /// In most cases, this means popping a view stack in the detail pane to root when the current view of a view stack in the master pane is changed.
+        /// </summary>
+        public bool IsDetailAutoResetEnabled
+        {
+            get { return isDetailAutoResetEnabled; }
+            set
+            {
+                if (value != isDetailAutoResetEnabled)
+                {
+                    isDetailAutoResetEnabled = value;
+                    OnPropertyChanged(IsDetailAutoResetEnabledProperty);
+                }
+            }
+        }
+        private bool isDetailAutoResetEnabled = true;
+
+        /// <summary>
         /// Gets or sets the maximum width of the master pane.
         /// </summary>
         public double MaxMasterWidth
@@ -208,6 +232,14 @@ namespace Prism.UI
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabbedSplitView).FullName), nameof(resolveType));
             }
+
+            nativeObject.TabItemSelected += (o, e) =>
+            {
+                if (e.CurrentItem != e.PreviousItem)
+                {
+                    OnMasterContentChanged();
+                }
+            };
         }
 
         /// <summary>
@@ -292,6 +324,14 @@ namespace Prism.UI
             }
 
             return constraints;
+        }
+
+        internal void OnMasterContentChanged()
+        {
+            if (isDetailAutoResetEnabled)
+            {
+                (detailContent as ViewStack)?.PopToRoot(Animate.Off);
+            }
         }
     }
 }

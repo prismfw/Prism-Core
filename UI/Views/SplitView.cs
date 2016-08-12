@@ -76,6 +76,12 @@ namespace Prism.UI
         public static readonly PropertyDescriptor DetailContentProperty = PropertyDescriptor.Create(nameof(DetailContent), typeof(object), typeof(SplitView), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
+        /// Describes the <see cref="P:IsDetailAutoResetEnabled"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor IsDetailAutoResetEnabledProperty = PropertyDescriptor.Create(nameof(IsDetailAutoResetEnabled), typeof(bool), typeof(SplitView));
+
+        /// <summary>
         /// Describes the <see cref="P:MasterContent"/> property.  This field is read-only.
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
@@ -154,6 +160,24 @@ namespace Prism.UI
         private object detailContent;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the content of the detail pane should automatically reset upon changes to the content of the master pane.
+        /// In most cases, this means popping a view stack in the detail pane to root when the current view of a view stack in the master pane is changed.
+        /// </summary>
+        public bool IsDetailAutoResetEnabled
+        {
+            get { return isDetailAutoResetEnabled; }
+            set
+            {
+                if (value != isDetailAutoResetEnabled)
+                {
+                    isDetailAutoResetEnabled = value;
+                    OnPropertyChanged(IsDetailAutoResetEnabledProperty);
+                }
+            }
+        }
+        private bool isDetailAutoResetEnabled = true;
+
+        /// <summary>
         /// Gets or sets the object that acts as the content for the master pane.
         /// This is typically an <see cref="IView"/> or <see cref="ViewStack"/> instance.
         /// </summary>
@@ -184,6 +208,7 @@ namespace Prism.UI
                     }
 
                     OnPropertyChanged(MasterContentProperty);
+                    OnMasterContentChanged();
                 }
             }
         }
@@ -293,6 +318,14 @@ namespace Prism.UI
             }
 
             return nativeObject.Measure(constraints);
+        }
+
+        internal void OnMasterContentChanged()
+        {
+            if (isDetailAutoResetEnabled)
+            {
+                (detailContent as ViewStack)?.PopToRoot(Animate.Off);
+            }
         }
     }
 }

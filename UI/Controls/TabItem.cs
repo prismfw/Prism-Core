@@ -89,6 +89,8 @@ namespace Prism.UI.Controls
             {
                 if (value != content)
                 {
+                    var tabView = VisualTreeHelper.GetChild<TabbedSplitView>(Window.Current, tv => tv.SelectedTabItem == this);
+                    
                     content = value;
                     if (content is IView || content is INativeViewStack)
                     {
@@ -108,6 +110,7 @@ namespace Prism.UI.Controls
                         nativeObject.Content = ObjectRetriever.GetNativeObject(contentObj);
                     }
 
+                    tabView?.OnMasterContentChanged();
                     OnPropertyChanged(ContentProperty);
                 }
             }
