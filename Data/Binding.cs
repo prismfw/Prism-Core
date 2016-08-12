@@ -173,10 +173,9 @@ namespace Prism.Data
         /// </summary>
         public BindingStatus Status { get; internal set; }
 
-#if !DEBUG
-        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-#endif
         internal event TypedEventHandler<Binding, HandledEventArgs> SourceValueUpdated;
+
+        internal event TypedEventHandler<Binding, HandledEventArgs> TargetValueUpdated;
 
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -594,6 +593,17 @@ namespace Prism.Data
                                 if (Mode == BindingMode.OneWayToTarget || (Mode == BindingMode.Default && !targetDescriptor.GetMetadata(targetObj.GetType()).BindsTwoWayByDefault) || Mode == BindingMode.OneTimeToTarget)
                                 {
                                     return;
+                                }
+
+                                var handler = TargetValueUpdated;
+                                if (handler != null)
+                                {
+                                    var args = new HandledEventArgs();
+                                    handler(this, args);
+                                    if (args.IsHandled)
+                                    {
+                                        return;
+                                    }
                                 }
 
                                 var value = GetValue(targetObj, targetDescriptor, targetPropertyPath.GetIndexValues(j));

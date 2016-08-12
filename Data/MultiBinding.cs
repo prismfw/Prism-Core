@@ -145,19 +145,20 @@ namespace Prism.Data
                             var binding = e.NewItems[i] as Binding;
                             if (binding != null)
                             {
-                                binding.SourceValueUpdated -= OnSourceValueUpdated;
-                                binding.SourceValueUpdated += OnSourceValueUpdated;
-                                binding.Activate(targetObjects, targetPropertyPath, targetDescriptors);
-
-                                if (binding.Status == BindingStatus.Active)
-                                {
-                                    Status = BindingStatus.Active;
-                                }
+                                ActivateBinding(binding);
                             }
                         }
                         isActivating = false;
 
-                        OnSourceValueUpdated(null, new HandledEventArgs());
+                        if (Bindings.Any(b => GetBindingMode(b) != BindingMode.OneWayToSource))
+                        {
+                            OnSourceValueUpdated(null, new HandledEventArgs());
+                        }
+
+                        if (Bindings.Any(b => GetBindingMode(b) == BindingMode.OneWayToSource))
+                        {
+                            OnTargetPropertyChanged(targetObjects.Last().Target, new PropertyChangedEventArgs(targetDescriptors.Last().Name));
+                        }
                         return;
                     case NotifyCollectionChangedAction.Replace:
                         for (int i = 0; i < e.OldItems.Count; i++)
@@ -166,6 +167,7 @@ namespace Prism.Data
                             if (binding != null)
                             {
                                 binding.SourceValueUpdated -= OnSourceValueUpdated;
+                                binding.TargetValueUpdated -= OnTargetValueChanged;
                                 binding.Deactivate();
                             }
                         }
@@ -178,19 +180,20 @@ namespace Prism.Data
                                 var binding = e.NewItems[i] as Binding;
                                 if (binding != null)
                                 {
-                                    binding.SourceValueUpdated -= OnSourceValueUpdated;
-                                    binding.SourceValueUpdated += OnSourceValueUpdated;
-                                    binding.Activate(targetObjects, targetPropertyPath, targetDescriptors);
-
-                                    if (binding.Status == BindingStatus.Active)
-                                    {
-                                        Status = BindingStatus.Active;
-                                    }
+                                    ActivateBinding(binding);
                                 }
                             }
                             isActivating = false;
 
-                            OnSourceValueUpdated(null, new HandledEventArgs());
+                            if (Bindings.Any(b => GetBindingMode(b) != BindingMode.OneWayToSource))
+                            {
+                                OnSourceValueUpdated(null, new HandledEventArgs());
+                            }
+
+                            if (Bindings.Any(b => GetBindingMode(b) == BindingMode.OneWayToSource))
+                            {
+                                OnTargetPropertyChanged(targetObjects.Last().Target, new PropertyChangedEventArgs(targetDescriptors.Last().Name));
+                            }
                         }
                         return;
                     case NotifyCollectionChangedAction.Remove:
@@ -201,6 +204,7 @@ namespace Prism.Data
                             if (binding != null)
                             {
                                 binding.SourceValueUpdated -= OnSourceValueUpdated;
+                                binding.TargetValueUpdated -= OnTargetValueChanged;
                                 binding.Deactivate();
                             }
                         }
@@ -276,15 +280,7 @@ namespace Prism.Data
             isActivating = true;
             for (int i = 0; i < Bindings.Count; i++)
             {
-                var binding = Bindings[i];
-                binding.SourceValueUpdated -= OnSourceValueUpdated;
-                binding.SourceValueUpdated += OnSourceValueUpdated;
-                binding.Activate(targetObjects, targetPropertyPath, targetDescriptors);
-
-                if (binding.Status == BindingStatus.Active)
-                {
-                    Status = BindingStatus.Active;
-                }
+                ActivateBinding(Bindings[i]);
             }
             isActivating = false;
 
@@ -309,10 +305,25 @@ namespace Prism.Data
                 foreach (var binding in Bindings)
                 {
                     binding.SourceValueUpdated -= OnSourceValueUpdated;
+                    binding.TargetValueUpdated -= OnTargetValueChanged;
                     binding.Deactivate();
                 }
 
                 Status = BindingStatus.Inactive;
+            }
+        }
+
+        private void ActivateBinding(Binding binding)
+        {
+            binding.SourceValueUpdated -= OnSourceValueUpdated;
+            binding.SourceValueUpdated += OnSourceValueUpdated;
+            binding.TargetValueUpdated -= OnTargetValueChanged;
+            binding.TargetValueUpdated += OnTargetValueChanged;
+            binding.Activate(targetObjects, targetPropertyPath, targetDescriptors);
+
+            if (binding.Status == BindingStatus.Active)
+            {
+                Status = BindingStatus.Active;
             }
         }
 
@@ -581,11 +592,21 @@ namespace Prism.Data
             }
         }
 
+        private void OnTargetValueChanged(Binding binding, HandledEventArgs e)
+        {
+            e.IsHandled = true;
+            if (!isActivating)
+            {
+                OnTargetPropertyChanged(targetObjects.Last().Target, new PropertyChangedEventArgs(targetDescriptors.Last().Name));
+            }
+        }
+
         private void UnregisterSourceListeners()
         {
             foreach (var binding in Bindings)
             {
                 binding.SourceValueUpdated -= OnSourceValueUpdated;
+                binding.TargetValueUpdated -= OnTargetValueChanged;
                 if (binding.Status == BindingStatus.Active)
                 {
                     binding.Deactivate();
