@@ -88,6 +88,12 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
         public static readonly PropertyDescriptor SelectedIndexProperty = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(TabView), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
+
+        /// <summary>
+        /// Describes the <see cref="P:SelectedTabItem"/> property.  This field is read-only.
+        /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "PropertyDescriptor is immutable.")]
+        public static readonly PropertyDescriptor SelectedTabItemProperty = PropertyDescriptor.Create(nameof(SelectedTabItem), typeof(TabItem), typeof(TabView));
         #endregion
 
         /// <summary>
@@ -121,6 +127,15 @@ namespace Prism.UI
         {
             get { return nativeObject.SelectedIndex; }
             set { nativeObject.SelectedIndex = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected tab item.
+        /// </summary>
+        public TabItem SelectedTabItem
+        {
+            get { return SelectedIndex >= 0 && SelectedIndex < TabItems.Count ? TabItems[SelectedIndex] : null; }
+            set { SelectedIndex = TabItems.IndexOf(value); }
         }
 
         /// <summary>
@@ -161,6 +176,14 @@ namespace Prism.UI
             }
             
             TabItems = new TabItemCollection(nativeObject);
+
+            nativeObject.PropertyChanged += (o, e) =>
+            {
+                if (e.Property == SelectedIndexProperty)
+                {
+                    OnPropertyChanged(SelectedTabItemProperty);
+                }
+            };
 
             nativeObject.TabItemSelected += (o, e) =>
             {
