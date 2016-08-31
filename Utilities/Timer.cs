@@ -28,7 +28,7 @@ using Prism.Native;
 using System.Diagnostics;
 #endif
 
-namespace Prism
+namespace Prism.Utilities
 {
     /// <summary>
     /// Represents an object that executes a method after a specified interval.

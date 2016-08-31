@@ -198,7 +198,7 @@
     <Compile Include="Foundation\HandledEventArgs.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="SystemParameters.cs" />
-    <Compile Include="Timer.cs" />
+    <Compile Include="Utilities\Timer.cs" />
     <Compile Include="Foundation\TypedEventHandler.cs" />
     <Compile Include="UI\Alert.cs" />
     <Compile Include="UI\AlertButton.cs" />
