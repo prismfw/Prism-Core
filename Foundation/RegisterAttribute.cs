@@ -24,8 +24,8 @@ using System;
 namespace Prism
 {
     /// <summary>
-    /// Indicates that a type is an implementation that should be registered with the <see cref="Application"/>'s IoC container.
-    /// The type can then be resolved through the Application's <see cref="M:Resolve"/> methods.
+    /// Indicates that a type is an implementation that should be registered with the IoC container.
+    /// The type can then be resolved via the <see cref="M:Resolve"/> methods of the default <see cref="TypeManager"/> instance.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true, Inherited = false)]
     public sealed class RegisterAttribute : Attribute
