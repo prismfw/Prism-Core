@@ -39,7 +39,7 @@ namespace Prism.UI
 #endif
         private static INativeVisualTreeHelper Current
         {
-            get { return Application.Resolve<INativeVisualTreeHelper>(); }
+            get { return TypeManager.Default.Resolve<INativeVisualTreeHelper>(); }
         }
 
         /// <summary>

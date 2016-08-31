@@ -351,4 +351,10 @@
   <data name="MetadataCanOnlyBeAppliedToPropertiesOwnedByType" xml:space="preserve">
     <value>Metadata of type {0} can only be applied to properties owned by types that are derived from {1}.</value>
   </data>
+  <data name="TypeRegistrationNotFound" xml:space="preserve">
+    <value>A type registration with the type {0} and the name '{1}' could not be found.</value>
+  </data>
+  <data name="TypeRegistrationAlreadyExists" xml:space="preserve">
+    <value>A type registration with the type {0} and the name '{1}' already exists.</value>
+  </data>
 </root>

@@ -37,7 +37,7 @@ namespace Prism
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private static readonly INativeSessionManager nativeObject = Application.Resolve<INativeSessionManager>();
+        private static readonly INativeSessionManager nativeObject = TypeManager.Default.Resolve<INativeSessionManager>();
 
         internal static void AbandonSession(string sessionId)
         {

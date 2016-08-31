@@ -40,7 +40,7 @@ namespace Prism.IO
 #endif
         private static INativeFile Current
         {
-            get { return Application.Resolve<INativeFile>(); }
+            get { return TypeManager.Default.Resolve<INativeFile>(); }
         }
 
         /// <summary>

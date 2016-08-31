@@ -272,7 +272,7 @@ namespace Prism
 #endif
         private static INativeSystemParameters Current
         {
-            get { return Application.Resolve<INativeSystemParameters>(); }
+            get { return TypeManager.Default.Resolve<INativeSystemParameters>(); }
         }
     }
 }

@@ -78,10 +78,10 @@ namespace Prism.Utilities
         {
             get
             {
-                var current = Application.Resolve<ILogger>();
+                var current = TypeManager.Default.Resolve<ILogger>();
                 if (current == null)
                 {
-                    Application.RegisterSingleton(typeof(ILogger), (current = new CommonLogger()));
+                    TypeManager.Default.RegisterSingleton(typeof(ILogger), (current = new CommonLogger()));
                 }
 
                 return current;

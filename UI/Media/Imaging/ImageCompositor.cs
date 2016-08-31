@@ -57,7 +57,7 @@ namespace Prism.UI.Media.Imaging
                 throw new ArgumentOutOfRangeException(nameof(height), Resources.Strings.ValueCannotBeLessThanZero);
             }
 
-            return await Application.Resolve<INativeImageCompositor>().CompositeAsync(width, height, images.Select(i => (INativeImageSource)ObjectRetriever.GetNativeObject(i)).ToArray());
+            return await TypeManager.Default.Resolve<INativeImageCompositor>().CompositeAsync(width, height, images.Select(i => (INativeImageSource)ObjectRetriever.GetNativeObject(i)).ToArray());
         }
     }
 }

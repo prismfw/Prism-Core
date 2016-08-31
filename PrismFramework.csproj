@@ -46,6 +46,13 @@
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Foundation\TypeUnregistrationOptions.cs" />
+    <Compile Include="Foundation\ControllerManager.cs" />
+    <Compile Include="Foundation\ViewManager.cs" />
+    <Compile Include="Foundation\TypeRegistrationKey.cs" />
+    <Compile Include="Foundation\TypeRegistrationOptions.cs" />
+    <Compile Include="Foundation\TypeResolutionOptions.cs" />
+    <Compile Include="Foundation\TypeManager.cs" />
     <Compile Include="MVC\ViewStackChild.cs" />
     <Compile Include="Native\NativeTransform.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
@@ -184,7 +191,6 @@
     <Compile Include="UI\Media\Imaging\ImageSource.cs" />
     <Compile Include="UI\Media\Imaging\ImageFormat.cs" />
     <Compile Include="MVC\ViewAttribute.cs" />
-    <Compile Include="Foundation\NamedTypeMap.cs" />
     <Compile Include="Foundation\Platform.cs" />
     <Compile Include="Foundation\PropertyDescriptor.cs" />
     <Compile Include="Foundation\PropertyPath.cs" />
@@ -289,7 +295,7 @@
     <Compile Include="Utilities\SerializableDictionary.cs" />
     <Compile Include="Foundation\SessionSettings.cs" />
     <Compile Include="MVC\View.cs" />
-    <Compile Include="Foundation\TypeLoader.cs" />
+    <Compile Include="Foundation\TypeRegistrationData.cs" />
     <Compile Include="Utilities\TypeSwitch.cs" />
     <Compile Include="UI\Visibility.cs" />
     <Compile Include="UI\Visual.cs" />

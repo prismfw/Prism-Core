@@ -121,10 +121,10 @@ namespace Prism.UI.Media.Imaging
         {
             get
             {
-                var current = Application.Resolve<IImageCache>();
+                var current = TypeManager.Default.Resolve<IImageCache>();
                 if (current == null)
                 {
-                    Application.RegisterSingleton(typeof(IImageCache), (current = new CommonImageCache()));
+                    TypeManager.Default.RegisterSingleton(typeof(IImageCache), (current = new CommonImageCache()));
                 }
 
                 return current;

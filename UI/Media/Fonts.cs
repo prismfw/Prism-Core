@@ -319,7 +319,7 @@ namespace Prism.UI.Media
 #endif
         private static INativeFonts Current
         {
-            get { return Application.Resolve<INativeFonts>(); }
+            get { return TypeManager.Default.Resolve<INativeFonts>(); }
         }
 
         /// <summary>

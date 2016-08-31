@@ -72,7 +72,7 @@ namespace Prism.IO
 #endif
         private static INativeDirectory Current
         {
-            get { return Application.Resolve<INativeDirectory>(); }
+            get { return TypeManager.Default.Resolve<INativeDirectory>(); }
         }
 
         /// <summary>

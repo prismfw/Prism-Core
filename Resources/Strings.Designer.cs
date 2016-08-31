@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
+    using System;
     using System.Reflection;
     
     
@@ -651,6 +652,24 @@ namespace Prism.Resources {
         internal static string TypeMustResolveToType {
             get {
                 return ResourceManager.GetString("TypeMustResolveToType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A type registration with the type {0} and the name &apos;{1}&apos; already exists..
+        /// </summary>
+        internal static string TypeRegistrationAlreadyExists {
+            get {
+                return ResourceManager.GetString("TypeRegistrationAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A type registration with the type {0} and the name &apos;{1}&apos; could not be found..
+        /// </summary>
+        internal static string TypeRegistrationNotFound {
+            get {
+                return ResourceManager.GetString("TypeRegistrationNotFound", resourceCulture);
             }
         }
         
