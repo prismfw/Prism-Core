@@ -104,7 +104,7 @@ namespace Prism.UI.Media.Imaging
         /// Initializes a new instance of the <see cref="BitmapImage"/> class.
         /// </summary>
         /// <param name="sourceUri">The URI of the source file containing the image data.</param>
-        /// <param name="options">Additional options to adhere to whening creating the image.</param>
+        /// <param name="options">Additional options to adhere to when creating the image.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceUri"/> is <c>null</c>.</exception>
         public BitmapImage(Uri sourceUri, ImageCreationOptions options)
             : this(typeof(INativeBitmapImage), null, new ResolveParameter(nameof(sourceUri), sourceUri),
