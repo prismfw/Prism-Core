@@ -368,6 +368,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More than one element was found in the sequence..
+        /// </summary>
+        internal static string MoreThanOneElementInSequence {
+            get {
+                return ResourceManager.GetString("MoreThanOneElementInSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name: {0}, Value: {1}.
         /// </summary>
         internal static string NameValue {

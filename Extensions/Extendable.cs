@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Prism.Extensions
 {
@@ -88,7 +89,7 @@ namespace Prism.Extensions
         /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> object.</param>
         /// <param name="key">The key for the value to remove and return.</param>
         /// <returns>The value that was removed.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="dictionary"/> or <paramref name="key"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="dictionary"/> is <c>null</c> -or- when <paramref name="key"/> is <c>null</c>.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when <paramref name="key"/> does not exist within the dictionary.</exception>
         public static TValue Extract<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
@@ -108,8 +109,7 @@ namespace Prism.Extensions
         }
 
         /// <summary>
-        /// Returns the value associated with the specified key,
-        /// or returns the default value of TValue if the key was not found.
+        /// Returns the value associated with the specified key, or returns the default value of TValue if the key was not found.
         /// </summary>
         /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> object.</param>
         /// <param name="key">The key for the value to return.</param>
@@ -135,8 +135,7 @@ namespace Prism.Extensions
         }
 
 		/// <summary>
-		///	Returns the value associated with the specified key,
-		/// or returns the specified default value if the key was not found.
+		///	Returns the value associated with the specified key, or returns the specified default value if the key was not found.
 		/// </summary>
 		/// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> object.</param>
 		/// <param name="key">The key for the value to return.</param>
@@ -158,7 +157,50 @@ namespace Prism.Extensions
             }
 
             TValue value;
-            return dictionary.TryGetValue(key, out value) ? value :defaultValue;
+            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+        }
+
+        /// <summary>
+        /// Removes all the elements that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="dictionary">The <see cref="IDictionary&lt;TKey, TValue&gt;"/> object.</param>
+        /// <param name="match">The delegate that defines the conditions of the elements to remove.</param>
+        /// <typeparam name="TKey">The 1st type parameter.</typeparam>
+		/// <typeparam name="TValue">The 2nd type parameter.</typeparam>
+		/// <returns>The number of elements that have been removed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="dictionary"/> is <c>null</c> -or- when <paramref name="match"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Signature is necessary to provide the expected functionality.  Typical use of this method will not expose the nested nature of the parameters.")]
+        public static int RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Predicate<KeyValuePair<TKey, TValue>> match)
+        {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            var keys = new List<TKey>();
+            foreach (var kvp in dictionary)
+            {
+                if (match(kvp))
+                {
+                    keys.Add(kvp.Key);
+                }
+            }
+
+            int count = 0;
+            foreach (var key in keys)
+            {
+                if (dictionary.Remove(key))
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
         #endregion
 
@@ -169,7 +211,7 @@ namespace Prism.Extensions
         /// <param name="source">The source collection.</param>
         /// <param name="collection">The collection with which to compare elements.</param>
         /// <returns><c>true</c> if the collections contain the same elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="collection"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c> -or- when <paramref name="collection"/> is <c>null</c>.</exception>
         public static bool IsEquivalent<T>(this IEnumerable<T> source, IEnumerable<T> collection)
         {
             return source.IsEquivalent(collection, EqualityComparer<T>.Default);
@@ -182,7 +224,7 @@ namespace Prism.Extensions
         /// <param name="collection">The collection with which to compare elements.</param>
         /// <param name="comparer">An equality comparer to compare the elements within the collections.</param>
         /// <returns><c>true</c> if the collections contain the same elements; otherwise, <c>false</c>.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> or <paramref name="collection"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c> -or- when <paramref name="collection"/> is <c>null</c>.</exception>
         public static bool IsEquivalent<T>(this IEnumerable<T> source, IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
             if (source == null)
@@ -229,6 +271,260 @@ namespace Prism.Extensions
 
             return !enumerator.MoveNext() && comparison.Count == 0;
         }
+
+        /// <summary>
+        /// Returns the element at a specified index in a sequence or a default value if the index is out of range.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="index">The zero-based index of the element to retrieve.</param>
+        /// <param name="defaultValue">The value to return if the index is out of range.</param>
+        /// <returns>The element at the specified index in the sequence, or <paramref name="defaultValue"/> if the index was outside the bounds of the sequence.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
+        public static T ElementAtOrDefault<T>(this IEnumerable<T> source, int index, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (index < 0)
+            {
+                return defaultValue;
+            }
+
+            var tList = source as IList<T>;
+            if (tList != null)
+            {
+                return tList.Count > index ? tList[index] : defaultValue;
+            }
+            
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (index-- == 0)
+                {
+                    return enumerator.Current;
+                }
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Returns the first element of a sequence or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="defaultValue">The value to return if the sequence is empty.</param>
+        /// <returns>The first element in the sequence, or <paramref name="defaultValue"/> if the sequence is empty.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
+        public static T FirstOrDefault<T>(this IEnumerable<T> source, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var enumerator = source.GetEnumerator();
+            if (enumerator.MoveNext())
+            {
+                return enumerator.Current;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Returns the first element of a sequence that satisfies a condition or a default value if no such element is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <param name="defaultValue">The value to return if there are no matching elements in the sequence.</param>
+        /// <returns>The first element in the sequence that satisfied the condition, or <paramref name="defaultValue"/> if no such element was found.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c> -or- when <paramref name="predicate"/> is <c>null</c>.</exception>
+        public static T FirstOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (predicate(enumerator.Current))
+                {
+                    return enumerator.Current;
+                }
+            }
+            
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Returns the last element of a sequence or a default value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="defaultValue">The value to return if the sequence is empty.</param>
+        /// <returns>The last element in the sequence, or <paramref name="defaultValue"/> if the sequence is empty.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
+        public static T LastOrDefault<T>(this IEnumerable<T> source, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var tList = source as IList<T>;
+            if (tList != null)
+            {
+                return tList.Count > 0 ? tList[tList.Count - 1] : defaultValue;
+            }
+
+            var retval = defaultValue;
+
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                retval = enumerator.Current;
+            }
+
+            return retval;
+        }
+
+        /// <summary>
+        /// Returns the last element of a sequence that satisfies a condition or a default value if no such element is found.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="predicate">A function to test each element for a condition.</param>
+        /// <param name="defaultValue">The value to return if there are no matching elements in the sequence.</param>
+        /// <returns>The last element in the sequence that satisfied the condition, or <paramref name="defaultValue"/> if no such element was found.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c> -or- when <paramref name="predicate"/> is <c>null</c>.</exception>
+        public static T LastOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            var tList = source as IList<T>;
+            if (tList != null)
+            {
+                if (tList.Count > 0)
+                {
+                    for (int i = tList.Count - 1; i >= 0; i--)
+                    {
+                        var element = tList[i];
+                        if (predicate(element))
+                        {
+                            return element;
+                        }
+                    }
+                }
+
+                return defaultValue;
+            }
+
+            var retval = defaultValue;
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (predicate(enumerator.Current))
+                {
+                    retval = enumerator.Current;
+                }
+            }
+
+            return retval;
+        }
+
+        /// <summary>
+        /// Returns the only element of a sequence or a default value if the sequence is empty;
+        /// this method throws an exception if there is more than one element in the sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="defaultValue">The value to return if there are no elements in the sequence.</param>
+        /// <returns>The single element in the sequence, or <paramref name="defaultValue"/> if the sequence was empty.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when there is more than one element in the sequence.</exception>
+        public static T SingleOrDefault<T>(this IEnumerable<T> source, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            var enumerator = source.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                return defaultValue;
+            }
+
+            T currentValue = enumerator.Current;
+            if (enumerator.MoveNext())
+            {
+                throw new InvalidOperationException(Resources.Strings.MoreThanOneElementInSequence);
+            }
+
+            return currentValue;
+        }
+
+        /// <summary>
+        /// Returns the only element of a sequence that satisfies a condition or a default value if no such element exists;
+        /// this method throws an exception if there is more than one element in the sequence.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="predicate">A function to test an element for a condition.</param>
+        /// <param name="defaultValue">The value to return if there are no matching elements in the sequence.</param>
+        /// <returns>The single element that satisfied the condition, or <paramref name="defaultValue"/> if no such element was found.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c> -or- when <paramref name="predicate"/> is <c>null</c>.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when more than one element in the sequence satisfies the condition.</exception>
+        public static T SingleOrDefault<T>(this IEnumerable<T> source, Func<T, bool> predicate, T defaultValue)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            int count = 0;
+            var retval = defaultValue;
+
+            var enumerator = source.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (predicate(enumerator.Current))
+                {
+                    retval = enumerator.Current;
+                    if (++count > 1)
+                    {
+                        throw new InvalidOperationException(Resources.Strings.MoreThanOneElementInSequence);
+                    }
+                }
+            }
+
+            return retval;
+        }
         #endregion
 
         #region IList<T>
@@ -263,7 +559,7 @@ namespace Prism.Extensions
         /// <param name="list">The <see cref="IList&lt;T&gt;"/> object.</param>
         /// <param name="match">The delegate that defines the conditions of the elements to remove and return.</param>
         /// <returns>An <see cref="IList&lt;T&gt;"/> instance containing the elements that were removed.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="list"/> or <paramref name="match"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="list"/> is <c>null</c> -or- when <paramref name="match"/> is <c>null</c>.</exception>
         public static IList<T> ExtractAll<T>(this IList<T> list, Predicate<T> match)
         {
             if (list == null)
