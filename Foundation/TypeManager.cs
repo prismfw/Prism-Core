@@ -692,10 +692,15 @@ namespace Prism
             TypeRegistrationData retval;
             if (!entries.TryGetValue(new TypeRegistrationKey(resolveType, name), out retval) && allowFuzzyNames)
             {
-                var key = new TypeRegistrationKey(resolveType, GetClosestName(name, entries.Keys.Select(k => k.RegisteredName).ToArray()));
+                var key = new TypeRegistrationKey(resolveType, GetClosestName(name, entries.Keys.Where(k => k.RegisteredType == resolveType).Select(k => k.RegisteredName).ToArray()));
                 entries.TryGetValue(key, out retval);
 
-                Logger.Debug(CultureInfo.CurrentCulture, "Exact match for name '{0}' not found.  Using substitute name '{1}' instead.", name, key.RegisteredName);
+#if DEBUG
+                if (retval != null)
+                {
+                    Logger.Debug(CultureInfo.CurrentCulture, "Exact match for name '{0}' not found.  Using substitute name '{1}' instead.", name, key.RegisteredName);
+                }
+#endif
             }
 
             return retval;
