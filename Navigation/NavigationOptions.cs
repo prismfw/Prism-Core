@@ -40,7 +40,7 @@ namespace Prism
         /// <summary>
         /// Gets any additional parameters that should be passed to the navigated controller.
         /// </summary>
-        public NavigationParameterDictionary Parameters { get; }
+        public NavigationParameterDictionary Parameters { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NavigationOptions"/> class.
@@ -58,11 +58,12 @@ namespace Prism
         public NavigationOptions Clone()
         {
             var clone = (NavigationOptions)MemberwiseClone();
+            clone.Parameters = new NavigationParameterDictionary();
             foreach (var key in Parameters.Keys)
             {
                 clone.Parameters[key] = Parameters[key];
             }
-
+            
             return clone;
         }
     }
