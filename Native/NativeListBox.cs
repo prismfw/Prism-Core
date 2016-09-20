@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Prism.UI;
 using Prism.UI.Controls;
@@ -132,6 +133,12 @@ namespace Prism.Native
         /// <param name="item">The item within the <see cref="P:Items"/> collection to deselect.</param>
         /// <param name="animate">Whether to animate the deselection.</param>
         void DeselectItem(object item, Animate animate);
+
+        /// <summary>
+        /// Returns a collection of the <see cref="INativeListBoxItem"/> objects that are in the list.
+        /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Depending on implementation, performance may be less than what is expected of a property.")]
+        IEnumerable<INativeListBoxItem> GetChildItems();
 
         /// <summary>
         /// Forces a reload of the list box's entire contents.

@@ -453,5 +453,41 @@ namespace Prism.UI.Controls
         {
             SelectionChanged?.Invoke(this, e);
         }
+
+        /// <summary>
+        /// Called when this instance is ready to arrange its children and returns the final rendering size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The final rendering size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size ArrangeOverride(Size constraints)
+        {
+            var renderSize = constraints = base.ArrangeOverride(constraints);
+            foreach (var item in nativeObject.GetChildItems())
+            {
+                var agnostic = ObjectRetriever.GetAgnosticObject(item) as Visual;
+                if (agnostic != null)
+                {
+                    agnostic.Arrange(new Rectangle(new Point(0, item.Frame.Y), agnostic.DesiredSize));
+                }
+            }
+
+            return renderSize;
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size MeasureOverride(Size constraints)
+        {
+            constraints = base.MeasureOverride(constraints);
+            foreach (var item in nativeObject.GetChildItems())
+            {
+                (ObjectRetriever.GetAgnosticObject(item) as Visual)?.Measure(new Size(constraints.Width, double.PositiveInfinity));
+            }
+
+            return constraints;
+        }
     }
 }
