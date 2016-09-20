@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Prism.Systems;
@@ -63,16 +64,14 @@ namespace Prism
             var enumerator = GetEnumerator();
             var potentials = enumerator.OfType<ViewRegistrationKey>().Where(key => key.RegisteredName == name &&
                         (key.RegisteredType == registerType || key.RegisteredType.GetTypeInfo().IsAssignableFrom(registerType.GetTypeInfo())));
-
-            var matches = potentials.Where(key => key.RegisteredType == registerType);
-            var regkey = matches.FirstOrDefault(key => key.FormFactor.HasFlag(Device.Current.FormFactor)) ?? matches.FirstOrDefault();
+            
+            var regkey = GetKey(potentials.Where(key => key.RegisteredType == registerType));
             if (regkey == null)
             {
                 var modelType = registerType;
                 while (modelType != null)
                 {
-                    matches = potentials.Where(key => key.RegisteredType == registerType);
-                    regkey = matches.FirstOrDefault(key => key.FormFactor.HasFlag(Device.Current.FormFactor)) ?? matches.FirstOrDefault();
+                    regkey = GetKey(potentials.Where(key => key.RegisteredType == registerType));
                     if (regkey != null)
                     {
                         break;
@@ -87,14 +86,19 @@ namespace Prism
                 var interfaces = registerType.GetTypeInfo().ImplementedInterfaces;
                 if (interfaces.Any())
                 {
-                    matches = potentials.Where(key => interfaces.Contains(key.RegisteredType));
-                    regkey = matches.FirstOrDefault(key => key.FormFactor.HasFlag(Device.Current.FormFactor)) ?? matches.FirstOrDefault();
+                    regkey = GetKey(potentials.Where(key => interfaces.Contains(key.RegisteredType)));
                 }
             }
 
             TypeRegistrationData retval;
             TryGetData(regkey, out retval);
             return retval;
+        }
+
+        private static ViewRegistrationKey GetKey(IEnumerable<ViewRegistrationKey> matches)
+        {
+            return matches.FirstOrDefault(key => key.FormFactor.HasFlag(Device.Current.FormFactor)) ??
+                matches.FirstOrDefault(key => key.FormFactor == FormFactor.Unknown) ?? matches.FirstOrDefault();
         }
 
         private class ViewRegistrationKey : ITypeRegistrationKey
