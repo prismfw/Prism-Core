@@ -693,7 +693,7 @@ namespace Prism
             if (Window.Current.Content == null)
             {
                 Window.Current.Content = Device.Current.FormFactor == FormFactor.Tablet || Device.Current.FormFactor == FormFactor.Desktop ?
-                    (object)new SplitView() { MasterContent = new ViewStack(), DetailContent = new ViewStack() } : new ViewStack();
+                    (object)new SplitView() { MasterContent = new ViewStack() } : new ViewStack();
             }
 
             var masterStack = Window.Current.Content as ViewStack;
@@ -716,7 +716,9 @@ namespace Prism
 
                     if (splitView.DetailContent == null)
                     {
-                        splitView.DetailContent = (detailStack = new ViewStack());
+                        detailStack = new ViewStack();
+                        detailStack.PushView(new ContentView() { IsValidBackTarget = false });
+                        splitView.DetailContent = detailStack;
                     }
                     else
                     {
@@ -743,7 +745,9 @@ namespace Prism
                     {
                         if (split.DetailContent == null)
                         {
-                            split.DetailContent = (detailStack = new ViewStack());
+                            detailStack = new ViewStack();
+                            detailStack.PushView(new ContentView() { IsValidBackTarget = false });
+                            split.DetailContent = detailStack;
                         }
 
                         detailStack = split.DetailContent as ViewStack;
