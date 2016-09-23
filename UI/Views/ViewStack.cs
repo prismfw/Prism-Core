@@ -21,15 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using Prism.Native;
 using Prism.UI.Controls;
-
-#if !DEBUG
-using System.Diagnostics;
-#endif
 
 namespace Prism.UI
 {
@@ -58,6 +55,11 @@ namespace Prism.UI
 
         #region Property Descriptors
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:BackButtonState"/> property.
+        /// </summary>
+        public static PropertyDescriptor BackButtonStateProperty { get; } = PropertyDescriptor.Create(nameof(BackButtonState), typeof(BackButtonState), typeof(ViewStack));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsHeaderHidden"/> property.
         /// </summary>
         public static PropertyDescriptor IsHeaderHiddenProperty { get; } = PropertyDescriptor.Create(nameof(IsHeaderHidden), typeof(bool), typeof(ViewStack), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -80,6 +82,25 @@ namespace Prism.UI
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
         public event TypedEventHandler<ViewStack, ViewStackViewChangingEventArgs> ViewChanging;
+
+        /// <summary>
+        /// Gets or sets the state of the view stack's back button.
+        /// </summary>
+        public BackButtonState BackButtonState
+        {
+            get { return backButtonState; }
+            set
+            {
+                if (value != backButtonState)
+                {
+                    backButtonState = value;
+                    UpdateBackButtonState();
+                    OnPropertyChanged(BackButtonStateProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private BackButtonState backButtonState;
 
         /// <summary>
         /// Gets the view that is currently on top of the stack.
@@ -175,6 +196,8 @@ namespace Prism.UI
                         tabView.OnMasterContentChanged();
                     }
                 }
+
+                UpdateBackButtonState();
             };
 
             Header = new ViewStackHeader(nativeObject.Header);
@@ -435,6 +458,20 @@ namespace Prism.UI
         protected virtual void OnViewChanging(ViewStackViewChangingEventArgs e)
         {
             ViewChanging?.Invoke(this, e);
+        }
+
+        internal void UpdateBackButtonState()
+        {
+            if (backButtonState == BackButtonState.Auto)
+            {
+                var currentView = CurrentView as IViewStackChild;
+                var nextView = Views?.LastOrDefault(v => v != currentView) as IViewStackChild;
+                nativeObject.IsBackButtonEnabled = (currentView == null || currentView.IsBackButtonEnabled) && (nextView == null || nextView.IsValidBackTarget);
+            }
+            else
+            {
+                nativeObject.IsBackButtonEnabled = backButtonState == BackButtonState.Enabled;
+            }
         }
     }
 }

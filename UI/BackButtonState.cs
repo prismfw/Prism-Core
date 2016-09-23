@@ -19,35 +19,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using Prism.UI;
-using Prism.UI.Media;
-
-namespace Prism.Native
+namespace Prism.UI
 {
     /// <summary>
-    /// Defines a content view that is native to a particular platform.
-    /// These objects are meant to be paired with platform-agnostic <see cref="ContentView"/> objects.
+    /// Describes the state of the back button for a <see cref="ViewStack"/>.
     /// </summary>
-    public interface INativeContentView : INativeVisual
+    public enum BackButtonState
     {
         /// <summary>
-        /// Gets or sets the background for the view.
+        /// The state of the back button is determined by the contents of the view stack.
         /// </summary>
-        Brush Background { get; set; }
-
+        Auto = 0,
         /// <summary>
-        /// Gets or sets the content to be displayed by the view.
+        /// The back button is enabled.
         /// </summary>
-        object Content { get; set; }
-
+        Enabled = 1,
         /// <summary>
-        /// Gets or sets the action menu for the view.
+        /// The back button is disabled.
         /// </summary>
-        INativeActionMenu Menu { get; set; }
-
-        /// <summary>
-        /// Gets or sets the title of the view.
-        /// </summary>
-        string Title { get; set; }
+        Disabled = 2
     }
 }

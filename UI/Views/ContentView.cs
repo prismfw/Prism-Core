@@ -75,6 +75,11 @@ namespace Prism.UI
         public static PropertyDescriptor IsBackButtonEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsBackButtonEnabled), typeof(bool), typeof(ContentView));
 
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsValidBackTarget"/> property.
+        /// </summary>
+        public static PropertyDescriptor IsValidBackTargetProperty { get; } = PropertyDescriptor.Create(nameof(IsValidBackTarget), typeof(bool), typeof(ContentView));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Menu"/> property.
         /// </summary>
         public static PropertyDescriptor MenuProperty { get; } = PropertyDescriptor.Create(nameof(Menu), typeof(ActionMenu), typeof(ContentView));
@@ -143,9 +148,39 @@ namespace Prism.UI
         /// </summary>
         public bool IsBackButtonEnabled
         {
-            get { return nativeObject.IsBackButtonEnabled; }
-            set { nativeObject.IsBackButtonEnabled = value; }
+            get { return isBackButtonEnabled; }
+            set
+            {
+                if (value != isBackButtonEnabled)
+                {
+                    isBackButtonEnabled = value;
+                    (Parent as ViewStack)?.UpdateBackButtonState();
+                    OnPropertyChanged(IsBackButtonEnabledProperty);
+                }
+            }
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool isBackButtonEnabled = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance can be popped to by pressing the back button of a <see cref="ViewStack"/>.
+        /// A value of <c>false</c> means that the back button should be disabled when this instance is next in the stack.
+        /// </summary>
+        public bool IsValidBackTarget
+        {
+            get { return isValidBackTarget; }
+            set
+            {
+                if (value != isValidBackTarget)
+                {
+                    isValidBackTarget = value;
+                    (Parent as ViewStack)?.UpdateBackButtonState();
+                    OnPropertyChanged(IsValidBackTargetProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool isValidBackTarget = true;
 
         /// <summary>
         /// Gets or sets the action menu for the view.

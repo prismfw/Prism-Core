@@ -114,6 +114,7 @@
     <Compile Include="UI\Scrollable.cs" />
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />
+    <Compile Include="UI\BackButtonState.cs" />
     <Compile Include="UI\Views\ViewStackViewChangingEventArgs.cs" />
     <Compile Include="UI\DisplayOrientationChangedEventArgs.cs" />
     <Compile Include="UI\WindowStyle.cs" />
