@@ -83,7 +83,7 @@ namespace Prism.UI.Controls
 
                 if (reusedItem == null)
                 {
-                    reusedItem = new ListBoxItem(ListBoxItemStyle.Empty);
+                    reusedItem = new ListBoxItem(ListBoxItemStyle.Empty) { MinHeight = SystemParameters.ListBoxItemStandardHeight };
                 }
 
                 var panel = value as Panel;
@@ -95,7 +95,11 @@ namespace Prism.UI.Controls
 
                 if (reusedItem.ContentPanel == null)
                 {
-                    reusedItem.ContentPanel = new StackPanel();
+                    reusedItem.ContentPanel = new Grid()
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
                 }
                 else
                 {
