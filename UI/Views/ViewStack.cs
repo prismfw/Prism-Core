@@ -318,6 +318,7 @@ namespace Prism.UI
         /// Pushes the specified view onto the top of the stack.
         /// </summary>
         /// <param name="view">The view to push to the top of the stack.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="view"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="view"/> is already on the stack.</exception>
         public void PushView(IView view)
         {
@@ -329,9 +330,15 @@ namespace Prism.UI
         /// </summary>
         /// <param name="view">The view to push to the top of the stack.</param>
         /// <param name="animate">Whether to use any system-defined transition animation.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="view"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="view"/> is already on the stack.</exception>
         public void PushView(IView view, Animate animate)
         {
+            if (view == null)
+            {
+                throw new ArgumentNullException(nameof(view));
+            }
+
             var nativeView = ObjectRetriever.GetNativeObject(view);
             if (nativeObject.Views.Contains(nativeView))
             {

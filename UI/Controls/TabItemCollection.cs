@@ -48,7 +48,15 @@ namespace Prism.UI.Controls
         public TabItem this[int index]
         {
             get { return (TabItem)ObjectRetriever.GetAgnosticObject(nativeObject.TabItems[index]); }
-            set { nativeObject.TabItems[index] = ObjectRetriever.GetNativeObject(value); }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                nativeObject.TabItems[index] = ObjectRetriever.GetNativeObject(value);
+            }
         }
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -67,7 +75,15 @@ namespace Prism.UI.Controls
         object IList.this[int index]
         {
             get { return ObjectRetriever.GetAgnosticObject(nativeObject.TabItems[index]); }
-            set { nativeObject.TabItems[index] = ObjectRetriever.GetNativeObject(value); }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                nativeObject.TabItems[index] = ObjectRetriever.GetNativeObject(value);
+            }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

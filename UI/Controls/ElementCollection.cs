@@ -50,6 +50,11 @@ namespace Prism.UI.Controls
             get { return (Element)ObjectRetriever.GetAgnosticObject(nativeObject.Children[index]); }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
                 nativeObject.Children[index] = ObjectRetriever.GetNativeObject(value);
                 panel.InvalidateMeasure();
                 panel.InvalidateArrange();
@@ -74,6 +79,11 @@ namespace Prism.UI.Controls
             get { return ObjectRetriever.GetAgnosticObject(nativeObject.Children[index]); }
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
                 nativeObject.Children[index] = ObjectRetriever.GetNativeObject(value);
                 panel.InvalidateMeasure();
                 panel.InvalidateArrange();

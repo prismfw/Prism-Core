@@ -211,29 +211,66 @@ namespace Prism.UI
         /// <summary>
         /// Gets or sets the maximum width of the master pane.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public double MaxMasterWidth
         {
             get { return nativeObject.MaxMasterWidth; }
-            set { nativeObject.MaxMasterWidth = value; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(MaxMasterWidth));
+                }
+
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(MaxMasterWidth), Strings.ValueCannotBeLessThanZero);
+                }
+
+                nativeObject.MaxMasterWidth = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the minimum width of the master pane.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public double MinMasterWidth
         {
             get { return nativeObject.MinMasterWidth; }
-            set { nativeObject.MinMasterWidth = value; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(MinMasterWidth));
+                }
+
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(MinMasterWidth), Strings.ValueCannotBeLessThanZero);
+                }
+
+                nativeObject.MinMasterWidth = value;
+            }
         }
 
         /// <summary>
         /// Gets or sets the preferred width of the master pane as a percentage of the width of the split view.
         /// Valid values are between 0.0 and 1.0.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public double PreferredMasterWidthRatio
         {
             get { return nativeObject.PreferredMasterWidthRatio; }
-            set { nativeObject.PreferredMasterWidthRatio = Math.Max(0, Math.Min(1, value)); }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(PreferredMasterWidthRatio));
+                }
+
+                nativeObject.PreferredMasterWidthRatio = Math.Max(0, Math.Min(1, value));
+            }
         }
 
 #if !DEBUG

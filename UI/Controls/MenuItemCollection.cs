@@ -48,7 +48,15 @@ namespace Prism.UI.Controls
         public MenuItem this[int index]
         {
             get { return (MenuItem)ObjectRetriever.GetAgnosticObject(nativeObject.Items[index]); }
-            set { nativeObject.Items[index] = ObjectRetriever.GetNativeObject(value); }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                nativeObject.Items[index] = ObjectRetriever.GetNativeObject(value);
+            }
         }
         
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -67,7 +75,15 @@ namespace Prism.UI.Controls
         object IList.this[int index]
         {
             get { return ObjectRetriever.GetAgnosticObject(nativeObject.Items[index]); }
-            set { nativeObject.Items[index] = ObjectRetriever.GetNativeObject(value); }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                nativeObject.Items[index] = ObjectRetriever.GetNativeObject(value);
+            }
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
