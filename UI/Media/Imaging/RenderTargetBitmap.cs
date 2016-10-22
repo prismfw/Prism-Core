@@ -86,6 +86,7 @@ namespace Prism.UI.Media.Imaging
         /// <param name="target">The visual object to render.  This value can be <c>null</c> to render the entire visual tree.</param>
         /// <param name="width">The width of the snapshot.  A value of 0 means the width will be determined automatically.</param>
         /// <param name="height">The height of the snapshot.  A value of 0 means the height will be determined automatically.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="width"/> is less than zero -or- when <paramref name="height"/> is less than zero.</exception>
         public Task RenderAsync(Visual target, int width, int height)
         {
             if (width < 0)
