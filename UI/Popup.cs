@@ -119,6 +119,8 @@ namespace Prism.UI
 
                         nativeObject.Content = ObjectRetriever.GetNativeObject(contentObj);
                     }
+
+                    OnPropertyChanged(ContentProperty);
                 }
             }
         }
