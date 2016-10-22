@@ -32,6 +32,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the affine transformation matrix.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality)]
         Matrix Value { get; set; }
     }
 }

@@ -45,13 +45,13 @@ namespace Prism.Native
         /// Adds the specified ink stroke to the canvas.
         /// </summary>
         /// <param name="stroke">The ink stroke to add.</param>
-        void AddStroke(INativeInkStroke stroke);
+        void AddStroke([CoreBehavior(CoreBehaviors.ChecksNullity)]INativeInkStroke stroke);
 
         /// <summary>
         /// Adds the specified ink strokes to the canvas.
         /// </summary>
         /// <param name="strokes">The ink strokes to add.</param>
-        void AddStrokes(IEnumerable<INativeInkStroke> strokes);
+        void AddStrokes([CoreBehavior(CoreBehaviors.ChecksNullity)]IEnumerable<INativeInkStroke> strokes);
 
         /// <summary>
         /// Removes all ink strokes from the canvas.
@@ -62,6 +62,6 @@ namespace Prism.Native
         /// Updates the drawing attributes to apply to new ink strokes on the canvas.
         /// </summary>
         /// <param name="attributes">The drawing attributes to apply to new ink strokes.</param>
-        void UpdateDrawingAttributes(InkDrawingAttributes attributes);
+        void UpdateDrawingAttributes([CoreBehavior(CoreBehaviors.ChecksNullity)]InkDrawingAttributes attributes);
     }
 }

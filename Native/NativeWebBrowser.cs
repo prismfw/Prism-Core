@@ -79,19 +79,19 @@ namespace Prism.Native
         /// Executes a script function that is implemented by the current document.
         /// </summary>
         /// <param name="scriptName">The name of the script function to execute.</param>
-        void InvokeScript(string scriptName);
+        void InvokeScript([CoreBehavior(CoreBehaviors.ChecksNullity)]string scriptName);
 
         /// <summary>
         /// Navigates to the specified <see cref="Uri"/>.
         /// </summary>
         /// <param name="uri">The URI to navigate to.</param>
-        void Navigate(Uri uri);
+        void Navigate([CoreBehavior(CoreBehaviors.ChecksNullity)]Uri uri);
 
         /// <summary>
         /// Navigates to the specified <see cref="string"/> containing the content for a document.
         /// </summary>
         /// <param name="html">The string containing the content for a document.</param>
-        void NavigateToString(string html);
+        void NavigateToString([CoreBehavior(CoreBehaviors.ChecksNullity)]string html);
 
         /// <summary>
         /// Reloads the current document.

@@ -49,11 +49,13 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the maximum number of lines of text that should be shown.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         int MaxLines { get; set; }
 
         /// <summary>
         /// Gets or sets the minimum number of lines of text that should be shown.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         int MinLines { get; set; }
 
         /// <summary>

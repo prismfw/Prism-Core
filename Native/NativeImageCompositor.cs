@@ -37,6 +37,8 @@ namespace Prism.Native
         /// <param name="height">The height of the composited image.</param>
         /// <param name="images">The images that are to be composited.  The first image will be drawn first and each subsequent image will be drawn on top.</param>
         /// <returns>The composited image as an <see cref="ImageSource"/> instance.</returns>
-        Task<ImageSource> CompositeAsync(int width, int height, params INativeImageSource[] images);
+        Task<ImageSource> CompositeAsync([CoreBehavior(CoreBehaviors.ChecksRange)]int width,
+            [CoreBehavior(CoreBehaviors.ChecksRange)]int height,
+            [CoreBehavior(CoreBehaviors.ChecksNullity)]params INativeImageSource[] images);
     }
 }

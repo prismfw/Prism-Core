@@ -27,6 +27,7 @@ namespace Prism.Native
     /// Defines a utility for searching an application's visual hierarchy that is native to a particular platform.
     /// These objects are meant to be paired with the platform-agnostic <see cref="VisualTreeHelper"/> object.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeVisualTreeHelper
     {
         /// <summary>
@@ -34,7 +35,7 @@ namespace Prism.Native
         /// </summary>
         /// <param name="reference">The parent object.</param>
         /// <returns>The number of children in the parent object's child collection.</returns>
-        int GetChildrenCount(object reference);
+        int GetChildrenCount([CoreBehavior(CoreBehaviors.ChecksNullity)]object reference);
 
         /// <summary>
         /// Returns the child that is located at the specified index in the child collection of the specified object.
@@ -42,13 +43,13 @@ namespace Prism.Native
         /// <param name="reference">The parent object.</param>
         /// <param name="childIndex">The zero-based index of the child to return.</param>
         /// <returns>The child at the specified index, or <c>null</c> if no such child exists.</returns>
-        object GetChild(object reference, int childIndex);
+        object GetChild([CoreBehavior(CoreBehaviors.ChecksNullity)]object reference, int childIndex);
 
         /// <summary>
         /// Returns the parent of the specified object.
         /// </summary>
         /// <param name="reference">The child object.</param>
         /// <returns>The parent object of the child, or <c>null</c> if no parent is found.</returns>
-        object GetParent(object reference);
+        object GetParent([CoreBehavior(CoreBehaviors.ChecksNullity)]object reference);
     }
 }

@@ -64,6 +64,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the object that acts as the content of the window.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality)]
         object Content { get; set; }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Prism.Native
         /// Sets the preferred minimum size of the window.
         /// </summary>
         /// <param name="minSize">The preferred minimum size.</param>
-        void SetPreferredMinSize(Size minSize);
+        void SetPreferredMinSize([CoreBehavior(CoreBehaviors.ChecksRange)]Size minSize);
 
         /// <summary>
         /// Displays the window if it is not already visible.

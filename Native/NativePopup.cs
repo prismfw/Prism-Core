@@ -28,6 +28,7 @@ namespace Prism.Native
     /// Defines a popup that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="Popup"/> objects.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.MeasuresByContent)]
     public interface INativePopup : INativeVisual
     {
         /// <summary>
@@ -44,6 +45,7 @@ namespace Prism.Native
         /// Gets or sets the object that acts as the content of the popup.
         /// This is typically an <see cref="IView"/> or <see cref="INativeViewStack"/> instance.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.TriggersChangeNotification)]
         object Content { get; set; }
 
         /// <summary>
@@ -61,6 +63,6 @@ namespace Prism.Native
         /// </summary>
         /// <param name="presenter">The object responsible for presenting the popup.</param>
         /// <param name="style">The style in which to present the popup.</param>
-        void Open(object presenter, PopupPresentationStyle style);
+        void Open([CoreBehavior(CoreBehaviors.ChecksNullity)]object presenter, PopupPresentationStyle style);
     }
 }

@@ -38,6 +38,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the content to be displayed by the view.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.TriggersChangeNotification)]
         object Content { get; set; }
 
         /// <summary>

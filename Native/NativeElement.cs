@@ -55,6 +55,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the level of opacity for the element.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double Opacity { get; set; }
 
         /// <summary>

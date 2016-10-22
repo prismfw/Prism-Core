@@ -45,11 +45,13 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the minimum distance, in meters, that should be covered before the location is updated again.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double DistanceThreshold { get; set; }
 
         /// <summary>
         /// Gets or sets the amount of time, in milliseconds, that should pass before the location is updated again.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double UpdateInterval { get; set; }
 
         /// <summary>

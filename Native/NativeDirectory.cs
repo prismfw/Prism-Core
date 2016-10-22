@@ -29,6 +29,7 @@ namespace Prism.Native
     /// <summary>
     /// Defines an object that provides management of directories on a native file system.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeDirectory
     {
         /// <summary>

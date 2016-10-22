@@ -38,6 +38,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the format in which to display the string value of the selected date.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         string DateStringFormat { get; set; }
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the selected date.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         DateTime? SelectedDate { get; set; }
     }
 }

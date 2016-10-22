@@ -30,6 +30,7 @@ namespace Prism.Native
     /// Defines a navigable stack of views that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="ViewStack"/> objects.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.MeasuresByContent)]
     [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "Class behavior is consistent with that of a stack.")]
     public interface INativeViewStack : INativeVisual
     {
@@ -79,7 +80,7 @@ namespace Prism.Native
         /// <param name="view">The view to be inserted.</param>
         /// <param name="index">The zero-based index of the location in the stack in which to insert the view.</param>
         /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        void InsertView(object view, int index, Animate animate);
+        void InsertView([CoreBehavior(CoreBehaviors.ChecksNullity)]object view, [CoreBehavior(CoreBehaviors.ChecksRange)]int index, Animate animate);
 
         /// <summary>
         /// Removes the top view from the stack.
@@ -101,14 +102,14 @@ namespace Prism.Native
         /// <param name="view">The view to pop to.</param>
         /// <param name="animate">Whether to use any system-defined transition animation.</param>
         /// <returns>An <see cref="Array"/> containing the views that were removed from the stack.</returns>
-        object[] PopToView(object view, Animate animate);
+        object[] PopToView([CoreBehavior(CoreBehaviors.ChecksNullity)]object view, Animate animate);
 
         /// <summary>
         /// Pushes the specified view onto the top of the stack.
         /// </summary>
         /// <param name="view">The view to push to the top of the stack.</param>
         /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        void PushView(object view, Animate animate);
+        void PushView([CoreBehavior(CoreBehaviors.ChecksNullity)]object view, Animate animate);
 
         /// <summary>
         /// Replaces a view that is currently on the stack with the specified view.
@@ -116,6 +117,6 @@ namespace Prism.Native
         /// <param name="oldView">The view to be replaced.</param>
         /// <param name="newView">The view with which to replace the old view.</param>
         /// <param name="animate">Whether to use any system-defined transition animation.</param>
-        void ReplaceView(object oldView, object newView, Animate animate);
+        void ReplaceView([CoreBehavior(CoreBehaviors.ChecksNullity)]object oldView, [CoreBehavior(CoreBehaviors.ChecksNullity)]object newView, Animate animate);
     }
 }

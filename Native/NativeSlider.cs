@@ -39,6 +39,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets a value indicating whether the thumb should automatically move to the closest step.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         bool IsSnapToStepEnabled { get; set; }
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the interval between steps along the track.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         double StepFrequency { get; set; }
 
         /// <summary>

@@ -43,11 +43,13 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the selected time.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         TimeSpan? SelectedTime { get; set; }
 
         /// <summary>
         /// Gets or sets the format in which to display the string value of the selected time.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         string TimeStringFormat { get; set; }
     }
 }

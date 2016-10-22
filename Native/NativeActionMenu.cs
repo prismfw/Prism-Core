@@ -54,6 +54,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the maximum number of menu items that can be displayed before they are placed into an overflow menu.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         int MaxDisplayItems { get; set; }
 
         /// <summary>

@@ -58,7 +58,7 @@ namespace Prism.Native
         /// Adds the specified <see cref="AlertButton"/> to the alert.
         /// </summary>
         /// <param name="button">The button to add.</param>
-        void AddButton(AlertButton button);
+        void AddButton([CoreBehavior(CoreBehaviors.ChecksNullity)]AlertButton button);
 
         /// <summary>
         /// Gets the button at the specified zero-based index.

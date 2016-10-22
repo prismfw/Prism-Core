@@ -30,6 +30,7 @@ namespace Prism.Native
     /// Defines a tab view that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="TabView"/> objects.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.MeasuresByContent)]
     public interface INativeTabView : INativeVisual
     {
         /// <summary>

@@ -27,6 +27,7 @@ namespace Prism.Native
     /// <summary>
     /// Defines a set of preferred fonts for a particular platform.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeFonts
     {
         /// <summary>

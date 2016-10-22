@@ -63,6 +63,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets a list of the items that make up the selection list.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Consuming developers should be able to specify the type of collection they wish to use.")]
         IList Items { get; set; }
 
@@ -74,6 +75,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the zero-based index of the selected item.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         int SelectedIndex { get; set; }
 
         /// <summary>

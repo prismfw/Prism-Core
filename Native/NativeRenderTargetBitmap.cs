@@ -45,6 +45,6 @@ namespace Prism.Native
         /// <param name="target">The visual object to render.    This value can be <c>null</c> to render the entire visual tree.</param>
         /// <param name="width">The width of the snapshot.</param>
         /// <param name="height">The height of the snapshot.</param>
-        Task RenderAsync(INativeVisual target, int width, int height);
+        Task RenderAsync(INativeVisual target, [CoreBehavior(CoreBehaviors.ChecksRange)]int width, [CoreBehavior(CoreBehaviors.ChecksRange)]int height);
     }
 }

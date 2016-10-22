@@ -50,6 +50,6 @@ namespace Prism.Native
         /// </summary>
         /// <param name="filePath">The path to the file in which to save the image data.</param>
         /// <param name="fileFormat">The file format in which to save the image data.</param>
-        Task SaveAsync(string filePath, ImageFileFormat fileFormat);
+        Task SaveAsync([CoreBehavior(CoreBehaviors.ChecksNullity)]string filePath, ImageFileFormat fileFormat);
     }
 }

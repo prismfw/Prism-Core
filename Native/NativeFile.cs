@@ -29,6 +29,7 @@ namespace Prism.Native
     /// <summary>
     /// Defines an object that provides native file system access.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeFile
     {
         /// <summary>

@@ -24,6 +24,7 @@ namespace Prism.Native
     /// <summary>
     /// Defines a set of system constants, defaults, and preferences for a particular platform.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeSystemParameters
     {
         /// <summary>

@@ -78,6 +78,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets a coefficient of the rate at which the audio track is played back.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double PlaybackRate { get; set; }
 
         /// <summary>
@@ -88,13 +89,14 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the volume of the audio track as a range between 0.0 (silent) and 1.0 (full).
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double Volume { get; set; }
 
         /// <summary>
         /// Loads the audio track from the file at the specified location.
         /// </summary>
         /// <param name="source">The URI of the source file for the audio track.</param>
-        void Open(Uri source);
+        void Open([CoreBehavior(CoreBehaviors.ChecksNullity)]Uri source);
 
         /// <summary>
         /// Pauses playback of the audio track.

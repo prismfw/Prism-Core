@@ -54,6 +54,7 @@
     <Compile Include="Foundation\TypeResolutionOptions.cs" />
     <Compile Include="Foundation\TypeManager.cs" />
     <Compile Include="MVC\ViewStackChild.cs" />
+    <Compile Include="Native\CoreBehaviorAttribute.cs" />
     <Compile Include="Native\NativeResources.cs" />
     <Compile Include="Native\NativeTransform.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />

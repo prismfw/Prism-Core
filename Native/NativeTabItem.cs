@@ -33,16 +33,19 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the object that acts as the content of the item.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.TriggersChangeNotification)]
         object Content { get; set; }
 
         /// <summary>
         /// Gets or sets the font to use for displaying the title text.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksNullity)]
         object FontFamily { get; set; }
 
         /// <summary>
         /// Gets or sets the size of the title text.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double FontSize { get; set; }
 
         /// <summary>

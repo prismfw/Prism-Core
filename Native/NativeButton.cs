@@ -39,6 +39,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the direction in which the button image should be placed in relation to the button title.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         ContentDirection ContentDirection { get; set; }
 
         /// <summary>

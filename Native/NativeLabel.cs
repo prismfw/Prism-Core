@@ -34,11 +34,13 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the font to use for displaying the text in the label.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksNullity)]
         object FontFamily { get; set; }
 
         /// <summary>
         /// Gets or sets the size of the text in the label.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double FontSize { get; set; }
 
         /// <summary>

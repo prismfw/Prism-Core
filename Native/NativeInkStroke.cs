@@ -54,6 +54,6 @@ namespace Prism.Native
         /// Updates the drawing attributes of the ink stroke.
         /// </summary>
         /// <param name="attributes">The drawing attributes to apply to the ink stroke.</param>
-        void UpdateDrawingAttributes(InkDrawingAttributes attributes);
+        void UpdateDrawingAttributes([CoreBehavior(CoreBehaviors.ChecksNullity)]InkDrawingAttributes attributes);
     }
 }

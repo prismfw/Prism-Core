@@ -82,6 +82,7 @@ namespace Prism.Native
         /// Gets or sets a value indicating whether each object in the <see cref="P:Items"/> collection represents a different section in the list.
         /// When <c>true</c>, objects that implement <see cref="IList"/> will have each of their items represent a different entry in the same section.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         bool IsSectioningEnabled { get; set; }
 
         /// <summary>
@@ -98,6 +99,7 @@ namespace Prism.Native
         /// Gets or sets the items that make up the contents of the list box.
         /// Items that implement the <see cref="IList"/> interface will be treated as different sections if <see cref="P:IsSectioningEnabled"/> is <c>true</c>.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ExpectsEarlyChangeNotification)]
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Consuming developers should be able to specify the type of collection they wish to use.")]
         IList Items { get; set; }
 
@@ -132,7 +134,7 @@ namespace Prism.Native
         /// </summary>
         /// <param name="item">The item within the <see cref="P:Items"/> collection to deselect.</param>
         /// <param name="animate">Whether to animate the deselection.</param>
-        void DeselectItem(object item, Animate animate);
+        void DeselectItem([CoreBehavior(CoreBehaviors.ChecksNullity)]object item, Animate animate);
 
         /// <summary>
         /// Returns a collection of the <see cref="INativeListBoxItem"/> objects that are in the list.
@@ -150,13 +152,13 @@ namespace Prism.Native
         /// </summary>
         /// <param name="item">The item within the <see cref="P:Items"/> collection to which the list box should scroll.</param>
         /// <param name="animate">Whether to animate the scrolling.</param>
-        void ScrollTo(object item, Animate animate);
+        void ScrollTo([CoreBehavior(CoreBehaviors.ChecksNullity)]object item, Animate animate);
 
         /// <summary>
         /// Selects the specified item.
         /// </summary>
         /// <param name="item">The item within the <see cref="P:Items"/> collection to select.</param>
         /// <param name="animate">Whether to animate the selection.</param>
-        void SelectItem(object item, Animate animate);
+        void SelectItem([CoreBehavior(CoreBehaviors.ChecksNullity)]object item, Animate animate);
     }
 }

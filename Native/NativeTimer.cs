@@ -43,6 +43,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the amount of time, in milliseconds, before the <see cref="Elapsed"/> event is fired.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
         double Interval { get; set; }
 
         /// <summary>

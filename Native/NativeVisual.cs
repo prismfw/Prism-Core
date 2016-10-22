@@ -93,6 +93,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the visual theme that should be used by this instance.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.TriggersChangeNotification)]
         Theme RequestedTheme { get; set; }
 
         /// <summary>
@@ -110,6 +111,6 @@ namespace Prism.Native
         /// </summary>
         /// <param name="constraints">The width and height that the object is not allowed to exceed.</param>
         /// <returns>The desired size as a <see cref="Size"/> instance.</returns>
-        Size Measure(Size constraints);
+        Size Measure([CoreBehavior(CoreBehaviors.ChecksRange)]Size constraints);
     }
 }

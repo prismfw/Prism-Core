@@ -39,6 +39,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the content of the scroll viewer.
         /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.TriggersChangeNotification)]
         object Content { get; set; }
     }
 }
