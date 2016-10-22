@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -153,7 +154,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeWebBrowser;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeWebBrowser).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeWebBrowser).FullName), nameof(resolveType));
             }
 
             nativeObject.NavigationCompleted += (o, e) => OnNavigationCompleted(e);

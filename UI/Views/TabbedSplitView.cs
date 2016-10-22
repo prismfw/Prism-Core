@@ -25,6 +25,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using Prism.Native;
+using Prism.Resources;
 
 namespace Prism.UI
 {
@@ -223,7 +224,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTabbedSplitView;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabbedSplitView).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabbedSplitView).FullName), nameof(resolveType));
             }
 
             nativeObject.TabItemSelected += (o, e) =>

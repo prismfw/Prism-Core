@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 #if !DEBUG
@@ -163,12 +164,12 @@ namespace Prism.UI.Controls
             {
                 if (double.IsNaN(value) || double.IsInfinity(value))
                 {
-                    throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
                 }
 
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(FontSize), Resources.Strings.ValueCannotBeLessThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(FontSize), Strings.ValueCannotBeLessThanZero);
                 }
 
                 nativeObject.FontSize = value;
@@ -231,7 +232,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeControl;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeControl).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeControl).FullName), nameof(resolveType));
             }
 
             nativeObject.GotFocus += (o, e) => OnGotFocus(e);

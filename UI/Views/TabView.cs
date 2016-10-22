@@ -24,6 +24,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Controls;
 using Prism.UI.Media;
 
@@ -167,7 +168,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTabView;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabView).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabView).FullName), nameof(resolveType));
             }
             
             TabItems = new TabItemCollection(nativeObject);

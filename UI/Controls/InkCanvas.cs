@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media.Inking;
 
 namespace Prism.UI.Controls
@@ -122,7 +123,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeInkCanvas;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeInkCanvas).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeInkCanvas).FullName), nameof(resolveType));
             }
 
             DefaultDrawingAttributes = new InkDrawingAttributes() { Color = Colors.Black };

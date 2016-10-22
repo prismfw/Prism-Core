@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
-    using System;
     using System.Reflection;
     
     
@@ -229,6 +228,15 @@ namespace Prism.Resources {
         internal static string EventDescriptorAlreadyCreated {
             get {
                 return ResourceManager.GetString("EventDescriptorAlreadyCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to set resource value &apos;{0}&apos; on property &apos;{1}&apos;.  {2}.
+        /// </summary>
+        internal static string FailedToSetResourceValueOnProperty {
+            get {
+                return ResourceManager.GetString("FailedToSetResourceValueOnProperty", resourceCulture);
             }
         }
         
@@ -607,6 +615,15 @@ namespace Prism.Resources {
         internal static string RegisteredWindowWithNameRequired {
             get {
                 return ResourceManager.GetString("RegisteredWindowWithNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A resource with the specified key could not be found..
+        /// </summary>
+        internal static string ResourceCouldNotBeFound {
+            get {
+                return ResourceManager.GetString("ResourceCouldNotBeFound", resourceCulture);
             }
         }
         

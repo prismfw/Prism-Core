@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media.Imaging;
 using Prism.Utilities;
 
@@ -142,7 +143,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeImage;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeImage).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeImage).FullName), nameof(resolveType));
             }
 
             sourceLoadedEventHandler = (o, e) =>

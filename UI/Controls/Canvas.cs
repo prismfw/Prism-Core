@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Prism.Resources;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -96,7 +97,7 @@ namespace Prism.UI.Controls
 
             if (double.IsNaN(value) || double.IsInfinity(value))
             {
-                throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(value));
+                throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(value));
             }
 
             var position = elements.GetOrCreateValue(element);
@@ -145,7 +146,7 @@ namespace Prism.UI.Controls
 
             if (double.IsNaN(value) || double.IsInfinity(value))
             {
-                throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(value));
+                throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(value));
             }
 
             var position = elements.GetOrCreateValue(element);

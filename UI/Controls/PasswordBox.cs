@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 #if !DEBUG
@@ -133,7 +134,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativePasswordBox;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePasswordBox).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePasswordBox).FullName), nameof(resolveType));
             }
 
             nativeObject.ActionKeyPressed += (o, e) => OnActionKeyPressed(e);

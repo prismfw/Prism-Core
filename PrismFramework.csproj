@@ -54,9 +54,11 @@
     <Compile Include="Foundation\TypeResolutionOptions.cs" />
     <Compile Include="Foundation\TypeManager.cs" />
     <Compile Include="MVC\ViewStackChild.cs" />
+    <Compile Include="Native\NativeResources.cs" />
     <Compile Include="Native\NativeTransform.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
     <Compile Include="Native\NativeViewStackViewChangingEventArgs.cs" />
+    <Compile Include="ResourceDictionary.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\DisplayOrientations.cs" />
     <Compile Include="UI\Media\Inking\InkDrawingAttributes.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />
     <Compile Include="UI\BackButtonState.cs" />
+    <Compile Include="UI\Theme.cs" />
     <Compile Include="UI\Views\ViewStackViewChangingEventArgs.cs" />
     <Compile Include="UI\DisplayOrientationChangedEventArgs.cs" />
     <Compile Include="UI\WindowStyle.cs" />

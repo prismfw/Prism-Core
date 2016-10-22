@@ -25,6 +25,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Input;
 using Prism.Native;
+using Prism.Resources;
 
 namespace Prism.UI.Controls
 {
@@ -154,12 +155,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeInfinity, nameof(Height));
+                        throw new ArgumentException(Strings.ValueCannotBeInfinity, nameof(Height));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Height), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(Height), Strings.ValueCannotBeLessThanZero);
                     }
 
                     height = value;
@@ -219,12 +220,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsNaN(value) || double.IsNegativeInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrNegativeInfinity, nameof(MaxHeight));
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrNegativeInfinity, nameof(MaxHeight));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(MaxHeight), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(MaxHeight), Strings.ValueCannotBeLessThanZero);
                     }
 
                     maxHeight = value;
@@ -248,12 +249,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsNaN(value) || double.IsNegativeInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrNegativeInfinity, nameof(MaxWidth));
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrNegativeInfinity, nameof(MaxWidth));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(MaxWidth), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(MaxWidth), Strings.ValueCannotBeLessThanZero);
                     }
 
                     maxWidth = value;
@@ -277,12 +278,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsNaN(value) || double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(MinHeight));
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(MinHeight));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(MinHeight), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(MinHeight), Strings.ValueCannotBeLessThanZero);
                     }
 
                     minHeight = value;
@@ -306,12 +307,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsNaN(value) || double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(MinWidth));
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(MinWidth));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(MinWidth), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(MinWidth), Strings.ValueCannotBeLessThanZero);
                     }
 
                     minWidth = value;
@@ -351,7 +352,7 @@ namespace Prism.UI.Controls
             {
                 if (double.IsNaN(value) || double.IsInfinity(value))
                 {
-                    throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(Opacity));
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(Opacity));
                 }
 
                 nativeObject.Opacity = Math.Max(0, Math.Min(1, value));
@@ -407,12 +408,12 @@ namespace Prism.UI.Controls
                 {
                     if (double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeInfinity, nameof(Width));
+                        throw new ArgumentException(Strings.ValueCannotBeInfinity, nameof(Width));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Width), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(Width), Strings.ValueCannotBeLessThanZero);
                     }
 
                     width = value;
@@ -444,7 +445,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeElement;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeElement).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeElement).FullName), nameof(resolveType));
             }
 
             nativeObject.PointerCanceled += (o, e) => OnPointerCanceled(e);
@@ -480,12 +481,12 @@ namespace Prism.UI.Controls
 
             if (double.IsNaN(renderSize.Width) || double.IsInfinity(renderSize.Width))
             {
-                throw new InvalidOperationException(Resources.Strings.InvalidWidthReturnedFromArrangement);
+                throw new InvalidOperationException(Strings.InvalidWidthReturnedFromArrangement);
             }
 
             if (double.IsNaN(renderSize.Height) || double.IsInfinity(renderSize.Height))
             {
-                throw new InvalidOperationException(Resources.Strings.InvalidHeightReturnedFromArrangement);
+                throw new InvalidOperationException(Strings.InvalidHeightReturnedFromArrangement);
             }
 
             renderSize.Width = Math.Max(MinWidth, Math.Min(MaxWidth, renderSize.Width));

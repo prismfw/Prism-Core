@@ -91,6 +91,11 @@ namespace Prism.Native
         INativeTransform RenderTransform { get; set; }
 
         /// <summary>
+        /// Gets or sets the visual theme that should be used by this instance.
+        /// </summary>
+        Theme RequestedTheme { get; set; }
+
+        /// <summary>
         /// Invalidates the arrangement of this instance's children.
         /// </summary>
         void InvalidateArrange();

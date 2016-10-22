@@ -28,6 +28,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Prism.Native;
+using Prism.Resources;
 using Prism.Systems;
 using Prism.UI;
 using Prism.Utilities;
@@ -79,6 +80,45 @@ namespace Prism
         {
             get { return nativeObject == null ? Platform.Unknown : nativeObject.Platform; }
         }
+
+        /// <summary>
+        /// Gets or sets a collection of application-scoped resources.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Consuming developers should be able to use their own dictionaries.")]
+        public ResourceDictionary Resources
+        {
+            get
+            {
+                if (resources == null)
+                {
+                    resources = new ResourceDictionary();
+                    resources.ResourceChanged += OnResourceChanged;
+                }
+
+                return resources;
+            }
+            set
+            {
+                if (value != resources)
+                {
+                    if (resources != null)
+                    {
+                        resources.ResourceChanged -= OnResourceChanged;
+                    }
+                    
+                    resources = value;
+                    if (resources != null)
+                    {
+                        resources.ResourceChanged -= OnResourceChanged;
+                        resources.ResourceChanged += OnResourceChanged;
+                    }
+
+                    Visual.PropagateResourceCollectionChange(Window.Current.Content);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private ResourceDictionary resources;
 
         /// <summary>
         /// Gets a collection of application settings that are scoped to the current user session.
@@ -146,7 +186,7 @@ namespace Prism
                 throw new ArgumentNullException(nameof(uri));
             }
 
-            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.NavigatingToURI, uri);
+            Logger.Trace(CultureInfo.CurrentCulture, Strings.NavigatingToURI, uri);
 
             var context = new NavigationContext(uri);
             string[] uriParts = uri.Split(new[] { '/' });
@@ -159,7 +199,7 @@ namespace Prism
                 return;
             }
 
-            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.MatchedURIWithPattern, uri, uriPattern);
+            Logger.Trace(CultureInfo.CurrentCulture, Strings.MatchedURIWithPattern, uri, uriPattern);
 
             string[] patternParts = uriPattern.Split('/');
             for (int i = 0; i < uriParts.Length; i++)
@@ -236,7 +276,7 @@ namespace Prism
                 throw new ArgumentNullException(nameof(controllerType));
             }
 
-            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.NavigatingToControllerType, controllerType.FullName);
+            Logger.Trace(CultureInfo.CurrentCulture, Strings.NavigatingToControllerType, controllerType.FullName);
 
             var context = new NavigationContext(controllerType.FullName);
             if (options != null)
@@ -275,7 +315,7 @@ namespace Prism
         {
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(Resources.Strings.ApplicationIsNotInitialized);
+                throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
             }
 
             nativeObject.BeginIgnoringUserInput();
@@ -289,7 +329,7 @@ namespace Prism
         {
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(Resources.Strings.ApplicationIsNotInitialized);
+                throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
             }
 
             nativeObject.BeginInvokeOnMainThread(action);
@@ -304,7 +344,7 @@ namespace Prism
         {
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(Resources.Strings.ApplicationIsNotInitialized);
+                throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
             }
 
             nativeObject.BeginInvokeOnMainThreadWithParameters(del, parameters);
@@ -317,10 +357,33 @@ namespace Prism
         {
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(Resources.Strings.ApplicationIsNotInitialized);
+                throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
             }
 
             nativeObject.EndIgnoringUserInput();
+        }
+
+        /// <summary>
+        /// Searches for a resource with the specified key and throws an exception if the resource cannot be found.
+        /// </summary>
+        /// <param name="resourceKey">The key of the resource to find.</param>
+        /// <returns>The requested resource object.</returns>
+        /// <exception cref="ArgumentException">Thrown when a resource for the specified <paramref name="resourceKey"/> cannot be found.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resourceKey"/> is <c>null</c>.</exception>
+        public object FindResource(object resourceKey)
+        {
+            if (resourceKey == null)
+            {
+                throw new ArgumentNullException(nameof(resourceKey));
+            }
+
+            object retval;
+            if (Resources.TryGetValue(resourceKey, out retval))
+            {
+                return retval;
+            }
+
+            throw new ArgumentException(Strings.ResourceCouldNotBeFound, nameof(resourceKey));
         }
 
         /// <summary>
@@ -331,10 +394,28 @@ namespace Prism
         {
             if (nativeObject == null)
             {
-                throw new InvalidOperationException(Resources.Strings.ApplicationIsNotInitialized);
+                throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
             }
 
             nativeObject.LaunchUrl(url);
+        }
+
+        /// <summary>
+        /// Searches for a resource with the specified key.
+        /// </summary>
+        /// <param name="resourceKey">The key of the resource to find.</param>
+        /// <returns>The requested resource object, or <c>null</c> if no resource is found.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resourceKey"/> is <c>null</c>.</exception>
+        public object TryFindResource(object resourceKey)
+        {
+            if (resourceKey == null)
+            {
+                throw new ArgumentNullException(nameof(resourceKey));
+            }
+
+            object retval;
+            Resources.TryGetValue(resourceKey, out retval);
+            return retval;
         }
 
         /// <summary>
@@ -347,7 +428,7 @@ namespace Prism
         {
             if (perspective == null)
             {
-                Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.NullViewPerspectiveReturned);
+                Logger.Warn(CultureInfo.CurrentCulture, Strings.NullViewPerspectiveReturned);
             }
         }
 
@@ -378,7 +459,7 @@ namespace Prism
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", Justification = "Value may contain formatting that is nonstandard to System.Uri.")]
         protected virtual void OnControllerNavigationFailed(string uri)
         {
-            Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.NoControllerFoundForURI, uri);
+            Logger.Warn(CultureInfo.CurrentCulture, Strings.NoControllerFoundForURI, uri);
         }
 
         /// <summary>
@@ -417,7 +498,7 @@ namespace Prism
         /// <param name="ex">The exception that was unhandled.</param>
         protected virtual void OnUnhandledException(Exception ex)
         {
-            Logger.Fatal(CultureInfo.CurrentCulture, Resources.Strings.ApplicationEncounterUnhandledException, ex);
+            Logger.Fatal(CultureInfo.CurrentCulture, Strings.ApplicationEncounterUnhandledException, ex);
         }
 
         /// <summary>
@@ -446,7 +527,7 @@ namespace Prism
                 appInstance.nativeObject = TypeManager.Default.Resolve<INativeApplication>();
                 if (appInstance.nativeObject == null)
                 {
-                    throw new InvalidOperationException(Resources.Strings.NativeApplicationCouldNotBeResolved);
+                    throw new InvalidOperationException(Strings.NativeApplicationCouldNotBeResolved);
                 }
 
                 appInstance.nativeObject.Exiting += (o, e) => appInstance.OnShutdown();
@@ -524,10 +605,10 @@ namespace Prism
         {
             if (controller == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ControllerDoesNotImplementInterface, typeof(IController).FullName));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.ControllerDoesNotImplementInterface, typeof(IController).FullName));
             }
 
-            Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.LoadingControllerOfType, controller.GetType().FullName);
+            Logger.Trace(CultureInfo.CurrentCulture, Strings.LoadingControllerOfType, controller.GetType().FullName);
 
             var current = Current;
             lock (current)
@@ -577,7 +658,7 @@ namespace Prism
                         perspective = await controller.LoadAsync(new NavigationContext(context));
                         if (controller.ModelType == null)
                         {
-                            throw new InvalidOperationException(Resources.Strings.ControllerModelTypeCannotBeNull);
+                            throw new InvalidOperationException(Strings.ControllerModelTypeCannotBeNull);
                         }
                     }
                     catch (Exception ex)
@@ -590,7 +671,7 @@ namespace Prism
                             current.EndIgnoringUserInput();
                         });
 
-                        Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.ControllerLoadFailedWithMessage, ex.Message);
+                        Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadFailedWithMessage, ex.Message);
                         current.OnControllerLoadFailed(controller, ex);
                         return;
                     }
@@ -598,7 +679,7 @@ namespace Prism
                     loadTimer.Stop();
                     loadTimer = null;
 
-                    Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.ControllerLoadedAndReturnedPerspective, perspective);
+                    Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadedAndReturnedPerspective, perspective);
                     current.OnControllerLoaded(controller, fromView, perspective);
 
                     if (perspective == null)
@@ -617,7 +698,7 @@ namespace Prism
                         var view = ViewManager.Default.Resolve(controllerModelType, perspective) as IView;
                         if (view == null)
                         {
-                            Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewWithPerspectiveAndModelType, perspective, controllerModelType.FullName);
+                            Logger.Warn(CultureInfo.CurrentCulture, Strings.UnableToLocateViewWithPerspectiveAndModelType, perspective, controllerModelType.FullName);
                             return;
                         }
 
@@ -630,7 +711,7 @@ namespace Prism
                             return;
                         }
 
-                        Logger.Trace(CultureInfo.CurrentCulture, Resources.Strings.ReadyToOutputViewOfType, view.GetType().FullName);
+                        Logger.Trace(CultureInfo.CurrentCulture, Strings.ReadyToOutputViewOfType, view.GetType().FullName);
                         await view.ConfigureUIAsync();
 
                         PresentView(view, context);
@@ -765,7 +846,7 @@ namespace Prism
 
             if (masterStack == null && detailStack == null)
             {
-                Logger.Warn(CultureInfo.CurrentCulture, Resources.Strings.UnableToLocateViewStack);
+                Logger.Warn(CultureInfo.CurrentCulture, Strings.UnableToLocateViewStack);
                 return;
             }
 
@@ -836,6 +917,16 @@ namespace Prism
             }
 
             return false;
+        }
+
+        private void OnResourceChanged(object sender, object key)
+        {
+            Visual.PropagateResourceChange(Window.Current.Content, key);
+        }
+
+        private void OnResourceCollectionChanged(object sender, EventArgs e)
+        {
+            Visual.PropagateResourceCollectionChange(Window.Current.Content);
         }
     }
 }

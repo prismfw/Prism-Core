@@ -20,11 +20,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using Prism.Data;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Controls;
 using Prism.UI.Media;
 
@@ -88,6 +92,11 @@ namespace Prism.UI
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:RenderTransform"/> property.
         /// </summary>
         public static PropertyDescriptor RenderTransformProperty { get; } = PropertyDescriptor.Create(nameof(RenderTransform), typeof(Transform), typeof(Visual));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:RequestedTheme"/> property.
+        /// </summary>
+        public static PropertyDescriptor RequestedThemeProperty { get; } = PropertyDescriptor.Create(nameof(RequestedTheme), typeof(Theme), typeof(Visual));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Tag"/> property.
@@ -200,6 +209,68 @@ namespace Prism.UI
         }
 
         /// <summary>
+        /// Gets or sets the visual theme that should be used by this instance.
+        /// </summary>
+        public Theme RequestedTheme
+        {
+            get { return nativeObject.RequestedTheme; }
+            set
+            {
+                if (value != nativeObject.RequestedTheme)
+                {
+                    nativeObject.RequestedTheme = value;
+
+                    OnPropertyChanged(RequestedThemeProperty);
+                    PropagateResourceCollectionChange(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a collection of resources scoped to this instance and its children.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Consuming developers should be able to use their own dictionaries.")]
+        public ResourceDictionary Resources
+        {
+            get
+            {
+                if (resources == null)
+                {
+                    resources = new ResourceDictionary();
+                    resources.ResourceChanged += OnResourceChanged;
+                    resources.ResourceCollectionChanged += OnResourceCollectionChanged;
+                }
+
+                return resources;
+            }
+            set
+            {
+                if (value != resources)
+                {
+                    if (resources != null)
+                    {
+                        resources.ResourceChanged -= OnResourceChanged;
+                        resources.ResourceCollectionChanged -= OnResourceCollectionChanged;
+                    }
+                    
+                    resources = value;
+                    if (resources != null)
+                    {
+                        resources.ResourceChanged -= OnResourceChanged;
+                        resources.ResourceChanged += OnResourceChanged;
+
+                        resources.ResourceCollectionChanged -= OnResourceCollectionChanged;
+                        resources.ResourceCollectionChanged += OnResourceCollectionChanged;
+                    }
+
+                    PropagateResourceCollectionChange(this);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private ResourceDictionary resources;
+
+        /// <summary>
         /// Gets or sets an arbitrary object that can be used for attaching custom information to this instance.
         /// </summary>
         public object Tag
@@ -231,6 +302,10 @@ namespace Prism.UI
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
         private bool isMeasuring;
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private List<ResourceReference> resourceReferences;
 
 #if METRICS
         private static int arrangeRequestCount, arrangePerformCount, arrangeSkipCount;
@@ -251,7 +326,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeVisual;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeVisual).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeVisual).FullName), nameof(resolveType));
             }
 
             nativeObject.ArrangeRequest = OnArrangeRequest;
@@ -280,12 +355,12 @@ namespace Prism.UI
             if (double.IsNaN(frame.X) || double.IsNaN(frame.Y) || double.IsNaN(frame.Width) || double.IsNaN(frame.Height) ||
                 double.IsInfinity(frame.X) || double.IsInfinity(frame.Y) || double.IsInfinity(frame.Width) || double.IsInfinity(frame.Height))
             {
-                throw new ArgumentException(Resources.Strings.RectangleContainsNaNOrInfiniteValue, nameof(frame));
+                throw new ArgumentException(Strings.RectangleContainsNaNOrInfiniteValue, nameof(frame));
             }
 
             if (frame.Width < 0 || frame.Height < 0)
             {
-                throw new ArgumentException(Resources.Strings.RectangleSizeContainsNegativeValue, nameof(frame));
+                throw new ArgumentException(Strings.RectangleSizeContainsNegativeValue, nameof(frame));
             }
 
             if (!IsMeasureValid)
@@ -324,6 +399,50 @@ namespace Prism.UI
         public void ClearBinding(PropertyDescriptor property)
         {
             BindingOperations.ClearBinding(this, property);
+        }
+
+        /// <summary>
+        /// Searches for a resource with the specified key and throws an exception if the resource cannot be found.
+        /// </summary>
+        /// <param name="resourceKey">The key of the resource to find.</param>
+        /// <returns>The requested resource object.</returns>
+        /// <exception cref="ArgumentException">Thrown when a resource for the specified <paramref name="resourceKey"/> cannot be found.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resourceKey"/> is <c>null</c>.</exception>
+        public object FindResource(object resourceKey)
+        {
+            if (resourceKey == null)
+            {
+                throw new ArgumentNullException(nameof(resourceKey));
+            }
+
+            object retval;
+            if (resources != null && resources.TryGetResource(this, resourceKey, out retval))
+            {
+                return retval;
+            }
+
+            var parentVisual = this;
+            do
+            {
+                parentVisual = VisualTreeHelper.GetParent<Visual>(parentVisual, p => p.resources != null);
+                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval))
+                {
+                    return retval;
+                }
+            }
+            while (parentVisual != null);
+
+            if (Application.Current.Resources.TryGetResource(this, resourceKey, out retval))
+            {
+                return retval;
+            }
+
+            if (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(this), resourceKey, out retval) ?? false)
+            {
+                return retval;
+            }
+
+            throw new ArgumentException(Strings.ResourceCouldNotBeFound, nameof(resourceKey));
         }
 
         /// <summary>
@@ -382,12 +501,12 @@ namespace Prism.UI
 
             if (double.IsNaN(size.Width) || double.IsInfinity(size.Width))
             {
-                throw new InvalidOperationException(Resources.Strings.InvalidWidthReturnedFromMeasurement);
+                throw new InvalidOperationException(Strings.InvalidWidthReturnedFromMeasurement);
             }
 
             if (double.IsNaN(size.Height) || double.IsInfinity(size.Height))
             {
-                throw new InvalidOperationException(Resources.Strings.InvalidHeightReturnedFromMeasurement);
+                throw new InvalidOperationException(Strings.InvalidHeightReturnedFromMeasurement);
             }
 
             if (size.Width < 0)
@@ -439,6 +558,58 @@ namespace Prism.UI
         }
 
         /// <summary>
+        /// Binds the property described by the specified <see cref="PropertyDescriptor"/> to the resource that is associated with the specified key.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property to bind to the resource.</param>
+        /// <param name="resourceKey">The key of the resource that is to be bound to the property.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="property"/> does not describe a valid property on this instance.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exact error types can be unpredictable but should not interfere with execution of the program.  The error is logged to facilitate debugging.")]
+        public void SetResourceReference(PropertyDescriptor property, object resourceKey)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+            
+            if (!property.OwnerType.GetTypeInfo().IsAssignableFrom(GetType().GetTypeInfo()))
+            {
+                throw new ArgumentException(Strings.OwnerTypeDoesNotMatchCurrentType);
+            }
+
+            if (resourceKey == null)
+            {
+                resourceReferences.RemoveAll(r => r.Property == property);
+                return;
+            }
+
+            if (resourceReferences == null)
+            {
+                resourceReferences = new List<ResourceReference>();
+            }
+
+            var resourceRef = resourceReferences.FirstOrDefault(r => r.Property == property);
+            if (resourceRef == null)
+            {
+                resourceRef = new ResourceReference(property);
+                resourceReferences.Add(resourceRef);
+            }
+
+            resourceRef.Key = resourceKey;
+            resourceRef.Value = TryFindResource(resourceKey);
+
+            try
+            {
+                property.SetValue(this, resourceRef.Value);
+            }
+            catch (Exception e)
+            {
+                Utilities.Logger.Error(CultureInfo.CurrentCulture, Strings.FailedToSetResourceValueOnProperty, resourceRef.Value, resourceRef.Property.Name, e);
+                resourceReferences.Remove(resourceRef);
+            }
+        }
+
+        /// <summary>
         /// Translates a <see cref="Point"/> relative to this instance to coordinates relative to the specified ancestor of this instance.
         /// </summary>
         /// <param name="point">The point, relative to this instance, that is to be translated.</param>
@@ -463,7 +634,7 @@ namespace Prism.UI
 
             if (instance == null)
             {
-                throw new ArgumentException(Resources.Strings.ObjectIsNotAnAncestor, nameof(ancestor));
+                throw new ArgumentException(Strings.ObjectIsNotAnAncestor, nameof(ancestor));
             }
 
             return point;
@@ -493,10 +664,47 @@ namespace Prism.UI
 
             if (descendant == null)
             {
-                throw new ArgumentException(Resources.Strings.ObjectIsNotADescendant, nameof(descendant));
+                throw new ArgumentException(Strings.ObjectIsNotADescendant, nameof(descendant));
             }
 
             return point;
+        }
+
+        /// <summary>
+        /// Searches for a resource with the specified key.
+        /// </summary>
+        /// <param name="resourceKey">The key of the resource to find.</param>
+        /// <returns>The requested resource object, or <c>null</c> if no resource is found.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resourceKey"/> is <c>null</c>.</exception>
+        public object TryFindResource(object resourceKey)
+        {
+            if (resourceKey == null)
+            {
+                throw new ArgumentNullException(nameof(resourceKey));
+            }
+
+            object retval;
+            if (resources != null && resources.TryGetResource(this, resourceKey, out retval))
+            {
+                return retval;
+            }
+
+            var parentVisual = this;
+            do
+            {
+                parentVisual = VisualTreeHelper.GetParent<Visual>(parentVisual, p => p.resources != null);
+                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval))
+                {
+                    return retval;
+                }
+            }
+            while (parentVisual != null);
+
+            if (!Application.Current.Resources.TryGetResource(this, resourceKey, out retval))
+            {
+                TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(this), resourceKey, out retval);
+            }
+            return retval;
         }
 
         /// <summary>
@@ -571,6 +779,66 @@ namespace Prism.UI
             Unloaded?.Invoke(this, e);
         }
 
+        internal static void PropagateResourceChange(object obj, object key)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+
+            var visualObj = obj as Visual;
+            if (visualObj?.resourceReferences != null)
+            {
+                for (int i = 0; i < visualObj.resourceReferences.Count; i++)
+                {
+                    var resourceRef = visualObj.resourceReferences[i];
+                    if (resourceRef.Key == key)
+                    {
+                        if (!visualObj.UpdateResourceReference(resourceRef))
+                        {
+                            i--;
+                        }
+                    }
+                }
+            }
+
+            int childCount = VisualTreeHelper.GetChildrenCount(obj);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+                if (!(child as Visual)?.resources?.ContainsKey(key) ?? true)
+                {
+                    PropagateResourceChange(child, key);
+                }
+            }
+        }
+
+        internal static void PropagateResourceCollectionChange(object obj)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+
+            var visualObj = obj as Visual;
+            if (visualObj?.resourceReferences != null)
+            {
+                for (int i = 0; i < visualObj.resourceReferences.Count; i++)
+                {
+                    if (!visualObj.UpdateResourceReference(visualObj.resourceReferences[i]))
+                    {
+                        i--;
+                    }
+                }
+            }
+
+            int childCount = VisualTreeHelper.GetChildrenCount(obj);
+            for (int i = 0; i < childCount; i++)
+            {
+                PropagateResourceCollectionChange(VisualTreeHelper.GetChild(obj, i));
+            }
+        }
+
         private void OnArrangeRequest(bool forceArrange, Rectangle? frameOverride)
         {
             if (!isArranging && !isMeasuring && (forceArrange || !IsArrangeValid))
@@ -620,6 +888,17 @@ namespace Prism.UI
         private void OnLoad(object sender, EventArgs e)
         {
             parent = VisualTreeHelper.GetParent(this, p => p is Visual || p is IView || p is Window);
+
+            if (resourceReferences != null)
+            {
+                for (int i = 0; i < resourceReferences.Count; i++)
+                {
+                    if (!UpdateResourceReference(resourceReferences[i]))
+                    {
+                        i--;
+                    }
+                }
+            }
 
             BindingOperations.ActivateBindings(this);
 
@@ -676,6 +955,16 @@ namespace Prism.UI
             return DesiredSize;
         }
 
+        private void OnResourceChanged(object sender, object key)
+        {
+            PropagateResourceChange(this, key);
+        }
+
+        private void OnResourceCollectionChanged(object sender, EventArgs e)
+        {
+            PropagateResourceCollectionChange(this);
+        }
+
         private void OnUnload(object sender, EventArgs e)
         {
             parent = null;
@@ -690,6 +979,40 @@ namespace Prism.UI
             }
 
             OnUnloaded(e);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exact error types can be unpredictable but should not interfere with execution of the program.  The error is logged to facilitate debugging.")]
+        private bool UpdateResourceReference(ResourceReference resourceRef)
+        {
+            try
+            {
+                // If the property has been set to something else, the resource reference is no longer valid.
+                if (resourceRef.Property.GetValue(this) == resourceRef.Value)
+                {
+                    resourceRef.Value = TryFindResource(resourceRef.Key);
+                    resourceRef.Property.SetValue(this, resourceRef.Value);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Utilities.Logger.Error(CultureInfo.CurrentCulture, Strings.FailedToSetResourceValueOnProperty, resourceRef.Value, resourceRef.Property.Name, e);
+            }
+
+            resourceReferences.Remove(resourceRef);
+            return false;
+        }
+
+        private class ResourceReference
+        {
+            public object Key;
+            public readonly PropertyDescriptor Property;
+            public object Value;
+
+            public ResourceReference(PropertyDescriptor property)
+            {
+                Property = property;
+            }
         }
     }
 }

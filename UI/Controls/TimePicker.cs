@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 #if !DEBUG
@@ -122,10 +123,10 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTimePicker;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTimePicker).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTimePicker).FullName), nameof(resolveType));
             }
 
-            nativeObject.TimeChanged += (o, e) => { OnTimeChanged(e); };
+            nativeObject.TimeChanged += (o, e) => OnTimeChanged(e);
 
             BorderWidth = SystemParameters.TimePickerBorderWidth;
             FontSize = Fonts.TimePickerFontSize;

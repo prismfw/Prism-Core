@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Prism.Resources;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -144,7 +145,7 @@ namespace Prism.UI.Controls
 
             if (column < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(column), Resources.Strings.ValueCannotBeLessThanZero);
+                throw new ArgumentOutOfRangeException(nameof(column), Strings.ValueCannotBeLessThanZero);
             }
 
             var position = elements.GetOrCreateValue(element);
@@ -193,7 +194,7 @@ namespace Prism.UI.Controls
 
             if (columnSpan < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(columnSpan), Resources.Strings.ValueCannotBeLessThanOne);
+                throw new ArgumentOutOfRangeException(nameof(columnSpan), Strings.ValueCannotBeLessThanOne);
             }
 
             var position = elements.GetOrCreateValue(element);
@@ -242,7 +243,7 @@ namespace Prism.UI.Controls
 
             if (row < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(row), Resources.Strings.ValueCannotBeLessThanZero);
+                throw new ArgumentOutOfRangeException(nameof(row), Strings.ValueCannotBeLessThanZero);
             }
 
             var position = elements.GetOrCreateValue(element);
@@ -291,7 +292,7 @@ namespace Prism.UI.Controls
 
             if (rowSpan < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rowSpan), Resources.Strings.ValueCannotBeLessThanOne);
+                throw new ArgumentOutOfRangeException(nameof(rowSpan), Strings.ValueCannotBeLessThanOne);
             }
 
             var position = elements.GetOrCreateValue(element);

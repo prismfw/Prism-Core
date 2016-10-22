@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 namespace Prism.UI.Controls
@@ -270,7 +271,7 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeListBox;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeListBox).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeListBox).FullName), nameof(resolveType));
             }
 
             nativeObject.AccessoryClicked += (o, e) => OnAccessoryClicked(e);
@@ -288,7 +289,7 @@ namespace Prism.UI.Controls
                     string id = adapter.GetItemId(value);
                     if (id == null)
                     {
-                        throw new InvalidOperationException(Resources.Strings.NullReuseIdReturned);
+                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
                     }
 
                     return id;
@@ -347,7 +348,7 @@ namespace Prism.UI.Controls
                     string id = adapter.GetSectionHeaderId(value);
                     if (id == null)
                     {
-                        throw new InvalidOperationException(Resources.Strings.NullReuseIdReturned);
+                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
                     }
 
                     return id;
@@ -467,7 +468,7 @@ namespace Prism.UI.Controls
                 var agnostic = ObjectRetriever.GetAgnosticObject(item) as Visual;
                 if (agnostic != null)
                 {
-                    agnostic.Arrange(new Rectangle(new Point(0, item.Frame.Y), agnostic.DesiredSize));
+                    agnostic.Arrange(new Rectangle(0, item.Frame.Y, constraints.Width, agnostic.DesiredSize.Height));
                 }
             }
 

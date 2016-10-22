@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 
 namespace Prism.UI
 {
@@ -264,7 +265,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeSplitView;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeSplitView).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeSplitView).FullName), nameof(resolveType));
             }
         }
 

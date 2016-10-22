@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using Prism.UI;
 
 namespace Prism.Native
 {
@@ -48,6 +49,11 @@ namespace Prism.Native
         /// Occurs when an unhandled exception is encountered.
         /// </summary>
         event EventHandler<ErrorEventArgs> UnhandledException;
+
+        /// <summary>
+        /// Gets the default theme that is used by the application.
+        /// </summary>
+        Theme DefaultTheme { get; }
 
         /// <summary>
         /// Gets the platform on which the application is running.

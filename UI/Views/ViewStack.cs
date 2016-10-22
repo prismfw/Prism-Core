@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Controls;
 
 namespace Prism.UI
@@ -164,7 +165,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeViewStack;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeViewStack).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeViewStack).FullName), nameof(resolveType));
             }
 
             nativeObject.Popping += (o, e) =>
@@ -233,7 +234,7 @@ namespace Prism.UI
 
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), Resources.Strings.ValueCannotBeLessThanZero);
+                throw new ArgumentOutOfRangeException(nameof(index), Strings.ValueCannotBeLessThanZero);
             }
 
             nativeObject.InsertView(ObjectRetriever.GetNativeObject(view), index, animate);
@@ -307,7 +308,7 @@ namespace Prism.UI
             var nativeView = ObjectRetriever.GetNativeObject(view);
             if (!nativeObject.Views.Contains(nativeView))
             {
-                throw new ArgumentException(Resources.Strings.ViewIsNotPartOfStack, nameof(view));
+                throw new ArgumentException(Strings.ViewIsNotPartOfStack, nameof(view));
             }
             
             return nativeObject.PopToView(nativeView, animate)?.Select(v => ObjectRetriever.GetAgnosticObject(v)).OfType<IView>().ToArray();
@@ -334,7 +335,7 @@ namespace Prism.UI
             var nativeView = ObjectRetriever.GetNativeObject(view);
             if (nativeObject.Views.Contains(nativeView))
             {
-                throw new ArgumentException(Resources.Strings.CannotPushExistingView, nameof(view));
+                throw new ArgumentException(Strings.CannotPushExistingView, nameof(view));
             }
 
             nativeObject.PushView(nativeView, animate);
@@ -375,7 +376,7 @@ namespace Prism.UI
             var nativeView = ObjectRetriever.GetNativeObject(oldView);
             if (!nativeObject.Views.Contains(nativeView))
             {
-                throw new ArgumentException(Resources.Strings.ViewIsNotPartOfStack, nameof(oldView));
+                throw new ArgumentException(Strings.ViewIsNotPartOfStack, nameof(oldView));
             }
 
             nativeObject.ReplaceView(nativeView, ObjectRetriever.GetNativeObject(newView), animate);

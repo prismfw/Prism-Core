@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.Systems;
 
 namespace Prism.UI
@@ -138,12 +139,12 @@ namespace Prism.UI
                 {
                     if (double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeInfinity, nameof(Height));
+                        throw new ArgumentException(Strings.ValueCannotBeInfinity, nameof(Height));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Height), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(Height), Strings.ValueCannotBeLessThanZero);
                     }
 
                     height = value;
@@ -205,12 +206,12 @@ namespace Prism.UI
                 {
                     if (double.IsInfinity(value))
                     {
-                        throw new ArgumentException(Resources.Strings.ValueCannotBeInfinity, nameof(Width));
+                        throw new ArgumentException(Strings.ValueCannotBeInfinity, nameof(Width));
                     }
 
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Width), Resources.Strings.ValueCannotBeLessThanZero);
+                        throw new ArgumentOutOfRangeException(nameof(Width), Strings.ValueCannotBeLessThanZero);
                     }
 
                     width = value;
@@ -255,7 +256,7 @@ namespace Prism.UI
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativePopup;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePopup).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePopup).FullName), nameof(resolveType));
             }
 
             nativeObject.Closed += (o, e) =>
@@ -312,7 +313,7 @@ namespace Prism.UI
 
             if (presenter == this)
             {
-                throw new ArgumentException(Resources.Strings.PopupCannotPresentSelf, nameof(presenter));
+                throw new ArgumentException(Strings.PopupCannotPresentSelf, nameof(presenter));
             }
 
             if (presenter.PresentedPopup == null)
@@ -324,7 +325,7 @@ namespace Prism.UI
             }
             else if (presenter.PresentedPopup != this)
             {
-                throw new ArgumentException(Resources.Strings.PresenterAlreadyPresentingPopup, nameof(presenter));
+                throw new ArgumentException(Strings.PresenterAlreadyPresentingPopup, nameof(presenter));
             }
         }
 
@@ -350,7 +351,7 @@ namespace Prism.UI
             }
             else if (presenter.PresentedPopup != this)
             {
-                throw new ArgumentException(Resources.Strings.PresenterAlreadyPresentingPopup, nameof(presenter));
+                throw new ArgumentException(Strings.PresenterAlreadyPresentingPopup, nameof(presenter));
             }
         }
 
