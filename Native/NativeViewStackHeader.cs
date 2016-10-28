@@ -28,7 +28,7 @@ namespace Prism.Native
     /// Defines a header on a view stack that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="ViewStackHeader"/> objects.
     /// </summary>
-    public interface INativeViewStackHeader : INativeObject
+    public interface INativeViewStackHeader : INativeVisual
     {
         /// <summary>
         /// Gets or sets the background for the header.
@@ -56,6 +56,12 @@ namespace Prism.Native
         /// Gets or sets the <see cref="Brush"/> to apply to the foreground content of the header.
         /// </summary>
         Brush Foreground { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the header is inset on top of the view stack content.
+        /// A value of <c>false</c> indicates that the header offsets the view stack content.
+        /// </summary>
+        bool IsInset { get; }
 
         /// <summary>
         /// Gets or sets the title for the header.

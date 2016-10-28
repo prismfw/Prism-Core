@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 #if !DEBUG
@@ -33,7 +34,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents the header for a <see cref="ViewStack"/> instance.
     /// </summary>
-    public sealed class ViewStackHeader : FrameworkObject
+    public sealed class ViewStackHeader : Visual
     {
         #region Property Descriptors
         /// <summary>
@@ -105,12 +106,12 @@ namespace Prism.UI.Controls
             {
                 if (double.IsNaN(value) || double.IsInfinity(value))
                 {
-                    throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
                 }
 
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(FontSize), Resources.Strings.ValueCannotBeLessThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(FontSize), Strings.ValueCannotBeLessThanZero);
                 }
 
                 nativeObject.FontSize = value;
@@ -133,6 +134,15 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.Foreground; }
             set { nativeObject.Foreground = value; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the header is inset on top of the view stack content.
+        /// A value of <c>false</c> indicates that the header offsets the view stack content.
+        /// </summary>
+        public bool IsInset
+        {
+            get { return nativeObject.IsInset; }
         }
 
         /// <summary>

@@ -396,17 +396,15 @@ namespace Prism.UI
         protected sealed override void ArrangeCore(Rectangle frame)
         {
             nativeObject.Frame = frame;
+            Header.Arrange(new Rectangle(new Point(), Header.DesiredSize));
 
             var currentView = CurrentView as Visual;
             if (currentView != null)
             {
-                var offset = nativeObject.IsHeaderHidden ? new Thickness() : Window.Current.Width > Window.Current.Height ?
-                    SystemParameters.ViewStackHeaderOffsetLandscape : SystemParameters.ViewStackHeaderOffsetPortrait;
-
-                frame.X += offset.Left;
-                frame.Y += offset.Top;
-                frame.Width = Math.Max(frame.Width - (offset.Left + offset.Right), 0);
-                frame.Height = Math.Max(frame.Height - (offset.Top + offset.Bottom), 0);
+                var offset = nativeObject.IsHeaderHidden || Header.IsInset ? Size.Empty : Header.RenderSize;
+                
+                frame.Width = Math.Max(frame.Width, 0);
+                frame.Height = Math.Max(frame.Height - offset.Height, 0);
                 currentView.Arrange(frame);
             }
         }
@@ -418,14 +416,15 @@ namespace Prism.UI
         /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
         protected sealed override Size MeasureCore(Size constraints)
         {
+            Header.Measure(constraints);
+
             var currentView = CurrentView as Visual;
             if (currentView != null)
             {
-                var offset = nativeObject.IsHeaderHidden ? new Thickness() : Window.Current.Width > Window.Current.Height ?
-                    SystemParameters.ViewStackHeaderOffsetLandscape : SystemParameters.ViewStackHeaderOffsetPortrait;
+                var offset = nativeObject.IsHeaderHidden || Header.IsInset ? Size.Empty : Header.DesiredSize;
 
-                currentView.Measure(new Size(Math.Max(constraints.Width - (offset.Left + offset.Right), 0), Math.Max(constraints.Height - (offset.Top + offset.Bottom), 0)));
-                return new Size(currentView.DesiredSize.Width + offset.Left + offset.Right, currentView.DesiredSize.Height + offset.Top + offset.Bottom);
+                currentView.Measure(new Size(Math.Max(constraints.Width, 0), Math.Max(constraints.Height - offset.Height, 0)));
+                return new Size(Math.Max(currentView.DesiredSize.Width, offset.Height), currentView.DesiredSize.Height + offset.Height);
             }
 
             if (double.IsInfinity(constraints.Width))
@@ -474,7 +473,7 @@ namespace Prism.UI
             {
                 var currentView = CurrentView as IViewStackChild;
                 var nextView = Views?.LastOrDefault(v => v != currentView) as IViewStackChild;
-                nativeObject.IsBackButtonEnabled = (currentView == null || currentView.IsBackButtonEnabled) && (nextView == null || nextView.IsValidBackTarget);
+                nativeObject.IsBackButtonEnabled = (currentView == null || currentView.IsBackButtonEnabled) && (nextView != null && nextView.IsValidBackTarget);
             }
             else
             {

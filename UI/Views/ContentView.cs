@@ -266,15 +266,23 @@ namespace Prism.UI
             var currentContent = (Content as Visual) ?? VisualTreeHelper.GetChild<Visual>(this);
             if (currentContent != null)
             {
-                var inset = currentContent is IScrollable || ((Parent as ViewStack)?.IsHeaderHidden ?? true) ? new Thickness() :
-                    Window.Current.Width > Window.Current.Height ? SystemParameters.ViewStackHeaderInsetLandscape : SystemParameters.ViewStackHeaderInsetPortrait;
+                double inset;
+                if (currentContent is IScrollable)
+                {
+                    inset = 0;
+                }
+                else
+                {
+                    var viewStack = Parent as ViewStack;
+                    inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.RenderSize.Height;
+                }
 
                 if (Menu != null)
                 {
-                    inset += Menu.Insets;
+                    inset += Menu.Insets.Top;
                 }
 
-                currentContent.Arrange(new Rectangle(inset.Left, inset.Top, constraints.Width - (inset.Left + inset.Right), constraints.Height - (inset.Top + inset.Bottom)));
+                currentContent.Arrange(new Rectangle(0, inset, constraints.Width, constraints.Height - (inset + Menu?.Insets.Bottom ?? 0)));
             }
 
             return constraints;
@@ -290,15 +298,23 @@ namespace Prism.UI
             var currentContent = (Content as Visual) ?? VisualTreeHelper.GetChild<Visual>(this);
             if (currentContent != null)
             {
-                var inset = currentContent is IScrollable || ((Parent as ViewStack)?.IsHeaderHidden ?? true) ? new Thickness() :
-                    Window.Current.Width > Window.Current.Height ? SystemParameters.ViewStackHeaderInsetLandscape : SystemParameters.ViewStackHeaderInsetPortrait;
+                double inset;
+                if (currentContent is IScrollable)
+                {
+                    inset = 0;
+                }
+                else
+                {
+                    var viewStack = Parent as ViewStack;
+                    inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.DesiredSize.Height;
+                }
 
                 if (Menu != null)
                 {
-                    inset += Menu.Insets;
+                    inset += Menu.Insets.Top + Menu.Insets.Bottom;
                 }
 
-                currentContent.Measure(new Size(Math.Max(constraints.Width - (inset.Left + inset.Right), 0), Math.Max(constraints.Height - (inset.Top + inset.Bottom), 0)));
+                currentContent.Measure(new Size(Math.Max(constraints.Width, 0), Math.Max(constraints.Height - inset, 0)));
             }
 
             return nativeObject.Measure(constraints);

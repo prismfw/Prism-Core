@@ -315,6 +315,25 @@ namespace Prism.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="Visual"/> class.
         /// </summary>
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected Visual(INativeVisual nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            nativeObject.ArrangeRequest = OnArrangeRequest;
+            nativeObject.MeasureRequest = OnMeasureRequest;
+
+            nativeObject.Loaded += OnLoad;
+            nativeObject.Unloaded += OnUnload;
+
+            AreAnimationsEnabled = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Visual"/> class.
+        /// </summary>
         /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
         /// <param name="resolveName">An optional name to use when resolving the native object.</param>
         /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
