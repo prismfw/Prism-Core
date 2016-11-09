@@ -571,8 +571,8 @@ namespace Prism
 
             if (method == null)
             {
-                method = GetMethod(typeData.ImplementationType.GetTypeInfo().DeclaredConstructors, parameters,
-                    options.HasFlag(TypeResolutionOptions.UseFuzzyParameterResolution));
+                method = GetMethod(typeData.ImplementationType.GetTypeInfo().DeclaredConstructors.Where(c => !c.IsStatic),
+                    parameters, options.HasFlag(TypeResolutionOptions.UseFuzzyParameterResolution));
             }
 
             if (method == null)
