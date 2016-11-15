@@ -59,7 +59,9 @@
     <Compile Include="Native\NativeTransform.cs" />
     <Compile Include="Native\NativeInkStroke.cs" />
     <Compile Include="Native\NativeViewStackViewChangingEventArgs.cs" />
+    <Compile Include="ResourceKey.cs" />
     <Compile Include="ResourceDictionary.cs" />
+    <Compile Include="SystemResources.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\DisplayOrientations.cs" />
     <Compile Include="UI\Media\Inking\InkDrawingAttributes.cs" />
@@ -155,10 +157,8 @@
     <Compile Include="Native\NativeDevice.cs" />
     <Compile Include="Native\NativeDirectory.cs" />
     <Compile Include="Native\NativeFile.cs" />
-    <Compile Include="Native\NativeFonts.cs" />
     <Compile Include="Native\NativeListBoxSectionHeader.cs" />
     <Compile Include="Native\NativeSearchBox.cs" />
-    <Compile Include="Native\NativeSystemParameters.cs" />
     <Compile Include="Native\NativeTimePicker.cs" />
     <Compile Include="Native\NativeDatePicker.cs" />
     <Compile Include="Native\NativeElement.cs" />
@@ -202,7 +202,6 @@
     <Compile Include="Foundation\RegisterAttribute.cs" />
     <Compile Include="Foundation\HandledEventArgs.cs" />
     <Compile Include="SessionManager.cs" />
-    <Compile Include="SystemParameters.cs" />
     <Compile Include="Utilities\Timer.cs" />
     <Compile Include="Foundation\TypedEventHandler.cs" />
     <Compile Include="UI\Alert.cs" />
@@ -234,7 +233,6 @@
     <Compile Include="UI\Controls\Element.cs" />
     <Compile Include="UI\Controls\ElementCollection.cs" />
     <Compile Include="UI\Controls\Grid.cs" />
-    <Compile Include="UI\Media\Fonts.cs" />
     <Compile Include="UI\GridUnitType.cs" />
     <Compile Include="UI\Controls\Image.cs" />
     <Compile Include="UI\Controls\Label.cs" />

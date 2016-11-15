@@ -35,6 +35,15 @@ namespace Prism.UI.Media
     public sealed class FontFamily : FrameworkObject
     {
         /// <summary>
+        /// Gets the names of all available fonts.
+        /// </summary>
+        /// <returns>An <see cref="Array"/> containing the names of all available fonts.</returns>
+        public static string[] GetAvailableFontNames()
+        {
+            return TypeManager.Default.Resolve<INativeResources>()?.GetAvailableFontNames();
+        }
+
+        /// <summary>
         /// Gets the name of the font family.
         /// </summary>
         public string Name

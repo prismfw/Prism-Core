@@ -178,86 +178,12 @@ namespace Prism.UI.Controls
 
             nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
 
-            nativeObject.DisplayItemRequest = () =>
-            {
-                var displayItem = nativeObject.Items == null || nativeObject.Items.Count <= nativeObject.SelectedIndex || nativeObject.SelectedIndex < 0 ?
-                    null : nativeObject.Items[nativeObject.SelectedIndex];
+            nativeObject.DisplayItemRequest = () => OnDisplayItemRequest();
+            nativeObject.ListItemRequest = (value) => OnListItemRequest(value);
 
-                if (adapter != null)
-                {
-                    displayItem = adapter.GetDisplayItem(displayItem);
-                }
-
-                var element = displayItem as Element;
-                if (element == null)
-                {
-                    var displayLabel = VisualTreeHelper.GetChild<Label>(this);
-                    if (displayLabel == null)
-                    {
-                        displayLabel = new Label()
-                        {
-                            FontFamily = FontFamily,
-                            FontSize = FontSize,
-                            FontStyle = FontStyle,
-                            Foreground = Foreground,
-                            Margin = SystemParameters.SelectListDisplayItemPadding,
-                            HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
-                        };
-                    }
-
-                    displayLabel.Text = displayItem?.ToString();
-                    element = displayLabel;
-                }
-
-                var grid = VisualTreeHelper.GetChild<Grid>(this) ?? new Grid()
-                {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    IsHitTestVisible = false,
-                    VerticalAlignment = VerticalAlignment.Stretch
-                };
-                grid.Children.Clear();
-
-                if (element.Parent != grid)
-                {
-                    (element.Parent as Panel)?.Children.Remove(element);
-                    grid.Children.Add(element);
-                }
-
-                return ObjectRetriever.GetNativeObject(grid);
-            };
-
-            nativeObject.ListItemRequest = (value) =>
-            {
-                if (adapter != null)
-                {
-                    value = adapter.GetListItem(value);
-                }
-
-                var element = value as Element ?? new Label()
-                {
-                    FontFamily = FontFamily,
-                    FontSize = FontSize,
-                    FontStyle = FontStyle,
-                    Margin = SystemParameters.SelectListListItemPadding,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Text = value?.ToString()
-                };
-
-                (element.Parent as Panel)?.Children.Remove(element);
-                
-                return ObjectRetriever.GetNativeObject(new Grid()
-                {
-                    Children = { element },
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    IsHitTestVisible = false
-                });
-            };
-
-            BorderWidth = SystemParameters.SelectListBorderWidth;
-            FontSize = Fonts.SelectListFontSize;
-            FontStyle = Fonts.SelectListFontStyle;
+            BorderWidth = (double)Application.Current.Resources[SystemResources.SelectListBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.SelectListFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SelectListFontStyleKey];
         }
 
         /// <summary>
@@ -307,6 +233,83 @@ namespace Prism.UI.Controls
         protected virtual void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             SelectionChanged?.Invoke(this, e);
+        }
+
+        private object OnDisplayItemRequest()
+        {
+            var displayItem = nativeObject.Items == null || nativeObject.Items.Count <= nativeObject.SelectedIndex || nativeObject.SelectedIndex < 0 ?
+                    null : nativeObject.Items[nativeObject.SelectedIndex];
+
+            if (adapter != null)
+            {
+                displayItem = adapter.GetDisplayItem(displayItem);
+            }
+
+            var element = displayItem as Element;
+            if (element == null)
+            {
+                var displayLabel = VisualTreeHelper.GetChild<Label>(this);
+                if (displayLabel == null)
+                {
+                    displayLabel = new Label()
+                    {
+                        FontFamily = FontFamily,
+                        FontSize = FontSize,
+                        FontStyle = FontStyle,
+                        Foreground = Foreground,
+                        Margin = (Thickness)Application.Current.Resources[SystemResources.SelectListDisplayItemPaddingKey],
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+                }
+
+                displayLabel.Text = displayItem?.ToString();
+                element = displayLabel;
+            }
+
+            var grid = VisualTreeHelper.GetChild<Grid>(this) ?? new Grid()
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                IsHitTestVisible = false,
+                VerticalAlignment = VerticalAlignment.Stretch
+            };
+            grid.Children.Clear();
+
+            if (element.Parent != grid)
+            {
+                (element.Parent as Panel)?.Children.Remove(element);
+                grid.Children.Add(element);
+            }
+
+            return ObjectRetriever.GetNativeObject(grid);
+        }
+
+        private object OnListItemRequest(object value)
+        {
+            if (adapter != null)
+            {
+                value = adapter.GetListItem(value);
+            }
+
+            var element = value as Element ?? new Label()
+            {
+                FontFamily = FontFamily,
+                FontSize = FontSize,
+                FontStyle = FontStyle,
+                Margin = (Thickness)Application.Current.Resources[SystemResources.SelectListListItemPaddingKey],
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = value?.ToString()
+            };
+
+            (element.Parent as Panel)?.Children.Remove(element);
+
+            return ObjectRetriever.GetNativeObject(new Grid()
+            {
+                Children = { element },
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                IsHitTestVisible = false
+            });
         }
     }
 }

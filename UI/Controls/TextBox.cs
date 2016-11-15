@@ -154,9 +154,9 @@ namespace Prism.UI.Controls
             nativeObject.ActionKeyPressed += (o, e) => OnActionKeyPressed(e);
             nativeObject.TextChanged += (o, e) => OnTextChanged(e);
 
-            BorderWidth = SystemParameters.TextBoxBorderWidth;
-            FontSize = Fonts.TextBoxFontSize;
-            FontStyle = Fonts.TextBoxFontStyle;
+            BorderWidth = (double)Application.Current.Resources[SystemResources.TextBoxBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.TextBoxFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TextBoxFontStyleKey];
             HorizontalAlignment = HorizontalAlignment.Stretch;
         }
 

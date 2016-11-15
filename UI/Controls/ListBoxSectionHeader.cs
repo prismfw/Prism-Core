@@ -92,11 +92,11 @@ namespace Prism.UI.Controls
 
             TextLabel = new Label()
             {
-                FontSize = Fonts.SectionHeaderFontSize,
-                FontStyle = Fonts.SectionHeaderFontStyle,
+                FontSize = (double)Application.Current.Resources[SystemResources.SectionHeaderFontSizeKey],
+                FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SectionHeaderFontStyleKey],
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Lines = 1,
-                Margin = new Thickness(SystemParameters.LeftMargin, 0, SystemParameters.RightMargin, 0),
+                Margin = new Thickness(15, 0, 15, 0),
                 VerticalAlignment = VerticalAlignment.Center
             };
 

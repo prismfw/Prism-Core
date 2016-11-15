@@ -153,7 +153,7 @@ namespace Prism.UI
                 else
                 {
                     constraints.Width = parent.PresentationStyle == PopupPresentationStyle.Custom && !double.IsNaN(parent.Width) ?
-                        parent.Width : SystemParameters.PopupSize.Width;
+                        parent.Width : ((Size)parent.FindResource(SystemResources.PopupSizeKey)).Width;
                 }
             }
 
@@ -171,7 +171,7 @@ namespace Prism.UI
                 else
                 {
                     constraints.Height = parent.PresentationStyle == PopupPresentationStyle.Custom && !double.IsNaN(parent.Height) ?
-                        parent.Height : SystemParameters.PopupSize.Height;
+                        parent.Height : ((Size)parent.FindResource(SystemResources.PopupSizeKey)).Height;
                 }
             }
 

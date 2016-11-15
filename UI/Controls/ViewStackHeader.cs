@@ -165,9 +165,9 @@ namespace Prism.UI.Controls
         {
             this.nativeObject = nativeObject;
 
-            FontFamily = Fonts.DefaultFontFamily;
-            FontSize = Fonts.HeaderFontSize;
-            FontStyle = Fonts.HeaderFontStyle;
+            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.ViewHeaderFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ViewHeaderFontStyleKey];
         }
     }
 }

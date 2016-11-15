@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
+    using System;
     using System.Reflection;
     
     
@@ -624,6 +625,24 @@ namespace Prism.Resources {
         internal static string ResourceCouldNotBeFound {
             get {
                 return ResourceManager.GetString("ResourceCouldNotBeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource key can only be of type {0} or {1}..
+        /// </summary>
+        internal static string ResourceKeyCanOnlyBeOfType {
+            get {
+                return ResourceManager.GetString("ResourceKeyCanOnlyBeOfType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource must be of type {0}..
+        /// </summary>
+        internal static string ResourceMustBeOfType {
+            get {
+                return ResourceManager.GetString("ResourceMustBeOfType", resourceCulture);
             }
         }
         

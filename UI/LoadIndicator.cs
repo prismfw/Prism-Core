@@ -216,9 +216,9 @@ namespace Prism.UI
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeLoadIndicator).FullName), nameof(resolveType));
             }
 
-            FontFamily = Fonts.DefaultFontFamily;
-            FontSize = Fonts.LoadIndicatorFontSize;
-            FontStyle = Fonts.LoadIndicatorFontStyle;
+            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.LoadIndicatorFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.LoadIndicatorFontStyleKey];
             Title = DefaultTitle;
         }
 

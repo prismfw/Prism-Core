@@ -157,7 +157,7 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private bool setSeparatorIndentation = SystemParameters.ShouldAutomaticallyIndentSeparators;
+        private bool setSeparatorIndentation = (bool)Application.Current.Resources[SystemResources.AutomaticallyIndentSeparatorsKey];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBoxItem"/> class.
@@ -176,6 +176,7 @@ namespace Prism.UI.Controls
         {
             if (style == ListBoxItemStyle.Empty)
             {
+                MinHeight = (double)Application.Current.Resources[SystemResources.ListBoxItemStandardHeightKey];
                 return;
             }
 
@@ -196,7 +197,7 @@ namespace Prism.UI.Controls
                 Image = new Image()
                 {
                     HorizontalAlignment = HorizontalAlignment.Left,
-                    Margin = new Thickness(0, SystemParameters.TopMargin, 0, SystemParameters.BottomMargin),
+                    Margin = new Thickness(0, 5, 0, 5),
                     VerticalAlignment = VerticalAlignment.Center
                 };
 
@@ -204,7 +205,7 @@ namespace Prism.UI.Controls
                 {
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Lines = 0,
-                    Margin = new Thickness(SystemParameters.LeftMargin, SystemParameters.TopMargin, 0, SystemParameters.BottomMargin),
+                    Margin = new Thickness(15, 5, 0, 5),
                     VerticalAlignment = VerticalAlignment.Center
                 };
                 Grid.SetColumn(TextLabel, 1);
@@ -218,15 +219,15 @@ namespace Prism.UI.Controls
                 grid.RowDefinitions.Add(new RowDefinition());
                 Grid.SetRowSpan(Image, 2);
 
-                TextLabel.Margin = new Thickness(SystemParameters.LeftMargin, SystemParameters.TopMargin, 0, 0);
+                TextLabel.Margin = new Thickness(15, 5, 0, 0);
 
                 DetailTextLabel = new Label()
                 {
-                    FontSize = Fonts.DetailLabelFontSize,
-                    FontStyle = Fonts.DetailLabelFontStyle,
+                    FontSize = (double)Application.Current.Resources[SystemResources.DetailLabelFontSizeKey],
+                    FontStyle = (FontStyle)Application.Current.Resources[SystemResources.DetailLabelFontStyleKey],
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Lines = 1,
-                    Margin = new Thickness(SystemParameters.LeftMargin, 0, 0, SystemParameters.BottomMargin),
+                    Margin = new Thickness(15, 0, 0, 5),
                     VerticalAlignment = VerticalAlignment.Top
                 };
                 Grid.SetColumn(DetailTextLabel, 1);
@@ -234,11 +235,11 @@ namespace Prism.UI.Controls
 
                 ContentPanel.Children.Add(DetailTextLabel);
 
-                MinHeight = SystemParameters.ListBoxItemDetailHeight;
+                MinHeight = (double)Application.Current.Resources[SystemResources.ListBoxItemDetailHeightKey];
             }
             else
             {
-                MinHeight = SystemParameters.ListBoxItemStandardHeight;
+                MinHeight = (double)Application.Current.Resources[SystemResources.ListBoxItemStandardHeightKey];
             }
 
             if ((style & ListBoxItemStyle.Value) == ListBoxItemStyle.Value)
@@ -247,18 +248,18 @@ namespace Prism.UI.Controls
 
                 ValueTextLabel = new Label()
                 {
-                    FontSize = Fonts.ValueLabelFontSize,
-                    FontStyle = Fonts.ValueLabelFontStyle,
+                    FontSize = (double)Application.Current.Resources[SystemResources.ValueLabelFontSizeKey],
+                    FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ValueLabelFontStyleKey],
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Lines = 1,
-                    Margin = new Thickness(0, SystemParameters.TopMargin, 0, SystemParameters.BottomMargin),
+                    Margin = new Thickness(0, 5, 0, 5),
                     VerticalAlignment = VerticalAlignment.Center
                 };
                 Grid.SetColumn(ValueTextLabel, 2);
 
                 if (DetailTextLabel != null)
                 {
-                    ValueTextLabel.Margin = new Thickness(0, SystemParameters.TopMargin, 0, 0);
+                    ValueTextLabel.Margin = new Thickness(0, 5, 0, 0);
                     Grid.SetColumnSpan(DetailTextLabel, 2);
                 }
 
@@ -329,19 +330,19 @@ namespace Prism.UI.Controls
                 double rightMargin = 0;
                 if (Accessory == ListBoxItemAccessory.Indicator)
                 {
-                    rightMargin = SystemParameters.ListBoxItemIndicatorSize.Width;
+                    rightMargin = ((Size)Application.Current.Resources[SystemResources.ListBoxItemIndicatorSizeKey]).Width;
                 }
                 else if (Accessory == ListBoxItemAccessory.InfoButton)
                 {
-                    rightMargin = SystemParameters.ListBoxItemInfoButtonSize.Width;
+                    rightMargin = ((Size)Application.Current.Resources[SystemResources.ListBoxItemInfoButtonSizeKey]).Width;
                 }
                 else if (Accessory == ListBoxItemAccessory.InfoIndicator)
                 {
-                    rightMargin = SystemParameters.ListBoxItemInfoIndicatorSize.Width;
+                    rightMargin = ((Size)Application.Current.Resources[SystemResources.ListBoxItemInfoIndicatorSizeKey]).Width;
                 }
                 else
                 {
-                    rightMargin = SystemParameters.RightMargin;
+                    rightMargin = 15;
                 }
 
                 constraints.Width -= rightMargin;

@@ -128,9 +128,9 @@ namespace Prism.UI.Controls
 
             nativeObject.DateChanged += (o, e) => OnDateChanged(e);
 
-            BorderWidth = SystemParameters.DatePickerBorderWidth;
-            FontSize = Fonts.DatePickerFontSize;
-            FontStyle = Fonts.DatePickerFontStyle;
+            BorderWidth = (double)Application.Current.Resources[SystemResources.DatePickerBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.DatePickerFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.DatePickerFontStyleKey];
         }
 
         /// <summary>

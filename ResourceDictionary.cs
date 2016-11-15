@@ -25,7 +25,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using Prism.Native;
 using Prism.UI;
 
@@ -83,6 +85,7 @@ namespace Prism
         /// a get operation throws a System.Collections.Generic.KeyNotFoundException, and a set operation
         /// creates a new resource with the specified key.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="key"/> is not a <see cref="string"/> or <see cref="ResourceKey"/> instance during a set operation.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when <paramref name="key"/> does not exist in the base dictionary, merged dictionaries, theme dictionaries, or system resources during a get operation.</exception>
         public object this[object key]
         {
@@ -98,6 +101,7 @@ namespace Prism
             }
             set
             {
+                CheckKey(key, value);
                 baseDictionary[key] = value;
                 OnResourceChanged(this, key);
             }
@@ -123,9 +127,10 @@ namespace Prism
         /// <param name="key">The object to use as the key of the resource to add.</param>
         /// <param name="value">The object to use as the value of the resource to add.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when a resource with the same key already exists in the base dictionary.</exception>
+        /// <exception cref="ArgumentException">Thrown when a resource with the same key already exists in the base dictionary -or- when <paramref name="key"/> is not a <see cref="string"/> or <see cref="ResourceKey"/> instance.</exception>
         public void Add(object key, object value)
         {
+            CheckKey(key, value);
             baseDictionary.Add(key, value);
             OnResourceChanged(this, key);
         }
@@ -184,12 +189,27 @@ namespace Prism
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
         public bool TryGetValue(object key, out object value)
         {
-            if (TryGetResource(null, key, out value))
+            if (TryGetResource(null, key, out value) || (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(null, key, out value) ?? false))
             {
                 return true;
             }
 
-            return TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(null, key, out value) ?? false;
+            var resourceKey = key as ResourceKey;
+            if (resourceKey != null)
+            {
+                if (resourceKey.FallbackKey != null && TryGetValue(resourceKey.FallbackKey, out value))
+                {
+                    return true;
+                }
+
+                if (resourceKey.DefaultValue != null)
+                {
+                    value = resourceKey.DefaultValue;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         internal bool TryGetResource(object obj, object key, out object value)
@@ -235,6 +255,24 @@ namespace Prism
             }
 
             return false;
+        }
+
+        private static void CheckKey(object key, object value)
+        {
+            var resourceKey = key as ResourceKey;
+            if (resourceKey == null && !(key is string))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceKeyCanOnlyBeOfType, typeof(string).FullName, typeof(ResourceKey).FullName));
+            }
+
+            if (resourceKey?.TypeRestriction != null)
+            {
+                var typeInfo = resourceKey.TypeRestriction.GetTypeInfo();
+                if ((value == null && typeInfo.IsValueType) || (value != null && !typeInfo.IsAssignableFrom(value.GetType().GetTypeInfo())))
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceMustBeOfType, typeInfo.FullName));
+                }
+            }
         }
 
         private void OnResourceChanged(object sender, object key)

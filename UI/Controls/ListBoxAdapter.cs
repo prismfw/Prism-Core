@@ -83,7 +83,7 @@ namespace Prism.UI.Controls
 
                 if (reusedItem == null)
                 {
-                    reusedItem = new ListBoxItem(ListBoxItemStyle.Empty) { MinHeight = SystemParameters.ListBoxItemStandardHeight };
+                    reusedItem = new ListBoxItem(ListBoxItemStyle.Empty);
                 }
 
                 var panel = value as Panel;

@@ -218,9 +218,9 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabItem).FullName), nameof(resolveType));
             }
 
-            FontFamily = Fonts.DefaultFontFamily;
-            FontSize = Fonts.TabItemFontSize;
-            FontStyle = Fonts.TabItemFontStyle;
+            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.TabItemFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TabItemFontStyleKey];
         }
     }
 }

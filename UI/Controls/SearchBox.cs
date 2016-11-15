@@ -140,9 +140,9 @@ namespace Prism.UI.Controls
             nativeObject.QueryChanged += (o, e) => OnQueryChanged(e);
             nativeObject.QuerySubmitted += (o, e) => OnQuerySubmitted(e);
 
-            BorderWidth = SystemParameters.SearchBoxBorderWidth;
-            FontSize = Fonts.SearchBoxFontSize;
-            FontStyle = Fonts.SearchBoxFontStyle;
+            BorderWidth = (double)Application.Current.Resources[SystemResources.SearchBoxBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.SearchBoxFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SearchBoxFontStyleKey];
             HorizontalAlignment = HorizontalAlignment.Stretch;
         }
 

@@ -387,16 +387,18 @@ namespace Prism.UI
             switch (Device.Current.FormFactor == FormFactor.Phone ? PopupPresentationStyle.FullScreen : presentationStyle)
             {
                 case PopupPresentationStyle.Default:
-                    constraints.Width = SystemParameters.PopupSize.Width;
-                    constraints.Height = SystemParameters.PopupSize.Height;
+                    var size = (Size)FindResource(SystemResources.PopupSizeKey);
+                    constraints.Width = size.Width;
+                    constraints.Height = size.Height;
                     break;
                 case PopupPresentationStyle.FullScreen:
                     constraints.Width = Window.Current.Width;
                     constraints.Height = Window.Current.Height;
                     break;
                 case PopupPresentationStyle.Custom:
-                    constraints.Width = Math.Min(constraints.Width, double.IsNaN(Width) ? SystemParameters.PopupSize.Width : Width);
-                    constraints.Height = Math.Min(constraints.Height, double.IsNaN(Height) ? SystemParameters.PopupSize.Height : Height);
+                    size = (double.IsNaN(Width) || double.IsNaN(Height)) ? (Size)FindResource(SystemResources.PopupSizeKey) : Size.Empty;
+                    constraints.Width = Math.Min(constraints.Width, double.IsNaN(Width) ? size.Width : Width);
+                    constraints.Height = Math.Min(constraints.Height, double.IsNaN(Height) ? size.Height : Height);
                     break;
             }
 

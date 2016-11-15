@@ -93,6 +93,7 @@ namespace Prism
                 {
                     resources = new ResourceDictionary();
                     resources.ResourceChanged += OnResourceChanged;
+                    resources.ResourceCollectionChanged += OnResourceCollectionChanged;
                 }
 
                 return resources;
@@ -104,6 +105,7 @@ namespace Prism
                     if (resources != null)
                     {
                         resources.ResourceChanged -= OnResourceChanged;
+                        resources.ResourceCollectionChanged -= OnResourceCollectionChanged;
                     }
                     
                     resources = value;
@@ -111,6 +113,9 @@ namespace Prism
                     {
                         resources.ResourceChanged -= OnResourceChanged;
                         resources.ResourceChanged += OnResourceChanged;
+
+                        resources.ResourceCollectionChanged -= OnResourceCollectionChanged;
+                        resources.ResourceCollectionChanged += OnResourceCollectionChanged;
                     }
 
                     Visual.PropagateResourceCollectionChange(Window.Current.Content);

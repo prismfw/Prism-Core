@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Prism.Native
@@ -29,6 +30,12 @@ namespace Prism.Native
     [CoreBehavior(CoreBehaviors.ExpectsSingleton)]
     public interface INativeResources
     {
+        /// <summary>
+        /// Gets the names of all available fonts.
+        /// </summary>
+        /// <returns>An <see cref="Array"/> containing the names of all available fonts.</returns>
+        string[] GetAvailableFontNames();
+
         /// <summary>
         /// Gets the system resource associated with the specified key.
         /// </summary>

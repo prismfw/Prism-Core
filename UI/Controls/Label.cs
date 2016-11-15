@@ -207,9 +207,9 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeLabel).FullName), nameof(resolveType));
             }
 
-            FontFamily = Fonts.DefaultFontFamily;
-            FontSize = Fonts.StandardLabelFontSize;
-            FontStyle = Fonts.StandardLabelFontStyle;
+            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.LabelFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.LabelFontStyleKey];
             Lines = 0;
         }
     }

@@ -143,10 +143,10 @@ namespace Prism.UI.Controls
 
             nativeObject.Clicked += (o, e) => OnClicked(e);
 
-            BorderWidth = SystemParameters.ButtonBorderWidth;
-            Padding = SystemParameters.ButtonPadding;
-            FontSize = Fonts.ButtonFontSize;
-            FontStyle = Fonts.ButtonFontStyle;
+            BorderWidth = (double)Application.Current.Resources[SystemResources.ButtonBorderWidthKey];
+            Padding = (Thickness)Application.Current.Resources[SystemResources.ButtonPaddingKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.ButtonFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ButtonFontStyleKey];
         }
 
         /// <summary>

@@ -168,7 +168,7 @@ namespace Prism.UI.Controls
 
             CancelButtonTitle = "Cancel";
             Items = new MenuItemCollection(nativeObject);
-            MaxDisplayItems = SystemParameters.ActionMenuMaxDisplayItems;
+            MaxDisplayItems = (int)Application.Current.Resources[SystemResources.ActionMenuMaxDisplayItemsKey];
         }
     }
 }

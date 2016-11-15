@@ -366,4 +366,10 @@
   <data name="FailedToSetResourceValueOnProperty" xml:space="preserve">
     <value>Failed to set resource value '{0}' on property '{1}'.  {2}</value>
   </data>
+  <data name="ResourceMustBeOfType" xml:space="preserve">
+    <value>Resource must be of type {0}.</value>
+  </data>
+  <data name="ResourceKeyCanOnlyBeOfType" xml:space="preserve">
+    <value>Resource key can only be of type {0} or {1}.</value>
+  </data>
 </root>

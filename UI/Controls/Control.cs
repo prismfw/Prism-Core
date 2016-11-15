@@ -238,7 +238,7 @@ namespace Prism.UI.Controls
             nativeObject.GotFocus += (o, e) => OnGotFocus(e);
             nativeObject.LostFocus += (o, e) => OnLostFocus(e);
 
-            FontFamily = Fonts.DefaultFontFamily;
+            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
             IsEnabled = true;
         }
 
