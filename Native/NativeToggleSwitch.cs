@@ -37,9 +37,14 @@ namespace Prism.Native
         event EventHandler ValueChanged;
 
         /// <summary>
-        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control.
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control when the control's value is false.
         /// </summary>
-        Brush ThumbBrush { get; set; }
+        Brush ThumbOffBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control when the control's value is true.
+        /// </summary>
+        Brush ThumbOnBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the toggle switch.

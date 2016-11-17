@@ -46,9 +46,14 @@ namespace Prism.UI.Controls
 
         #region Property Descriptors
         /// <summary>
-        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ThumbBrush"/> property.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ThumbOffBrush"/> property.
         /// </summary>
-        public static PropertyDescriptor ThumbBrushProperty { get; } = PropertyDescriptor.Create(nameof(ThumbBrush), typeof(Brush), typeof(ToggleSwitch));
+        public static PropertyDescriptor ThumbOffBrushProperty { get; } = PropertyDescriptor.Create(nameof(ThumbOffBrush), typeof(Brush), typeof(ToggleSwitch));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ThumbOnBrush"/> property.
+        /// </summary>
+        public static PropertyDescriptor ThumbOnBrushProperty { get; } = PropertyDescriptor.Create(nameof(ThumbOnBrush), typeof(Brush), typeof(ToggleSwitch));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Value"/> property.
@@ -63,12 +68,21 @@ namespace Prism.UI.Controls
         public event TypedEventHandler<ToggleSwitch> ValueChanged;
 
         /// <summary>
-        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control.
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control when the control's <see cref="P:Value"/> is <c>false</c>.
         /// </summary>
-        public Brush ThumbBrush
+        public Brush ThumbOffBrush
         {
-            get { return nativeObject.ThumbBrush; }
-            set { nativeObject.ThumbBrush = value; }
+            get { return nativeObject.ThumbOffBrush; }
+            set { nativeObject.ThumbOffBrush = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the thumb of the control when the control's <see cref="P:Value"/> is <c>true</c>.
+        /// </summary>
+        public Brush ThumbOnBrush
+        {
+            get { return nativeObject.ThumbOnBrush; }
+            set { nativeObject.ThumbOnBrush = value; }
         }
 
         /// <summary>
