@@ -47,7 +47,7 @@ namespace Prism
         /// </summary>
         public NavigationOptions()
         {
-            LoadIndicatorDelay = UI.LoadIndicator.DefaultDelay;
+            LoadIndicatorDelay = UI.Controls.LoadIndicator.DefaultDelay;
             Parameters = new NavigationParameterDictionary();
         }
 

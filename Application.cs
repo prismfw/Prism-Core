@@ -31,6 +31,7 @@ using Prism.Native;
 using Prism.Resources;
 using Prism.Systems;
 using Prism.UI;
+using Prism.UI.Controls;
 using Prism.Utilities;
 
 namespace Prism
@@ -648,7 +649,10 @@ namespace Prism
                             {
                                 if (loadTimer != null)
                                 {
-                                    LoadIndicator.DefaultIndicator.Title = options == null || options.LoadIndicatorTitle == null ? LoadIndicator.DefaultTitle : options.LoadIndicatorTitle;
+                                    LoadIndicator.DefaultIndicator.TextLabel.Text = options?.LoadIndicatorTitle == null ? LoadIndicator.DefaultTitle : options.LoadIndicatorTitle;
+                                    LoadIndicator.DefaultIndicator.TextLabel.Visibility = string.IsNullOrEmpty(LoadIndicator.DefaultIndicator.TextLabel.Text) ?
+                                        Visibility.Collapsed : Visibility.Visible;
+
                                     LoadIndicator.DefaultIndicator.Show();
                                 }
                             });
@@ -668,7 +672,7 @@ namespace Prism
                     }
                     catch (Exception ex)
                     {
-                        loadTimer.Stop();
+                        loadTimer?.Stop();
                         loadTimer = null;
                         current.BeginInvokeOnMainThread(() =>
                         {
@@ -681,7 +685,7 @@ namespace Prism
                         return;
                     }
 
-                    loadTimer.Stop();
+                    loadTimer?.Stop();
                     loadTimer = null;
 
                     Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadedAndReturnedPerspective, perspective);

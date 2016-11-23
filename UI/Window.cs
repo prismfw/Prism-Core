@@ -286,6 +286,7 @@ namespace Prism.UI
 
             if (!e.IsHandled)
             {
+                UI.Controls.LoadIndicator.DefaultIndicator.InvalidateMeasure();
                 (VisualTreeHelper.GetChild<Visual>(this))?.InvalidateMeasure();
 
                 var popup = PresentedPopup;

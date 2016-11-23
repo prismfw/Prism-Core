@@ -265,7 +265,7 @@
     <Compile Include="UI\Media\FontStyle.cs" />
     <Compile Include="UI\Media\ImageBrush.cs" />
     <Compile Include="UI\GridLength.cs" />
-    <Compile Include="UI\LoadIndicator.cs" />
+    <Compile Include="UI\Controls\LoadIndicator.cs" />
     <Compile Include="UI\Orientation.cs" />
     <Compile Include="UI\Controls\RowDefinitionCollection.cs" />
     <Compile Include="UI\Media\LinearGradientBrush.cs" />

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using Prism.UI;
+using Prism.UI.Controls;
 using Prism.UI.Media;
 
 namespace Prism.Native
@@ -28,7 +28,7 @@ namespace Prism.Native
     /// Defines a loading indicator that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="LoadIndicator"/> objects.
     /// </summary>
-    public interface INativeLoadIndicator : INativeObject
+    public interface INativeLoadIndicator : INativeVisual
     {
         /// <summary>
         /// Gets or sets the background of the indicator.
@@ -36,36 +36,9 @@ namespace Prism.Native
         Brush Background { get; set; }
 
         /// <summary>
-        /// Gets or sets the font to use for displaying the title text.
+        /// Gets or sets the content for the indicator.
         /// </summary>
-        [CoreBehavior(CoreBehaviors.ChecksNullity)]
-        object FontFamily { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of the title text.
-        /// </summary>
-        [CoreBehavior(CoreBehaviors.ChecksRange)]
-        double FontSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the style with which to render the title text.
-        /// </summary>
-        FontStyle FontStyle { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Brush"/> to apply to the title text.
-        /// </summary>
-        Brush Foreground { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is currently visible.
-        /// </summary>
-        bool IsVisible { get; }
-
-        /// <summary>
-        /// Gets or sets the title text of the indicator.
-        /// </summary>
-        string Title { get; set; }
+        object Content { get; set; }
 
         /// <summary>
         /// Removes the indicator from view.
