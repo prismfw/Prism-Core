@@ -931,11 +931,29 @@ namespace Prism
         private void OnResourceChanged(object sender, object key)
         {
             Visual.PropagateResourceChange(Window.Current.Content, key);
+
+            var popup = Window.Current.PresentedPopup;
+            while (popup != null)
+            {
+                Visual.PropagateResourceChange(popup, key);
+                popup = popup.PresentedPopup;
+            }
+
+            Visual.PropagateResourceChange(LoadIndicator.DefaultIndicator, key);
         }
 
         private void OnResourceCollectionChanged(object sender, EventArgs e)
         {
             Visual.PropagateResourceCollectionChange(Window.Current.Content);
+
+            var popup = Window.Current.PresentedPopup;
+            while (popup != null)
+            {
+                Visual.PropagateResourceCollectionChange(popup);
+                popup = popup.PresentedPopup;
+            }
+
+            Visual.PropagateResourceCollectionChange(LoadIndicator.DefaultIndicator);
         }
     }
 }
