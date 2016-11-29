@@ -23,6 +23,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 
 #if !DEBUG
@@ -34,7 +35,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a menu control for a <see cref="ContentView"/> that provides the user with a set of selectable actions.
     /// </summary>
-    public class ActionMenu : FrameworkObject
+    public class ActionMenu : Visual
     {
         #region Property Descriptors
         /// <summary>
@@ -60,12 +61,12 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxDisplayItems"/> property.
         /// </summary>
-        public static PropertyDescriptor MaxDisplayItemsProperty { get; } = PropertyDescriptor.Create(nameof(MaxDisplayItems), typeof(int), typeof(ActionMenu));
+        public static PropertyDescriptor MaxDisplayItemsProperty { get; } = PropertyDescriptor.Create(nameof(MaxDisplayItems), typeof(int), typeof(ActionMenu), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:OverflowImageUri"/> property.
         /// </summary>
-        public static PropertyDescriptor OverflowImageUriProperty { get; } = PropertyDescriptor.Create(nameof(OverflowImageUri), typeof(Uri), typeof(ActionMenu));
+        public static PropertyDescriptor OverflowImageUriProperty { get; } = PropertyDescriptor.Create(nameof(OverflowImageUri), typeof(Uri), typeof(ActionMenu), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
         #endregion
 
         /// <summary>
@@ -119,7 +120,7 @@ namespace Prism.UI.Controls
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDisplayItems), Resources.Strings.ValueCannotBeLessThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(MaxDisplayItems), Strings.ValueCannotBeLessThanZero);
                 }
 
                 nativeObject.MaxDisplayItems = value;
@@ -163,12 +164,31 @@ namespace Prism.UI.Controls
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeActionMenu;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeActionMenu).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeActionMenu).FullName), nameof(resolveType));
             }
 
             CancelButtonTitle = "Cancel";
             Items = new MenuItemCollection(nativeObject);
             MaxDisplayItems = (int)Application.Current.Resources[SystemResources.ActionMenuMaxDisplayItemsKey];
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to arrange its children.
+        /// </summary>
+        /// <param name="frame">The final rendering frame in which this instance should arrange its children.</param>
+        protected sealed override void ArrangeCore(Rectangle frame)
+        {
+            nativeObject.Frame = new Rectangle(frame.TopLeft, DesiredSize);
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected sealed override Size MeasureCore(Size constraints)
+        {
+            return base.MeasureCore(constraints);
         }
     }
 }

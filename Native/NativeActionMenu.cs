@@ -29,7 +29,7 @@ namespace Prism.Native
     /// Defines an action menu that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="ActionMenu"/> objects.
     /// </summary>
-    public interface INativeActionMenu : INativeMenu
+    public interface INativeActionMenu : INativeMenu, INativeVisual
     {
         /// <summary>
         /// Gets or sets the background for the menu.
