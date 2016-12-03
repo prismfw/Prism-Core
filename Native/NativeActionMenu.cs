@@ -47,11 +47,6 @@ namespace Prism.Native
         Brush Foreground { get; set; }
 
         /// <summary>
-        /// Gets the amount that the menu is inset on top of its parent view.
-        /// </summary>
-        Thickness Insets { get; }
-
-        /// <summary>
         /// Gets or sets the maximum number of menu items that can be displayed before they are placed into an overflow menu.
         /// </summary>
         [CoreBehavior(CoreBehaviors.ChecksRange)]

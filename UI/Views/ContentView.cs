@@ -277,12 +277,7 @@ namespace Prism.UI
                     inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.RenderSize.Height;
                 }
 
-                if (Menu != null)
-                {
-                    inset += Menu.Insets.Top;
-                }
-
-                currentContent.Arrange(new Rectangle(0, inset, constraints.Width, constraints.Height - (inset + Menu?.Insets.Bottom ?? 0)));
+                currentContent.Arrange(new Rectangle(0, inset, constraints.Width, constraints.Height - inset));
             }
 
             return constraints;
@@ -307,11 +302,6 @@ namespace Prism.UI
                 {
                     var viewStack = Parent as ViewStack;
                     inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.DesiredSize.Height;
-                }
-
-                if (Menu != null)
-                {
-                    inset += Menu.Insets.Top + Menu.Insets.Bottom;
                 }
 
                 currentContent.Measure(new Size(Math.Max(constraints.Width, 0), Math.Max(constraints.Height - inset, 0)));

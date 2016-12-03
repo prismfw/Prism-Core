@@ -54,11 +54,6 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor ForegroundProperty { get; } = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(ActionMenu));
 
         /// <summary>
-        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Insets"/> property.
-        /// </summary>
-        public static PropertyDescriptor InsetsProperty { get; } = PropertyDescriptor.Create(nameof(Insets), typeof(Thickness), typeof(ActionMenu), true);
-
-        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxDisplayItems"/> property.
         /// </summary>
         public static PropertyDescriptor MaxDisplayItemsProperty { get; } = PropertyDescriptor.Create(nameof(MaxDisplayItems), typeof(int), typeof(ActionMenu), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -94,14 +89,6 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.Foreground; }
             set { nativeObject.Foreground = value; }
-        }
-
-        /// <summary>
-        /// Gets the amount that the menu is inset on top of its parent view.
-        /// </summary>
-        public Thickness Insets
-        {
-            get { return nativeObject.Insets; }
         }
 
         /// <summary>
