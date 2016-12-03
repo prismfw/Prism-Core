@@ -31,9 +31,9 @@ namespace Prism.Native
     public interface INativeMenuButton : INativeMenuItem
     {
         /// <summary>
-        /// Occurs when the button is clicked.
+        /// Gets or sets the action to perform when the button is pressed by the user.
         /// </summary>
-        event EventHandler Clicked;
+        Action Action { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="Uri"/> of the image to display within the button.

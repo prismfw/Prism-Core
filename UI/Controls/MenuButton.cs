@@ -121,7 +121,7 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeMenuButton).FullName), nameof(resolveType));
             }
 
-            nativeObject.Clicked += (o, e) => Action?.Invoke(this);
+            nativeObject.Action = () => Action?.Invoke(this);
         }
     }
 }
