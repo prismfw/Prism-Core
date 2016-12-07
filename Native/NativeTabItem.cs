@@ -28,7 +28,7 @@ namespace Prism.Native
     /// Defines a tab item that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="TabItem"/> objects.
     /// </summary>
-    public interface INativeTabItem : INativeObject
+    public interface INativeTabItem : INativeVisual
     {
         /// <summary>
         /// Gets or sets the object that acts as the content of the item.

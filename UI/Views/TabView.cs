@@ -211,6 +211,8 @@ namespace Prism.UI
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
+                tab.Arrange(new Rectangle(0, 0, tab.DesiredSize.Width, tab.DesiredSize.Height));
+                
                 var visual = tab.Content as Visual;
                 if (visual != null && (tab == currentTab || visual.IsLoaded))
                 {
@@ -242,6 +244,8 @@ namespace Prism.UI
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
+                tab.Measure(tabBarFrame.Size);
+                
                 var visual = tab.Content as Visual;
                 if (visual != null && (tab == currentTab || visual.IsLoaded))
                 {

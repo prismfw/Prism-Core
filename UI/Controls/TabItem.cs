@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
+using Prism.Resources;
 using Prism.UI.Media;
 using Prism.UI.Media.Imaging;
 
@@ -32,13 +33,13 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a selectable item in a <see cref="TabView"/> instance.
     /// </summary>
-    public class TabItem : FrameworkObject
+    public class TabItem : Visual
     {
         #region Property Descriptors
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Content"/> property.
         /// </summary>
-        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(TabItem), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(TabItem));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:FontFamily"/> property.
@@ -140,12 +141,12 @@ namespace Prism.UI.Controls
             {
                 if (double.IsNaN(value) || double.IsInfinity(value))
                 {
-                    throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
                 }
 
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(FontSize), Resources.Strings.ValueCannotBeLessThanZero);
+                    throw new ArgumentOutOfRangeException(nameof(FontSize), Strings.ValueCannotBeLessThanZero);
                 }
 
                 nativeObject.FontSize = value;
@@ -209,18 +210,38 @@ namespace Prism.UI.Controls
         /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeTabItem"/> instance.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
         protected TabItem(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
             : base(resolveType, resolveName, resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTabItem;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabItem).FullName), nameof(resolveType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTabItem).FullName), nameof(resolveType));
             }
 
             FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
             FontSize = (double)Application.Current.Resources[SystemResources.TabItemFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TabItemFontStyleKey];
+        }
+        
+        /// <summary>
+        /// Called when this instance is ready to arrange its children.
+        /// </summary>
+        /// <param name="frame">The final rendering frame in which this instance should arrange its children.</param>
+        protected sealed override void ArrangeCore(Rectangle frame)
+        {
+            nativeObject.Frame = new Rectangle(frame.TopLeft, DesiredSize);
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected sealed override Size MeasureCore(Size constraints)
+        {
+            return base.MeasureCore(constraints);
         }
     }
 }
