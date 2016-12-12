@@ -19,6 +19,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
+using System.Diagnostics;
+using Prism.Native;
 using Prism.UI;
 using Prism.UI.Controls;
 using Prism.UI.Media;
@@ -32,306 +34,920 @@ namespace Prism
     {
         #region Measurements
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a generic <see cref="Control"/>.
-        /// </summary>
-        public static ResourceKey ControlBorderWidthKey { get; } = new ResourceKey("SystemControlBorderWidth", typeof(double), 0.0);
-
-        /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default maximum number of items that can be
         /// displayed in an <see cref="ActionMenu"/> before they are placed into an overflow menu.
         /// </summary>
-        public static ResourceKey ActionMenuMaxDisplayItemsKey { get; } = new ResourceKey("SystemActionMenuMaxDisplayItems", typeof(int), 2);
+        public static ResourceKey ActionMenuMaxDisplayItemsKey
+        {
+            get { return actionMenuMaxDisplayItemsKey ?? (actionMenuMaxDisplayItemsKey = new ResourceKey(SystemResourceKeyId.ActionMenuMaxDisplayItems, typeof(int))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey actionMenuMaxDisplayItemsKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a value indicating whether the separator of a <see cref="ListBoxItem"/>
         /// should be automatically indented in order to be flush with the text labels of the item.
         /// </summary>
-        public static ResourceKey AutomaticallyIndentSeparatorsKey { get; } = new ResourceKey("SystemAutomaticallyIndentSeparators", typeof(bool), true);
+        public static ResourceKey ShouldAutomaticallyIndentSeparatorsKey
+        {
+            get { return shouldAutomaticallyIndentSeparatorsKey ?? (shouldAutomaticallyIndentSeparatorsKey = new ResourceKey(SystemResourceKeyId.ShouldAutomaticallyIndentSeparators, typeof(bool))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey shouldAutomaticallyIndentSeparatorsKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="Button"/>.
         /// </summary>
-        public static ResourceKey ButtonBorderWidthKey { get; } = new ResourceKey("SystemButtonBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey ButtonBorderWidthKey
+        {
+            get { return buttonBorderWidthKey ?? (buttonBorderWidthKey = new ResourceKey(SystemResourceKeyId.ButtonBorderWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonBorderWidthKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default amount of padding between a <see cref="Button"/>'s content and its edges.
         /// </summary>
-        public static ResourceKey ButtonPaddingKey { get; } = new ResourceKey("SystemButtonPadding", typeof(Thickness), new Thickness());
+        public static ResourceKey ButtonPaddingKey
+        {
+            get { return buttonPaddingKey ?? (buttonPaddingKey = new ResourceKey(SystemResourceKeyId.ButtonPadding, typeof(Thickness))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonPaddingKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="DatePicker"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
         /// </summary>
-        public static ResourceKey DatePickerBorderWidthKey { get; } = new ResourceKey("SystemDatePickerBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey DateTimePickerBorderWidthKey
+        {
+            get { return dateTimePickerBorderWidthKey ?? (dateTimePickerBorderWidthKey = new ResourceKey(SystemResourceKeyId.DateTimePickerBorderWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerBorderWidthKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the height of a horizontal scroll bar.
         /// </summary>
-        public static ResourceKey HorizontalScrollBarHeightKey { get; } = new ResourceKey("SystemHorizontalScrollBarHeight", typeof(double));
+        public static ResourceKey HorizontalScrollBarHeightKey
+        {
+            get { return horizontalScrollBarHeightKey ?? (horizontalScrollBarHeightKey = new ResourceKey(SystemResourceKeyId.HorizontalScrollBarHeight, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey horizontalScrollBarHeightKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default height of a <see cref="ListBoxItem"/> with a <see cref="P:DetailTextLabel"/>.
         /// </summary>
-        public static ResourceKey ListBoxItemDetailHeightKey { get; } = new ResourceKey("SystemListBoxItemDetailHeight", typeof(double), 0.0);
+        public static ResourceKey ListBoxItemDetailHeightKey
+        {
+            get { return listBoxItemDetailHeightKey ?? (listBoxItemDetailHeightKey = new ResourceKey(SystemResourceKeyId.ListBoxItemDetailHeight, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemDetailHeightKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the size of the <see cref="ListBoxItemAccessory.Indicator"/> accessory in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ListBoxItemIndicatorSizeKey { get; } = new ResourceKey("SystemListBoxItemIndicatorSize", typeof(Size));
+        public static ResourceKey ListBoxItemIndicatorSizeKey
+        {
+            get { return listBoxItemIndicatorSizeKey ?? (listBoxItemIndicatorSizeKey = new ResourceKey(SystemResourceKeyId.ListBoxItemIndicatorSize, typeof(Size))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemIndicatorSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the size of the <see cref="ListBoxItemAccessory.InfoButton"/> accessory in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ListBoxItemInfoButtonSizeKey { get; } = new ResourceKey("SystemListBoxItemInfoButtonSize", typeof(Size));
+        public static ResourceKey ListBoxItemInfoButtonSizeKey
+        {
+            get { return listBoxItemInfoButtonSizeKey ?? (listBoxItemInfoButtonSizeKey = new ResourceKey(SystemResourceKeyId.ListBoxItemInfoButtonSize, typeof(Size))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemInfoButtonSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the size of the <see cref="ListBoxItemAccessory.InfoIndicator"/> accessory in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ListBoxItemInfoIndicatorSizeKey { get; } = new ResourceKey("SystemListBoxItemInfoIndicatorSize", typeof(Size));
+        public static ResourceKey ListBoxItemInfoIndicatorSizeKey
+        {
+            get { return listBoxItemInfoIndicatorSizeKey ?? (listBoxItemInfoIndicatorSizeKey = new ResourceKey(SystemResourceKeyId.ListBoxItemInfoIndicatorSize, typeof(Size))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemInfoIndicatorSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default height of a standard <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ListBoxItemStandardHeightKey { get; } = new ResourceKey("SystemListBoxItemStandardHeight", typeof(double), 0.0);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="PasswordBox"/>.
-        /// </summary>
-        public static ResourceKey PasswordBoxBorderWidthKey { get; } = new ResourceKey("SystemPasswordBoxBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey ListBoxItemStandardHeightKey
+        {
+            get { return listBoxItemStandardHeightKey ?? (listBoxItemStandardHeightKey = new ResourceKey(SystemResourceKeyId.ListBoxItemStandardHeight, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemStandardHeightKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the size of a <see cref="Popup"/> when presented with <see cref="PopupPresentationStyle.Default"/>.
         /// </summary>
-        public static ResourceKey PopupSizeKey { get; } = new ResourceKey("SystemPopupSize", typeof(Size));
+        public static ResourceKey PopupSizeKey
+        {
+            get { return popupSizeKey ?? (popupSizeKey = new ResourceKey(SystemResourceKeyId.PopupSize, typeof(Size))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey popupSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="SearchBox"/>.
         /// </summary>
-        public static ResourceKey SearchBoxBorderWidthKey { get; } = new ResourceKey("SystemSearchBoxBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey SearchBoxBorderWidthKey
+        {
+            get { return searchBoxBorderWidthKey ?? (searchBoxBorderWidthKey = new ResourceKey(SystemResourceKeyId.SearchBoxBorderWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxBorderWidthKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="SelectList"/>.
         /// </summary>
-        public static ResourceKey SelectListBorderWidthKey { get; } = new ResourceKey("SystemSelectListBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey SelectListBorderWidthKey
+        {
+            get { return selectListBorderWidthKey ?? (selectListBorderWidthKey = new ResourceKey(SystemResourceKeyId.SelectListBorderWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListBorderWidthKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default amount of padding between a <see cref="SelectList"/>'s display item and its edges.
         /// </summary>
-        public static ResourceKey SelectListDisplayItemPaddingKey { get; } = new ResourceKey("SystemSelectListDisplayItemPadding", typeof(Thickness), new Thickness());
+        public static ResourceKey SelectListDisplayItemPaddingKey
+        {
+            get { return selectListDisplayItemPaddingKey ?? (selectListDisplayItemPaddingKey = new ResourceKey(SystemResourceKeyId.SelectListDisplayItemPadding, typeof(Thickness))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListDisplayItemPaddingKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default amount of padding between a <see cref="SelectList"/>'s list item and its edges.
         /// </summary>
-        public static ResourceKey SelectListListItemPaddingKey { get; } = new ResourceKey("SystemSelectListListItemPadding", typeof(Thickness), new Thickness());
+        public static ResourceKey SelectListListItemPaddingKey
+        {
+            get { return selectListListItemPaddingKey ?? (selectListListItemPaddingKey = new ResourceKey(SystemResourceKeyId.SelectListListItemPadding, typeof(Thickness))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListListItemPaddingKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="TextArea"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="TextBox"/> or similar text entry control.
         /// </summary>
-        public static ResourceKey TextAreaBorderWidthKey { get; } = new ResourceKey("SystemTextAreaBorderWidth", typeof(double), ControlBorderWidthKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="TextBox"/>.
-        /// </summary>
-        public static ResourceKey TextBoxBorderWidthKey { get; } = new ResourceKey("SystemTextBoxBorderWidth", typeof(double), ControlBorderWidthKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default width of the border around a <see cref="TimePicker"/>.
-        /// </summary>
-        public static ResourceKey TimePickerBorderWidthKey { get; } = new ResourceKey("SystemTimePickerBorderWidth", typeof(double), ControlBorderWidthKey);
+        public static ResourceKey TextBoxBorderWidthKey
+        {
+            get { return textBoxBorderWidthKey ?? (textBoxBorderWidthKey = new ResourceKey(SystemResourceKeyId.TextBoxBorderWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxBorderWidthKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the width of a vertical scroll bar.
         /// </summary>
-        public static ResourceKey VerticalScrollBarWidthKey { get; } = new ResourceKey("SystemVerticalScrollBarWidth", typeof(double));
+        public static ResourceKey VerticalScrollBarWidthKey
+        {
+            get { return verticalScrollBarWidthKey ?? (verticalScrollBarWidthKey = new ResourceKey(SystemResourceKeyId.VerticalScrollBarWidth, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey verticalScrollBarWidthKey;
         #endregion
 
         #region Font Values
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font family for UI objects.
         /// </summary>
-        public static ResourceKey BaseFontFamilyKey { get; } = new ResourceKey("SystemBaseFontFamily", typeof(FontFamily));
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size for UI objects.
-        /// </summary>
-        public static ResourceKey BaseFontSizeKey { get; } = new ResourceKey("SystemBaseFontSize", typeof(double), 12.0);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style for UI objects.
-        /// </summary>
-        public static ResourceKey BaseFontStyleKey { get; } = new ResourceKey("SystemBaseFontStyle", typeof(FontStyle), FontStyle.Normal);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="Label"/>.
-        /// </summary>
-        public static ResourceKey LabelFontSizeKey { get; } = new ResourceKey("SystemLabelFontSize", typeof(double), BaseFontSizeKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="Label"/>.
-        /// </summary>
-        public static ResourceKey LabelFontStyleKey { get; } = new ResourceKey("SystemLabelFontStyle", typeof(FontStyle), BaseFontStyleKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a generic <see cref="Control"/>.
-        /// </summary>
-        public static ResourceKey ControlFontSizeKey { get; } = new ResourceKey("SystemControlFontSize", typeof(double), BaseFontSizeKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a generic <see cref="Control"/>.
-        /// </summary>
-        public static ResourceKey ControlFontStyleKey { get; } = new ResourceKey("SystemControlFontStyle", typeof(FontStyle), BaseFontStyleKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="TextBox"/>.
-        /// </summary>
-        public static ResourceKey TextBoxFontSizeKey { get; } = new ResourceKey("SystemTextBoxFontSize", typeof(double), ControlFontSizeKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="TextBox"/>.
-        /// </summary>
-        public static ResourceKey TextBoxFontStyleKey { get; } = new ResourceKey("SystemTextBoxFontStyle", typeof(FontStyle), ControlFontStyleKey);
+        public static ResourceKey BaseFontFamilyKey
+        {
+            get { return baseFontFamilyKey ?? (baseFontFamilyKey = new ResourceKey(SystemResourceKeyId.BaseFontFamily, typeof(FontFamily))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseFontFamilyKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="Button"/>.
         /// </summary>
-        public static ResourceKey ButtonFontSizeKey { get; } = new ResourceKey("SystemButtonFontSize", typeof(double), ControlFontSizeKey);
+        public static ResourceKey ButtonFontSizeKey
+        {
+            get { return buttonFontSizeKey ?? (buttonFontSizeKey = new ResourceKey(SystemResourceKeyId.ButtonFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="Button"/>.
         /// </summary>
-        public static ResourceKey ButtonFontStyleKey { get; } = new ResourceKey("SystemButtonFontStyle", typeof(FontStyle), ControlFontStyleKey);
+        public static ResourceKey ButtonFontStyleKey
+        {
+            get { return buttonFontStyleKey ?? (buttonFontStyleKey = new ResourceKey(SystemResourceKeyId.ButtonFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonFontStyleKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="DatePicker"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
         /// </summary>
-        public static ResourceKey DatePickerFontSizeKey { get; } = new ResourceKey("SystemDatePickerFontSize", typeof(double), ControlFontStyleKey);
+        public static ResourceKey DateTimePickerFontSizeKey
+        {
+            get { return dateTimePickerFontSizeKey ?? (dateTimePickerFontSizeKey = new ResourceKey(SystemResourceKeyId.DateTimePickerFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerFontSizeKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="DatePicker"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
         /// </summary>
-        public static ResourceKey DatePickerFontStyleKey { get; } = new ResourceKey("SystemDatePickerFontStyle", typeof(FontStyle), ControlFontStyleKey);
+        public static ResourceKey DateTimePickerFontStyleKey
+        {
+            get { return dateTimePickerFontStyleKey ?? (dateTimePickerFontStyleKey = new ResourceKey(SystemResourceKeyId.DateTimePickerFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of the <see cref="P:DetailTextLabel"/> in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey DetailLabelFontSizeKey { get; } = new ResourceKey("SystemDetailLabelFontSize", typeof(double), LabelFontSizeKey);
+        public static ResourceKey DetailLabelFontSizeKey
+        {
+            get { return detailLabelFontSizeKey ?? (detailLabelFontSizeKey = new ResourceKey(SystemResourceKeyId.DetailLabelFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey detailLabelFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of the <see cref="P:DetailTextLabel"/> in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey DetailLabelFontStyleKey { get; } = new ResourceKey("SystemDetailLabelFontStyle", typeof(FontStyle), LabelFontStyleKey);
+        public static ResourceKey DetailLabelFontStyleKey
+        {
+            get { return detailLabelFontStyleKey ?? (detailLabelFontStyleKey = new ResourceKey(SystemResourceKeyId.DetailLabelFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey detailLabelFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
-        public static ResourceKey GroupedSectionHeaderFontSizeKey { get; } = new ResourceKey("SystemGroupedSectionHeaderFontSize", typeof(double), BaseFontSizeKey);
+        public static ResourceKey GroupedSectionHeaderFontSizeKey
+        {
+            get { return groupedSectionHeaderFontSizeKey ?? (groupedSectionHeaderFontSizeKey = new ResourceKey(SystemResourceKeyId.GroupedSectionHeaderFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey groupedSectionHeaderFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
-        public static ResourceKey GroupedSectionHeaderFontStyleKey { get; } = new ResourceKey("SystemGroupedSectionHeaderFontStyle", typeof(FontStyle), BaseFontStyleKey);
+        public static ResourceKey GroupedSectionHeaderFontStyleKey
+        {
+            get { return groupedSectionHeaderFontStyleKey ?? (groupedSectionHeaderFontStyleKey = new ResourceKey(SystemResourceKeyId.GroupedSectionHeaderFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey groupedSectionHeaderFontStyleKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="Label"/>.
+        /// </summary>
+        public static ResourceKey LabelFontSizeKey
+        {
+            get { return labelFontSizeKey ?? (labelFontSizeKey = new ResourceKey(SystemResourceKeyId.LabelFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey labelFontSizeKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="Label"/>.
+        /// </summary>
+        public static ResourceKey LabelFontStyleKey
+        {
+            get { return labelFontStyleKey ?? (labelFontStyleKey = new ResourceKey(SystemResourceKeyId.LabelFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey labelFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of the title text on a <see cref="LoadIndicator"/>.
         /// </summary>
-        public static ResourceKey LoadIndicatorFontSizeKey { get; } = new ResourceKey("SystemLoadIndicatorFontSize", typeof(double), BaseFontSizeKey);
+        public static ResourceKey LoadIndicatorFontSizeKey
+        {
+            get { return loadIndicatorFontSizeKey ?? (loadIndicatorFontSizeKey = new ResourceKey(SystemResourceKeyId.LoadIndicatorFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey loadIndicatorFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of the title text on a <see cref="LoadIndicator"/>.
         /// </summary>
-        public static ResourceKey LoadIndicatorFontStyleKey { get; } = new ResourceKey("SystemLoadIndicatorFontStyle", typeof(FontStyle), BaseFontStyleKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="PasswordBox"/>.
-        /// </summary>
-        public static ResourceKey PasswordBoxFontSizeKey { get; } = new ResourceKey("SystemPasswordBoxFontSize", typeof(double), TextBoxFontSizeKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="PasswordBox"/>.
-        /// </summary>
-        public static ResourceKey PasswordBoxFontStyleKey { get; } = new ResourceKey("SystemPasswordBoxFontStyle", typeof(FontStyle), TextBoxFontStyleKey);
+        public static ResourceKey LoadIndicatorFontStyleKey
+        {
+            get { return loadIndicatorFontStyleKey ?? (loadIndicatorFontStyleKey = new ResourceKey(SystemResourceKeyId.LoadIndicatorFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey loadIndicatorFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="SearchBox"/>.
         /// </summary>
-        public static ResourceKey SearchBoxFontSizeKey { get; } = new ResourceKey("SystemSearchBoxFontSize", typeof(double), TextBoxFontSizeKey);
+        public static ResourceKey SearchBoxFontSizeKey
+        {
+            get { return searchBoxFontSizeKey ?? (searchBoxFontSizeKey = new ResourceKey(SystemResourceKeyId.SearchBoxFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="SearchBox"/>.
         /// </summary>
-        public static ResourceKey SearchBoxFontStyleKey { get; } = new ResourceKey("SystemSearchBoxFontStyle", typeof(FontStyle), TextBoxFontStyleKey);
+        public static ResourceKey SearchBoxFontStyleKey
+        {
+            get { return searchBoxFontStyleKey ?? (searchBoxFontStyleKey = new ResourceKey(SystemResourceKeyId.SearchBoxFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
-        public static ResourceKey SectionHeaderFontSizeKey { get; } = new ResourceKey("SystemSectionHeaderFontSize", typeof(double), BaseFontSizeKey);
+        public static ResourceKey SectionHeaderFontSizeKey
+        {
+            get { return sectionHeaderFontSizeKey ?? (sectionHeaderFontSizeKey = new ResourceKey(SystemResourceKeyId.SectionHeaderFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sectionHeaderFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
-        public static ResourceKey SectionHeaderFontStyleKey { get; } = new ResourceKey("SystemSectionHeaderFontStyle", typeof(FontStyle), BaseFontStyleKey);
+        public static ResourceKey SectionHeaderFontStyleKey
+        {
+            get { return sectionHeaderFontStyleKey ?? (sectionHeaderFontStyleKey = new ResourceKey(SystemResourceKeyId.SectionHeaderFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sectionHeaderFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="SelectList"/>.
         /// </summary>
-        public static ResourceKey SelectListFontSizeKey { get; } = new ResourceKey("SystemSelectListFontSize", typeof(double), ControlFontSizeKey);
+        public static ResourceKey SelectListFontSizeKey
+        {
+            get { return selectListFontSizeKey ?? (selectListFontSizeKey = new ResourceKey(SystemResourceKeyId.SelectListFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="SelectList"/>.
         /// </summary>
-        public static ResourceKey SelectListFontStyleKey { get; } = new ResourceKey("SystemSelectListFontStyle", typeof(FontStyle), ControlFontStyleKey);
+        public static ResourceKey SelectListFontStyleKey
+        {
+            get { return selectListFontStyleKey ?? (selectListFontStyleKey = new ResourceKey(SystemResourceKeyId.SelectListFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="TabItem"/>.
         /// </summary>
-        public static ResourceKey TabItemFontSizeKey { get; } = new ResourceKey("SystemTabItemFontSize", typeof(double), BaseFontSizeKey);
+        public static ResourceKey TabItemFontSizeKey
+        {
+            get { return tabItemFontSizeKey ?? (tabItemFontSizeKey = new ResourceKey(SystemResourceKeyId.TabItemFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey tabItemFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="TabItem"/>.
         /// </summary>
-        public static ResourceKey TabItemFontStyleKey { get; } = new ResourceKey("SystemTabItemFontStyle", typeof(FontStyle), BaseFontStyleKey);
+        public static ResourceKey TabItemFontStyleKey
+        {
+            get { return tabItemFontStyleKey ?? (tabItemFontStyleKey = new ResourceKey(SystemResourceKeyId.TabItemFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey tabItemFontStyleKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="TextArea"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="TextBox"/> or similar text entry control.
         /// </summary>
-        public static ResourceKey TextAreaFontSizeKey { get; } = new ResourceKey("SystemTextAreaFontSize", typeof(double), TextBoxFontSizeKey);
+        public static ResourceKey TextBoxFontSizeKey
+        {
+            get { return textBoxFontSizeKey ?? (textBoxFontSizeKey = new ResourceKey(SystemResourceKeyId.TextBoxFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxFontSizeKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="TextArea"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="TextBox"/> or similar text entry control.
         /// </summary>
-        public static ResourceKey TextAreaFontStyleKey { get; } = new ResourceKey("SystemTextAreaFontStyle", typeof(FontStyle), TextBoxFontStyleKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of a <see cref="TimePicker"/>.
-        /// </summary>
-        public static ResourceKey TimePickerFontSizeKey { get; } = new ResourceKey("SystemTimePickerFontSize", typeof(double), ControlFontSizeKey);
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of a <see cref="TimePicker"/>.
-        /// </summary>
-        public static ResourceKey TimePickerFontStyleKey { get; } = new ResourceKey("SystemTimePickerFontStyle", typeof(FontStyle), ControlFontStyleKey);
+        public static ResourceKey TextBoxFontStyleKey
+        {
+            get { return textBoxFontStyleKey ?? (textBoxFontStyleKey = new ResourceKey(SystemResourceKeyId.TextBoxFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size of the <see cref="P:ValueTextLabel"/> in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ValueLabelFontSizeKey { get; } = new ResourceKey("SystemValueLabelFontSize", typeof(double), LabelFontSizeKey);
+        public static ResourceKey ValueLabelFontSizeKey
+        {
+            get { return valueLabelFontSizeKey ?? (valueLabelFontSizeKey = new ResourceKey(SystemResourceKeyId.ValueLabelFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey valueLabelFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style of the <see cref="P:ValueTextLabel"/> in a <see cref="ListBoxItem"/>.
         /// </summary>
-        public static ResourceKey ValueLabelFontStyleKey { get; } = new ResourceKey("SystemValueLabelFontStyle", typeof(FontStyle), LabelFontStyleKey);
+        public static ResourceKey ValueLabelFontStyleKey
+        {
+            get { return valueLabelFontStyleKey ?? (valueLabelFontStyleKey = new ResourceKey(SystemResourceKeyId.ValueLabelFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey valueLabelFontStyleKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font size for the header of a view.
         /// </summary>
-        public static ResourceKey ViewHeaderFontSizeKey { get; } = new ResourceKey("SystemViewHeaderFontSize", typeof(double), BaseFontSizeKey);
+        public static ResourceKey ViewHeaderFontSizeKey
+        {
+            get { return viewHeaderFontSizeKey ?? (viewHeaderFontSizeKey = new ResourceKey(SystemResourceKeyId.ViewHeaderFontSize, typeof(double))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey viewHeaderFontSizeKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the default font style for the header of a view.
         /// </summary>
-        public static ResourceKey ViewHeaderFontStyleKey { get; } = new ResourceKey("SystemViewHeaderFontStyle", typeof(FontStyle), BaseFontStyleKey);
+        public static ResourceKey ViewHeaderFontStyleKey
+        {
+            get { return viewHeaderFontStyleKey ?? (viewHeaderFontStyleKey = new ResourceKey(SystemResourceKeyId.ViewHeaderFontStyle, typeof(FontStyle))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey viewHeaderFontStyleKey;
         #endregion
 
         #region Brushes
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the system accent color.
+        /// </summary>
+        public static ResourceKey AccentBrushKey
+        {
+            get { return accentBrushKey ?? (accentBrushKey = new ResourceKey(SystemResourceKeyId.AccentBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey accentBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an <see cref="ActionMenu"/>.
+        /// </summary>
+        public static ResourceKey ActionMenuBackgroundBrushKey
+        {
+            get { return actionMenuBackgroundBrushKey ?? (actionMenuBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ActionMenuBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey actionMenuBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of an <see cref="ActionMenu"/>.
+        /// </summary>
+        public static ResourceKey ActionMenuForegroundBrushKey
+        {
+            get { return actionMenuForegroundBrushKey ?? (actionMenuForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ActionMenuForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey actionMenuForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="ActivityIndicator"/>.
+        /// </summary>
+        public static ResourceKey ActivityIndicatorForegroundBrushKey
+        {
+            get { return activityIndicatorForegroundBrushKey ?? (activityIndicatorForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ActivityIndicatorForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey activityIndicatorForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="Button"/>.
+        /// </summary>
+        public static ResourceKey ButtonBackgroundBrushKey
+        {
+            get { return buttonBackgroundBrushKey ?? (buttonBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ButtonBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="Button"/>.
+        /// </summary>
+        public static ResourceKey ButtonBorderBrushKey
+        {
+            get { return buttonBorderBrushKey ?? (buttonBorderBrushKey = new ResourceKey(SystemResourceKeyId.ButtonBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="Button"/>.
+        /// </summary>
+        public static ResourceKey ButtonForegroundBrushKey
+        {
+            get { return buttonForegroundBrushKey ?? (buttonForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ButtonForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey buttonForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
+        /// </summary>
+        public static ResourceKey DateTimePickerBackgroundBrushKey
+        {
+            get { return dateTimePickerBackgroundBrushKey ?? (dateTimePickerBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.DateTimePickerBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
+        /// </summary>
+        public static ResourceKey DateTimePickerBorderBrushKey
+        {
+            get { return dateTimePickerBorderBrushKey ?? (dateTimePickerBorderBrushKey = new ResourceKey(SystemResourceKeyId.DateTimePickerBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="DatePicker"/> or <see cref="TimePicker"/>.
+        /// </summary>
+        public static ResourceKey DateTimePickerForegroundBrushKey
+        {
+            get { return dateTimePickerForegroundBrushKey ?? (dateTimePickerForegroundBrushKey = new ResourceKey(SystemResourceKeyId.DateTimePickerForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey dateTimePickerForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of the <see cref="P:DetailTextLabel"/> in a <see cref="ListBoxItem"/>.
+        /// </summary>
+        public static ResourceKey DetailLabelForegroundBrushKey
+        {
+            get { return detailLabelForegroundBrushKey ?? (detailLabelForegroundBrushKey = new ResourceKey(SystemResourceKeyId.DetailLabelForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey detailLabelForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// </summary>
+        public static ResourceKey GroupedSectionHeaderBackgroundBrushKey
+        {
+            get { return groupedSectionHeaderBackgroundBrushKey ?? (groupedSectionHeaderBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.GroupedSectionHeaderBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey groupedSectionHeaderBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// </summary>
+        public static ResourceKey GroupedSectionHeaderForegroundBrushKey
+        {
+            get { return groupedSectionHeaderForegroundBrushKey ?? (groupedSectionHeaderForegroundBrushKey = new ResourceKey(SystemResourceKeyId.GroupedSectionHeaderForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey groupedSectionHeaderForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="Label"/>.
+        /// </summary>
+        public static ResourceKey LabelForegroundBrushKey
+        {
+            get { return labelForegroundBrushKey ?? (labelForegroundBrushKey = new ResourceKey(SystemResourceKeyId.LabelForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey labelForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="ListBox"/>.
+        /// </summary>
+        public static ResourceKey ListBoxBackgroundBrushKey
+        {
+            get { return listBoxBackgroundBrushKey ?? (listBoxBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ListBoxBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected <see cref="ListBoxItem"/>.
+        /// </summary>
+        public static ResourceKey ListBoxItemBackgroundBrushKey
+        {
+            get { return listBoxItemBackgroundBrushKey ?? (listBoxItemBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ListBoxItemBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a selected <see cref="ListBoxItem"/>.
+        /// </summary>
+        public static ResourceKey ListBoxItemSelectedBackgroundBrushKey
+        {
+            get { return listBoxItemSelectedBackgroundBrushKey ?? (listBoxItemSelectedBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ListBoxItemSelectedBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxItemSelectedBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default separator color of a <see cref="ListBox"/>.
+        /// </summary>
+        public static ResourceKey ListBoxSeparatorBrushKey
+        {
+            get { return listBoxSeparatorBrushKey ?? (listBoxSeparatorBrushKey = new ResourceKey(SystemResourceKeyId.ListBoxSeparatorBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey listBoxSeparatorBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="LoadIndicator"/>.
+        /// </summary>
+        public static ResourceKey LoadIndicatorBackgroundBrushKey
+        {
+            get { return loadIndicatorBackgroundBrushKey ?? (loadIndicatorBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.LoadIndicatorBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey loadIndicatorBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="LoadIndicator"/>.
+        /// </summary>
+        public static ResourceKey LoadIndicatorForegroundBrushKey
+        {
+            get { return loadIndicatorForegroundBrushKey ?? (loadIndicatorForegroundBrushKey = new ResourceKey(SystemResourceKeyId.LoadIndicatorForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey loadIndicatorForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="SearchBox"/>.
+        /// </summary>
+        public static ResourceKey SearchBoxBackgroundBrushKey
+        {
+            get { return searchBoxBackgroundBrushKey ?? (searchBoxBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.SearchBoxBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="SearchBox"/>.
+        /// </summary>
+        public static ResourceKey SearchBoxBorderBrushKey
+        {
+            get { return searchBoxBorderBrushKey ?? (searchBoxBorderBrushKey = new ResourceKey(SystemResourceKeyId.SearchBoxBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="SearchBox"/>.
+        /// </summary>
+        public static ResourceKey SearchBoxForegroundBrushKey
+        {
+            get { return searchBoxForegroundBrushKey ?? (searchBoxForegroundBrushKey = new ResourceKey(SystemResourceKeyId.SearchBoxForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey searchBoxForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// </summary>
+        public static ResourceKey SectionHeaderBackgroundBrushKey
+        {
+            get { return sectionHeaderBackgroundBrushKey ?? (sectionHeaderBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.SectionHeaderBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sectionHeaderBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// </summary>
+        public static ResourceKey SectionHeaderForegroundBrushKey
+        {
+            get { return sectionHeaderForegroundBrushKey ?? (sectionHeaderForegroundBrushKey = new ResourceKey(SystemResourceKeyId.SectionHeaderForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sectionHeaderForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="SelectList"/>.
+        /// </summary>
+        public static ResourceKey SelectListBackgroundBrushKey
+        {
+            get { return selectListBackgroundBrushKey ?? (selectListBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.SelectListBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="SelectList"/>.
+        /// </summary>
+        public static ResourceKey SelectListBorderBrushKey
+        {
+            get { return selectListBorderBrushKey ?? (selectListBorderBrushKey = new ResourceKey(SystemResourceKeyId.SelectListBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="SelectList"/>.
+        /// </summary>
+        public static ResourceKey SelectListForegroundBrushKey
+        {
+            get { return selectListForegroundBrushKey ?? (selectListForegroundBrushKey = new ResourceKey(SystemResourceKeyId.SelectListForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="Slider"/>.
+        /// </summary>
+        public static ResourceKey SliderBackgroundBrushKey
+        {
+            get { return sliderBackgroundBrushKey ?? (sliderBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.SliderBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sliderBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="Slider"/>.
+        /// </summary>
+        public static ResourceKey SliderForegroundBrushKey
+        {
+            get { return sliderForegroundBrushKey ?? (sliderForegroundBrushKey = new ResourceKey(SystemResourceKeyId.SliderForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sliderForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default thumb color of a <see cref="Slider"/>.
+        /// </summary>
+        public static ResourceKey SliderThumbBrushKey
+        {
+            get { return sliderThumbBrushKey ?? (sliderThumbBrushKey = new ResourceKey(SystemResourceKeyId.SliderThumbBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey sliderThumbBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="TabItem"/>.
+        /// </summary>
+        public static ResourceKey TabItemForegroundBrushKey
+        {
+            get { return tabItemForegroundBrushKey ?? (tabItemForegroundBrushKey = new ResourceKey(SystemResourceKeyId.TabItemForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey tabItemForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="TabView"/>.
+        /// </summary>
+        public static ResourceKey TabViewBackgroundBrushKey
+        {
+            get { return tabViewBackgroundBrushKey ?? (tabViewBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.TabViewBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey tabViewBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="TabView"/>.
+        /// </summary>
+        public static ResourceKey TabViewForegroundBrushKey
+        {
+            get { return tabViewForegroundBrushKey ?? (tabViewForegroundBrushKey = new ResourceKey(SystemResourceKeyId.TabViewForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey tabViewForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="TextBox"/> or similar text entry control.
+        /// </summary>
+        public static ResourceKey TextBoxBackgroundBrushKey
+        {
+            get { return textBoxBackgroundBrushKey ?? (textBoxBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.TextBoxBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="TextBox"/> or similar text entry control.
+        /// </summary>
+        public static ResourceKey TextBoxBorderBrushKey
+        {
+            get { return textBoxBorderBrushKey ?? (textBoxBorderBrushKey = new ResourceKey(SystemResourceKeyId.TextBoxBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="TextBox"/> or similar text entry control.
+        /// </summary>
+        public static ResourceKey TextBoxForegroundBrushKey
+        {
+            get { return textBoxForegroundBrushKey ?? (textBoxForegroundBrushKey = new ResourceKey(SystemResourceKeyId.TextBoxForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey textBoxForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="ToggleSwitch"/>.
+        /// </summary>
+        public static ResourceKey ToggleSwitchBackgroundBrushKey
+        {
+            get { return toggleSwitchBackgroundBrushKey ?? (toggleSwitchBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ToggleSwitchBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey toggleSwitchBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default border color of a <see cref="ToggleSwitch"/>.
+        /// </summary>
+        public static ResourceKey ToggleSwitchBorderBrushKey
+        {
+            get { return toggleSwitchBorderBrushKey ?? (toggleSwitchBorderBrushKey = new ResourceKey(SystemResourceKeyId.ToggleSwitchBorderBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey toggleSwitchBorderBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="ToggleSwitch"/>.
+        /// </summary>
+        public static ResourceKey ToggleSwitchForegroundBrushKey
+        {
+            get { return toggleSwitchForegroundBrushKey ?? (toggleSwitchForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ToggleSwitchForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey toggleSwitchForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default thumb color of a <see cref="ToggleSwitch"/> that is in a <c>false</c> state.
+        /// </summary>
+        public static ResourceKey ToggleSwitchThumbOffBrushKey
+        {
+            get { return toggleSwitchThumbOffBrushKey ?? (toggleSwitchThumbOffBrushKey = new ResourceKey(SystemResourceKeyId.ToggleSwitchThumbOffBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey toggleSwitchThumbOffBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default thumb color of a <see cref="ToggleSwitch"/> that is in a <c>true</c> state.
+        /// </summary>
+        public static ResourceKey ToggleSwitchThumbOnBrushKey
+        {
+            get { return toggleSwitchThumbOnBrushKey ?? (toggleSwitchThumbOnBrushKey = new ResourceKey(SystemResourceKeyId.ToggleSwitchThumbOnBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey toggleSwitchThumbOnBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of the <see cref="P:ValueTextLabel"/> in a <see cref="ListBoxItem"/>.
+        /// </summary>
+        public static ResourceKey ValueLabelForegroundBrushKey
+        {
+            get { return valueLabelForegroundBrushKey ?? (valueLabelForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ValueLabelForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey valueLabelForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a view.
+        /// </summary>
+        public static ResourceKey ViewBackgroundBrushKey
+        {
+            get { return viewBackgroundBrushKey ?? (viewBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ViewBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey viewBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background for the header of a view.
+        /// </summary>
+        public static ResourceKey ViewHeaderBackgroundBrushKey
+        {
+            get { return viewHeaderBackgroundBrushKey ?? (viewHeaderBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ViewHeaderBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey viewHeaderBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground for the header of a view.
+        /// </summary>
+        public static ResourceKey ViewHeaderForegroundBrushKey
+        {
+            get { return viewHeaderForegroundBrushKey ?? (viewHeaderForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ViewHeaderForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey viewHeaderForegroundBrushKey;
         #endregion
     }
 }

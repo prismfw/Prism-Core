@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics;
+using Prism.Native;
 
 namespace Prism
 {
@@ -29,82 +31,42 @@ namespace Prism
     public class ResourceKey
     {
         /// <summary>
-        /// Gets an optional value to return when a resource for the key cannot be found.
+        /// Gets the type of resource that is expected to be returned with this key.
         /// </summary>
-        public object DefaultValue { get; }
+        public Type ExpectedType { get; }
 
         /// <summary>
-        /// Gets an optional key for a fallback resource to look for if a resource for the current key cannot be found.
+        /// Gets an identifier for the resource.
         /// </summary>
-        public ResourceKey FallbackKey { get; }
-
-        /// <summary>
-        /// Gets the identifier for the resource.
-        /// </summary>
-        public string Id { get; }
-
-        /// <summary>
-        /// Gets the type that the resource value must be.
-        /// The resource value is only valid if it's an instance of this type or derived from this type.
-        /// </summary>
-        public Type TypeRestriction { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceKey"/> class.
-        /// </summary>
-        /// <param name="id">The identifier for the resource.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="id"/> is <c>null</c>.</exception>
-        public ResourceKey(string id)
+        public int Id { get; }
+        
+        internal ResourceKey(SystemResourceKeyId id, Type expectedType)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
+            Debug.Assert(id > SystemResourceKeyId.StartMarker && id < SystemResourceKeyId.EndMarker, "Undefined resource ID!");
+            Debug.Assert(expectedType != null);
 
-            Id = id;
+            ExpectedType = expectedType;
+            Id = (int)id;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceKey"/> class.
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="ResourceKey"/>.
         /// </summary>
-        /// <param name="id">The identifier for the resource.</param>
-        /// <param name="typeRestriction">The type that the resource value must be.  A value of <c>null</c> means that there is no type restriction.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="id"/> is <c>null</c>.</exception>
-        public ResourceKey(string id, Type typeRestriction)
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="ResourceKey"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current <see cref="ResourceKey"/>; otherwise, <c>false</c>.</returns>
+        public override bool Equals(object obj)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Id = id;
-            TypeRestriction = typeRestriction;
+            var key = obj as ResourceKey;
+            return key == null ? false : key.Id == Id;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceKey"/> class.
+        /// Serves as a hash function for a <see cref="ResourceKey"/> object.
         /// </summary>
-        /// <param name="id">The identifier for the resource.</param>
-        /// <param name="typeRestriction">The type that the resource value must be.  A value of <c>null</c> means that there is no type restriction.</param>
-        /// <param name="defaultValue">An optional value to return when a resource for the key cannot be found.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="id"/> is <c>null</c>.</exception>
-        public ResourceKey(string id, Type typeRestriction, object defaultValue)
-            : this(id, typeRestriction)
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
+        public override int GetHashCode()
         {
-            DefaultValue = defaultValue;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceKey"/> class.
-        /// </summary>
-        /// <param name="id">The identifier for the resource.</param>
-        /// <param name="typeRestriction">The type that the resource value must be.  A value of <c>null</c> means that there is no type restriction.</param>
-        /// <param name="fallbackKey">An optional key for a fallback resource to look for if a resource for the current key cannot be found.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="id"/> is <c>null</c>.</exception>
-        public ResourceKey(string id, Type typeRestriction, ResourceKey fallbackKey)
-            : this(id, typeRestriction)
-        {
-            FallbackKey = fallbackKey;
+            return Id;
         }
     }
 }

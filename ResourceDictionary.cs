@@ -189,30 +189,10 @@ namespace Prism
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
         public bool TryGetValue(object key, out object value)
         {
-            if (TryGetResource(null, key, out value) || (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(null, key, out value) ?? false))
-            {
-                return true;
-            }
-
-            var resourceKey = key as ResourceKey;
-            if (resourceKey != null)
-            {
-                if (resourceKey.FallbackKey != null && TryGetValue(resourceKey.FallbackKey, out value))
-                {
-                    return true;
-                }
-
-                if (resourceKey.DefaultValue != null)
-                {
-                    value = resourceKey.DefaultValue;
-                    return true;
-                }
-            }
-
-            return false;
+            return TryGetResource(null, key, out value, true);
         }
 
-        internal bool TryGetResource(object obj, object key, out object value)
+        internal bool TryGetResource(object obj, object key, out object value, bool readFromSystem)
         {
             if (baseDictionary.TryGetValue(key, out value))
             {
@@ -221,7 +201,7 @@ namespace Prism
 
             for (int i = MergedDictionaries.Count - 1; i >= 0; i--)
             {
-                if (MergedDictionaries[i].TryGetResource(obj, key, out value))
+                if (MergedDictionaries[i].TryGetResource(obj, key, out value, false))
                 {
                     return true;
                 }
@@ -244,14 +224,26 @@ namespace Prism
             }
 
             ResourceDictionary themeDictionary;
-            if (ThemeDictionaries.TryGetValue(theme, out themeDictionary) && themeDictionary.TryGetResource(obj, key, out value))
+            if (ThemeDictionaries.TryGetValue(theme, out themeDictionary) && themeDictionary.TryGetResource(obj, key, out value, false))
             {
                 return true;
             }
 
-            if (theme != Theme.Default)
+            if (theme != Theme.Default && ThemeDictionaries.TryGetValue(Theme.Default, out themeDictionary) && themeDictionary.TryGetResource(obj, key, out value, false))
             {
-                return ThemeDictionaries.TryGetValue(Theme.Default, out themeDictionary) && themeDictionary.TryGetResource(obj, key, out value);
+                return true;
+            }
+
+            if (readFromSystem)
+            {
+                if (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(obj), key, out value) ?? false)
+                {
+                    return true;
+                }
+#if DEBUG
+                var resourceKey = key as ResourceKey;
+                Debug.Assert(resourceKey == null, string.Format(CultureInfo.CurrentCulture, "Missing system resource value for {0}!", (SystemResourceKeyId)resourceKey.Id));
+#endif
             }
 
             return false;
@@ -260,18 +252,17 @@ namespace Prism
         private static void CheckKey(object key, object value)
         {
             var resourceKey = key as ResourceKey;
-            if (resourceKey == null && !(key is string))
+            if (resourceKey?.ExpectedType != null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceKeyCanOnlyBeOfType, typeof(string).FullName, typeof(ResourceKey).FullName));
-            }
-
-            if (resourceKey?.TypeRestriction != null)
-            {
-                var typeInfo = resourceKey.TypeRestriction.GetTypeInfo();
+                var typeInfo = resourceKey.ExpectedType.GetTypeInfo();
                 if ((value == null && typeInfo.IsValueType) || (value != null && !typeInfo.IsAssignableFrom(value.GetType().GetTypeInfo())))
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceMustBeOfType, typeInfo.FullName));
                 }
+            }
+            else if(!(key is string))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceKeyCanOnlyBeOfType, typeof(string).FullName, typeof(ResourceKey).FullName));
             }
         }
 

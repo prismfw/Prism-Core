@@ -435,7 +435,7 @@ namespace Prism.UI
             }
 
             object retval;
-            if (resources != null && resources.TryGetResource(this, resourceKey, out retval))
+            if (resources != null && resources.TryGetResource(this, resourceKey, out retval, false))
             {
                 return retval;
             }
@@ -444,19 +444,14 @@ namespace Prism.UI
             do
             {
                 parentVisual = VisualTreeHelper.GetParent<Visual>(parentVisual, p => p.resources != null);
-                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval))
+                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval, false))
                 {
                     return retval;
                 }
             }
             while (parentVisual != null);
 
-            if (Application.Current.Resources.TryGetResource(this, resourceKey, out retval))
-            {
-                return retval;
-            }
-
-            if (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(this), resourceKey, out retval) ?? false)
+            if (Application.Current.Resources.TryGetResource(this, resourceKey, out retval, true))
             {
                 return retval;
             }
@@ -703,7 +698,7 @@ namespace Prism.UI
             }
 
             object retval;
-            if (resources != null && resources.TryGetResource(this, resourceKey, out retval))
+            if (resources != null && resources.TryGetResource(this, resourceKey, out retval, false))
             {
                 return retval;
             }
@@ -712,17 +707,14 @@ namespace Prism.UI
             do
             {
                 parentVisual = VisualTreeHelper.GetParent<Visual>(parentVisual, p => p.resources != null);
-                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval))
+                if (parentVisual != null && parentVisual.resources.TryGetResource(this, resourceKey, out retval, false))
                 {
                     return retval;
                 }
             }
             while (parentVisual != null);
 
-            if (!Application.Current.Resources.TryGetResource(this, resourceKey, out retval))
-            {
-                TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(this), resourceKey, out retval);
-            }
+            Application.Current.Resources.TryGetResource(this, resourceKey, out retval, true);
             return retval;
         }
 
@@ -811,7 +803,7 @@ namespace Prism.UI
                 for (int i = 0; i < visualObj.resourceReferences.Count; i++)
                 {
                     var resourceRef = visualObj.resourceReferences[i];
-                    if (resourceRef.Key == key)
+                    if (resourceRef.Key.Equals(key))
                     {
                         if (!visualObj.UpdateResourceReference(resourceRef))
                         {
@@ -1006,7 +998,8 @@ namespace Prism.UI
             try
             {
                 // If the property has been set to something else, the resource reference is no longer valid.
-                if (resourceRef.Property.GetValue(this) == resourceRef.Value)
+                var propValue = resourceRef.Property.GetValue(this);
+                if (propValue == null ? resourceRef.Value == null : propValue.Equals(resourceRef.Value))
                 {
                     resourceRef.Value = TryFindResource(resourceRef.Key);
                     resourceRef.Property.SetValue(this, resourceRef.Value);
