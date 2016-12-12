@@ -127,6 +127,12 @@ namespace Prism.UI.Controls
             }
 
             nativeObject.ValueChanged += (o, e) => OnValueChanged(e);
+
+            SetResourceReference(BackgroundProperty, SystemResources.ToggleSwitchBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.ToggleSwitchBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.ToggleSwitchForegroundBrushKey);
+            SetResourceReference(ThumbOffBrushProperty, SystemResources.ToggleSwitchThumbOffBrushKey);
+            SetResourceReference(ThumbOnBrushProperty, SystemResources.ToggleSwitchThumbOnBrushKey);
         }
 
         /// <summary>

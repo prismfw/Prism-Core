@@ -254,6 +254,8 @@ namespace Prism.UI
             }
             
             IsBackButtonEnabled = true;
+
+            SetResourceReference(BackgroundProperty, SystemResources.ViewBackgroundBrushKey);
         }
 
         /// <summary>

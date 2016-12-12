@@ -140,10 +140,14 @@ namespace Prism.UI.Controls
             nativeObject.ActionKeyPressed += (o, e) => OnActionKeyPressed(e);
             nativeObject.PasswordChanged += (o, e) => OnPasswordChanged(e);
 
-            BorderWidth = (double)Application.Current.Resources[SystemResources.PasswordBoxBorderWidthKey];
-            FontSize = (double)Application.Current.Resources[SystemResources.PasswordBoxFontSizeKey];
-            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.PasswordBoxFontStyleKey];
+            BorderWidth = (double)Application.Current.Resources[SystemResources.TextBoxBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.TextBoxFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TextBoxFontStyleKey];
             HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.TextBoxForegroundBrushKey);
         }
 
         /// <summary>

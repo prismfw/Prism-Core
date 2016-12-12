@@ -211,6 +211,8 @@ namespace Prism.UI.Controls
             FontSize = (double)Application.Current.Resources[SystemResources.LabelFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.LabelFontStyleKey];
             Lines = 0;
+
+            SetResourceReference(ForegroundProperty, SystemResources.LabelForegroundBrushKey);
         }
     }
 }

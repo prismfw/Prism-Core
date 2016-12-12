@@ -147,6 +147,9 @@ namespace Prism.UI.Controls
             };
 
             nativeObject.Content = ObjectRetriever.GetNativeObject(panel);
+
+            SetResourceReference(BackgroundProperty, SystemResources.LoadIndicatorBackgroundBrushKey);
+            TextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.LoadIndicatorForegroundBrushKey);
         }
 
         /// <summary>

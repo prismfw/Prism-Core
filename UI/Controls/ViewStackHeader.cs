@@ -168,6 +168,9 @@ namespace Prism.UI.Controls
             FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
             FontSize = (double)Application.Current.Resources[SystemResources.ViewHeaderFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ViewHeaderFontStyleKey];
+
+            SetResourceReference(BackgroundProperty, SystemResources.ViewHeaderBackgroundBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.ViewHeaderForegroundBrushKey);
         }
     }
 }

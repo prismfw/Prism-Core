@@ -184,6 +184,10 @@ namespace Prism.UI.Controls
             BorderWidth = (double)Application.Current.Resources[SystemResources.SelectListBorderWidthKey];
             FontSize = (double)Application.Current.Resources[SystemResources.SelectListFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SelectListFontStyleKey];
+
+            SetResourceReference(BackgroundProperty, SystemResources.SelectListBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.SelectListBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.SelectListForegroundBrushKey);
         }
 
         /// <summary>

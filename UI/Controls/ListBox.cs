@@ -360,6 +360,9 @@ namespace Prism.UI.Controls
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
             SelectionMode = SelectionMode.Single;
+
+            SetResourceReference(BackgroundProperty, SystemResources.ListBoxBackgroundBrushKey);
+            SetResourceReference(SeparatorBrushProperty, SystemResources.ListBoxSeparatorBrushKey);
         }
 
         /// <summary>

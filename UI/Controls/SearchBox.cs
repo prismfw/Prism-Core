@@ -144,6 +144,10 @@ namespace Prism.UI.Controls
             FontSize = (double)Application.Current.Resources[SystemResources.SearchBoxFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SearchBoxFontStyleKey];
             HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            SetResourceReference(BackgroundProperty, SystemResources.SearchBoxBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.SearchBoxBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.SearchBoxForegroundBrushKey);
         }
 
         /// <summary>

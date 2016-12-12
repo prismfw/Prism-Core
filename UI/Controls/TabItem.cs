@@ -223,6 +223,8 @@ namespace Prism.UI.Controls
             FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
             FontSize = (double)Application.Current.Resources[SystemResources.TabItemFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TabItemFontStyleKey];
+
+            SetResourceReference(ForegroundProperty, SystemResources.TabItemForegroundBrushKey);
         }
         
         /// <summary>

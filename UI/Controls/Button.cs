@@ -147,6 +147,10 @@ namespace Prism.UI.Controls
             Padding = (Thickness)Application.Current.Resources[SystemResources.ButtonPaddingKey];
             FontSize = (double)Application.Current.Resources[SystemResources.ButtonFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ButtonFontStyleKey];
+
+            SetResourceReference(BackgroundProperty, SystemResources.ButtonBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.ButtonBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.ButtonForegroundBrushKey);
         }
 
         /// <summary>

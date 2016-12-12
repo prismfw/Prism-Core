@@ -83,6 +83,8 @@ namespace Prism.UI.Controls
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeActivityIndicator).FullName), nameof(resolveType));
             }
+
+            SetResourceReference(ForegroundProperty, SystemResources.ActivityIndicatorForegroundBrushKey);
         }
     }
 }

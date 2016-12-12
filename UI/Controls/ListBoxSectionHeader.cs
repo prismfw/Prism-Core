@@ -100,6 +100,9 @@ namespace Prism.UI.Controls
                 VerticalAlignment = VerticalAlignment.Center
             };
 
+            SetResourceReference(BackgroundProperty, SystemResources.SectionHeaderBackgroundBrushKey);
+            TextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.SectionHeaderForegroundBrushKey);
+
             ContentPanel.Children.Add(TextLabel);
         }
 

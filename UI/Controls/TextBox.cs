@@ -158,6 +158,10 @@ namespace Prism.UI.Controls
             FontSize = (double)Application.Current.Resources[SystemResources.TextBoxFontSizeKey];
             FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TextBoxFontStyleKey];
             HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.TextBoxForegroundBrushKey);
         }
 
         /// <summary>

@@ -188,6 +188,9 @@ namespace Prism.UI
                     ObjectRetriever.GetAgnosticObject(e.CurrentItem) as TabItem
                 ));
             };
+
+            SetResourceReference(BackgroundProperty, SystemResources.TabViewBackgroundBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.TabViewForegroundBrushKey);
         }
 
         /// <summary>

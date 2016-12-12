@@ -157,7 +157,7 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private bool setSeparatorIndentation = (bool)Application.Current.Resources[SystemResources.AutomaticallyIndentSeparatorsKey];
+        private bool setSeparatorIndentation = (bool)Application.Current.Resources[SystemResources.ShouldAutomaticallyIndentSeparatorsKey];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListBoxItem"/> class.
@@ -230,6 +230,7 @@ namespace Prism.UI.Controls
                     Margin = new Thickness(15, 0, 0, 5),
                     VerticalAlignment = VerticalAlignment.Top
                 };
+                DetailTextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.DetailLabelForegroundBrushKey);
                 Grid.SetColumn(DetailTextLabel, 1);
                 Grid.SetRow(DetailTextLabel, 1);
 
@@ -255,6 +256,7 @@ namespace Prism.UI.Controls
                     Margin = new Thickness(0, 5, 0, 5),
                     VerticalAlignment = VerticalAlignment.Center
                 };
+                ValueTextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.ValueLabelForegroundBrushKey);
                 Grid.SetColumn(ValueTextLabel, 2);
 
                 if (DetailTextLabel != null)
@@ -265,6 +267,9 @@ namespace Prism.UI.Controls
 
                 ContentPanel.Children.Add(ValueTextLabel);
             }
+
+            SetResourceReference(BackgroundProperty, SystemResources.ListBoxItemBackgroundBrushKey);
+            SetResourceReference(SelectedBackgroundProperty, SystemResources.ListBoxItemSelectedBackgroundBrushKey);
         }
 
         /// <summary>

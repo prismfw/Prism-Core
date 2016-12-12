@@ -128,9 +128,13 @@ namespace Prism.UI.Controls
 
             nativeObject.TimeChanged += (o, e) => OnTimeChanged(e);
 
-            BorderWidth = (double)Application.Current.Resources[SystemResources.TimePickerBorderWidthKey];
-            FontSize = (double)Application.Current.Resources[SystemResources.TimePickerFontSizeKey];
-            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.TimePickerFontStyleKey];
+            BorderWidth = (double)Application.Current.Resources[SystemResources.DateTimePickerBorderWidthKey];
+            FontSize = (double)Application.Current.Resources[SystemResources.DateTimePickerFontSizeKey];
+            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.DateTimePickerFontStyleKey];
+
+            SetResourceReference(BackgroundProperty, SystemResources.DateTimePickerBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.DateTimePickerBorderBrushKey);
+            SetResourceReference(ForegroundProperty, SystemResources.DateTimePickerForegroundBrushKey);
         }
 
         /// <summary>
