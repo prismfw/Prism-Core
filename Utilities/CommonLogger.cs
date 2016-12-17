@@ -73,7 +73,6 @@ namespace Prism.Utilities
         public CommonLogger()
         {
             messageQueue = new Queue<string>();
-            LogFilePath = System.IO.Path.Combine(Directory.DataDirectory, "Logs", DateTime.Today.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture) + ".log");
             MinimumConsoleOutputLevel = (int)LoggingLevel.Info;
             MinimumFileOutputLevel = (int)LoggingLevel.Trace;
         }
