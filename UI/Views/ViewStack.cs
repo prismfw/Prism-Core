@@ -403,6 +403,7 @@ namespace Prism.UI
             {
                 var offset = nativeObject.IsHeaderHidden || Header.IsInset ? Size.Empty : Header.RenderSize;
                 
+                frame.Y += offset.Height;
                 frame.Width = Math.Max(frame.Width, 0);
                 frame.Height = Math.Max(frame.Height - offset.Height, 0);
                 currentView.Arrange(frame);
