@@ -31,10 +31,11 @@ namespace Prism.UI.Controls
         /// </summary>
         /// <param name="value">The object in the list box's <see cref="P:Items"/> collection for which to return a <see cref="ListBoxItem"/>.</param>
         /// <param name="reusedItem">A recycled <see cref="ListBoxItem"/> that can be reused instead of creating a new one, or <c>null</c> if nothing was recycled.</param>
+        /// <param name="listBox">The <see cref="ListBox"/> instance that will display the item.</param>
         /// <returns>The <see cref="ListBoxItem"/> instance that will be displayed by the list box.</returns>
-        public virtual ListBoxItem GetItem(object value, ListBoxItem reusedItem)
+        public virtual ListBoxItem GetItem(object value, ListBoxItem reusedItem, ListBox listBox)
         {
-            return GetDefaultItem(value, reusedItem);
+            return GetDefaultItem(value, reusedItem, listBox);
         }
 
         /// <summary>
@@ -42,8 +43,9 @@ namespace Prism.UI.Controls
         /// Objects that share the same identifier are eligible for reuse.
         /// </summary>
         /// <param name="value">The object in the list box's <see cref="P:Items"/> collection for which to return an identifier.</param>
+        /// <param name="listBox">The <see cref="ListBox"/> instance containing the object.</param>
         /// <returns>The object identifier as a <see cref="string"/>.</returns>
-        public virtual string GetItemId(object value)
+        public virtual string GetItemId(object value, ListBox listBox)
         {
             return (value is Element) ? value.GetType().FullName : string.Empty;
         }
@@ -53,10 +55,11 @@ namespace Prism.UI.Controls
         /// </summary>
         /// <param name="value">The object in the list box's <see cref="P:Items"/> collection that is underneath the <see cref="ListBoxSectionHeader"/>.</param>
         /// <param name="reusedItem">A recycled <see cref="ListBoxSectionHeader"/> that can be reused instead of creating a new one, or <c>null</c> if nothing was recycled.</param>
+        /// <param name="listBox">The <see cref="ListBox"/> instance that will display the header.</param>
         /// <returns>The <see cref="ListBoxSectionHeader"/> that will be displayed by the list box.</returns>
-        public virtual ListBoxSectionHeader GetSectionHeader(object value, ListBoxSectionHeader reusedItem)
+        public virtual ListBoxSectionHeader GetSectionHeader(object value, ListBoxSectionHeader reusedItem, ListBox listBox)
         {
-            return GetDefaultSectionHeader(value, reusedItem);
+            return GetDefaultSectionHeader(value, reusedItem, listBox);
         }
 
         /// <summary>
@@ -64,13 +67,14 @@ namespace Prism.UI.Controls
         /// Section headers that share the same identifier are eligible for reuse.
         /// </summary>
         /// <param name="value">The object in the list box's <see cref="P:Items"/> collection for which to return an identifier.</param>
+        /// <param name="listBox">The <see cref="ListBox"/> instance containing the object.</param>
         /// <returns>The section header identifier as a <see cref="string"/>.</returns>
-        public virtual string GetSectionHeaderId(object value)
+        public virtual string GetSectionHeaderId(object value, ListBox listBox)
         {
             return string.Empty;
         }
 
-        internal static ListBoxItem GetDefaultItem(object value, ListBoxItem reusedItem)
+        internal static ListBoxItem GetDefaultItem(object value, ListBoxItem reusedItem, ListBox listBox)
         {
             var element = value as Element;
             if (element != null)
@@ -84,6 +88,10 @@ namespace Prism.UI.Controls
                 if (reusedItem == null)
                 {
                     reusedItem = new ListBoxItem(ListBoxItemStyle.Empty);
+                    if (listBox.Style == ListBoxStyle.Grouped)
+                    {
+                        reusedItem.SetResourceReference(ListBoxItem.BackgroundProperty, SystemResources.GroupedListBoxItemBackgroundBrushKey);
+                    }
                 }
 
                 var panel = value as Panel;
@@ -113,13 +121,17 @@ namespace Prism.UI.Controls
             if (reusedItem == null)
             {
                 reusedItem = new ListBoxItem(ListBoxItemStyle.Default);
+                if (listBox.Style == ListBoxStyle.Grouped)
+                {
+                    reusedItem.SetResourceReference(ListBoxItem.BackgroundProperty, SystemResources.GroupedListBoxItemBackgroundBrushKey);
+                }
             }
 
             reusedItem.TextLabel.Text = value == null ? null : value.ToString();
             return reusedItem;
         }
 
-        internal static ListBoxSectionHeader GetDefaultSectionHeader(object value, ListBoxSectionHeader reusedItem)
+        internal static ListBoxSectionHeader GetDefaultSectionHeader(object value, ListBoxSectionHeader reusedItem, ListBox listBox)
         {
             var obsec = value as IObservableSection;
             if (obsec == null || obsec.HeaderTitle == null)
@@ -130,6 +142,11 @@ namespace Prism.UI.Controls
             if (reusedItem == null)
             {
                 reusedItem = new ListBoxSectionHeader();
+                if (listBox.Style == ListBoxStyle.Grouped)
+                {
+                    reusedItem.SetResourceReference(ListBoxSectionHeader.BackgroundProperty, SystemResources.GroupedSectionHeaderBackgroundBrushKey);
+                    reusedItem.TextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.GroupedSectionHeaderForegroundBrushKey);
+                }
             }
 
             reusedItem.TextLabel.Text = obsec.HeaderTitle;

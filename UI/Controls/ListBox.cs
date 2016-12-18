@@ -214,6 +214,11 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Gets the style of the list box.
+        /// </summary>
+        public ListBoxStyle Style { get; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the contents of the list box can be scrolled horizontally.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Functionality not officially supported and should not be used.")]
@@ -286,7 +291,7 @@ namespace Prism.UI.Controls
                 }
                 else
                 {
-                    string id = adapter.GetItemId(value);
+                    string id = adapter.GetItemId(value, this);
                     if (id == null)
                     {
                         throw new InvalidOperationException(Strings.NullReuseIdReturned);
@@ -306,10 +311,10 @@ namespace Prism.UI.Controls
 
                 if (adapter != null)
                 {
-                    return ObjectRetriever.GetNativeObject(adapter.GetItem(value, agnosticItem)) as INativeListBoxItem;
+                    return ObjectRetriever.GetNativeObject(adapter.GetItem(value, agnosticItem, this)) as INativeListBoxItem;
                 }
 
-                var item = ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultItem(value, agnosticItem)) as INativeListBoxItem;
+                var item = ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultItem(value, agnosticItem, this)) as INativeListBoxItem;
                 if (AccessoryClicked == null)
                 {
                     item.Accessory = ItemClicked == null ? ListBoxItemAccessory.None : ListBoxItemAccessory.Indicator;
@@ -331,10 +336,10 @@ namespace Prism.UI.Controls
 
                 if (adapter != null)
                 {
-                    return ObjectRetriever.GetNativeObject(adapter.GetSectionHeader(value, agnosticItem)) as INativeListBoxSectionHeader;
+                    return ObjectRetriever.GetNativeObject(adapter.GetSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
                 }
 
-                return ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultSectionHeader(value, agnosticItem)) as INativeListBoxSectionHeader;
+                return ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
             };
 
             nativeObject.SectionHeaderIdRequest = (value) =>
@@ -345,7 +350,7 @@ namespace Prism.UI.Controls
                 }
                 else
                 {
-                    string id = adapter.GetSectionHeaderId(value);
+                    string id = adapter.GetSectionHeaderId(value, this);
                     if (id == null)
                     {
                         throw new InvalidOperationException(Strings.NullReuseIdReturned);
@@ -360,6 +365,19 @@ namespace Prism.UI.Controls
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
             SelectionMode = SelectionMode.Single;
+
+            if (resolveParameters != null)
+            {
+                for (int i = 0; i < resolveParameters.Length; i++)
+                {
+                    var parameter = resolveParameters[i];
+                    if (parameter.ParameterName == "style" && parameter.ParameterValue is ListBoxStyle)
+                    {
+                        Style = (ListBoxStyle)parameter.ParameterValue;
+                        break;
+                    }
+                }
+            }
 
             SetResourceReference(BackgroundProperty, SystemResources.ListBoxBackgroundBrushKey);
             SetResourceReference(SeparatorBrushProperty, SystemResources.ListBoxSeparatorBrushKey);

@@ -600,7 +600,19 @@ namespace Prism
         private static ResourceKey detailLabelForegroundBrushKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected
+        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// </summary>
+        public static ResourceKey GroupedListBoxItemBackgroundBrushKey
+        {
+            get { return groupedListBoxItemBackgroundBrushKey ?? (groupedListBoxItemBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.GroupedListBoxItemBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey groupedListBoxItemBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
         public static ResourceKey GroupedSectionHeaderBackgroundBrushKey
         {
@@ -610,7 +622,8 @@ namespace Prism
         private static ResourceKey groupedSectionHeaderBackgroundBrushKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
         public static ResourceKey GroupedSectionHeaderForegroundBrushKey
         {
@@ -640,7 +653,8 @@ namespace Prism
         private static ResourceKey listBoxBackgroundBrushKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected <see cref="ListBoxItem"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected
+        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         public static ResourceKey ListBoxItemBackgroundBrushKey
         {
@@ -720,7 +734,8 @@ namespace Prism
         private static ResourceKey searchBoxForegroundBrushKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         public static ResourceKey SectionHeaderBackgroundBrushKey
         {
@@ -730,7 +745,8 @@ namespace Prism
         private static ResourceKey sectionHeaderBackgroundBrushKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         public static ResourceKey SectionHeaderForegroundBrushKey
         {

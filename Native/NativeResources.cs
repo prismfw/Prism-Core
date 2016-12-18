@@ -294,11 +294,18 @@ namespace Prism.Native
         /// </summary>
         DetailLabelForegroundBrush,
         /// <summary>
-        /// An identifier for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of an unselected
+        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// </summary>
+        GroupedListBoxItemBackgroundBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
         GroupedSectionHeaderBackgroundBrush,
         /// <summary>
-        /// An identifier for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
+        /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
         GroupedSectionHeaderForegroundBrush,
         /// <summary>
@@ -310,7 +317,8 @@ namespace Prism.Native
         /// </summary>
         ListBoxBackgroundBrush,
         /// <summary>
-        /// An identifier for retrieving a <see cref="Brush"/> with the default background of an unselected <see cref="ListBoxItem"/>.
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of an unselected
+        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         ListBoxItemBackgroundBrush,
         /// <summary>
@@ -342,11 +350,13 @@ namespace Prism.Native
         /// </summary>
         SearchBoxForegroundBrush,
         /// <summary>
-        /// An identifier for retrieving the default background of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         SectionHeaderBackgroundBrush,
         /// <summary>
-        /// An identifier for retrieving the default foreground of a section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a
+        /// section header in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
         /// </summary>
         SectionHeaderForegroundBrush,
         /// <summary>
