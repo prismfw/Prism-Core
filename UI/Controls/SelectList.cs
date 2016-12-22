@@ -312,7 +312,11 @@ namespace Prism.UI.Controls
             {
                 Children = { element },
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                IsHitTestVisible = false
+                // Android needs hit testing enabled.  UWP needs hit testing disabled.  iOS doesn't seem to care.
+                // If for some reason a UWP app needs to respond to touch events inside of the selection list,
+                // they can enable hit testing via the element's parent, but they will then have to select the item
+                // and close the list manually through the SelectedItem and IsOpen properties, respectively.
+                IsHitTestVisible = Application.Current.Platform != Platform.UniversalWindows
             });
         }
     }
