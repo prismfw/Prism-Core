@@ -338,6 +338,14 @@ namespace Prism.Native
         /// </summary>
         LoadIndicatorForegroundBrush,
         /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of a <see cref="ProgressBar"/>.
+        /// </summary>
+        ProgressBarBackgroundBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="ProgressBar"/>.
+        /// </summary>
+        ProgressBarForegroundBrush,
+        /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the default background of a <see cref="SearchBox"/>.
         /// </summary>
         SearchBoxBackgroundBrush,

@@ -704,6 +704,26 @@ namespace Prism
         private static ResourceKey loadIndicatorForegroundBrushKey;
 
         /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="ProgressBar"/>.
+        /// </summary>
+        public static ResourceKey ProgressBarBackgroundBrushKey
+        {
+            get { return progressBarBackgroundBrushKey ?? (progressBarBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.ProgressBarBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey progressBarBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="ProgressBar"/>.
+        /// </summary>
+        public static ResourceKey ProgressBarForegroundBrushKey
+        {
+            get { return progressBarForegroundBrushKey ?? (progressBarForegroundBrushKey = new ResourceKey(SystemResourceKeyId.ProgressBarForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey progressBarForegroundBrushKey;
+
+        /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="SearchBox"/>.
         /// </summary>
         public static ResourceKey SearchBoxBackgroundBrushKey
