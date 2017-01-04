@@ -64,6 +64,7 @@
     <Compile Include="ResourceKey.cs" />
     <Compile Include="ResourceDictionary.cs" />
     <Compile Include="SystemResources.cs" />
+    <Compile Include="UI\Controls\WrapPanel.cs" />
     <Compile Include="UI\Controls\ProgressBar.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\Controls\ActivityIndicator.cs" />
