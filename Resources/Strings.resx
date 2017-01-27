@@ -372,4 +372,7 @@
   <data name="ResourceKeyCanOnlyBeOfType" xml:space="preserve">
     <value>Resource key can only be of type {0} or {1}.</value>
   </data>
+  <data name="DataBindingError" xml:space="preserve">
+    <value>An error has occurred in a data binding: {0}</value>
+  </data>
 </root>

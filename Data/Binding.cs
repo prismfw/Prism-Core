@@ -29,6 +29,7 @@ using System.Reflection;
 using System.Threading;
 using Prism.Native;
 using Prism.UI;
+using Prism.Utilities;
 
 namespace Prism.Data
 {
@@ -250,7 +251,10 @@ namespace Prism.Data
             if (targetObject == null)
             {
                 Status = BindingStatus.TargetPathError;
-                BindingFailed?.Invoke(this, new BindingFailedEventArgs(targetObject, targetPath, new ArgumentNullException(nameof(targetObject))));
+
+                var ex = new ArgumentNullException(nameof(targetObject));
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
+                BindingFailed?.Invoke(this, new BindingFailedEventArgs(targetObject, targetPath, ex));
                 return;
             }
 
@@ -336,6 +340,8 @@ namespace Prism.Data
 
         internal bool OnBindingFailed(Exception ex)
         {
+            Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
+
             var args = new BindingFailedEventArgs(targetObjects?.FirstOrDefault()?.Target, targetPropertyPath, ex);
             BindingFailed?.Invoke(this, args);
             return args.Ignore;

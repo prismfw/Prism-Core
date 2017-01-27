@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
-    using System;
     using System.Reflection;
     
     
@@ -220,6 +219,15 @@ namespace Prism.Resources {
         internal static string ControllerModelTypeCannotBeNull {
             get {
                 return ResourceManager.GetString("ControllerModelTypeCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error has occurred in a data binding: {0}.
+        /// </summary>
+        internal static string DataBindingError {
+            get {
+                return ResourceManager.GetString("DataBindingError", resourceCulture);
             }
         }
         

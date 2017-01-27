@@ -227,7 +227,10 @@ namespace Prism.Data
             if (targetObject == null)
             {
                 Status = BindingStatus.TargetPathError;
-                BindingFailed?.Invoke(this, new MultiBindingFailedEventArgs(targetObject, targetProperty, null, new ArgumentNullException(nameof(targetObject))));
+
+                var ex = new ArgumentNullException(nameof(targetObject));
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
+                BindingFailed?.Invoke(this, new MultiBindingFailedEventArgs(targetObject, targetProperty, null, ex));
                 return;
             }
 
@@ -239,6 +242,8 @@ namespace Prism.Data
             catch (Exception ex)
             {
                 Status = BindingStatus.TargetPathError;
+
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
                 BindingFailed?.Invoke(this, new MultiBindingFailedEventArgs(targetObject, targetProperty, null, ex));
                 UnregisterTargetListeners();
                 return;
@@ -269,6 +274,8 @@ namespace Prism.Data
             catch (Exception ex)
             {
                 Status = BindingStatus.TargetPathError;
+
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
                 BindingFailed?.Invoke(this, new MultiBindingFailedEventArgs(targetObjects?.FirstOrDefault()?.Target, targetPropertyPath, null, ex));
                 UnregisterTargetListeners();
                 return;
@@ -446,6 +453,9 @@ namespace Prism.Data
             catch (Exception ex)
             {
                 Status = BindingStatus.TargetUpdateError;
+
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
+
                 var args = new MultiBindingFailedEventArgs(targetObjects?.FirstOrDefault()?.Target, targetPropertyPath, null, ex);
                 BindingFailed?.Invoke(this, args);
                 if (args.Ignore)
@@ -578,6 +588,9 @@ namespace Prism.Data
             catch (Exception ex)
             {
                 Status = BindingStatus.SourceUpdateError;
+
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.DataBindingError, ex);
+
                 var args = new MultiBindingFailedEventArgs(targetObjects?.FirstOrDefault()?.Target, targetPropertyPath, null, ex);
                 BindingFailed?.Invoke(this, args);
                 if (args.Ignore)
