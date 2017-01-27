@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
+using System;
 using System.Globalization;
 
 namespace Prism
@@ -126,6 +127,41 @@ namespace Prism
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.Strings.LeftTopRightBottom, Left, Top, Right, Bottom);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Thickness"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Thickness"/>.</returns>
+        public string ToString(string format)
+        {
+            return string.Format(CultureInfo.CurrentCulture, Resources.Strings.LeftTopRightBottom,
+                Left.ToString(format, CultureInfo.CurrentCulture), Top.ToString(format, CultureInfo.CurrentCulture),
+                Right.ToString(format, CultureInfo.CurrentCulture), Bottom.ToString(format, CultureInfo.CurrentCulture));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Thickness"/>.
+        /// </summary>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Thickness"/>.</returns>
+        public string ToString(IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.LeftTopRightBottom,
+                Left.ToString(provider), Top.ToString(provider), Right.ToString(provider), Bottom.ToString(provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Thickness"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Thickness"/>.</returns>
+        public string ToString(string format, IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.LeftTopRightBottom, Left.ToString(format, provider),
+                Top.ToString(format, provider), Right.ToString(format, provider), Bottom.ToString(format, provider));
         }
 
         /// <summary>

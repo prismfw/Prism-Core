@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
+using System;
 using System.Globalization;
 
 namespace Prism
@@ -105,6 +106,38 @@ namespace Prism
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.Strings.WidthHeight, Width, Height);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Size"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Size"/>.</returns>
+        public string ToString(string format)
+        {
+            return string.Format(CultureInfo.CurrentCulture, Resources.Strings.WidthHeight,
+                Width.ToString(format, CultureInfo.CurrentCulture), Height.ToString(format, CultureInfo.CurrentCulture));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Size"/>.
+        /// </summary>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Size"/>.</returns>
+        public string ToString(IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.WidthHeight, Width.ToString(provider), Height.ToString(provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Size"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Size"/>.</returns>
+        public string ToString(string format, IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.WidthHeight, Width.ToString(format, provider), Height.ToString(format, provider));
         }
 
         /// <summary>

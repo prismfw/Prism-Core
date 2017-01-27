@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Globalization;
 
 namespace Prism
@@ -32,13 +32,11 @@ namespace Prism
         /// <summary>
         /// Gets or sets the X-coordinate of this instance.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Name in common usage.")]
         public double X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y-coordinate of this instance.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Name in common usage.")]
         public double Y { get; set; }
 
         /// <summary>
@@ -46,8 +44,6 @@ namespace Prism
         /// </summary>
         /// <param name="x">The X coordinate of the point.</param>
         /// <param name="y">The Y coordinate of the point.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Parameter name corresponds to identically named property.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Parameter name corresponds to identically named property.")]
         public Point(double x, double y)
         {
             X = x;
@@ -141,6 +137,38 @@ namespace Prism
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.Strings.XY, X, Y);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Point"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Point"/>.</returns>
+        public string ToString(string format)
+        {
+            return string.Format(CultureInfo.CurrentCulture, Resources.Strings.XY,
+                X.ToString(format, CultureInfo.CurrentCulture), Y.ToString(format, CultureInfo.CurrentCulture));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Point"/>.
+        /// </summary>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Point"/>.</returns>
+        public string ToString(IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.XY, X.ToString(provider), Y.ToString(provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Point"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Point"/>.</returns>
+        public string ToString(string format, IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.XY, X.ToString(format, provider), Y.ToString(format, provider));
         }
 
         /// <summary>

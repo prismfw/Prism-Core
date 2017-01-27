@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Prism
@@ -123,13 +122,11 @@ namespace Prism
         /// <summary>
         /// Gets or sets the X-coordinate of the upper left corner of this instance.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Name in common usage.")]
         public double X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y-coordinate of the upper left corner of this instance.
         /// </summary>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Name in common usage.")]
         public double Y { get; set; }
 
         /// <summary>
@@ -176,8 +173,6 @@ namespace Prism
         /// <param name="y">The Y coordinate of the upper left corner.</param>
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Parameter name corresponds to identically named property.")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y", Justification = "Parameter name corresponds to identically named property.")]
         public Rectangle(double x, double y, double width, double height)
         {
             X = x;
@@ -249,6 +244,41 @@ namespace Prism
         public override string ToString()
         {
             return string.Format(CultureInfo.CurrentCulture, Resources.Strings.XYWidthHeight, X, Y, Width, Height);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Rectangle"/>.</returns>
+        public string ToString(string format)
+        {
+            return string.Format(CultureInfo.CurrentCulture, Resources.Strings.XYWidthHeight,
+                X.ToString(format, CultureInfo.CurrentCulture), Y.ToString(format, CultureInfo.CurrentCulture),
+                Width.ToString(format, CultureInfo.CurrentCulture), Height.ToString(format, CultureInfo.CurrentCulture));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Rectangle"/>.</returns>
+        public string ToString(IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.XYWidthHeight,
+                X.ToString(provider), Y.ToString(provider), Width.ToString(provider), Height.ToString(provider));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="string"/> that represents the current <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="format">A numeric format string.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="Rectangle"/>.</returns>
+        public string ToString(string format, IFormatProvider provider)
+        {
+            return string.Format(provider, Resources.Strings.XYWidthHeight, X.ToString(format, provider),
+                Y.ToString(format, provider), Width.ToString(format, provider), Height.ToString(format, provider));
         }
 
         /// <summary>

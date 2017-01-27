@@ -9,6 +9,8 @@
             <Word>Multi</Word>
             <Word>Png</Word>
             <Word>Unfocus</Word>
+            <Word>X</Word>
+            <Word>Y</Word>
         </Recognized>
         <DiscreteExceptions>
             <Term>FaceDown</Term>
