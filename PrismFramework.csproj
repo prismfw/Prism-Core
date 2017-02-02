@@ -236,7 +236,7 @@
     <Compile Include="UI\Controls\DatePicker.cs" />
     <Compile Include="UI\Controls\Dock.cs" />
     <Compile Include="UI\Controls\DockPanel.cs" />
-    <Compile Include="UI\Controls\Element.cs" />
+    <Compile Include="UI\Element.cs" />
     <Compile Include="UI\Controls\ElementCollection.cs" />
     <Compile Include="UI\Controls\Grid.cs" />
     <Compile Include="UI\GridUnitType.cs" />

@@ -27,7 +27,7 @@ using Prism.Input;
 using Prism.Native;
 using Prism.Resources;
 
-namespace Prism.UI.Controls
+namespace Prism.UI
 {
     /// <summary>
     /// Represents the base class for UI elements.  This class is abstract.
