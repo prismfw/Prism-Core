@@ -47,7 +47,7 @@ namespace Prism
         /// <param name="context">The context describing the navigation that took place.</param>
         /// <returns>
         /// A <see cref="string"/> representing the view perspective of the view to render.
-        /// Be sure to apply a <see cref="ViewAttribute"/> to each view to ensure that the framework can find it.
+        /// Be sure to apply a <see cref="NavigationViewAttribute"/> to each view to ensure that the framework can find it.
         /// </returns>
         Task<string> LoadAsync(NavigationContext context);
     }
@@ -74,7 +74,7 @@ namespace Prism
         /// <param name="context">The context describing the navigation that took place.</param>
         /// <returns>
         /// A <see cref="string"/> representing the view perspective of the view to render.
-        /// Be sure to apply a <see cref="ViewAttribute"/> to each view to ensure that the framework can find it.
+        /// Be sure to apply a <see cref="NavigationViewAttribute"/> to each view to ensure that the framework can find it.
         /// </returns>
         public abstract Task<string> LoadAsync(NavigationContext context);
 

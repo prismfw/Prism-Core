@@ -24,10 +24,10 @@ using System;
 namespace Prism
 {
     /// <summary>
-    /// Indicates that a class implements the <see cref="IController"/> interface and has a URI that can be navigated to.
+    /// Indicates that a class implements the <see cref="IController"/> interface and can be loaded through the navigation system.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public sealed class NavigationAttribute : Attribute
+    public sealed class NavigationControllerAttribute : Attribute
     {
         /// <summary>
         /// Gets a value indicating whether to use the same instance of the controller for every load.
@@ -40,31 +40,31 @@ namespace Prism
         public string UriPattern { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NavigationAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationControllerAttribute"/> class.
         /// </summary>
         /// <param name="uriPattern">The URI pattern of the controller.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="uriPattern"/> is <c>null</c>.</exception>
-        public NavigationAttribute(string uriPattern)
+        public NavigationControllerAttribute(string uriPattern)
             : this(uriPattern, false)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NavigationAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationControllerAttribute"/> class.
         /// </summary>
         /// <param name="isSingleton">Whether to use the same instance of the controller for every load.</param>
-        public NavigationAttribute(bool isSingleton)
+        public NavigationControllerAttribute(bool isSingleton)
         {
             IsSingleton = isSingleton;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NavigationAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationControllerAttribute"/> class.
         /// </summary>
         /// <param name="uriPattern">The URI pattern of the controller.</param>
         /// <param name="isSingleton">Whether to use the same instance of the controller for every load.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="uriPattern"/> is <c>null</c>.</exception>
-        public NavigationAttribute(string uriPattern, bool isSingleton)
+        public NavigationControllerAttribute(string uriPattern, bool isSingleton)
         {
             if (uriPattern == null)
             {

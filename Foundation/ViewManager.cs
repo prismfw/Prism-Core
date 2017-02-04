@@ -37,7 +37,7 @@ namespace Prism
 
         internal void Register(TypeInfo info, Type type)
         {
-            var viewAtts = info.GetCustomAttributes<ViewAttribute>(false);
+            var viewAtts = info.GetCustomAttributes<NavigationViewAttribute>(false);
             foreach (var att in viewAtts)
             {
                 if (att.ModelType == null)

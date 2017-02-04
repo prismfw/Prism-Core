@@ -35,7 +35,7 @@ namespace Prism
 
         internal void Register(TypeInfo info, Type type)
         {
-            var navAtts = info.GetCustomAttributes<NavigationAttribute>(false);
+            var navAtts = info.GetCustomAttributes<NavigationControllerAttribute>(false);
             foreach (var att in navAtts)
             {
                 if (att.IsSingleton)

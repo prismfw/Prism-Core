@@ -59,7 +59,7 @@ namespace Prism.UI
 
         /// <summary>
         /// Initiates a navigation from this view to the specified URI.
-        /// Be sure to apply a <see cref="NavigationAttribute"/> to the controller type that should be associated with the URI.
+        /// Be sure to apply a <see cref="NavigationControllerAttribute"/> to the controller type that should be associated with the URI.
         /// </summary>
         /// <param name="uri">A <see cref="string"/> representing the URI to navigate to.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="uri"/> is <c>null</c>.</exception>
@@ -72,7 +72,7 @@ namespace Prism.UI
 
         /// <summary>
         /// Initiates a navigation from this view to the specified URI.
-        /// Be sure to apply a <see cref="NavigationAttribute"/> to the controller type that should be associated with the URI.
+        /// Be sure to apply a <see cref="NavigationControllerAttribute"/> to the controller type that should be associated with the URI.
         /// </summary>
         /// <param name="uri">A <see cref="string"/> representing the URI to navigate to.</param>
         /// <param name="options">Additional options to customize the navigation.</param>

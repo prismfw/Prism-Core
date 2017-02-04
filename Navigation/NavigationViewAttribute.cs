@@ -25,10 +25,10 @@ using Prism.Systems;
 namespace Prism
 {
     /// <summary>
-    /// Indicates that a class is a renderable view that can be looked up by a controller.
+    /// Indicates that a class is a renderable view that can be looked up by a controller through the navigation system.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public sealed class ViewAttribute : Attribute
+    public sealed class NavigationViewAttribute : Attribute
     {
         /// <summary>
         /// Gets or sets the form factor that a device should be using for the view.
@@ -53,30 +53,30 @@ namespace Prism
         public string Perspective { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationViewAttribute"/> class.
         /// </summary>
-        public ViewAttribute()
+        public NavigationViewAttribute()
             : this(string.Empty, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationViewAttribute"/> class.
         /// </summary>
         /// <param name="perspective">The view perspective that a controller will return when this view should be rendered.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="perspective"/> is <c>null</c>.</exception>
-        public ViewAttribute(string perspective)
+        public NavigationViewAttribute(string perspective)
             : this(perspective, null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewAttribute"/> class.
+        /// Initializes a new instance of the <see cref="NavigationViewAttribute"/> class.
         /// </summary>
         /// <param name="perspective">The view perspective that a controller will return when this view should be rendered.</param>
         /// <param name="modelType">The model type of the controller that will use this view.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="perspective"/> is <c>null</c>.</exception>
-        public ViewAttribute(string perspective, Type modelType)
+        public NavigationViewAttribute(string perspective, Type modelType)
         {
             if (perspective == null)
             {
