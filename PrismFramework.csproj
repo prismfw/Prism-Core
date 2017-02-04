@@ -55,6 +55,10 @@
     <Compile Include="Foundation\TypeManager.cs" />
     <Compile Include="Native\CoreBehaviorAttribute.cs" />
     <Compile Include="Native\NativeEllipse.cs" />
+    <Compile Include="Native\NativeQuadrangle.cs" />
+    <Compile Include="Native\NativePolyline.cs" />
+    <Compile Include="Native\NativePolyShape.cs" />
+    <Compile Include="Native\NativePolygon.cs" />
     <Compile Include="Native\NativeProgressBar.cs" />
     <Compile Include="Native\NativeActivityIndicator.cs" />
     <Compile Include="Native\NativeResources.cs" />
@@ -70,8 +74,13 @@
     <Compile Include="UI\Controls\ProgressBar.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\Controls\ActivityIndicator.cs" />
+    <Compile Include="UI\Media\PointCollection.cs" />
+    <Compile Include="UI\Media\FillRule.cs" />
     <Compile Include="UI\Media\LineJoin.cs" />
     <Compile Include="UI\Media\LineCap.cs" />
+    <Compile Include="UI\Shapes\Quadrangle.cs" />
+    <Compile Include="UI\Shapes\Polyline.cs" />
+    <Compile Include="UI\Shapes\Polygon.cs" />
     <Compile Include="UI\Shapes\Ellipse.cs" />
     <Compile Include="UI\Shapes\Line.cs" />
     <Compile Include="UI\Shapes\Shape.cs" />
