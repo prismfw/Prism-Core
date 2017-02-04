@@ -300,10 +300,14 @@ namespace Prism.UI.Controls
             int count = nativeObject.Children.Count;
             nativeObject.Children.Remove(ObjectRetriever.GetNativeObject(item));
 
-            panel.InvalidateMeasure();
-            panel.InvalidateArrange();
+            if (count > nativeObject.Children.Count)
+            {
+                panel.InvalidateMeasure();
+                panel.InvalidateArrange();
+                return true;
+            }
 
-            return count > nativeObject.Children.Count;
+            return false;
         }
 
         /// <summary>
@@ -403,6 +407,11 @@ namespace Prism.UI.Controls
                 throw new ArgumentNullException(nameof(value));
             }
 
+            if (index > nativeObject.Children.Count || index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             if (index == nativeObject.Children.Count)
             {
                 nativeObject.Children.Add(ObjectRetriever.GetNativeObject(value));
@@ -430,6 +439,11 @@ namespace Prism.UI.Controls
 
         void IList.RemoveAt(int index)
         {
+            if (index < 0 || index >= nativeObject.Children.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             nativeObject.Children.RemoveAt(index);
             panel.InvalidateMeasure();
             panel.InvalidateArrange();

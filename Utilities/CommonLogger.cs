@@ -92,7 +92,7 @@ namespace Prism.Utilities
             }
 
             message = string.Format(provider, "[{0}] ({1}): {2}", DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss", provider),
-                Enum.GetName(loggingLevel.GetType(), loggingLevel), string.Format(provider, message, args));
+                Enum.GetName(loggingLevel.GetType(), loggingLevel), string.Format(provider, message ?? string.Empty, args));
 
             if (MinimumConsoleOutputLevel <= level)
             {

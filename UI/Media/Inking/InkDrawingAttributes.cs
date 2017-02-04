@@ -94,6 +94,11 @@ namespace Prism.UI.Media.Inking
             {
                 if (value != size)
                 {
+                    if (double.IsNaN(value) || double.IsInfinity(value))
+                    {
+                        throw new ArgumentException(Resources.Strings.ValueCannotBeNaNOrInfinity, nameof(Size));
+                    }
+
                     if (value < 0)
                     {
                         throw new ArgumentOutOfRangeException(nameof(Size), Resources.Strings.ValueCannotBeLessThanZero);
