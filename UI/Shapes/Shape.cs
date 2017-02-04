@@ -26,6 +26,10 @@ using Prism.Native;
 using Prism.Resources;
 using Prism.UI.Media;
 
+#if !DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Prism.UI.Shapes
 {
     /// <summary>

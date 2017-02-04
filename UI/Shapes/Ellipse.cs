@@ -57,5 +57,17 @@ namespace Prism.UI.Shapes
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeEllipse).FullName), nameof(resolveType));
             }
         }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size MeasureOverride(Size constraints)
+        {
+            // The Ellipse's size is determined entirely by its Width and Height values.
+            // There is no autosizing available.
+            return Size.Empty;
+        }
     }
 }

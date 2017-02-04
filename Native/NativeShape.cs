@@ -28,6 +28,7 @@ namespace Prism.Native
     /// Defines a rendered shape that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="Shape"/> objects.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.MeasuresByContent)]
     public interface INativeShape : INativeElement
     {
         /// <summary>

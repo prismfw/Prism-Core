@@ -30,13 +30,27 @@ namespace Prism.Native
     public interface INativeLine : INativeShape
     {
         /// <summary>
-        /// Gets or sets the end point of the line.
+        /// Gets or sets the X-coordinate of the start point of the line.
         /// </summary>
-        Point EndPoint { get; set; }
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        double X1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the start point of the line.
+        /// Gets or sets the X-coordinate of the end point of the line.
         /// </summary>
-        Point StartPoint { get; set; }
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        double X2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Y-coordinate of the start point of the line.
+        /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        double Y1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Y-coordinate of the end point of the line.
+        /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        double Y2 { get; set; }
     }
 }

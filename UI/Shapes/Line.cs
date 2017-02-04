@@ -25,6 +25,10 @@ using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
 
+#if !DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Prism.UI.Shapes
 {
     /// <summary>
@@ -34,32 +38,96 @@ namespace Prism.UI.Shapes
     {
         #region Property Descriptors
         /// <summary>
-        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:EndPoint"/> property.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:X1"/> property.
         /// </summary>
-        public static PropertyDescriptor EndPointProperty { get; } = PropertyDescriptor.Create(nameof(EndPoint), typeof(Point), typeof(Line));
+        public static PropertyDescriptor X1Property { get; } = PropertyDescriptor.Create(nameof(X1), typeof(double), typeof(Line));
 
         /// <summary>
-        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:StartPoint"/> property.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:X2"/> property.
         /// </summary>
-        public static PropertyDescriptor StartPointProperty { get; } = PropertyDescriptor.Create(nameof(StartPoint), typeof(Point), typeof(Line));
+        public static PropertyDescriptor X2Property { get; } = PropertyDescriptor.Create(nameof(X2), typeof(double), typeof(Line));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Y1"/> property.
+        /// </summary>
+        public static PropertyDescriptor Y1Property { get; } = PropertyDescriptor.Create(nameof(Y1), typeof(double), typeof(Line));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Y2"/> property.
+        /// </summary>
+        public static PropertyDescriptor Y2Property { get; } = PropertyDescriptor.Create(nameof(Y2), typeof(double), typeof(Line));
         #endregion
 
         /// <summary>
-        /// Gets or sets the end point of the line.
+        /// Gets or sets the X-coordinate of the start point of the line.
         /// </summary>
-        public Point EndPoint
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public double X1
         {
-            get { return nativeObject.EndPoint; }
-            set { nativeObject.EndPoint = value; }
+            get { return nativeObject.X1; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(X1));
+                }
+                
+                nativeObject.X1 = value;
+            }
         }
 
         /// <summary>
-        /// Gets or sets the start point of the line.
+        /// Gets or sets the X-coordinate of the end point of the line.
         /// </summary>
-        public Point StartPoint
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public double X2
         {
-            get { return nativeObject.StartPoint; }
-            set { nativeObject.StartPoint = value; }
+            get { return nativeObject.X2; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(X2));
+                }
+
+                nativeObject.X2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Y-coordinate of the start point of the line.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public double Y1
+        {
+            get { return nativeObject.Y1; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(Y1));
+                }
+
+                nativeObject.Y1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Y-coordinate of the end point of the line.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public double Y2
+        {
+            get { return nativeObject.Y2; }
+            set
+            {
+                if (double.IsNaN(value) || double.IsInfinity(value))
+                {
+                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(Y2));
+                }
+
+                nativeObject.Y2 = value;
+            }
         }
 
 #if !DEBUG
@@ -93,6 +161,18 @@ namespace Prism.UI.Shapes
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeLine).FullName), nameof(resolveType));
             }
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size MeasureOverride(Size constraints)
+        {
+            constraints = base.MeasureOverride(constraints);
+            return new Size(Math.Min(constraints.Width, Math.Max(X1, X2) + StrokeThickness * 0.5),
+                Math.Min(constraints.Height, Math.Max(Y1, Y2) + StrokeThickness * 0.5));
         }
     }
 }
