@@ -26,6 +26,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Prism.Native;
 using Prism.Utilities;
 
@@ -46,7 +47,8 @@ namespace Prism
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
-        private readonly Dictionary<PropertyDescriptor, PropertyValueChangedCallback> changeCallbacks = new Dictionary<PropertyDescriptor, PropertyValueChangedCallback>();
+        private static readonly ConditionalWeakTable<FrameworkObject, Dictionary<PropertyDescriptor, PropertyValueChangedCallback>> changeCallbacks =
+            new ConditionalWeakTable<FrameworkObject, Dictionary<PropertyDescriptor, PropertyValueChangedCallback>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameworkObject"/> class.
@@ -186,11 +188,12 @@ namespace Prism
             }
 
             PropertyValueChangedCallback pvc;
-            if (changeCallbacks.TryGetValue(property, out pvc))
+            var currentCallbacks = changeCallbacks.GetOrCreateValue(this);
+            if (currentCallbacks.TryGetValue(property, out pvc))
             {
                 callback = pvc + callback;
             }
-            changeCallbacks[property] = callback;
+            currentCallbacks[property] = callback;
         }
 
         /// <summary>
@@ -364,16 +367,17 @@ namespace Prism
             }
 
             PropertyValueChangedCallback pvc;
-            if (changeCallbacks.TryGetValue(property, out pvc))
+            Dictionary<PropertyDescriptor, PropertyValueChangedCallback> currentCallbacks;
+            if (changeCallbacks.TryGetValue(this, out currentCallbacks) && currentCallbacks.TryGetValue(property, out pvc))
             {
                 pvc -= callback;
                 if (pvc == null)
                 {
-                    changeCallbacks.Remove(property);
+                    currentCallbacks.Remove(property);
                 }
                 else
                 {
-                    changeCallbacks[property] = pvc;
+                    currentCallbacks[property] = pvc;
                 }
             }
         }
@@ -395,7 +399,8 @@ namespace Prism
             metadata?.ValueChangedCallback?.Invoke(this, property);
 
             PropertyValueChangedCallback pvc;
-            if (changeCallbacks.TryGetValue(property, out pvc))
+            Dictionary<PropertyDescriptor, PropertyValueChangedCallback> currentCallbacks;
+            if (changeCallbacks.TryGetValue(this, out currentCallbacks) && currentCallbacks.TryGetValue(property, out pvc))
             {
                 pvc?.Invoke(this, property);
             }
