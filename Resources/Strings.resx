@@ -375,4 +375,10 @@
   <data name="DataBindingError" xml:space="preserve">
     <value>An error has occurred in a data binding: {0}</value>
   </data>
+  <data name="PathFigureCannotHaveMultipleOwners" xml:space="preserve">
+    <value>Path figure already belongs to another path.  Path figures can be a part of only one path at a time.</value>
+  </data>
+  <data name="PathSegmentCannotHaveMultipleOwners" xml:space="preserve">
+    <value>Path segment already belongs to another path.  Path segments can be a part of only one path at a time.</value>
+  </data>
 </root>

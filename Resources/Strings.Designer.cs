@@ -493,6 +493,24 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Path figure already belongs to another path.  Path figures can be a part of only one path at a time..
+        /// </summary>
+        internal static string PathFigureCannotHaveMultipleOwners {
+            get {
+                return ResourceManager.GetString("PathFigureCannotHaveMultipleOwners", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path segment already belongs to another path.  Path segments can be a part of only one path at a time..
+        /// </summary>
+        internal static string PathSegmentCannotHaveMultipleOwners {
+            get {
+                return ResourceManager.GetString("PathSegmentCannotHaveMultipleOwners", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Platform successfully initialized.  Running {0} v{1}..
         /// </summary>
         internal static string PlatformInitialized {
