@@ -143,6 +143,8 @@ namespace Prism.UI.Media
             {
                 nativeObject.Points.Add(item);
             }
+
+            shape.InvalidateMeasure();
         }
 
         /// <summary>
@@ -161,11 +163,6 @@ namespace Prism.UI.Media
         /// <returns><c>true</c> if the point is found in the collection; otherwise, <c>false</c>.</returns>
         public bool Contains(Point item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-
             return nativeObject.Points.Contains(item);
         }
 
@@ -206,11 +203,6 @@ namespace Prism.UI.Media
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="index"/> exceeds the upper or lower bound of the collection.</exception>
         public void Insert(int index, Point item)
         {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
-
             if (index > nativeObject.Points.Count || index < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -223,6 +215,41 @@ namespace Prism.UI.Media
             else
             {
                 nativeObject.Points.Insert(index, item);
+            }
+
+            shape.InvalidateMeasure();
+        }
+
+        /// <summary>
+        /// Inserts a range of points into the collection at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which the points should be inserted.</param>
+        /// <param name="items">The points to be inserted.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="items"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="index"/> exceeds the upper or lower bound of the collection.</exception>
+        public void InsertRange(int index, IEnumerable<Point> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            if (index > nativeObject.Points.Count || index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
+            foreach (var item in items)
+            {
+                if (index == nativeObject.Points.Count)
+                {
+                    nativeObject.Points.Add(item);
+                }
+                else
+                {
+                    nativeObject.Points.Insert(index, item);
+                }
+                index++;
             }
 
             shape.InvalidateMeasure();
@@ -308,6 +335,7 @@ namespace Prism.UI.Media
 
             int count = nativeObject.Points.Count;
             nativeObject.Points.Add((Point)value);
+            count = nativeObject.Points.Count - count;
 
             if (count > 0)
             {
@@ -343,6 +371,11 @@ namespace Prism.UI.Media
                 throw new ArgumentNullException(nameof(value));
             }
 
+            if (index > nativeObject.Points.Count || index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+
             if (index == nativeObject.Points.Count)
             {
                 nativeObject.Points.Add((Point)value);
@@ -362,8 +395,10 @@ namespace Prism.UI.Media
                 throw new ArgumentNullException(nameof(value));
             }
 
-            nativeObject.Points.Remove((Point)value);
-            shape.InvalidateMeasure();
+            if (nativeObject.Points.Remove((Point)value))
+            {
+                shape.InvalidateMeasure();
+            }
         }
 
         void IList.RemoveAt(int index)
@@ -386,7 +421,7 @@ namespace Prism.UI.Media
 
             for (int i = 0; i < nativeObject.Points.Count; i++)
             {
-                array.SetValue(ObjectRetriever.GetAgnosticObject(nativeObject.Points[i]), index + i);
+                array.SetValue(nativeObject.Points[i], index + i);
             }
         }
 

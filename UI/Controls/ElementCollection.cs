@@ -161,6 +161,9 @@ namespace Prism.UI.Controls
             {
                 nativeObject.Children.Add(ObjectRetriever.GetNativeObject(item));
             }
+
+            panel.InvalidateMeasure();
+            panel.InvalidateArrange();
         }
 
         /// <summary>
@@ -375,8 +378,12 @@ namespace Prism.UI.Controls
             }
 
             int count = nativeObject.Children.Add(ObjectRetriever.GetNativeObject(value));
-            panel.InvalidateMeasure();
-            panel.InvalidateArrange();
+            if (count > 0)
+            {
+                panel.InvalidateMeasure();
+                panel.InvalidateArrange();
+            }
+
             return count;
         }
 
