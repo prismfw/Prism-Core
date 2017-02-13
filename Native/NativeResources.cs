@@ -380,6 +380,14 @@ namespace Prism.Native
         /// </summary>
         SelectListForegroundBrush,
         /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of the selection list in a <see cref="SelectList"/>.
+        /// </summary>
+        SelectListListBackgroundBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default separator color of the selection list in a <see cref="SelectList"/>.
+        /// </summary>
+        SelectListListSeparatorBrush,
+        /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the default background of a <see cref="Slider"/>.
         /// </summary>
         SliderBackgroundBrush,

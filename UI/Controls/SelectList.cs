@@ -59,6 +59,16 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor ItemsProperty { get; } = PropertyDescriptor.Create(nameof(Items), typeof(IList), typeof(SelectList), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ListBackground"/> property.
+        /// </summary>
+        public static PropertyDescriptor ListBackgroundProperty { get; } = PropertyDescriptor.Create(nameof(ListBackground), typeof(Brush), typeof(SelectList));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ListSeparatorBrush"/> property.
+        /// </summary>
+        public static PropertyDescriptor ListSeparatorBrushProperty { get; } = PropertyDescriptor.Create(nameof(ListSeparatorBrush), typeof(Brush), typeof(SelectList));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:SelectedIndex"/> property.
         /// </summary>
         public static PropertyDescriptor SelectedIndexProperty { get; } = PropertyDescriptor.Create(nameof(SelectedIndex), typeof(int), typeof(SelectList), new PropertyMetadata(PropertyMetadataOptions.BindsTwoWayByDefault));
@@ -116,6 +126,24 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.Items; }
             set { nativeObject.Items = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the background of the selection list.
+        /// </summary>
+        public Brush ListBackground
+        {
+            get { return nativeObject.ListBackground; }
+            set { nativeObject.ListBackground = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the separators in the selection list, if applicable.
+        /// </summary>
+        public Brush ListSeparatorBrush
+        {
+            get { return nativeObject.ListSeparatorBrush; }
+            set { nativeObject.ListSeparatorBrush = value; }
         }
 
         /// <summary>
@@ -188,6 +216,8 @@ namespace Prism.UI.Controls
             SetResourceReference(BackgroundProperty, SystemResources.SelectListBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.SelectListBorderBrushKey);
             SetResourceReference(ForegroundProperty, SystemResources.SelectListForegroundBrushKey);
+            SetResourceReference(ListBackgroundProperty, SystemResources.SelectListListBackgroundBrushKey);
+            SetResourceReference(ListSeparatorBrushProperty, SystemResources.SelectListListSeparatorBrushKey);
         }
 
         /// <summary>

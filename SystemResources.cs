@@ -806,6 +806,26 @@ namespace Prism
         private static ResourceKey selectListForegroundBrushKey;
 
         /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of the selection list in a <see cref="SelectList"/>.
+        /// </summary>
+        public static ResourceKey SelectListListBackgroundBrushKey
+        {
+            get { return selectListListBackgroundBrushKey ?? (selectListListBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.SelectListListBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListListBackgroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default separator color of the selection list in a <see cref="SelectList"/>.
+        /// </summary>
+        public static ResourceKey SelectListListSeparatorBrushKey
+        {
+            get { return selectListListSeparatorBrushKey ?? (selectListListSeparatorBrushKey = new ResourceKey(SystemResourceKeyId.SelectListListSeparatorBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey selectListListSeparatorBrushKey;
+
+        /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="Slider"/>.
         /// </summary>
         public static ResourceKey SliderBackgroundBrushKey

@@ -23,6 +23,7 @@ using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using Prism.UI.Controls;
+using Prism.UI.Media;
 
 namespace Prism.Native
 {
@@ -68,9 +69,19 @@ namespace Prism.Native
         IList Items { get; set; }
 
         /// <summary>
+        /// Gets or sets the background of the selection list.
+        /// </summary>
+        Brush ListBackground { get; set; }
+
+        /// <summary>
         /// Gets or sets the method to invoke when this instance requests a list item for an object in the select list.
         /// </summary>
         SelectListListItemRequestHandler ListItemRequest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> to apply to the separators in the selection list, if applicable.
+        /// </summary>
+        Brush ListSeparatorBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the zero-based index of the selected item.
