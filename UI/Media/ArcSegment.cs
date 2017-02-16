@@ -124,7 +124,7 @@ namespace Prism.UI.Media
         /// <param name="size">The radii of the arc along the X and Y axes.</param>
         /// <exception cref="ArgumentException">Thrown when <paramref name="endPoint"/> contains a NaN or infinite value -or- when <paramref name="size"/> contains a NaN or infinite value.</exception>
         public ArcSegment(Point endPoint, Size size)
-            : this(endPoint, size, false, SweepDirection.Counterclockwise)
+            : this(endPoint, size, false, SweepDirection.Clockwise)
         {
         }
 
