@@ -317,6 +317,7 @@ namespace Prism
         /// <summary>
         /// Signals the system to begin ignoring any user interactions within the application.
         /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the application has not been fully initialized.</exception>
         public void BeginIgnoringUserInput()
         {
             if (nativeObject == null)
@@ -331,11 +332,17 @@ namespace Prism
         /// Asynchronously invokes the specified delegate on the platform's main thread.
         /// </summary>
         /// <param name="action">The action to invoke on the main thread.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="action"/> is <c>null</c>.</exception>
         public void BeginInvokeOnMainThread(Action action)
         {
             if (nativeObject == null)
             {
                 throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
             }
 
             nativeObject.BeginInvokeOnMainThread(action);
@@ -346,11 +353,17 @@ namespace Prism
         /// </summary>
         /// <param name="del">A delegate to a method that takes multiple parameters.</param>
         /// <param name="parameters">The parameters for the delegate method.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="del"/> is <c>null</c>.</exception>
         public void BeginInvokeOnMainThread(Delegate del, params object[] parameters)
         {
             if (nativeObject == null)
             {
                 throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
+            }
+
+            if (del == null)
+            {
+                throw new ArgumentNullException(nameof(del));
             }
 
             nativeObject.BeginInvokeOnMainThreadWithParameters(del, parameters);
@@ -396,11 +409,17 @@ namespace Prism
         /// Launches the specified URL in an external application, most commonly a web browser.
         /// </summary>
         /// <param name="url">The URL to launch to.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="url"/> is <c>null</c>.</exception>
         public void LaunchUrl(Uri url)
         {
             if (nativeObject == null)
             {
                 throw new InvalidOperationException(Strings.ApplicationIsNotInitialized);
+            }
+
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
             }
 
             nativeObject.LaunchUrl(url);
