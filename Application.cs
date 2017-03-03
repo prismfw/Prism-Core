@@ -119,7 +119,7 @@ namespace Prism
                         resources.ResourceCollectionChanged += OnResourceCollectionChanged;
                     }
 
-                    Visual.PropagateResourceCollectionChange(Window.Current.Content);
+                    OnResourceCollectionChanged(resources, EventArgs.Empty);
                 }
             }
         }
