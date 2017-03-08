@@ -61,7 +61,12 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets an <see cref="INativeImageSource"/> for an image to display with the item.
         /// </summary>
-        INativeImageSource ImageSource { get; set; }
+        INativeImageSource Image { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user can interact with the item.
+        /// </summary>
+        bool IsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the title for the item.

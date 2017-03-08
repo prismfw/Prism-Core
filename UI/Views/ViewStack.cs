@@ -191,10 +191,10 @@ namespace Prism.UI
                 }
                 else
                 {
-                    var tabView = Parent as TabbedSplitView;
+                    var tabView = Parent as TabView;
                     if (tabView != null && tabView.SelectedTabItem?.Content == this)
                     {
-                        tabView.OnMasterContentChanged();
+                        VisualTreeHelper.GetParent<SplitView>(tabView, sv => sv.MasterContent == tabView)?.OnMasterContentChanged();
                     }
                 }
 

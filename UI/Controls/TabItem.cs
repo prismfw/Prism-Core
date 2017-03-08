@@ -62,10 +62,15 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor ForegroundProperty { get; } = PropertyDescriptor.Create(nameof(Foreground), typeof(Brush), typeof(TabItem));
 
         /// <summary>
-        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ImageSource"/> property.
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Image"/> property.
         /// </summary>
-        public static PropertyDescriptor ImageSourceProperty { get; } = PropertyDescriptor.Create(nameof(ImageSource), typeof(ImageSource), typeof(TabItem));
-        
+        public static PropertyDescriptor ImageProperty { get; } = PropertyDescriptor.Create(nameof(Image), typeof(ImageSource), typeof(TabItem));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsEnabled"/> property.
+        /// </summary>
+        public static PropertyDescriptor IsEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsEnabled), typeof(bool), typeof(TabItem));
+
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Title"/> property.
         /// </summary>
@@ -83,7 +88,7 @@ namespace Prism.UI.Controls
             {
                 if (value != content)
                 {
-                    var tabView = VisualTreeHelper.GetChild<TabbedSplitView>(Window.Current, tv => tv.SelectedTabItem == this);
+                    var tabView = VisualTreeHelper.GetParent<TabView>(this, tv => tv.SelectedTabItem == this);
                     
                     content = value;
                     if (content is IView || content is INativeViewStack)
@@ -104,7 +109,11 @@ namespace Prism.UI.Controls
                         nativeObject.Content = ObjectRetriever.GetNativeObject(contentObj);
                     }
 
-                    tabView?.OnMasterContentChanged();
+                    if (tabView != null)
+                    {
+                        VisualTreeHelper.GetParent<SplitView>(tabView, sv => sv.MasterContent == tabView)?.OnMasterContentChanged();
+                    }
+
                     OnPropertyChanged(ContentProperty);
                 }
             }
@@ -174,10 +183,19 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets an <see cref="ImageSource"/> for an image to display with the item.
         /// </summary>
-        public ImageSource ImageSource
+        public ImageSource Image
         {
-            get { return (ImageSource)ObjectRetriever.GetAgnosticObject(nativeObject.ImageSource); }
-            set { nativeObject.ImageSource = (INativeImageSource)ObjectRetriever.GetNativeObject(value); }
+            get { return (ImageSource)ObjectRetriever.GetAgnosticObject(nativeObject.Image); }
+            set { nativeObject.Image = (INativeImageSource)ObjectRetriever.GetNativeObject(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the user can interact with the item.
+        /// </summary>
+        public bool IsEnabled
+        {
+            get { return nativeObject.IsEnabled; }
+            set { nativeObject.IsEnabled = value; }
         }
 
         /// <summary>

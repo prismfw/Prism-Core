@@ -178,6 +178,7 @@ namespace Prism.UI
                 if (e.Property == SelectedIndexProperty)
                 {
                     OnPropertyChanged(SelectedTabItemProperty);
+                    VisualTreeHelper.GetParent<SplitView>(this, sv => sv.MasterContent == this)?.OnMasterContentChanged();
                 }
             };
 

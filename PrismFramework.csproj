@@ -206,7 +206,6 @@
     <Compile Include="Native\NativeSelectList.cs" />
     <Compile Include="Native\NativeSlider.cs" />
     <Compile Include="Native\NativeSplitView.cs" />
-    <Compile Include="Native\NativeTabbedSplitView.cs" />
     <Compile Include="Native\NativeTabItem.cs" />
     <Compile Include="Native\NativeTabView.cs" />
     <Compile Include="Native\NativeTextArea.cs" />
@@ -305,7 +304,6 @@
     <Compile Include="UI\TextAlignment.cs" />
     <Compile Include="UI\Views\SplitView.cs" />
     <Compile Include="UI\Controls\TabItem.cs" />
-    <Compile Include="UI\Views\TabbedSplitView.cs" />
     <Compile Include="UI\Views\TabView.cs" />
     <Compile Include="UI\Views\View.cs" />
     <Compile Include="UI\Views\ViewStack.cs" />

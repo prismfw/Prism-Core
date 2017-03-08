@@ -565,61 +565,26 @@ namespace Prism
             appInstance.OnInitialized();
         }
 
-        private static bool CheckPaneForView(object paneContent, IView view)
-        {
-            return paneContent == view || ((paneContent as ViewStack)?.Views.Contains(view) ?? false);
-        }
-
         private static Panes GetViewPane(IView view)
         {
-            var parent = VisualTreeHelper.GetParent(view, (o) => o is Window || o is SplitView || o is TabbedSplitView || o is Popup);
-            if (parent is Window)
+            var parent = VisualTreeHelper.GetParent(view, (o) => o is Window || o is SplitView || o is Popup);
+            if (parent != null)
             {
-                return Panes.Master;
-            }
-
-            if (parent is Popup)
-            {
-                return Panes.Popup;
-            }
-
-            var splitView = parent as SplitView;
-            if (splitView != null)
-            {
-                if (CheckPaneForView(splitView.MasterContent, view))
-                {
-                    return Panes.Master;
-                }
-                else if (CheckPaneForView(splitView.DetailContent, view))
-                {
-                    return Panes.Detail;
-                }
-            }
-
-            var tabView = Window.Current.Content as TabbedSplitView;
-            if (tabView != null)
-            {
-                if (CheckPaneForView(tabView.DetailContent, view))
-                {
-                    return Panes.Detail;
-                }
-
-                var tabItem = tabView.TabItems[tabView.SelectedIndex];
-                if (CheckPaneForView(tabItem.Content, view))
+                if (parent is Window)
                 {
                     return Panes.Master;
                 }
 
-                for (int i = 0; i < tabView.TabItems.Count; i++)
+                if (parent is Popup || VisualTreeHelper.GetParent<Popup>(parent) != null)
                 {
-                    if (i != tabView.SelectedIndex)
-                    {
-                        tabItem = tabView.TabItems[i];
-                        if (CheckPaneForView(tabItem.Content, view))
-                        {
-                            return Panes.Master;
-                        }
-                    }
+                    return Panes.Popup;
+                }
+
+                var splitView = parent as SplitView;
+                if (splitView != null)
+                {
+                    return view == splitView.DetailContent || VisualTreeHelper.GetParent(view, (o) => o == splitView.DetailContent) != null ?
+                        Panes.Detail : Panes.Master;
                 }
             }
 
@@ -699,7 +664,7 @@ namespace Prism
                             current.EndIgnoringUserInput();
                         });
 
-                        Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadFailedWithMessage, ex.Message);
+                        Logger.Warn(CultureInfo.CurrentCulture, Strings.ControllerLoadFailedWithMessage, ex.Message);
                         current.OnControllerLoadFailed(controller, ex);
                         return;
                     }
@@ -752,7 +717,8 @@ namespace Prism
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
         private static void PresentView(IView view, NavigationContext context)
         {
-            // Tab views and split views can only be the content of the main window.  Having them elsewhere is unsupported!
+            // Navigating to a tab view or a split view is interpretted as wanting to reset the view hierarchy.
+            // If the view is desired elsewhere, it will have to be placed manually.
             if (view is TabView || view is SplitView)
             {
                 Window.Current.Content = view;
@@ -774,53 +740,15 @@ namespace Prism
                 var splitView = Window.Current.Content as SplitView;
                 if (splitView != null)
                 {
-                    if (splitView.MasterContent == null)
-                    {
-                        splitView.MasterContent = (masterStack = new ViewStack());
-                    }
-                    else
-                    {
-                        masterStack = splitView.MasterContent as ViewStack;
-                    }
-
-                    if (splitView.DetailContent == null)
-                    {
-                        detailStack = new ViewStack();
-                        detailStack.PushView(new ContentView() { IsValidBackTarget = false });
-                        splitView.DetailContent = detailStack;
-                    }
-                    else
-                    {
-                        detailStack = splitView.DetailContent as ViewStack;
-                    }
+                    masterStack = GetSplitContent(splitView, true) as ViewStack;
+                    detailStack = GetSplitContent(splitView, false) as ViewStack;
                 }
 
                 var tabView = Window.Current.Content as TabView;
                 if (tabView != null)
                 {
-                    var tabItem = tabView.TabItems[tabView.SelectedIndex];
-                    if (tabItem.Content == null)
-                    {
-                        // If the current tab item does not have content, create a view stack to act as the content.
-                        tabItem.Content = (masterStack = new ViewStack());
-                    }
-                    else
-                    {
-                        masterStack = tabItem.Content as ViewStack;
-                    }
-
-                    var split = tabView as TabbedSplitView;
-                    if (split != null)
-                    {
-                        if (split.DetailContent == null)
-                        {
-                            detailStack = new ViewStack();
-                            detailStack.PushView(new ContentView() { IsValidBackTarget = false });
-                            split.DetailContent = detailStack;
-                        }
-
-                        detailStack = split.DetailContent as ViewStack;
-                    }
+                    masterStack = GetTabContent(tabView, true) as ViewStack;
+                    detailStack = GetTabContent(tabView, false) as ViewStack;
                 }
             }
 
@@ -838,13 +766,7 @@ namespace Prism
                 return;
             }
 
-            if (PopToView(detailStack, view))
-            {
-                Window.Current.PresentedPopup?.Close();
-                return;
-            }
-
-            if (PopToView(masterStack, view))
+            if ((detailStack != masterStack && PopToView(detailStack, view)) || PopToView(masterStack, view))
             {
                 Window.Current.PresentedPopup?.Close();
                 return;
@@ -883,8 +805,12 @@ namespace Prism
             if (masterStack != null && (!masterStack.Views.Any() || detailStack == null || (preferredPanes.HasFlag(Panes.Master) &&
                 (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1))))
             {
+                if (detailStack != masterStack)
+                {
+                    detailStack?.PopToRoot(Animate.Off);
+                }
+
                 masterStack.PushView(view, Animate.Default);
-                detailStack?.PopToRoot(Animate.Off);
             }
             else if (detailStack != null)
             {
@@ -945,6 +871,52 @@ namespace Prism
             }
 
             return false;
+        }
+
+        private static object GetSplitContent(SplitView splitView, bool forMasterPane)
+        {
+            if (splitView == null)
+            {
+                return null;
+            }
+
+            if (forMasterPane)
+            {
+                if (splitView.MasterContent == null)
+                {
+                    // If no master content has been set, create a view stack to act as the content.
+                    return (splitView.MasterContent = new ViewStack());
+                }
+
+                return GetTabContent(splitView.MasterContent as TabView, forMasterPane) ?? splitView.MasterContent;
+            }
+
+            if (splitView.DetailContent == null)
+            {
+                // If no detail content has been set, create a view stack to act as the content.
+                var stack = new ViewStack();
+                stack.PushView(new ContentView() { IsValidBackTarget = false });
+                return (splitView.DetailContent = stack);
+            }
+
+            return GetTabContent(splitView.DetailContent as TabView, forMasterPane) ?? splitView.DetailContent;
+        }
+
+        private static object GetTabContent(TabView tabView, bool forMasterPane)
+        {
+            if (tabView == null || tabView.SelectedIndex < 0 || tabView.SelectedIndex >= tabView.TabItems.Count)
+            {
+                return null;
+            }
+
+            var tabItem = tabView.TabItems[tabView.SelectedIndex];
+            if (tabItem.Content == null)
+            {
+                // If the current tab item does not have content, create a view stack to act as the content.
+                return (tabItem.Content = new ViewStack());
+            }
+
+            return GetSplitContent(tabItem.Content as SplitView, forMasterPane) ?? tabItem.Content;
         }
 
         private void OnResourceChanged(object sender, object key)
