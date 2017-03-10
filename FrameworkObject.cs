@@ -110,7 +110,9 @@ namespace Prism
                 }
             }
             
-            var nativeObject = TypeManager.Default.Resolve(resolveType, resolveName, resolveParams);
+            var nativeObject = TypeManager.Default.Resolve(resolveType, resolveName, resolveParams,
+                TypeResolutionOptions.UseFuzzyNameResolution | TypeResolutionOptions.UseFuzzyParameterResolution);
+
             if (nativeObject == null)
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, resolveType.FullName), nameof(resolveType));
