@@ -474,7 +474,7 @@ namespace Prism
         /// <param name="ex">The exception that caused the load to fail.</param>
         protected virtual void OnControllerLoadFailed(IController controller, Exception ex)
         {
-            throw new AggregateException(ex);
+            BeginInvokeOnMainThread(() => { throw new AggregateException(ex); });
         }
 
         /// <summary>
