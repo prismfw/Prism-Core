@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2016  Prism Framework Team
+Copyright (C) 2017  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -22,10 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-#if !DEBUG
-using System.Diagnostics;
-#endif
 
 namespace Prism.UI.Media
 {

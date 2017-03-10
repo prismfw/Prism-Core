@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016  Prism Framework Team
+Copyright (C) 2017  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -29,6 +29,7 @@ namespace Prism.Native
     /// Defines a container for UI elements that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="Panel"/> objects.
     /// </summary>
+    [CoreBehavior(CoreBehaviors.MeasuresByContent)]
     public interface INativePanel : INativeElement
     {
         /// <summary>

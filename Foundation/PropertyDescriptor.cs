@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016  Prism Framework Team
+Copyright (C) 2017  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -37,17 +37,17 @@ namespace Prism
     public sealed class PropertyDescriptor
     {
         /// <summary>
+        /// Gets a value indicating whether the property is read-only.
+        /// </summary>
+        public bool IsReadOnly { get; }
+
+        /// <summary>
         /// Gets the name of the property.
         /// </summary>
         public string Name
         {
             get { return propertyInfo.Name; }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether the property is read-only.
-        /// </summary>
-        public bool IsReadOnly { get; }
 
         /// <summary>
         /// Gets the type of which the property is a member.

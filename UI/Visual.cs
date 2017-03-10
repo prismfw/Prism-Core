@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016  Prism Framework Team
+Copyright (C) 2017  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -29,7 +29,6 @@ using System.Reflection;
 using Prism.Data;
 using Prism.Native;
 using Prism.Resources;
-using Prism.UI.Controls;
 using Prism.UI.Media;
 
 namespace Prism.UI
