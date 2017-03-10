@@ -785,8 +785,8 @@ namespace Prism
         }
 
         /// <summary>
-        /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.
-        /// A new instance of the implementation type will be returned each time the registration key is resolved.
+        /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.  The implementation type will be
+        /// instantiated only once when the key is first resolved.  That same instance will then be returned on subsequent resolves.
         /// </summary>
         /// <param name="key">The key to register.</param>
         /// <param name="implementationType">The type to instantiate when resolving the registration key.</param>
@@ -797,8 +797,8 @@ namespace Prism
         }
 
         /// <summary>
-        /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.
-        /// A new instance of the implementation type will be returned each time the registration key is resolved.
+        /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.  The implementation type will be
+        /// instantiated only once when the key is first resolved.  That same instance will then be returned on subsequent resolves.
         /// </summary>
         /// <param name="key">The key to register.</param>
         /// <param name="implementationType">The type to instantiate when resolving the registration key.</param>
@@ -822,7 +822,7 @@ namespace Prism
 
         /// <summary>
         /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.
-        /// A new instance of the implementation type will be returned each time the registration key is resolved.
+        /// The object will be returned when the key is resolved.
         /// </summary>
         /// <param name="key">The key to register.</param>
         /// <param name="instance">The instance to return when resolving the key type.</param>
@@ -834,7 +834,7 @@ namespace Prism
 
         /// <summary>
         /// Registers the specified key and implementation for the <see cref="M:Resolve"/> methods.
-        /// A new instance of the implementation type will be returned each time the registration key is resolved.
+        /// The object will be returned when the key is resolved.
         /// </summary>
         /// <param name="key">The key to register.</param>
         /// <param name="instance">The instance to return when resolving the key type.</param>

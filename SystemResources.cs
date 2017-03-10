@@ -601,7 +601,7 @@ namespace Prism
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected
-        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Default"/>.
+        /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
         public static ResourceKey GroupedListBoxItemBackgroundBrushKey
         {

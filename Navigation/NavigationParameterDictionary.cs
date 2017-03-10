@@ -142,6 +142,7 @@ namespace Prism
         /// <param name="key">The key associated with the value to get.</param>
         /// <returns>The value associated with the key as a <typeparamref name="T"/> -or-
         /// the default value of <typeparamref name="T"/> if the key was not found or the value associated with the key is the wrong type.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
         public T GetValueOrDefault<T>(string key)
         {
             object value = null;
@@ -167,6 +168,7 @@ namespace Prism
         /// <param name="defaultValue">The value to return if the key is not found or the value associated with the key is the wrong type.</param>
         /// <returns>The value associated with the key as a <typeparamref name="T"/> -or-
         /// <paramref name="defaultValue"/> if the key was not found or the value associated with the key is the wrong type.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <c>null</c>.</exception>
         public T GetValueOrDefault<T>(string key, T defaultValue)
         {
             object value = null;
