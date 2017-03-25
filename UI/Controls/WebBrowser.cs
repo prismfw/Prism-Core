@@ -197,7 +197,7 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
-        /// Navigates to the specified <see cref="Uri"/>.
+        /// Navigates to the specified <see cref="System.Uri"/>.
         /// </summary>
         /// <param name="uri">The URI to navigate to.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="uri"/> is <c>null</c>.</exception>
