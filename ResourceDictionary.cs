@@ -236,14 +236,18 @@ namespace Prism
 
             if (readFromSystem)
             {
+                var resourceKey = key as ResourceKey;
+                if (TryGetCoreResource(resourceKey, theme, out value))
+                {
+                    return true;
+                }
+
                 if (TypeManager.Default.Resolve<INativeResources>()?.TryGetResource(ObjectRetriever.GetNativeObject(obj), key, out value) ?? false)
                 {
                     return true;
                 }
-#if DEBUG
-                var resourceKey = key as ResourceKey;
+
                 Debug.Assert(resourceKey == null, string.Format(CultureInfo.CurrentCulture, "Missing system resource value for {0}!", (SystemResourceKeyId)resourceKey.Id));
-#endif
             }
 
             return false;
@@ -264,6 +268,37 @@ namespace Prism
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceKeyCanOnlyBeOfType, typeof(string).FullName, typeof(ResourceKey).FullName));
             }
+        }
+
+        private static bool TryGetCoreResource(ResourceKey key, Theme theme, out object value)
+        {
+            if (key != null)
+            {
+                switch ((SystemResourceKeyId)key.Id)
+                {
+                    case SystemResourceKeyId.AltColorHigh:
+                        value = theme == Theme.Dark ? Colors.White : Colors.Black;
+                        return true;
+                    case SystemResourceKeyId.AltColorMedium:
+                        value = theme == Theme.Dark ? new Color(214, 214, 214) : new Color(42, 42, 42);
+                        return true;
+                    case SystemResourceKeyId.AltColorLow:
+                        value = theme == Theme.Dark ? new Color(171, 171, 171) : new Color(85, 85, 85);
+                        return true;
+                    case SystemResourceKeyId.BaseColorHigh:
+                        value = theme == Theme.Dark ? Colors.Black : Colors.White;
+                        return true;
+                    case SystemResourceKeyId.BaseColorMedium:
+                        value = theme == Theme.Dark ? new Color(42, 42, 42) : new Color(214, 214, 214);
+                        return true;
+                    case SystemResourceKeyId.BaseColorLow:
+                        value = theme == Theme.Dark ? new Color(85, 85, 85) : new Color(171, 171, 171);
+                        return true;
+                }
+            }
+
+            value = null;
+            return false;
         }
 
         private void OnResourceChanged(object sender, object key)

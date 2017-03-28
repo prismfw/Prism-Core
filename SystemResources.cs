@@ -488,6 +488,68 @@ namespace Prism
         private static ResourceKey viewHeaderFontStyleKey;
         #endregion
 
+        #region Colors
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey AltColorHighKey
+        {
+            get { return altColorHighKey ?? (altColorHighKey = new ResourceKey(SystemResourceKeyId.AltColorHigh, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altColorHighKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey AltColorLowKey
+        {
+            get { return altColorLowKey ?? (altColorLowKey = new ResourceKey(SystemResourceKeyId.AltColorLow, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altColorLowKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey AltColorMediumKey
+        {
+            get { return altColorMediumKey ?? (altColorMediumKey = new ResourceKey(SystemResourceKeyId.AltColorMedium, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altColorMediumKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey BaseColorHighKey
+        {
+            get { return baseColorHighKey ?? (baseColorHighKey = new ResourceKey(SystemResourceKeyId.BaseColorHigh, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseColorHighKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey BaseColorLowKey
+        {
+            get { return baseColorLowKey ?? (baseColorLowKey = new ResourceKey(SystemResourceKeyId.BaseColorLow, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseColorLowKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
+        /// </summary>
+        public static ResourceKey BaseColorMediumKey
+        {
+            get { return baseColorMediumKey ?? (baseColorMediumKey = new ResourceKey(SystemResourceKeyId.BaseColorMedium, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseColorMediumKey;
+        #endregion
+
         #region Brushes
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the system accent color.

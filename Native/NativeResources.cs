@@ -248,6 +248,33 @@ namespace Prism.Native
         ViewHeaderFontStyle,
         #endregion
 
+        #region Colors
+        /// <summary>
+        /// An identifier for retrieving the alternative color of the current theme with high contrast.
+        /// </summary>
+        AltColorHigh,
+        /// <summary>
+        /// An identifier for retrieving the alternative color of the current theme with low contrast.
+        /// </summary>
+        AltColorLow,
+        /// <summary>
+        /// An identifier for retrieving the alternative color of the current theme with medium contrast.
+        /// </summary>
+        AltColorMedium,
+        /// <summary>
+        /// An identifier for retrieving the base color of the current theme with high contrast.
+        /// </summary>
+        BaseColorHigh,
+        /// <summary>
+        /// An identifier for retrieving the base color of the current theme with low contrast.
+        /// </summary>
+        BaseColorLow,
+        /// <summary>
+        /// An identifier for retrieving the base color of the current theme with medium contrast.
+        /// </summary>
+        BaseColorMedium,
+        #endregion
+
         #region Brushes
         /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the system accent color.
