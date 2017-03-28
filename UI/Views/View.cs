@@ -114,9 +114,14 @@ namespace Prism.UI
         /// <param name="frame">The final rendering frame in which this instance should arrange its children.</param>
         protected sealed override void ArrangeCore(Rectangle frame)
         {
-            var size = ArrangeOverride(frame.Size);
             var visual = ObjectRetriever.GetNativeObject(this) as INativeVisual;
             if (visual != null)
+            {
+                visual.Frame = frame;
+            }
+
+            var size = ArrangeOverride(frame.Size);
+            if (size != frame.Size && visual != null)
             {
                 visual.Frame = new Rectangle(frame.TopLeft, size);
             }
