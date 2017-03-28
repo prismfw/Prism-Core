@@ -555,6 +555,7 @@ namespace Prism
                     throw new InvalidOperationException(Strings.NativeApplicationCouldNotBeResolved);
                 }
 
+                ObjectRetriever.SetPair(appInstance, appInstance.nativeObject);
                 appInstance.nativeObject.Exiting += (o, e) => appInstance.OnShutdown();
                 appInstance.nativeObject.Resuming += (o, e) => appInstance.OnResume();
                 appInstance.nativeObject.Suspending += (o, e) => appInstance.OnSuspend();
@@ -802,8 +803,8 @@ namespace Prism
 
             Window.Current.PresentedPopup?.Close();
 
-            if (masterStack != null && (!masterStack.Views.Any() || detailStack == null || (preferredPanes.HasFlag(Panes.Master) &&
-                (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1))))
+            if (masterStack != null && (!masterStack.Views.Any() || detailStack == null || detailStack == masterStack ||
+                (preferredPanes.HasFlag(Panes.Master) && (!preferredPanes.HasFlag(Panes.Detail) || detailStack.Views.Count() <= 1))))
             {
                 if (detailStack != masterStack)
                 {
