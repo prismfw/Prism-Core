@@ -399,6 +399,7 @@ namespace Prism.UI.Controls
 
             ColumnDefinition column;
             RowDefinition row;
+            int i;
 
             double[] columns;
             if (ColumnDefinitions.Count == 0)
@@ -408,7 +409,7 @@ namespace Prism.UI.Controls
             else
             {
                 columns = new double[ColumnDefinitions.Count];
-                for (int i = 0; i < columns.Length; i++)
+                for (i = 0; i < columns.Length; i++)
                 {
                     column = ColumnDefinitions[i];
                     double width = Math.Min(availableSize.Width, Math.Max(column.MinWidth, Math.Min(column.MaxWidth, column.Width.IsAbsolute ? column.Width.Value : 0)));
@@ -425,7 +426,7 @@ namespace Prism.UI.Controls
             else
             {
                 rows = new double[RowDefinitions.Count];
-                for (int i = 0; i < rows.Length; i++)
+                for (i = 0; i < rows.Length; i++)
                 {
                     row = RowDefinitions[i];
                     double height = Math.Min(availableSize.Height, Math.Max(row.MinHeight, Math.Min(row.MaxHeight, row.Height.IsAbsolute ? row.Height.Value : 0)));
@@ -446,6 +447,8 @@ namespace Prism.UI.Controls
             List<Element> autoSingles = null;
             List<Element> autoSpanners = null;
             int autoCount = 0;
+            bool inStar = false;
+
             foreach (var child in Children)
             {
                 if (elements.TryGetValue(child, out position))
@@ -463,9 +466,8 @@ namespace Prism.UI.Controls
                     rowSpan = 1;
                 }
 
-                bool inAuto = false;
-                bool inStar = false;
-                for (int i = columnIndex; i < columnSpan; i++)
+                bool inAuto = inStar = false;
+                for (i = columnIndex; i < columnSpan; i++)
                 {
                     column = i < ColumnDefinitions.Count ? ColumnDefinitions[i] : null;
                     if (column == null || !column.Width.IsAbsolute)
@@ -490,7 +492,7 @@ namespace Prism.UI.Controls
                 }
 
                 inAuto = false;
-                for (int i = rowIndex; i < rowSpan; i++)
+                for (i = rowIndex; i < rowSpan; i++)
                 {
                     row = i < RowDefinitions.Count ? RowDefinitions[i] : null;
                     if (row == null || !row.Height.IsAbsolute)
@@ -557,7 +559,7 @@ namespace Prism.UI.Controls
                     }
 
                     childConstraints = new Size();
-                    for (int i = columnIndex; i < columnSpan; i++)
+                    for (i = columnIndex; i < columnSpan; i++)
                     {
                         childConstraints.Width += columns[i];
                         column = i < ColumnDefinitions.Count ? ColumnDefinitions[i] : null;
@@ -567,7 +569,7 @@ namespace Prism.UI.Controls
                         }
                     }
 
-                    for (int i = rowIndex; i < rowSpan; i++)
+                    for (i = rowIndex; i < rowSpan; i++)
                     {
                         childConstraints.Height += rows[i];
                         row = i < RowDefinitions.Count ? RowDefinitions[i] : null;
@@ -581,7 +583,7 @@ namespace Prism.UI.Controls
 
                     desiredSize = child.DesiredSize;
                     int autoIndex = 0;
-                    for (int i = columnIndex; i < columnSpan; i++)
+                    for (i = columnIndex; i < columnSpan; i++)
                     {
                         column = i < ColumnDefinitions.Count ? ColumnDefinitions[i] : null;
                         if (column != null && column.Width.IsAbsolute)
@@ -613,7 +615,7 @@ namespace Prism.UI.Controls
                         availableSize.Width -= (autoLength - currentLength);
                     }
 
-                    for (int i = rowIndex; i < rowSpan; i++)
+                    for (i = rowIndex; i < rowSpan; i++)
                     {
                         row = i < RowDefinitions.Count ? RowDefinitions[i] : null;
                         if (row != null && row.Height.IsAbsolute)
@@ -667,12 +669,12 @@ namespace Prism.UI.Controls
                     }
 
                     childConstraints = availableSize;
-                    for (int i = columnIndex; i < columnSpan; i++)
+                    for (i = columnIndex; i < columnSpan; i++)
                     {
                         childConstraints.Width += columns[i];
                     }
 
-                    for (int i = rowIndex; i < rowSpan; i++)
+                    for (i = rowIndex; i < rowSpan; i++)
                     {
                         childConstraints.Height += rows[i];
                     }
@@ -681,7 +683,7 @@ namespace Prism.UI.Controls
 
                     desiredSize = child.DesiredSize;
                     int trueSpan = columnSpan - columnIndex;
-                    for (int i = columnIndex; i < columnSpan; i++)
+                    for (i = columnIndex; i < columnSpan; i++)
                     {
                         if (ColumnDefinitions[i].Width.IsAbsolute)
                         {
@@ -694,12 +696,24 @@ namespace Prism.UI.Controls
                     double oldValue;
                     double newValue;
                     double difference;
+
+                    // if the child spans a star column, only expand the stars that it's in; otherwise, expand the autos that it's in
+                    inStar = false;
+                    for (i = columnIndex; i < columnSpan; i++)
+                    {
+                        if (ColumnDefinitions[i].Width.IsStar)
+                        {
+                            inStar = true;
+                            break;
+                        }
+                    }
+
                     while (desiredSize.Width / trueSpan > 0)
                     {
-                        for (int i = columnIndex; i < columnSpan; i++)
+                        for (i = columnIndex; i < columnSpan; i++)
                         {
                             column = ColumnDefinitions[i];
-                            if (!column.Width.IsAbsolute)
+                            if ((inStar && column.Width.IsStar) || (!inStar && !column.Width.IsAbsolute))
                             {
                                 oldValue = columns[i];
                                 newValue = Math.Min(availableSize.Width + oldValue, Math.Max(column.MinWidth, Math.Min(column.MaxWidth, oldValue + (desiredSize.Width / trueSpan))));
@@ -726,7 +740,7 @@ namespace Prism.UI.Controls
                     }
 
                     trueSpan = rowSpan - rowIndex;
-                    for (int i = rowIndex; i < rowSpan; i++)
+                    for (i = rowIndex; i < rowSpan; i++)
                     {
                         if (RowDefinitions[i].Height.IsAbsolute)
                         {
@@ -735,13 +749,24 @@ namespace Prism.UI.Controls
 
                         desiredSize.Height -= rows[i];
                     }
-                    
+
+                    // if the child spans a star row, only expand the stars that it's in; otherwise, expand the autos that it's in
+                    inStar = false;
+                    for (i = rowIndex; i < rowSpan; i++)
+                    {
+                        if (RowDefinitions[i].Height.IsStar)
+                        {
+                            inStar = true;
+                            break;
+                        }
+                    }
+
                     while (desiredSize.Height / trueSpan > 0)
                     {
-                        for (int i = rowIndex; i < rowSpan; i++)
+                        for (i = rowIndex; i < rowSpan; i++)
                         {
                             row = RowDefinitions[i];
-                            if (!row.Height.IsAbsolute)
+                            if ((inStar && row.Height.IsStar) || (!inStar && !row.Height.IsAbsolute))
                             {
                                 oldValue = rows[i];
                                 newValue = Math.Min(availableSize.Height + oldValue, Math.Max(row.MinHeight, Math.Min(row.MaxHeight, oldValue + (desiredSize.Height / trueSpan))));
@@ -776,7 +801,7 @@ namespace Prism.UI.Controls
             double starValue = 0;
             double finalValue = 0;
             List<int> starIndices = new List<int>(Math.Max(ColumnDefinitions.Count, RowDefinitions.Count));
-            for (int i = 0; i < ColumnDefinitions.Count; i++)
+            for (i = 0; i < ColumnDefinitions.Count; i++)
             {
                 column = ColumnDefinitions[i];
                 if (column.Width.IsStar)
@@ -791,7 +816,7 @@ namespace Prism.UI.Controls
             do
             {
                 again = false;
-                for (int i = 0; i < starIndices.Count; i++)
+                for (i = 0; i < starIndices.Count; i++)
                 {
                     starIndex = starIndices[i];
                     column = ColumnDefinitions[starIndex];
@@ -815,7 +840,7 @@ namespace Prism.UI.Controls
             starTotal = availableSize.Height;
             starWeight = 0;
             starIndices.Clear();
-            for (int i = 0; i < RowDefinitions.Count; i++)
+            for (i = 0; i < RowDefinitions.Count; i++)
             {
                 row = RowDefinitions[i];
                 if (row.Height.IsStar)
@@ -829,7 +854,7 @@ namespace Prism.UI.Controls
             do
             {
                 again = false;
-                for (int i = 0; i < starIndices.Count; i++)
+                for (i = 0; i < starIndices.Count; i++)
                 {
                     starIndex = starIndices[i];
                     row = RowDefinitions[starIndex];
@@ -867,9 +892,9 @@ namespace Prism.UI.Controls
                     rowSpan = 1;
                 }
 
-                bool inStar = false;
+                inStar = false;
                 childConstraints = new Size();
-                for (int i = columnIndex; i < columnSpan; i++)
+                for (i = columnIndex; i < columnSpan; i++)
                 {
                     childConstraints.Width += columns[i];
                     column = i < ColumnDefinitions.Count ? ColumnDefinitions[i] : null;
@@ -879,7 +904,7 @@ namespace Prism.UI.Controls
                     }
                 }
 
-                for (int i = rowIndex; i < rowSpan; i++)
+                for (i = rowIndex; i < rowSpan; i++)
                 {
                     childConstraints.Height += rows[i];
                     row = i < RowDefinitions.Count ? RowDefinitions[i] : null;
@@ -896,7 +921,7 @@ namespace Prism.UI.Controls
             }
 
             double offset = 0;
-            for (int i = 0; i < ColumnDefinitions.Count; i++)
+            for (i = 0; i < ColumnDefinitions.Count; i++)
             {
                 column = ColumnDefinitions[i];
                 column.Offset = offset;
@@ -906,7 +931,7 @@ namespace Prism.UI.Controls
             }
 
             offset = 0;
-            for (int i = 0; i < RowDefinitions.Count; i++)
+            for (i = 0; i < RowDefinitions.Count; i++)
             {
                 row = RowDefinitions[i];
                 row.Offset = offset;
