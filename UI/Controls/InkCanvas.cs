@@ -126,7 +126,7 @@ namespace Prism.UI.Controls
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeInkCanvas).FullName), nameof(resolveType));
             }
 
-            DefaultDrawingAttributes = new InkDrawingAttributes() { Color = Colors.Black };
+            DefaultDrawingAttributes = new InkDrawingAttributes();
             HorizontalAlignment = HorizontalAlignment.Stretch;
             InputMode = InkInputMode.Inking;
             Strokes = new InkStrokeContainer(nativeObject);
