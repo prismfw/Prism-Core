@@ -863,6 +863,8 @@ namespace Prism.UI
                     {
                         frame.X = Math.Max(0, frame.X - element.Margin.Left);
                         frame.Y = Math.Max(0, frame.Y - element.Margin.Top);
+                        frame.Width += element.Margin.Left + element.Margin.Right;
+                        frame.Height += element.Margin.Top + element.Margin.Bottom;
                     }
 
                     if (Parent == null)
