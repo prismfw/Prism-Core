@@ -45,6 +45,14 @@ namespace Prism
         /// <summary>
         /// Changes to the value of the property can affect the measurement of the property's owner.
         /// </summary>
-        AffectsMeasure = 2048
+        AffectsMeasure = 2048,
+        /// <summary>
+        /// Changes to the value of the property can affect the arrangement of the parent of the property's owner.
+        /// </summary>
+        AffectsParentArrange = 4096,
+        /// <summary>
+        /// Changes to the value of the property can affect the measurement of the parent of the property's owner.
+        /// </summary>
+        AffectsParentMeasure = 8192
     }
 }

@@ -41,7 +41,7 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Accessory"/> property.
         /// </summary>
-        public static PropertyDescriptor AccessoryProperty { get; } = PropertyDescriptor.Create(nameof(Accessory), typeof(ListBoxItemAccessory), typeof(ListBoxItem), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static PropertyDescriptor AccessoryProperty { get; } = PropertyDescriptor.Create(nameof(Accessory), typeof(ListBoxItemAccessory), typeof(ListBoxItem), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.

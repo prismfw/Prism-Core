@@ -51,7 +51,7 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:BorderThickness"/> property.
         /// </summary>
-        public static PropertyDescriptor BorderThicknessProperty { get; } = PropertyDescriptor.Create(nameof(BorderThickness), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor BorderThicknessProperty { get; } = PropertyDescriptor.Create(nameof(BorderThickness), typeof(Thickness), typeof(Border), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Child"/> property.

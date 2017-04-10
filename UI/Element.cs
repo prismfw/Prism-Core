@@ -65,7 +65,7 @@ namespace Prism.UI
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:HorizontalAlignment"/> property.
         /// </summary>
-        public static PropertyDescriptor HorizontalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(HorizontalAlignment), typeof(HorizontalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor HorizontalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(HorizontalAlignment), typeof(HorizontalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Margin"/> property.
@@ -105,7 +105,7 @@ namespace Prism.UI
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:VerticalAlignment"/> property.
         /// </summary>
-        public static PropertyDescriptor VerticalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(VerticalAlignment), typeof(VerticalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor VerticalAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(VerticalAlignment), typeof(VerticalAlignment), typeof(Element), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Visibility"/> property.
@@ -390,7 +390,15 @@ namespace Prism.UI
 
                 if ((oldValue == Visibility.Collapsed || nativeObject.Visibility == Visibility.Collapsed) && oldValue != nativeObject.Visibility)
                 {
-                    InvalidateMeasure();
+                    var parent = Parent as Visual;
+                    if (parent == null)
+                    {
+                        InvalidateMeasure();
+                    }
+                    else
+                    {
+                        parent.InvalidateMeasure();
+                    }
                 }
             }
         }

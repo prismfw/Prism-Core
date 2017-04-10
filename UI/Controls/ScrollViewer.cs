@@ -44,17 +44,17 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanScrollHorizontally"/> property.
         /// </summary>
-        public static PropertyDescriptor CanScrollHorizontallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollHorizontally), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor CanScrollHorizontallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollHorizontally), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:CanScrollVertically"/> property.
         /// </summary>
-        public static PropertyDescriptor CanScrollVerticallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollVertically), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor CanScrollVerticallyProperty { get; } = PropertyDescriptor.Create(nameof(CanScrollVertically), typeof(bool), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Content"/> property.
         /// </summary>
-        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+        public static PropertyDescriptor ContentProperty { get; } = PropertyDescriptor.Create(nameof(Content), typeof(object), typeof(ScrollViewer), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentOffset"/> property.

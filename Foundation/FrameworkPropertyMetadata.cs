@@ -75,6 +75,44 @@ namespace Prism
         private bool? affectsMeasure;
 
         /// <summary>
+        /// Gets or sets a value indicating whether changes to the value of the property can affect the arrangement of the parent of the property's owner.
+        /// </summary>
+        public bool AffectsParentArrange
+        {
+            get { return affectsParentArrange ?? false; }
+            set
+            {
+                if (IsSealed)
+                {
+                    throw new InvalidOperationException(Resources.Strings.PropertyMetadataHasBeenSealed);
+                }
+
+                affectsParentArrange = value;
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool? affectsParentArrange;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether changes to the value of the property can affect the measurement of the parent of the property's owner.
+        /// </summary>
+        public bool AffectsParentMeasure
+        {
+            get { return affectsParentMeasure ?? false; }
+            set
+            {
+                if (IsSealed)
+                {
+                    throw new InvalidOperationException(Resources.Strings.PropertyMetadataHasBeenSealed);
+                }
+
+                affectsParentMeasure = value;
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool? affectsParentMeasure;
+
+        /// <summary>
         /// Gets or sets a method to invoke whenever the value of the property changes.
         /// </summary>
         public PropertyValueChangedCallback ValueChangedCallback
@@ -108,6 +146,16 @@ namespace Prism
             if ((options & FrameworkPropertyMetadataOptions.AffectsMeasure) != 0)
             {
                 affectsMeasure = true;
+            }
+
+            if ((options & FrameworkPropertyMetadataOptions.AffectsParentArrange) != 0)
+            {
+                affectsParentArrange = true;
+            }
+
+            if ((options & FrameworkPropertyMetadataOptions.AffectsParentMeasure) != 0)
+            {
+                affectsParentMeasure = true;
             }
         }
 
@@ -157,7 +205,17 @@ namespace Prism
                 {
                     affectsMeasure = fwMetadata.affectsMeasure;
                 }
-                
+
+                if (!affectsParentArrange.HasValue)
+                {
+                    affectsParentArrange = fwMetadata.affectsParentArrange;
+                }
+
+                if (!affectsParentMeasure.HasValue)
+                {
+                    affectsParentMeasure = fwMetadata.affectsParentMeasure;
+                }
+
                 valueChangedCallback += fwMetadata.valueChangedCallback;
             }
         }

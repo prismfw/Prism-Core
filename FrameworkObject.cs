@@ -28,6 +28,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Prism.Native;
+using Prism.UI;
 using Prism.Utilities;
 
 #if !DEBUG
@@ -409,15 +410,23 @@ namespace Prism
 
             if (metadata != null)
             {
-                var visual = this as UI.Visual;
+                var visual = this as Visual;
                 if (visual != null)
                 {
-                    if (metadata.AffectsMeasure)
+                    if (metadata.AffectsParentMeasure)
+                    {
+                        (visual.Parent as Visual)?.InvalidateMeasure();
+                    }
+                    else if (metadata.AffectsMeasure)
                     {
                         visual.InvalidateMeasure();
                     }
 
-                    if (metadata.AffectsArrange)
+                    if (metadata.AffectsParentArrange)
+                    {
+                        (visual.Parent as Visual)?.InvalidateArrange();
+                    }
+                    else if (metadata.AffectsArrange)
                     {
                         visual.InvalidateArrange();
                     }
