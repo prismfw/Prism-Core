@@ -185,8 +185,8 @@ namespace Prism.UI
             nativeObject.TabItemSelected += (o, e) =>
             {
                 OnTabItemSelected(new TabItemSelectedEventArgs(
-                    ObjectRetriever.GetAgnosticObject(e.PreviousItem) as TabItem,
-                    ObjectRetriever.GetAgnosticObject(e.CurrentItem) as TabItem
+                    ObjectRetriever.GetAgnosticObject(e.OldItem) as TabItem,
+                    ObjectRetriever.GetAgnosticObject(e.NewItem) as TabItem
                 ));
             };
 

@@ -24,29 +24,24 @@ using System;
 namespace Prism.Native
 {
     /// <summary>
-    /// Provides data for native selection events.
+    /// Provides data for error events.
     /// </summary>
-    public class NativeItemSelectedEventArgs : EventArgs
+    public class NativeErrorEventArgs : ErrorEventArgs
     {
         /// <summary>
-        /// Gets the item that is now selected.
+        /// Gets the item responsible for the error.
         /// </summary>
-        public object CurrentItem { get; }
+        public object Item { get; }
 
         /// <summary>
-        /// Gets the item that was previously selected.
+        /// Initializes a new instance of the <see cref="NativeErrorEventArgs"/> class.
         /// </summary>
-        public object PreviousItem { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NativeItemSelectedEventArgs"/> class.
-        /// </summary>
-        /// <param name="previousItem">The object that was previously selected.</param>
-        /// <param name="currentItem">The object instance that is now selected.</param>
-        public NativeItemSelectedEventArgs(object previousItem, object currentItem)
+        /// <param name="item">The item responsible for the error, if one exists.</param>
+        /// <param name="exception">The exception that caused the event.</param>
+        public NativeErrorEventArgs(object item, Exception exception)
+            : base(exception)
         {
-            CurrentItem = currentItem;
-            PreviousItem = previousItem;
+            Item = item;
         }
     }
 }

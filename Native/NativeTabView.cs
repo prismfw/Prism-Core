@@ -36,7 +36,7 @@ namespace Prism.Native
         /// <summary>
         /// Occurs when a tab item is selected.
         /// </summary>
-        event EventHandler<NativeItemSelectedEventArgs> TabItemSelected;
+        event EventHandler<NativeItemChangedEventArgs> TabItemSelected;
 
         /// <summary>
         /// Gets or sets the background for the view.

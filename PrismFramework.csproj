@@ -54,6 +54,9 @@
     <Compile Include="Foundation\TypeResolutionOptions.cs" />
     <Compile Include="Foundation\TypeManager.cs" />
     <Compile Include="Native\CoreBehaviorAttribute.cs" />
+    <Compile Include="Native\NativeErrorEventArgs.cs" />
+    <Compile Include="Native\NativeItemEventArgs.cs" />
+    <Compile Include="Native\NativeItemChangedEventArgs.cs" />
     <Compile Include="Native\NativeEllipse.cs" />
     <Compile Include="Native\NativePath.cs" />
     <Compile Include="Native\NativeQuadrangle.cs" />
@@ -342,7 +345,6 @@
     <Compile Include="Foundation\Thickness.cs" />
     <Compile Include="Foundation\ValueChangedEventArgs.cs" />
     <Compile Include="Utilities\WeakEventManager.cs" />
-    <Compile Include="Native\NativeItemSelectedEventArgs.cs" />
     <Compile Include="Navigation\NavigationControllerAttribute.cs" />
     <Compile Include="Navigation\NavigationViewAttribute.cs" />
     <Compile Include="Foundation\Controller.cs" />
