@@ -83,7 +83,7 @@ namespace Prism.Native
                 Logger.SetMinimumConsoleOutputLevel(LoggingLevel.Trace);
 #endif
 
-                Logger.Info(CultureInfo.CurrentCulture, Resources.Strings.PlatformInitialized, Device.Current.OperatingSystem, Device.Current.OSVersion);
+                Logger.Info(CultureInfo.CurrentCulture, Resources.Strings.PlatformInitialized, Device.Current.OperatingSystem, Device.Current.OSVersion, Device.Current.Model);
                 Logger.Debug(CultureInfo.CurrentCulture, "Running in DEBUG mode.");
                 Logger.Info(CultureInfo.CurrentCulture, TypeManager.Default.RegisteredCount == 1 ? Resources.Strings.RegisteredTypesToIoCContainerSingular : Resources.Strings.RegisteredTypesToIoCContainerPlural, TypeManager.Default.RegisteredCount);
                 Logger.Info(CultureInfo.CurrentCulture, ControllerManager.Default.RegisteredCount == 1 ? Resources.Strings.FoundControllersWithNavAttributesSingular : Resources.Strings.FoundControllersWithNavAttributesPlural, ControllerManager.Default.RegisteredCount);

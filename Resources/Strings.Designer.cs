@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
+    using System;
     using System.Reflection;
     
     
@@ -138,15 +139,6 @@ namespace Prism.Resources {
         internal static string CannotLocatePropertyWithNameAndTypeForType {
             get {
                 return ResourceManager.GetString("CannotLocatePropertyWithNameAndTypeForType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot locate a type loader for the type &apos;{0}&apos; and name &apos;{1}&apos;..
-        /// </summary>
-        internal static string CannotLocateTypeLoaderForType {
-            get {
-                return ResourceManager.GetString("CannotLocateTypeLoaderForType", resourceCulture);
             }
         }
         
@@ -511,7 +503,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Platform successfully initialized.  Running {0} v{1}..
+        ///   Looks up a localized string similar to Platform successfully initialized.  Running {0} v{1} on {2}..
         /// </summary>
         internal static string PlatformInitialized {
             get {
@@ -637,15 +629,6 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A registered INativeWindow type with the name &apos;{0}&apos; is required..
-        /// </summary>
-        internal static string RegisteredWindowWithNameRequired {
-            get {
-                return ResourceManager.GetString("RegisteredWindowWithNameRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to A resource with the specified key could not be found..
         /// </summary>
         internal static string ResourceCouldNotBeFound {
@@ -687,15 +670,6 @@ namespace Prism.Resources {
         internal static string SizeContainsNegativeValue {
             get {
                 return ResourceManager.GetString("SizeContainsNegativeValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The specified string resource could not be found..
-        /// </summary>
-        internal static string StringResourceCouldNotBeFound {
-            get {
-                return ResourceManager.GetString("StringResourceCouldNotBeFound", resourceCulture);
             }
         }
         

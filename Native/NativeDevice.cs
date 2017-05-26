@@ -78,6 +78,11 @@ namespace Prism.Native
         bool IsPowerMonitoringEnabled { get; set; }
 
         /// <summary>
+        /// Gets the model of the device.
+        /// </summary>
+        string Model { get; }
+
+        /// <summary>
         /// Gets the name of the device.
         /// </summary>
         string Name { get; }
@@ -101,5 +106,10 @@ namespace Prism.Native
         /// Gets the source from which the device is receiving its power.
         /// </summary>
         PowerSource PowerSource { get; }
+
+        /// <summary>
+        /// Gets the amount of time, in milliseconds, that the system has been awake since it was last restarted.
+        /// </summary>
+        long SystemUptime { get; }
     }
 }

@@ -138,9 +138,6 @@
   <data name="CannotLocatePropertyWithNameAndTypeForType" xml:space="preserve">
     <value>Cannot locate a property with the name '{0}' and the type '{1}' for the type {2}.</value>
   </data>
-  <data name="CannotLocateTypeLoaderForType" xml:space="preserve">
-    <value>Cannot locate a type loader for the type '{0}' and name '{1}'.</value>
-  </data>
   <data name="CannotOverrideMetadataOnReadOnlyProperty" xml:space="preserve">
     <value>Cannot override metadata on a read-only property.</value>
   </data>
@@ -235,7 +232,7 @@
     <value>Owner type does not match type of current instance.</value>
   </data>
   <data name="PlatformInitialized" xml:space="preserve">
-    <value>Platform successfully initialized.  Running {0} v{1}.</value>
+    <value>Platform successfully initialized.  Running {0} v{1} on {2}.</value>
   </data>
   <data name="PropertyDescriptorAlreadyCreated" xml:space="preserve">
     <value>A PropertyDescriptor for the property {0} and owning type {1} has already been created.  Only one PropertyDescriptor is allowed per property.</value>
@@ -269,12 +266,6 @@
   </data>
   <data name="RegisteredTypesToIoCContainerSingular" xml:space="preserve">
     <value>Registered {0} type to IoC container.</value>
-  </data>
-  <data name="RegisteredWindowWithNameRequired" xml:space="preserve">
-    <value>A registered INativeWindow type with the name '{0}' is required.</value>
-  </data>
-  <data name="StringResourceCouldNotBeFound" xml:space="preserve">
-    <value>The specified string resource could not be found.</value>
   </data>
   <data name="TypeCouldNotBeResolved" xml:space="preserve">
     <value>Type '{0}' could not be resolved.</value>

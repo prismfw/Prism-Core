@@ -128,6 +128,14 @@ namespace Prism.Systems
         }
 
         /// <summary>
+        /// Gets the model of the device.
+        /// </summary>
+        public string Model
+        {
+            get { return nativeObject.Model; }
+        }
+
+        /// <summary>
         /// Gets the name of the device.
         /// </summary>
         public string Name
@@ -165,6 +173,14 @@ namespace Prism.Systems
         public PowerSource PowerSource
         {
             get { return nativeObject.PowerSource; }
+        }
+
+        /// <summary>
+        /// Gets the amount of time, in milliseconds, that the system has been awake since it was last restarted.
+        /// </summary>
+        public long SystemUptime
+        {
+            get { return nativeObject.SystemUptime; }
         }
 
 #if !DEBUG
