@@ -28,10 +28,10 @@ using Prism.Native;
 using System.Diagnostics;
 #endif
 
-namespace Prism.UI.Media
+namespace Prism.Media
 {
     /// <summary>
-    /// Represents a media player for audio tracks.
+    /// Represents a lightweight media player for audio tracks.
     /// </summary>
     public sealed class AudioPlayer : FrameworkObject
     {
@@ -42,9 +42,9 @@ namespace Prism.UI.Media
         public static EventDescriptor AudioFailedEvent { get; } = EventDescriptor.Create(nameof(AudioFailed), typeof(TypedEventHandler<AudioPlayer, ErrorEventArgs>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BufferingCompleted"/> event.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BufferingEnded"/> event.
         /// </summary>
-        public static EventDescriptor BufferingCompletedEvent { get; } = EventDescriptor.Create(nameof(BufferingCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor BufferingEndedEvent { get; } = EventDescriptor.Create(nameof(BufferingEnded), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
         /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:BufferingStarted"/> event.
@@ -52,9 +52,9 @@ namespace Prism.UI.Media
         public static EventDescriptor BufferingStartedEvent { get; } = EventDescriptor.Create(nameof(BufferingStarted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
-        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PlaybackCompleted"/> event.
+        /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PlaybackEnded"/> event.
         /// </summary>
-        public static EventDescriptor PlaybackCompletedEvent { get; } = EventDescriptor.Create(nameof(PlaybackCompleted), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
+        public static EventDescriptor PlaybackEndedEvent { get; } = EventDescriptor.Create(nameof(PlaybackEnded), typeof(TypedEventHandler<AudioPlayer>), typeof(AudioPlayer));
 
         /// <summary>
         /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:PlaybackStarted"/> event.
@@ -77,7 +77,7 @@ namespace Prism.UI.Media
         /// Occurs when buffering of the audio track has finished.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
-        public event TypedEventHandler<AudioPlayer> BufferingCompleted;
+        public event TypedEventHandler<AudioPlayer> BufferingEnded;
 
         /// <summary>
         /// Occurs when buffering of the audio track has begun.
@@ -89,7 +89,7 @@ namespace Prism.UI.Media
         /// Occurs when playback of the audio track has finished.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
-        public event TypedEventHandler<AudioPlayer> PlaybackCompleted;
+        public event TypedEventHandler<AudioPlayer> PlaybackEnded;
 
         /// <summary>
         /// Occurs when playback of the audio track has begun.
@@ -196,9 +196,9 @@ namespace Prism.UI.Media
             }
 
             nativeObject.AudioFailed += (o, e) => OnAudioFailed(e);
-            nativeObject.BufferingCompleted += (o, e) => OnBufferingCompleted(e);
+            nativeObject.BufferingEnded += (o, e) => OnBufferingEnded(e);
             nativeObject.BufferingStarted += (o, e) => OnBufferingStarted(e);
-            nativeObject.PlaybackCompleted += (o, e) => OnPlaybackCompleted(e);
+            nativeObject.PlaybackEnded += (o, e) => OnPlaybackEnded(e);
             nativeObject.PlaybackStarted += (o, e) => OnPlaybackStarted(e);
 
             AutoPlay = true;
@@ -244,9 +244,9 @@ namespace Prism.UI.Media
             AudioFailed?.Invoke(this, e);
         }
 
-        private void OnBufferingCompleted(EventArgs e)
+        private void OnBufferingEnded(EventArgs e)
         {
-            BufferingCompleted?.Invoke(this, e);
+            BufferingEnded?.Invoke(this, e);
         }
 
         private void OnBufferingStarted(EventArgs e)
@@ -254,9 +254,9 @@ namespace Prism.UI.Media
             BufferingStarted?.Invoke(this, e);
         }
 
-        private void OnPlaybackCompleted(EventArgs e)
+        private void OnPlaybackEnded(EventArgs e)
         {
-            PlaybackCompleted?.Invoke(this, e);
+            PlaybackEnded?.Invoke(this, e);
         }
 
         private void OnPlaybackStarted(EventArgs e)

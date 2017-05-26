@@ -164,7 +164,7 @@
     <Compile Include="UI\Media\ScaleTransform.cs" />
     <Compile Include="UI\Media\TranslateTransform.cs" />
     <Compile Include="UI\PopupPresentationStyle.cs" />
-    <Compile Include="UI\Media\AudioPlayer.cs" />
+    <Compile Include="Media\AudioPlayer.cs" />
     <Compile Include="UI\Scrollable.cs" />
     <Compile Include="UI\StatusBar.cs" />
     <Compile Include="UI\StatusBarStyle.cs" />

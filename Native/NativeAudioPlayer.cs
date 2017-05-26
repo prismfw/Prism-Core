@@ -20,12 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using Prism.UI.Media;
+using Prism.Media;
 
 namespace Prism.Native
 {
     /// <summary>
-    /// Defines an audio player that is native to a particular platform.
+    /// Defines a lightweight audio player that is native to a particular platform.
     /// These objects are meant to be paired with platform-agnostic <see cref="AudioPlayer"/> objects.
     /// </summary>
     public interface INativeAudioPlayer
@@ -38,7 +38,7 @@ namespace Prism.Native
         /// <summary>
         /// Occurs when buffering of the audio track has finished.
         /// </summary>
-        event EventHandler BufferingCompleted;
+        event EventHandler BufferingEnded;
 
         /// <summary>
         /// Occurs when buffering of the audio track has begun.
@@ -48,7 +48,7 @@ namespace Prism.Native
         /// <summary>
         /// Occurs when playback of the audio track has finished.
         /// </summary>
-        event EventHandler PlaybackCompleted;
+        event EventHandler PlaybackEnded;
 
         /// <summary>
         /// Occurs when playback of the audio track has begun.
