@@ -32,6 +32,11 @@ namespace Prism
     public sealed class TypeRegistrationData
     {
         /// <summary>
+        /// Gets a value indicating whether the registration is protected, i.e. it cannot be replaced or removed from the IoC container.
+        /// </summary>
+        public bool IsProtected { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the registered type represents a singleton object.
         /// </summary>
         public bool IsSingleton { get; }
@@ -48,9 +53,10 @@ namespace Prism
 
         internal IEnumerable<MethodInfo> InitializationMethods { get; }
 
-        internal TypeRegistrationData(Type implementationType, bool isSingleton, object singletonInstance, string initializeMethod)
+        internal TypeRegistrationData(Type implementationType, bool isProtected, bool isSingleton, object singletonInstance, string initializeMethod)
         {
             ImplementationType = implementationType;
+            IsProtected = isProtected;
             IsSingleton = isSingleton;
             SingletonInstance = singletonInstance;
             InitializationMethods = initializeMethod == null ? null : implementationType.GetTypeInfo().GetDeclaredMethods(initializeMethod).Where(m => m.IsStatic);

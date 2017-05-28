@@ -46,6 +46,8 @@
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Foundation\TypeResolutionException.cs" />
+    <Compile Include="Foundation\ResolveAttribute.cs" />
     <Compile Include="Foundation\TypeUnregistrationOptions.cs" />
     <Compile Include="Foundation\ControllerManager.cs" />
     <Compile Include="Foundation\ViewManager.cs" />

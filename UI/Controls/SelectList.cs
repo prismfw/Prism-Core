@@ -33,6 +33,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a UI element that allows for a single selection from a list of items.
     /// </summary>
+    [Resolve(typeof(INativeSelectList))]
     public class SelectList : Control
     {
         #region Event Descriptors
@@ -174,50 +175,40 @@ namespace Prism.UI.Controls
         /// Initializes a new instance of the <see cref="SelectList"/> class.
         /// </summary>
         public SelectList()
-            : this(typeof(INativeSelectList), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SelectList"/> class.
+        /// Initializes a new instance of the <see cref="SelectList"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeSelectList"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected SelectList(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected SelectList(INativeSelectList nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SelectList"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeSelectList"/> instance.</exception>
+        protected SelectList(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeSelectList;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeSelectList).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeSelectList).FullName));
             }
 
-            nativeObject.PropertyChanged += (o, e) =>
-            {
-                if ((e.Property == SelectedIndexProperty || e.Property == ItemsProperty))
-                {
-                    OnPropertyChanged(SelectedItemProperty);
-                }
-            };
-
-            nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
-
-            nativeObject.DisplayItemRequest = () => OnDisplayItemRequest();
-            nativeObject.ListItemRequest = (value) => OnListItemRequest(value);
-
-            BorderWidth = (double)Application.Current.Resources[SystemResources.SelectListBorderWidthKey];
-            FontSize = (double)Application.Current.Resources[SystemResources.SelectListFontSizeKey];
-            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.SelectListFontStyleKey];
-
-            SetResourceReference(BackgroundProperty, SystemResources.SelectListBackgroundBrushKey);
-            SetResourceReference(BorderBrushProperty, SystemResources.SelectListBorderBrushKey);
-            SetResourceReference(ForegroundProperty, SystemResources.SelectListForegroundBrushKey);
-            SetResourceReference(ListBackgroundProperty, SystemResources.SelectListListBackgroundBrushKey);
-            SetResourceReference(ListSeparatorBrushProperty, SystemResources.SelectListListSeparatorBrushKey);
+            Initialize();
         }
 
         /// <summary>
@@ -269,6 +260,31 @@ namespace Prism.UI.Controls
             SelectionChanged?.Invoke(this, e);
         }
 
+        private void Initialize()
+        {
+            nativeObject.PropertyChanged += (o, e) =>
+            {
+                if ((e.Property == SelectedIndexProperty || e.Property == ItemsProperty))
+                {
+                    OnPropertyChanged(SelectedItemProperty);
+                }
+            };
+
+            nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
+
+            nativeObject.DisplayItemRequest = () => OnDisplayItemRequest();
+            nativeObject.ListItemRequest = (value) => OnListItemRequest(value);
+
+            SetResourceReference(BackgroundProperty, SystemResources.SelectListBackgroundBrushKey);
+            SetResourceReference(BorderBrushProperty, SystemResources.SelectListBorderBrushKey);
+            SetResourceReference(BorderWidthProperty, SystemResources.SelectListBorderWidthKey);
+            SetResourceReference(FontSizeProperty, SystemResources.SelectListFontSizeKey);
+            SetResourceReference(FontStyleProperty, SystemResources.SelectListFontStyleKey);
+            SetResourceReference(ForegroundProperty, SystemResources.SelectListForegroundBrushKey);
+            SetResourceReference(ListBackgroundProperty, SystemResources.SelectListListBackgroundBrushKey);
+            SetResourceReference(ListSeparatorBrushProperty, SystemResources.SelectListListSeparatorBrushKey);
+        }
+
         private object OnDisplayItemRequest()
         {
             var displayItem = nativeObject.Items == null || nativeObject.Items.Count <= nativeObject.SelectedIndex || nativeObject.SelectedIndex < 0 ?
@@ -291,7 +307,7 @@ namespace Prism.UI.Controls
                         FontSize = FontSize,
                         FontStyle = FontStyle,
                         Foreground = Foreground,
-                        Margin = (Thickness)Application.Current.Resources[SystemResources.SelectListDisplayItemPaddingKey],
+                        Margin = (Thickness)FindResource(SystemResources.SelectListDisplayItemPaddingKey),
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center
                     };
@@ -330,7 +346,7 @@ namespace Prism.UI.Controls
                 FontFamily = FontFamily,
                 FontSize = FontSize,
                 FontStyle = FontStyle,
-                Margin = (Thickness)Application.Current.Resources[SystemResources.SelectListListItemPaddingKey],
+                Margin = (Thickness)FindResource(SystemResources.SelectListListItemPaddingKey),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 Text = value?.ToString()

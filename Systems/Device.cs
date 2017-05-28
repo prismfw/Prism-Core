@@ -33,6 +33,7 @@ namespace Prism.Systems
     /// <summary>
     /// Provides information about the device on which the application is running.
     /// </summary>
+    [Resolve(typeof(INativeDevice))]
     public sealed class Device : FrameworkObject
     {
         #region Event Descriptors
@@ -55,7 +56,7 @@ namespace Prism.Systems
         /// <summary>
         /// Gets the current device.
         /// </summary>
-        public static Device Current { get; } = new Device(typeof(INativeDevice), null);
+        public static Device Current { get; } = new Device();
 
         /// <summary>
         /// Occurs when the battery level of the device has changed by at least 1 percent.
@@ -188,13 +189,14 @@ namespace Prism.Systems
 #endif
         private readonly INativeDevice nativeObject;
 
-        private Device(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private Device()
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeDevice;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeDevice).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeDevice).FullName));
             }
 
             nativeObject.BatteryLevelChanged += (o, e) => OnBatteryLevelChanged(e);

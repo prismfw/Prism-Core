@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
-using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Prism.Native;
@@ -33,12 +32,13 @@ namespace Prism.UI
     /// <summary>
     /// Represents a system-provided UI element that displays system status information to the user.
     /// </summary>
+    [Resolve(typeof(INativeStatusBar))]
     public sealed class StatusBar : FrameworkObject
     {
         /// <summary>
         /// Gets the status bar for the current application.
         /// </summary>
-        public static StatusBar Current { get; } = new StatusBar(typeof(INativeStatusBar), null);
+        public static StatusBar Current { get; } = new StatusBar();
 
         /// <summary>
         /// Gets or sets the background color for the status bar.
@@ -79,13 +79,14 @@ namespace Prism.UI
 #endif
         private readonly INativeStatusBar nativeObject;
 
-        private StatusBar(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private StatusBar()
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeStatusBar;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeStatusBar).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeStatusBar).FullName));
             }
         }
 

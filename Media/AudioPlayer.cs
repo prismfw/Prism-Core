@@ -33,6 +33,7 @@ namespace Prism.Media
     /// <summary>
     /// Represents a lightweight media player for audio tracks.
     /// </summary>
+    [Resolve(typeof(INativeAudioPlayer))]
     public sealed class AudioPlayer : FrameworkObject
     {
         #region Event Descriptors
@@ -65,7 +66,7 @@ namespace Prism.Media
         /// <summary>
         /// Gets the current audio player.
         /// </summary>
-        public static AudioPlayer Current { get; } = new AudioPlayer(typeof(INativeAudioPlayer), null);
+        public static AudioPlayer Current { get; } = new AudioPlayer();
 
         /// <summary>
         /// Occurs when there is an error during loading or playing of the audio track.
@@ -186,13 +187,14 @@ namespace Prism.Media
 #endif
         private readonly INativeAudioPlayer nativeObject;
 
-        private AudioPlayer(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private AudioPlayer()
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeAudioPlayer;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeAudioPlayer).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeAudioPlayer).FullName));
             }
 
             nativeObject.AudioFailed += (o, e) => OnAudioFailed(e);

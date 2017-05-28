@@ -32,7 +32,7 @@ namespace Prism.UI.Media
     /// <summary>
     /// Represents a family of fonts.
     /// </summary>
-    public sealed class FontFamily : FrameworkObject
+    public sealed class FontFamily
     {
         /// <summary>
         /// Gets the names of all available fonts.
@@ -63,7 +63,7 @@ namespace Prism.UI.Media
         /// <param name="familyName">The family name of the font.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="familyName"/> is <c>null</c>.</exception>
         public FontFamily(string familyName)
-            : this(typeof(INativeFontFamily), null, new ResolveParameter(nameof(familyName), familyName), new ResolveParameter("traits", null, true))
+            : this(familyName, null)
         {
         }
 
@@ -74,18 +74,21 @@ namespace Prism.UI.Media
         /// <param name="traits">Any special traits to assist in defining the font.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="familyName"/> is <c>null</c>.</exception>
         public FontFamily(string familyName, string traits)
-            : this(typeof(INativeFontFamily), null, new ResolveParameter(nameof(familyName), familyName), new ResolveParameter(nameof(traits), traits, true))
         {
-        }
+            if (familyName == null)
+            {
+                throw new ArgumentNullException(nameof(familyName));
+            }
 
-        private FontFamily(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
-        {
-            nativeObject = ObjectRetriever.GetNativeObject(this) as INativeFontFamily;
+            nativeObject = TypeManager.Default.Resolve<INativeFontFamily>(new[] { familyName, traits },
+                TypeResolutionOptions.UseFuzzyNameResolution | TypeResolutionOptions.UseFuzzyParameterResolution);
+
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeFontFamily).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, typeof(INativeFontFamily).FullName));
             }
+
+            ObjectRetriever.SetPair(this, nativeObject);
         }
     }
 }

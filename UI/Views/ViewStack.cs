@@ -34,6 +34,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents a navigable stack of <see cref="IView"/> instances.
     /// </summary>
+    [Resolve(typeof(INativeViewStack))]
     [SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "Class behavior is consistent with that of a stack.")]
     public class ViewStack : Visual
     {
@@ -146,63 +147,42 @@ namespace Prism.UI
         /// Initializes a new instance of the <see cref="ViewStack"/> class.
         /// </summary>
         public ViewStack()
-            : this(typeof(INativeViewStack), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewStack"/> class.
+        /// Initializes a new instance of the <see cref="ViewStack"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeViewStack"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected ViewStack(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected ViewStack(INativeViewStack nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Header = new ViewStackHeader(nativeObject?.Header);
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewStack"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeViewStack"/> instance.</exception>
+        protected ViewStack(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeViewStack;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeViewStack).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeViewStack).FullName));
             }
 
-            nativeObject.Popping += (o, e) =>
-            {
-                var args = new ViewStackPoppingEventArgs(ObjectRetriever.GetAgnosticObject(e.View) as IView);
-                OnPopping(args);
-                e.Cancel = args.Cancel;
-            };
-
-            nativeObject.ViewChanged += (o, e) =>
-            {
-                OnViewChanged(e);
-            };
-
-            nativeObject.ViewChanging += (o, e) =>
-            {
-                OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView, ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
-
-                var splitView = Parent as SplitView;
-                if (splitView != null && splitView.MasterContent == this)
-                {
-                    splitView.OnMasterContentChanged();
-                }
-                else
-                {
-                    var tabView = Parent as TabView;
-                    if (tabView != null && tabView.SelectedTabItem?.Content == this)
-                    {
-                        VisualTreeHelper.GetParent<SplitView>(tabView, sv => sv.MasterContent == tabView)?.OnMasterContentChanged();
-                    }
-                }
-
-                UpdateBackButtonState();
-            };
-
             Header = new ViewStackHeader(nativeObject.Header);
-            IsHeaderHidden = false;
+            Initialize();
         }
 
         /// <summary>
@@ -480,6 +460,44 @@ namespace Prism.UI
             {
                 nativeObject.IsBackButtonEnabled = backButtonState == BackButtonState.Enabled;
             }
+        }
+
+        private void Initialize()
+        {
+            nativeObject.Popping += (o, e) =>
+            {
+                var args = new ViewStackPoppingEventArgs(ObjectRetriever.GetAgnosticObject(e.View) as IView);
+                OnPopping(args);
+                e.Cancel = args.Cancel;
+            };
+
+            nativeObject.ViewChanged += (o, e) =>
+            {
+                OnViewChanged(e);
+            };
+
+            nativeObject.ViewChanging += (o, e) =>
+            {
+                OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView, ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
+
+                var splitView = Parent as SplitView;
+                if (splitView != null && splitView.MasterContent == this)
+                {
+                    splitView.OnMasterContentChanged();
+                }
+                else
+                {
+                    var tabView = Parent as TabView;
+                    if (tabView != null && tabView.SelectedTabItem?.Content == this)
+                    {
+                        VisualTreeHelper.GetParent<SplitView>(tabView, sv => sv.MasterContent == tabView)?.OnMasterContentChanged();
+                    }
+                }
+
+                UpdateBackButtonState();
+            };
+
+            IsHeaderHidden = false;
         }
     }
 }

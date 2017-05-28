@@ -98,7 +98,7 @@ namespace Prism.Media
             nativeObject = TypeManager.Default.Resolve<INativeMediaPlaybackList>(TypeResolutionOptions.UseFuzzyNameResolution | TypeResolutionOptions.UseFuzzyParameterResolution);
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, typeof(INativeMediaPlaybackList).FullName));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, typeof(INativeMediaPlaybackList).FullName));
             }
 
             ObjectRetriever.SetPair(this, nativeObject);

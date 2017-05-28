@@ -35,6 +35,7 @@ namespace Prism.UI.Media.Imaging
     /// Represents a bitmap that asynchronously loads image data from a <see cref="Uri"/> or byte array.
     /// Instances of this type can be used as a source for <see cref="Image"/> and <see cref="ImageBrush"/> objects.
     /// </summary>
+    [Resolve(typeof(INativeBitmapImage))]
     public sealed class BitmapImage : ImageSource
     {
         #region Event Descriptors
@@ -107,8 +108,8 @@ namespace Prism.UI.Media.Imaging
         /// <param name="options">Additional options to adhere to when creating the image.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceUri"/> is <c>null</c>.</exception>
         public BitmapImage(Uri sourceUri, ImageCreationOptions options)
-            : this(typeof(INativeBitmapImage), null, new ResolveParameter(nameof(sourceUri), sourceUri),
-            new ResolveParameter("cachedImage", options.HasFlag(ImageCreationOptions.RefreshCache) || options.HasFlag(ImageCreationOptions.AvoidCache) ? null : ObjectRetriever.GetNativeObject(ImageCache.GetImage(sourceUri)), true))
+            : this(new[] { new ResolveParameter(nameof(sourceUri), sourceUri),
+            new ResolveParameter("cachedImage", options.HasFlag(ImageCreationOptions.RefreshCache) || options.HasFlag(ImageCreationOptions.AvoidCache) ? null : ObjectRetriever.GetNativeObject(ImageCache.GetImage(sourceUri)), true) })
         {
             if (options.HasFlag(ImageCreationOptions.AvoidCache))
             {
@@ -125,17 +126,18 @@ namespace Prism.UI.Media.Imaging
         /// </summary>
         /// <param name="imageData">The byte array containing the data for the image.</param>
         public BitmapImage(byte[] imageData)
-            : this(typeof(INativeBitmapImage), null, new ResolveParameter(nameof(imageData), imageData, true))
+            : this(new[] { new ResolveParameter(nameof(imageData), imageData, true) })
         {
         }
 
-        private BitmapImage(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private BitmapImage(ResolveParameter[] resolveParams)
+            : base(resolveParams)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeBitmapImage;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeBitmapImage).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeBitmapImage).FullName));
             }
 
             if (nativeObject.IsLoaded)

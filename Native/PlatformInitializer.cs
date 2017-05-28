@@ -62,11 +62,13 @@ namespace Prism.Native
                     {
                         if (att.IsSingleton)
                         {
-                            TypeManager.Default.RegisterSingleton(att.RegisterType, att.Name, type, att.InitializeMethod, TypeRegistrationOptions.None);
+                            TypeManager.Default.RegisterSingleton(att.RegisterType, att.Name, type, att.InitializeMethod,
+                                att.IsProtected ? TypeRegistrationOptions.Protect : TypeRegistrationOptions.None);
                         }
                         else
                         {
-                            TypeManager.Default.Register(att.RegisterType, att.Name, type, att.InitializeMethod, TypeRegistrationOptions.None);
+                            TypeManager.Default.Register(att.RegisterType, att.Name, type, att.InitializeMethod,
+                                att.IsProtected ? TypeRegistrationOptions.Protect : TypeRegistrationOptions.None);
                         }
                     }
 

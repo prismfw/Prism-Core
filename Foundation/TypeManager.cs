@@ -629,7 +629,7 @@ namespace Prism
         /// </summary>
         /// <param name="registerType">The type of the registration entry to remove.</param>
         /// <param name="name">The name of the registration entry to remove.</param>
-        /// <exception cref="ArgumentNullException">Throw when <paramref name="registerType"/> is <c>null</c> and the default unregistration options do not allow a <c>null</c> value.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="registerType"/> is <c>null</c> and the default unregistration options do not allow a <c>null</c> value.</exception>
         public void Unregister(Type registerType, string name)
         {
             Unregister(registerType, name, DefaultUnregistrationOptions);
@@ -641,7 +641,7 @@ namespace Prism
         /// <param name="registerType">The type of the registration entry to remove.</param>
         /// <param name="name">The name of the registration entry to remove.</param>
         /// <param name="options">Additional options to adhere to when performing the unregistration.</param>
-        /// <exception cref="ArgumentNullException">Throw when <paramref name="registerType"/> is <c>null</c> and the unregistration options do not allow a <c>null</c> value.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="registerType"/> is <c>null</c> and the unregistration options do not allow a <c>null</c> value.</exception>
         public void Unregister(Type registerType, string name, TypeUnregistrationOptions options)
         {
             if (registerType == null && options != TypeUnregistrationOptions.RemoveAllWithName)
@@ -653,9 +653,14 @@ namespace Prism
             if (registerType != null && (options == 0 || throwIfUnregistered))
             {
                 var key = GetKeyForUnregistration(registerType, name);
-                if ((key == null || !entries.Remove(key)) && throwIfUnregistered)
+                TypeRegistrationData entry = null;
+                if ((key == null || !entries.TryGetValue(key, out entry)) && throwIfUnregistered)
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeRegistrationNotFound, registerType.FullName, name));
+                }
+                else if (key != null && (entry == null || !entry.IsProtected))
+                {
+                    entries.Remove(key);
                 }
             }
 
@@ -666,7 +671,12 @@ namespace Prism
 
                 for (int i = 0; i < keys.Length; i++)
                 {
-                    entries.Remove(keys[i]);
+                    var key = keys[i];
+                    TypeRegistrationData entry;
+                    if (key != null && entries.TryGetValue(key, out entry) && !entry.IsProtected)
+                    {
+                        entries.Remove(key);
+                    }
                 }
             }
         }
@@ -687,7 +697,7 @@ namespace Prism
         /// <param name="name">The name of the registration entry that is being resolved.</param>
         /// <param name="allowFuzzyNames">Whether fuzzy comparison should be used to help with name resolution.</param>
         /// <returns>The <see cref="TypeRegistrationData"/> instance containing the implementation details of the registration.</returns>
-        protected virtual TypeRegistrationData GetDataForResolution(Type resolveType, string name, bool allowFuzzyNames)
+        protected internal virtual TypeRegistrationData GetDataForResolution(Type resolveType, string name, bool allowFuzzyNames)
         {
             TypeRegistrationData retval;
             if (!entries.TryGetValue(new TypeRegistrationKey(resolveType, name), out retval) && allowFuzzyNames)
@@ -1025,9 +1035,10 @@ namespace Prism
 
         private void Register(ITypeRegistrationKey key, Type implementationType, bool isSingleton, object singletonInstance, string initializeMethod, TypeRegistrationOptions options)
         {
-            if (entries.ContainsKey(key))
+            TypeRegistrationData entry;
+            if (entries.TryGetValue(key, out entry))
             {
-                if (options.HasFlag(TypeRegistrationOptions.ThrowIfExists))
+                if (options.HasFlag(TypeRegistrationOptions.ThrowIfExists) || entry.IsProtected)
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeRegistrationAlreadyExists, key.RegisteredType.FullName, key.RegisteredName));
                 }
@@ -1038,7 +1049,7 @@ namespace Prism
                 }
             }
 
-            entries[key] = new TypeRegistrationData(implementationType, isSingleton, singletonInstance, initializeMethod);
+            entries[key] = new TypeRegistrationData(implementationType, options.HasFlag(TypeRegistrationOptions.Protect), isSingleton, singletonInstance, initializeMethod);
         }
 
         [DebuggerDisplay("[{RegisteredType}, {RegisteredName}]")]

@@ -34,6 +34,7 @@ namespace Prism.Systems.Geolocation
     /// <summary>
     /// Provides access to the geolocation service of the current device.
     /// </summary>
+    [Resolve(typeof(INativeGeolocator))]
     public sealed class Geolocator : FrameworkObject
     {
         #region Event Descriptors
@@ -46,7 +47,7 @@ namespace Prism.Systems.Geolocation
         /// <summary>
         /// Gets the current geolocator.
         /// </summary>
-        public static Geolocator Current { get; } = new Geolocator(typeof(INativeGeolocator), null);
+        public static Geolocator Current { get; } = new Geolocator();
 
         /// <summary>
         /// Occurs when the location is updated.
@@ -130,13 +131,14 @@ namespace Prism.Systems.Geolocation
 #endif
         private readonly INativeGeolocator nativeObject;
 
-        private Geolocator(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private Geolocator()
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeGeolocator;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeGeolocator).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeGeolocator).FullName));
             }
 
             nativeObject.LocationUpdated += (o, e) => OnLocationUpdated(e);

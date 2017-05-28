@@ -34,6 +34,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents the header for a <see cref="ViewStack"/> instance.
     /// </summary>
+    [Resolve(typeof(INativeViewStackHeader))]
     public sealed class ViewStackHeader : Visual
     {
         #region Property Descriptors
@@ -165,11 +166,10 @@ namespace Prism.UI.Controls
         {
             this.nativeObject = nativeObject;
 
-            FontFamily = (FontFamily)Application.Current.Resources[SystemResources.BaseFontFamilyKey];
-            FontSize = (double)Application.Current.Resources[SystemResources.ViewHeaderFontSizeKey];
-            FontStyle = (FontStyle)Application.Current.Resources[SystemResources.ViewHeaderFontStyleKey];
-
             SetResourceReference(BackgroundProperty, SystemResources.ViewHeaderBackgroundBrushKey);
+            SetResourceReference(FontFamilyProperty, SystemResources.BaseFontFamilyKey);
+            SetResourceReference(FontSizeProperty, SystemResources.ViewHeaderFontSizeKey);
+            SetResourceReference(FontStyleProperty, SystemResources.ViewHeaderFontStyleKey);
             SetResourceReference(ForegroundProperty, SystemResources.ViewHeaderForegroundBrushKey);
         }
     }

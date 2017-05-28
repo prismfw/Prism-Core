@@ -55,6 +55,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents a platform-agnostic view that displays two child views together in separate panes.
     /// </summary>
+    [Resolve(typeof(INativeSplitView))]
     public class SplitView : View
     {
         #region Property Descriptors
@@ -283,26 +284,35 @@ namespace Prism.UI
         /// Initializes a new instance of the <see cref="SplitView"/> class.
         /// </summary>
         public SplitView()
-            : this(typeof(INativeSplitView), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SplitView"/> class.
+        /// Initializes a new instance of the <see cref="SplitView"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeSplitView"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected SplitView(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected SplitView(INativeSplitView nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SplitView"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeSplitView"/> instance.</exception>
+        protected SplitView(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeSplitView;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeSplitView).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeSplitView).FullName));
             }
         }
 

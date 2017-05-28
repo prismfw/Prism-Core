@@ -42,5 +42,10 @@ namespace Prism
         /// If this option is not specified, any existing registration will be overwritten.
         /// </summary>
         SkipIfExists = 2,
+        /// <summary>
+        /// The registration will not be able to be removed or replaced with a different entry.
+        /// Attempting to replace a protected registration will throw an <see cref="ArgumentException"/>.
+        /// </summary>
+        Protect = 4,
     }
 }

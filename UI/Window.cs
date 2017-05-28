@@ -30,6 +30,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents a window for housing an application's renderable content.
     /// </summary>
+    [Resolve(typeof(INativeWindow))]
     public sealed class Window : FrameworkObject
     {
         #region Event Descriptors
@@ -67,7 +68,7 @@ namespace Prism.UI
             get { return current; }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly static Window current = new Window(typeof(INativeWindow), null);
+        private readonly static Window current = new Window();
 
         /// <summary>
         /// Occurs when the window is brought to the foreground.
@@ -196,13 +197,14 @@ namespace Prism.UI
         // this field is to avoid casting
         private readonly INativeWindow nativeObject;
         
-        private Window(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+        private Window()
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeWindow;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeWindow).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeWindow).FullName));
             }
 
             nativeObject.Activated += (o, e) => OnActivated(e);

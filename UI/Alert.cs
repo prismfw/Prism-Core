@@ -32,6 +32,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents an object that modally presents an alert or confirmation dialog.
     /// </summary>
+    [Resolve(typeof(INativeAlert))]
     public class Alert : FrameworkObject
     {
         /// <summary>
@@ -87,26 +88,37 @@ namespace Prism.UI
         /// </summary>
         /// <param name="message">The message text for the alert.</param>
         /// <param name="title">The title text for the alert.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="message"/> is <c>null</c> or when <paramref name="title"/> is <c>null</c>.</exception>
         public Alert(string message, string title)
-            : this(typeof(INativeAlert), null, new ResolveParameter(nameof(message), message), new ResolveParameter(nameof(title), title))
+            : this(new[] { new ResolveParameter(nameof(message), message), new ResolveParameter(nameof(title), title) })
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Alert"/> class.
+        /// Initializes a new instance of the <see cref="Alert"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeAlert"/> instance.</exception>
-        protected Alert(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected Alert(INativeAlert nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Alert"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeAlert"/> instance.</exception>
+        protected Alert(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeAlert;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeAlert).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeAlert).FullName));
             }
         }
 

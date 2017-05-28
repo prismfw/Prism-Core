@@ -36,6 +36,11 @@ namespace Prism
         public string InitializeMethod { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the registration is protected, i.e. it cannot be replaced or removed from the IoC container.
+        /// </summary>
+        public bool IsProtected { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets a value indicating whether the attributed implementation should be registered as a singleton.
         /// </summary>
         public bool IsSingleton { get; set; }

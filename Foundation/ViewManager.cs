@@ -59,7 +59,7 @@ namespace Prism
             }
         }
 
-        protected override TypeRegistrationData GetDataForResolution(Type registerType, string name, bool allowFuzzyNames)
+        protected internal override TypeRegistrationData GetDataForResolution(Type registerType, string name, bool allowFuzzyNames)
         {
             var enumerator = GetEnumerator();
             var potentials = enumerator.OfType<ViewRegistrationKey>().Where(key => key.RegisteredName == name &&

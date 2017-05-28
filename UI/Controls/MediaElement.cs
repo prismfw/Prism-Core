@@ -35,6 +35,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a UI element that plays audio and video content.
     /// </summary>
+    [Resolve(typeof(INativeMediaElement))]
     public class MediaElement : Element
     {
         #region Event Descriptors
@@ -303,45 +304,40 @@ namespace Prism.UI.Controls
         /// Initializes a new instance of the <see cref="MediaElement"/> class.
         /// </summary>
         public MediaElement()
-            : this(typeof(INativeMediaElement), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MediaElement"/> class.
+        /// Initializes a new instance of the <see cref="MediaElement"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeMediaElement"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected MediaElement(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected MediaElement(INativeMediaElement nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaElement"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeMediaElement"/> instance.</exception>
+        protected MediaElement(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeMediaElement;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeMediaElement).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeMediaElement).FullName));
             }
 
-            nativeObject.SeekCompleted += (o, e) => OnSeekCompleted(e);
-            nativeObject.MediaEnded += (o, e) => OnMediaEnded(e);
-            nativeObject.MediaFailed += (o, e) => OnMediaFailed(e);
-            nativeObject.MediaOpened += (o, e) =>
-            {
-                var item = Source as MediaPlaybackItem;
-                if (item != null)
-                {
-                    item.IsOpen = true;
-                }
-
-                OnMediaOpened(e);
-            };
-
-            ArePlaybackControlsEnabled = true;
-            AutoPlay = true;
-            Stretch = Stretch.Uniform;
+            Initialize();
         }
 
         /// <summary>
@@ -411,6 +407,27 @@ namespace Prism.UI.Controls
         protected virtual void OnSeekCompleted(EventArgs e)
         {
             SeekCompleted?.Invoke(this, e);
+        }
+
+        private void Initialize()
+        {
+            nativeObject.SeekCompleted += (o, e) => OnSeekCompleted(e);
+            nativeObject.MediaEnded += (o, e) => OnMediaEnded(e);
+            nativeObject.MediaFailed += (o, e) => OnMediaFailed(e);
+            nativeObject.MediaOpened += (o, e) =>
+            {
+                var item = Source as MediaPlaybackItem;
+                if (item != null)
+                {
+                    item.IsOpen = true;
+                }
+
+                OnMediaOpened(e);
+            };
+
+            ArePlaybackControlsEnabled = true;
+            AutoPlay = true;
+            Stretch = Stretch.Uniform;
         }
     }
 }

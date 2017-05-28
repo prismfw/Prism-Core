@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
@@ -35,6 +34,7 @@ namespace Prism.UI.Shapes
     /// <summary>
     /// Represents a series of connected lines and curves.
     /// </summary>
+    [Resolve(typeof(INativePath))]
     public class Path : Shape
     {
         #region Property Descriptors
@@ -58,14 +58,6 @@ namespace Prism.UI.Shapes
         /// </summary>
         public PathFigureCollection Figures { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Path"/> class.
-        /// </summary>
-        public Path()
-            : this(typeof(INativePath), null)
-        {
-        }
-
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
@@ -75,24 +67,44 @@ namespace Prism.UI.Shapes
         /// <summary>
         /// Initializes a new instance of the <see cref="Path"/> class.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativePath"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected Path(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        public Path()
+            : this(ResolveParameter.EmptyParameters)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Path"/> class and pairs it with the specified native object.
+        /// </summary>
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected Path(INativePath nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Figures = new PathFigureCollection(this);
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Path"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// At least one class in the inheritance chain must be decorated with a <see cref="ResolveAttribute"/> or an exception will be thrown.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativePath"/> instance.</exception>
+        protected Path(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativePath;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePath).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativePath).FullName));
             }
 
-            nativeObject.PathInfoRequest = () => { return Figures; };
-
             Figures = new PathFigureCollection(this);
+            Initialize();
         }
 
         /// <summary>
@@ -135,6 +147,11 @@ namespace Prism.UI.Shapes
         {
             nativeObject.InvalidatePathInfo();
             InvalidateMeasure();
+        }
+
+        private void Initialize()
+        {
+            nativeObject.PathInfoRequest = () => { return Figures; };
         }
     }
 }

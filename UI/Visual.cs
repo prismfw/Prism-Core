@@ -312,48 +312,36 @@ namespace Prism.UI
 #endif
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Visual"/> class.
+        /// Initializes a new instance of the <see cref="Visual"/> class and pairs it with the specified native object.
         /// </summary>
         /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when a <see cref="ResolveAttribute"/> is located in the inheritance chain and <paramref name="nativeObject"/> doesn't match the type specified by the attribute.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
         protected Visual(INativeVisual nativeObject)
             : base(nativeObject)
         {
             this.nativeObject = nativeObject;
 
-            nativeObject.ArrangeRequest = OnArrangeRequest;
-            nativeObject.MeasureRequest = OnMeasureRequest;
-
-            nativeObject.Loaded += OnLoad;
-            nativeObject.Unloaded += OnUnload;
-
-            AreAnimationsEnabled = true;
+            Initialize();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Visual"/> class.
+        /// Initializes a new instance of the <see cref="Visual"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// At least one class in the inheritance chain must be decorated with a <see cref="ResolveAttribute"/> or an exception will be thrown.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeVisual"/> instance.</exception>
-        protected Visual(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeVisual"/> instance.</exception>
+        protected Visual(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeVisual;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeVisual).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeVisual).FullName));
             }
 
-            nativeObject.ArrangeRequest = OnArrangeRequest;
-            nativeObject.MeasureRequest = OnMeasureRequest;
-
-            nativeObject.Loaded += OnLoad;
-            nativeObject.Unloaded += OnUnload;
-
-            AreAnimationsEnabled = true;
+            Initialize();
         }
 
         /// <summary>
@@ -609,11 +597,11 @@ namespace Prism.UI
             }
 
             resourceRef.Key = resourceKey;
-            resourceRef.Value = TryFindResource(resourceKey);
 
             try
             {
-                property.SetValue(this, resourceRef.Value);
+                property.SetValue(this, TryFindResource(resourceKey));
+                resourceRef.Value = property.GetValue(this);
             }
             catch (Exception e)
             {
@@ -849,6 +837,17 @@ namespace Prism.UI
             }
         }
 
+        private void Initialize()
+        {
+            nativeObject.ArrangeRequest = OnArrangeRequest;
+            nativeObject.MeasureRequest = OnMeasureRequest;
+
+            nativeObject.Loaded += OnLoad;
+            nativeObject.Unloaded += OnUnload;
+
+            AreAnimationsEnabled = true;
+        }
+
         private void OnArrangeRequest(bool forceArrange, Rectangle? frameOverride)
         {
             if (!isArranging && !isMeasuring && (forceArrange || !IsArrangeValid))
@@ -1003,7 +1002,12 @@ namespace Prism.UI
                 if (propValue == null ? resourceRef.Value == null : propValue.Equals(resourceRef.Value))
                 {
                     resourceRef.Value = TryFindResource(resourceRef.Key);
-                    resourceRef.Property.SetValue(this, resourceRef.Value);
+                    if (propValue == null ? resourceRef.Value != null : !propValue.Equals(resourceRef.Value))
+                    {
+                        resourceRef.Property.SetValue(this, resourceRef.Value);
+                        // The exact value of the property could be different (for instance, with floating point numbers), so we read it and store it.
+                        resourceRef.Value = resourceRef.Property.GetValue(this);
+                    }
                     return true;
                 }
             }

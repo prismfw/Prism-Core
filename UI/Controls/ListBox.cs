@@ -33,6 +33,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a vertically-oriented, scrollable list of selectable items.
     /// </summary>
+    [Resolve(typeof(INativeListBox))]
     public class ListBox : Element, IScrollable
     {
         #region Event Descriptors
@@ -248,7 +249,7 @@ namespace Prism.UI.Controls
         /// Initializes a new instance of the <see cref="ListBox"/> class.
         /// </summary>
         public ListBox()
-            : this(typeof(INativeListBox), null, new ResolveParameter("style", ListBoxStyle.Default))
+            : this(new[] { new ResolveParameter("style", ListBoxStyle.Default) })
         {
         }
 
@@ -257,114 +258,38 @@ namespace Prism.UI.Controls
         /// </summary>
         /// <param name="style">The style in which to render the list box.</param>
         public ListBox(ListBoxStyle style)
-            : this(typeof(INativeListBox), null, new ResolveParameter(nameof(style), style))
+            : this(new[] { new ResolveParameter(nameof(style), style) })
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ListBox"/> class.
+        /// Initializes a new instance of the <see cref="ListBox"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeListBox"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected ListBox(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected ListBox(INativeListBox nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListBox"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeListBox"/> instance.</exception>
+        protected ListBox(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeListBox;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeListBox).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeListBox).FullName));
             }
-
-            nativeObject.AccessoryClicked += (o, e) => OnAccessoryClicked(e);
-            nativeObject.ItemClicked += (o, e) => OnItemClicked(e);
-            nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
-
-            nativeObject.ItemIdRequest = (value) =>
-            {
-                if (adapter == null)
-                {
-                    return (value is Element) ? value.GetType().FullName : string.Empty;
-                }
-                else
-                {
-                    string id = adapter.GetItemId(value, this);
-                    if (id == null)
-                    {
-                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
-                    }
-
-                    return id;
-                }
-            };
-
-            nativeObject.ItemRequest = (value, reusedItem) =>
-            {
-                var agnosticItem = ObjectRetriever.GetAgnosticObject(reusedItem) as ListBoxItem;
-                if (agnosticItem != null)
-                {
-                    agnosticItem.OnReusing();
-                }
-
-                if (adapter != null)
-                {
-                    return ObjectRetriever.GetNativeObject(adapter.GetItem(value, agnosticItem, this)) as INativeListBoxItem;
-                }
-
-                var item = ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultItem(value, agnosticItem, this)) as INativeListBoxItem;
-                if (AccessoryClicked == null)
-                {
-                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.None : ListBoxItemAccessory.Indicator;
-                }
-                else
-                {
-                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.InfoButton : ListBoxItemAccessory.InfoIndicator;
-                }
-                return item;
-            };
-
-            nativeObject.SectionHeaderRequest = (value, reusedItem) =>
-            {
-                var agnosticItem = ObjectRetriever.GetAgnosticObject(reusedItem) as ListBoxSectionHeader;
-                if (agnosticItem != null)
-                {
-                    agnosticItem.OnReusing();
-                }
-
-                if (adapter != null)
-                {
-                    return ObjectRetriever.GetNativeObject(adapter.GetSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
-                }
-
-                return ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
-            };
-
-            nativeObject.SectionHeaderIdRequest = (value) =>
-            {
-                if (adapter == null)
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    string id = adapter.GetSectionHeaderId(value, this);
-                    if (id == null)
-                    {
-                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
-                    }
-
-                    return id;
-                }
-            };
-
-            nativeObject.CanScrollHorizontally = false;
-            nativeObject.CanScrollVertically = true;
-            HorizontalAlignment = HorizontalAlignment.Stretch;
-            VerticalAlignment = VerticalAlignment.Stretch;
-            SelectionMode = SelectionMode.Single;
 
             if (resolveParameters != null)
             {
@@ -379,8 +304,7 @@ namespace Prism.UI.Controls
                 }
             }
 
-            SetResourceReference(BackgroundProperty, SystemResources.ListBoxBackgroundBrushKey);
-            SetResourceReference(SeparatorBrushProperty, SystemResources.ListBoxSeparatorBrushKey);
+            Initialize();
         }
 
         /// <summary>
@@ -510,6 +434,99 @@ namespace Prism.UI.Controls
             }
 
             return constraints;
+        }
+
+        private void Initialize()
+        {
+            nativeObject.AccessoryClicked += (o, e) => OnAccessoryClicked(e);
+            nativeObject.ItemClicked += (o, e) => OnItemClicked(e);
+            nativeObject.SelectionChanged += (o, e) => OnSelectionChanged(e);
+
+            nativeObject.ItemIdRequest = (value) =>
+            {
+                if (adapter == null)
+                {
+                    return (value is Element) ? value.GetType().FullName : string.Empty;
+                }
+                else
+                {
+                    string id = adapter.GetItemId(value, this);
+                    if (id == null)
+                    {
+                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
+                    }
+
+                    return id;
+                }
+            };
+
+            nativeObject.ItemRequest = (value, reusedItem) =>
+            {
+                var agnosticItem = ObjectRetriever.GetAgnosticObject(reusedItem) as ListBoxItem;
+                if (agnosticItem != null)
+                {
+                    agnosticItem.OnReusing();
+                }
+
+                if (adapter != null)
+                {
+                    return ObjectRetriever.GetNativeObject(adapter.GetItem(value, agnosticItem, this)) as INativeListBoxItem;
+                }
+
+                var item = ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultItem(value, agnosticItem, this)) as INativeListBoxItem;
+                if (AccessoryClicked == null)
+                {
+                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.None : ListBoxItemAccessory.Indicator;
+                }
+                else
+                {
+                    item.Accessory = ItemClicked == null ? ListBoxItemAccessory.InfoButton : ListBoxItemAccessory.InfoIndicator;
+                }
+                return item;
+            };
+
+            nativeObject.SectionHeaderRequest = (value, reusedItem) =>
+            {
+                var agnosticItem = ObjectRetriever.GetAgnosticObject(reusedItem) as ListBoxSectionHeader;
+                if (agnosticItem != null)
+                {
+                    agnosticItem.OnReusing();
+                }
+
+                if (adapter != null)
+                {
+                    return ObjectRetriever.GetNativeObject(adapter.GetSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
+                }
+
+                return ObjectRetriever.GetNativeObject(ListBoxAdapter.GetDefaultSectionHeader(value, agnosticItem, this)) as INativeListBoxSectionHeader;
+            };
+
+            nativeObject.SectionHeaderIdRequest = (value) =>
+            {
+                if (adapter == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    string id = adapter.GetSectionHeaderId(value, this);
+                    if (id == null)
+                    {
+                        throw new InvalidOperationException(Strings.NullReuseIdReturned);
+                    }
+
+                    return id;
+                }
+            };
+
+            nativeObject.CanScrollHorizontally = false;
+            nativeObject.CanScrollVertically = true;
+            HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Stretch;
+            SelectionMode = SelectionMode.Single;
+
+            SetResourceReference(BackgroundProperty, SystemResources.ListBoxBackgroundBrushKey);
+            SetResourceReference(SeparatorBrushProperty, SystemResources.ListBoxSeparatorBrushKey);
         }
     }
 }

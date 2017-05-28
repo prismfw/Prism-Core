@@ -32,6 +32,7 @@ namespace Prism.UI
     /// <summary>
     /// Represents a UI container that presents its content above the application window.
     /// </summary>
+    [Resolve(typeof(INativePopup))]
     public class Popup : Visual
     {
         #region Event Descriptors
@@ -239,57 +240,40 @@ namespace Prism.UI
         /// Initializes a new instance of the <see cref="Popup"/> class.
         /// </summary>
         public Popup()
-            : this(typeof(INativePopup), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Popup"/> class.
+        /// Initializes a new instance of the <see cref="Popup"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativePopup"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected Popup(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected Popup(INativePopup nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Popup"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativePopup"/> instance.</exception>
+        protected Popup(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativePopup;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativePopup).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativePopup).FullName));
             }
 
-            nativeObject.Closed += (o, e) =>
-            {
-                var window = presentingObject as Window;
-                if (window != null && window.PresentedPopup == this)
-                {
-                    window.PresentedPopup = null;
-                }
-                else
-                {
-                    var popup = presentingObject as Popup;
-                    if (popup != null && popup.PresentedPopup == this)
-                    {
-                        popup.PresentedPopup = null;
-                    }
-                }
-
-                PresentedPopup?.Close();
-
-                IsOpen = false;
-                OnPropertyChanged(IsOpenProperty);
-                OnClosed(e);
-            };
-
-            nativeObject.Opened += (o, e) =>
-            {
-                IsOpen = true;
-                OnPropertyChanged(IsOpenProperty);
-                OnOpened(e);
-            };
+            Initialize();
         }
 
         /// <summary>
@@ -426,6 +410,39 @@ namespace Prism.UI
         protected virtual void OnOpened(EventArgs e)
         {   
             Opened?.Invoke(this, e);
+        }
+
+        private void Initialize()
+        {
+            nativeObject.Closed += (o, e) =>
+            {
+                var window = presentingObject as Window;
+                if (window != null && window.PresentedPopup == this)
+                {
+                    window.PresentedPopup = null;
+                }
+                else
+                {
+                    var popup = presentingObject as Popup;
+                    if (popup != null && popup.PresentedPopup == this)
+                    {
+                        popup.PresentedPopup = null;
+                    }
+                }
+
+                PresentedPopup?.Close();
+
+                IsOpen = false;
+                OnPropertyChanged(IsOpenProperty);
+                OnClosed(e);
+            };
+
+            nativeObject.Opened += (o, e) =>
+            {
+                IsOpen = true;
+                OnPropertyChanged(IsOpenProperty);
+                OnOpened(e);
+            };
         }
     }
 }

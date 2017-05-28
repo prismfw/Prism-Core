@@ -32,6 +32,7 @@ namespace Prism.UI.Controls
     /// <summary>
     /// Represents a UI object that is presented to the user when an activity takes significant time to complete.
     /// </summary>
+    [Resolve(typeof(INativeLoadIndicator))]
     public class LoadIndicator : Visual
     {
         #region Property Descriptors
@@ -75,7 +76,7 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets the <see cref="Controls.ActivityIndicator"/> that is displayed by this instance.
         /// </summary>
-        public ActivityIndicator ActivityIndicator { get; }
+        public ActivityIndicator ActivityIndicator { get; } = new ActivityIndicator();
 
         /// <summary>
         /// Gets or sets the background of the indicator.
@@ -89,7 +90,7 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets the <see cref="Label"/> that displays the title text for this instance.
         /// </summary>
-        public Label TextLabel { get; }
+        public Label TextLabel { get; } = new Label();
 
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -100,56 +101,40 @@ namespace Prism.UI.Controls
         /// Initializes a new instance of the <see cref="LoadIndicator"/> class.
         /// </summary>
         public LoadIndicator()
-            : this(typeof(INativeLoadIndicator), null)
+            : this(ResolveParameter.EmptyParameters)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoadIndicator"/> class.
+        /// Initializes a new instance of the <see cref="LoadIndicator"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeLoadIndicator"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected LoadIndicator(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="nativeObject"/> doesn't match the type specified by the topmost <see cref="ResolveAttribute"/> in the inheritance chain.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected LoadIndicator(INativeLoadIndicator nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+            
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoadIndicator"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeLoadIndicator"/> instance.</exception>
+        protected LoadIndicator(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeLoadIndicator;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeLoadIndicator).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeLoadIndicator).FullName));
             }
 
-            var panel = new StackPanel()
-            {
-                Children =
-                {
-                    (ActivityIndicator = new ActivityIndicator()
-                    {
-                        Height = 36,
-                        Width = 36,
-                        VerticalAlignment = VerticalAlignment.Center,
-                    }),
-                    (TextLabel = new Label()
-                    {
-                        FontSize = (double)Application.Current.Resources[SystemResources.LoadIndicatorFontSizeKey],
-                        FontStyle = (FontStyle)Application.Current.Resources[SystemResources.LoadIndicatorFontStyleKey],
-                        Margin = new Thickness(12, 0, 0, 0),
-                        Text = DefaultTitle,
-                        VerticalAlignment = VerticalAlignment.Center
-                    })
-                },
-                Margin = new Thickness(8),
-                HorizontalAlignment = Application.Current.Platform == Platform.Android ? HorizontalAlignment.Left : HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center 
-            };
-
-            nativeObject.Content = ObjectRetriever.GetNativeObject(panel);
-
-            SetResourceReference(BackgroundProperty, SystemResources.LoadIndicatorBackgroundBrushKey);
-            TextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.LoadIndicatorForegroundBrushKey);
+            Initialize();
         }
 
         /// <summary>
@@ -201,6 +186,32 @@ namespace Prism.UI.Controls
             }
 
             return nativeObject.Measure(constraints);
+        }
+
+        private void Initialize()
+        {
+            ActivityIndicator.Height = 36;
+            ActivityIndicator.Width = 36;
+            ActivityIndicator.VerticalAlignment = VerticalAlignment.Center;
+
+            TextLabel.Margin = new Thickness(12, 0, 0, 0);
+            TextLabel.Text = DefaultTitle;
+            TextLabel.VerticalAlignment = VerticalAlignment.Center;
+
+            var panel = new StackPanel()
+            {
+                Children = { ActivityIndicator, TextLabel },
+                Margin = new Thickness(8),
+                HorizontalAlignment = Application.Current.Platform == Platform.Android ? HorizontalAlignment.Left : HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            nativeObject.Content = ObjectRetriever.GetNativeObject(panel);
+
+            SetResourceReference(BackgroundProperty, SystemResources.LoadIndicatorBackgroundBrushKey);
+            TextLabel.SetResourceReference(Label.FontSizeProperty, SystemResources.LoadIndicatorFontSizeKey);
+            TextLabel.SetResourceReference(Label.FontStyleProperty, SystemResources.LoadIndicatorFontStyleKey);
+            TextLabel.SetResourceReference(Label.ForegroundProperty, SystemResources.LoadIndicatorForegroundBrushKey);
         }
     }
 }

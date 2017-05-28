@@ -36,6 +36,7 @@ namespace Prism.UI.Media.Imaging
     /// Represents a bitmap that stores a snapshot of visual tree content.
     /// Instances of this type can be used as a source for <see cref="Image"/> and <see cref="ImageBrush"/> objects.
     /// </summary>
+    [Resolve(typeof(INativeRenderTargetBitmap))]
     public sealed class RenderTargetBitmap : ImageSource
     {
 #if !DEBUG
@@ -47,17 +48,13 @@ namespace Prism.UI.Media.Imaging
         /// Initializes a new instance of the <see cref="RenderTargetBitmap"/> class.
         /// </summary>
         public RenderTargetBitmap()
-            : this(typeof(INativeRenderTargetBitmap), null)
-        {
-        }
-
-        private RenderTargetBitmap(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
+            : base(ResolveParameter.EmptyParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeRenderTargetBitmap;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeRenderTargetBitmap).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeRenderTargetBitmap).FullName));
             }
         }
 

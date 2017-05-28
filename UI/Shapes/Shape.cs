@@ -158,27 +158,36 @@ namespace Prism.UI.Shapes
         private readonly INativeShape nativeObject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Shape"/> class.
+        /// Initializes a new instance of the <see cref="Shape"/> class and pairs it with the specified native object.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> does not resolve to an <see cref="INativeShape"/> instance.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", Justification = "resolveType is validated in base constructor.")]
-        protected Shape(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
-            : base(resolveType, resolveName, resolveParameters)
+        /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when a <see cref="ResolveAttribute"/> is located in the inheritance chain and <paramref name="nativeObject"/> doesn't match the type specified by the attribute.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
+        protected Shape(INativeShape nativeObject)
+            : base(nativeObject)
+        {
+            this.nativeObject = nativeObject;
+
+            Initialize();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Shape"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// At least one class in the inheritance chain must be decorated with a <see cref="ResolveAttribute"/> or an exception will be thrown.
+        /// </summary>
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object does not resolve to an <see cref="INativeShape"/> instance.</exception>
+        protected Shape(ResolveParameter[] resolveParameters)
+            : base(resolveParameters)
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeShape;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeShape).FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeShape).FullName));
             }
 
-            StrokeLineCap = LineCap.Flat;
-            StrokeLineJoin = LineJoin.Miter;
-            StrokeMiterLimit = 1;
-            StrokeThickness = 2;
+            Initialize();
         }
 
         /// <summary>
@@ -201,6 +210,14 @@ namespace Prism.UI.Shapes
             }
 
             nativeObject.SetStrokeDashPattern(pattern, offset);
+        }
+
+        private void Initialize()
+        {
+            StrokeLineCap = LineCap.Flat;
+            StrokeLineJoin = LineJoin.Miter;
+            StrokeMiterLimit = 1;
+            StrokeThickness = 2;
         }
     }
 }

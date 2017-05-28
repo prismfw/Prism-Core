@@ -372,4 +372,10 @@
   <data name="PathSegmentCannotHaveMultipleOwners" xml:space="preserve">
     <value>Path segment already belongs to another path.  Path segments can be a part of only one path at a time.</value>
   </data>
+  <data name="CannotLocateResolveAttribute" xml:space="preserve">
+    <value>Cannot locate a ResolveAttribute for the type {0}.</value>
+  </data>
+  <data name="ObjectTypeDoesNotMatchRequiredType" xml:space="preserve">
+    <value>Given object of type '{0}' does not match required type of '{1}'.</value>
+  </data>
 </root>

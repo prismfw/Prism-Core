@@ -33,6 +33,7 @@ namespace Prism.Utilities
     /// <summary>
     /// Represents an object that executes a method after a specified interval.
     /// </summary>
+    [Resolve(typeof(INativeTimer))]
     public sealed class Timer : FrameworkObject
     {
         /// <summary>
@@ -90,8 +91,16 @@ namespace Prism.Utilities
         /// Initializes a new instance of the <see cref="Timer"/> class.
         /// </summary>
         public Timer()
-            : this(typeof(INativeTimer), null)
+            : base(ResolveParameter.EmptyParameters)
         {
+            nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTimer;
+            if (nativeObject == null)
+            {
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeTimer).FullName));
+            }
+
+            nativeObject.Elapsed += (o, e) => OnElapsed(e);
         }
 
         /// <summary>
@@ -99,7 +108,7 @@ namespace Prism.Utilities
         /// </summary>
         /// <param name="interval">The amount of time, in milliseconds, before the <see cref="Elapsed"/> event is fired.</param>
         public Timer(double interval)
-            : this(typeof(INativeTimer), null)
+            : this()
         {
             Interval = interval;
         }
@@ -110,22 +119,10 @@ namespace Prism.Utilities
         /// <param name="interval">The amount of time, in milliseconds, before the <see cref="Elapsed"/> event is fired.</param>
         /// <param name="autoReset">Whether the timer should restart after each interval.</param>
         public Timer(double interval, bool autoReset)
-            : this(typeof(INativeTimer), null)
+            : this()
         {
             Interval = interval;
             AutoReset = autoReset;
-        }
-
-        private Timer(Type resolveType, string resolveName, params ResolveParameter[] resolveParams)
-            : base(resolveType, resolveName, resolveParams)
-        {
-            nativeObject = ObjectRetriever.GetNativeObject(this) as INativeTimer;
-            if (nativeObject == null)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, resolveType.FullName, typeof(INativeTimer).FullName), nameof(resolveType));
-            }
-
-            nativeObject.Elapsed += (o, e) => OnElapsed(e);
         }
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace Prism
             new ConditionalWeakTable<FrameworkObject, Dictionary<PropertyDescriptor, PropertyValueChangedCallback>>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameworkObject"/> class.
+        /// Initializes a new instance of the <see cref="FrameworkObject"/> class without any native implementation details.
         /// </summary>
         protected FrameworkObject()
         {
@@ -62,6 +62,7 @@ namespace Prism
         /// Initializes a new instance of the <see cref="FrameworkObject"/> class and pairs it with the specified native object.
         /// </summary>
         /// <param name="nativeObject">The native object with which to pair this instance.</param>
+        /// <exception cref="ArgumentException">Thrown when a <see cref="ResolveAttribute"/> is located in the inheritance chain and <paramref name="nativeObject"/> doesn't match the type specified by the attribute.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nativeObject"/> is <c>null</c>.</exception>
         [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "object", Justification = "'Object' is not meant to signify a type.")]
         protected FrameworkObject(object nativeObject)
@@ -69,6 +70,17 @@ namespace Prism
             if (nativeObject == null)
             {
                 throw new ArgumentNullException(nameof(nativeObject));
+            }
+
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<ResolveAttribute>(true);
+            if (attr != null)
+            {
+                var entry = TypeManager.Default.GetDataForResolution(attr.ResolveType, attr.Name, false);
+                if (entry != null && entry.ImplementationType != nativeObject.GetType())
+                {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ObjectTypeDoesNotMatchRequiredType,
+                        nativeObject.GetType().FullName, entry.ImplementationType.FullName));
+                }
             }
 
             ObjectRetriever.SetPair(this, nativeObject);
@@ -81,22 +93,15 @@ namespace Prism
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameworkObject"/> class and pairs it with a native object of the specified type.
+        /// Initializes a new instance of the <see cref="FrameworkObject"/> class and pairs it with a native object that is resolved from the IoC container.
+        /// At least one class in the inheritance chain must be decorated with a <see cref="ResolveAttribute"/> or an exception will be thrown.
         /// </summary>
-        /// <param name="resolveType">The type to pass to the IoC container in order to resolve the native object.</param>
-        /// <param name="resolveName">An optional name to use when resolving the native object.</param>
-        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the resolve type.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="resolveType"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="resolveType"/> could not be resolved from the IoC container.</exception>
-        protected FrameworkObject(Type resolveType, string resolveName, params ResolveParameter[] resolveParameters)
+        /// <param name="resolveParameters">Any parameters to pass along to the constructor of the native type.</param>
+        /// <exception cref="TypeResolutionException">Thrown when the native object could not be resolved from the IoC container.</exception>
+        protected FrameworkObject(ResolveParameter[] resolveParameters)
         {
-            if (resolveType == null)
-            {
-                throw new ArgumentNullException(nameof(resolveType));
-            }
-
             object[] resolveParams = null;
-            if (resolveParameters != null)
+            if (resolveParameters != null && resolveParameters != ResolveParameter.EmptyParameters)
             {
                 resolveParams = new object[resolveParameters.Length];
                 for (int i = 0; i < resolveParameters.Length; i++)
@@ -110,13 +115,17 @@ namespace Prism
                     resolveParams[i] = param.ParameterValue;
                 }
             }
-            
-            var nativeObject = TypeManager.Default.Resolve(resolveType, resolveName, resolveParams,
-                TypeResolutionOptions.UseFuzzyNameResolution | TypeResolutionOptions.UseFuzzyParameterResolution);
 
+            var attr = GetType().GetTypeInfo().GetCustomAttribute<ResolveAttribute>(true);
+            if (attr == null)
+            {
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.CannotLocateResolveAttribute, GetType().FullName));
+            }
+
+            var nativeObject = TypeManager.Default.Resolve(attr.ResolveType, attr.Name, resolveParams, TypeResolutionOptions.UseFuzzyParameterResolution);
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, resolveType.FullName), nameof(resolveType));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, attr.ResolveType.FullName));
             }
 
             ObjectRetriever.SetPair(this, nativeObject);

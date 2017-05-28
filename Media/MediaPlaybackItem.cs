@@ -86,7 +86,7 @@ namespace Prism.Media
 
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, typeof(INativeMediaPlaybackItem).FullName));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeCouldNotBeResolved, typeof(INativeMediaPlaybackItem).FullName));
             }
 
             ObjectRetriever.SetPair(this, nativeObject);

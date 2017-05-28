@@ -33,6 +33,7 @@ namespace Prism.UI.Media.Inking
     /// <summary>
     /// Represents a stroke that is rendered on an <see cref="InkCanvas"/>.
     /// </summary>
+    [Resolve(typeof(INativeInkStroke))]
     public sealed class InkStroke : FrameworkObject
     {
         /// <summary>
@@ -94,12 +95,13 @@ namespace Prism.UI.Media.Inking
         /// <param name="points">A collection of <see cref="Point"/> objects that defines the shape of the stroke.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="points"/> is <c>null</c>.</exception>
         public InkStroke(IEnumerable<Point> points)
-            : base(typeof(INativeInkStroke), null, new ResolveParameter(nameof(points), points, false))
+            : base(new[] { new ResolveParameter(nameof(points), points, false) })
         {
             nativeObject = ObjectRetriever.GetNativeObject(this) as INativeInkStroke;
             if (nativeObject == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType, typeof(INativeInkStroke).FullName, typeof(INativeInkStroke).FullName));
+                throw new TypeResolutionException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeMustResolveToType,
+                    ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeInkStroke).FullName));
             }
 
             DrawingAttributes = new InkDrawingAttributes() { Color = Colors.Black };

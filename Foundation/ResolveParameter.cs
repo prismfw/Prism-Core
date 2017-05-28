@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Prism
@@ -29,6 +30,13 @@ namespace Prism
     /// </summary>
     public struct ResolveParameter
     {
+        /// <summary>
+        /// Gets an empty array for passing to a <see cref="FrameworkObject"/> class constructor
+        /// when a native object needs to be resolved but no parameters need to be specified.
+        /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Array is empty and cannot be written to.")]
+        public static ResolveParameter[] EmptyParameters { get; } = new ResolveParameter[0];
+
         /// <summary>
         /// Gets a value indicating whether <c>null</c> is a valid value for the parameter.
         /// </summary>

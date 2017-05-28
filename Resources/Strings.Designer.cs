@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
-    using System;
     using System.Reflection;
     
     
@@ -139,6 +138,15 @@ namespace Prism.Resources {
         internal static string CannotLocatePropertyWithNameAndTypeForType {
             get {
                 return ResourceManager.GetString("CannotLocatePropertyWithNameAndTypeForType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot locate a ResolveAttribute for the type {0}..
+        /// </summary>
+        internal static string CannotLocateResolveAttribute {
+            get {
+                return ResourceManager.GetString("CannotLocateResolveAttribute", resourceCulture);
             }
         }
         
@@ -463,6 +471,15 @@ namespace Prism.Resources {
         internal static string ObjectIsNotAnAncestor {
             get {
                 return ResourceManager.GetString("ObjectIsNotAnAncestor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Given object of type &apos;{0}&apos; does not match required type of &apos;{1}&apos;..
+        /// </summary>
+        internal static string ObjectTypeDoesNotMatchRequiredType {
+            get {
+                return ResourceManager.GetString("ObjectTypeDoesNotMatchRequiredType", resourceCulture);
             }
         }
         
