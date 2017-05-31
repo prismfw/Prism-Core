@@ -124,7 +124,7 @@
     <value>Application has not been fully initialized.  Use a platform initializer to complete initialization.</value>
   </data>
   <data name="AttemptedToSetReadOnlyProperty" xml:space="preserve">
-    <value>Attempted to set the value of a read-only property.</value>
+    <value>Attempted to set the value of read-only property '{0}'.</value>
   </data>
   <data name="CannotCombineZeroPaths" xml:space="preserve">
     <value>Cannot combine zero paths.</value>
@@ -377,5 +377,11 @@
   </data>
   <data name="ObjectTypeDoesNotMatchRequiredType" xml:space="preserve">
     <value>Given object of type '{0}' does not match required type of '{1}'.</value>
+  </data>
+  <data name="PropertyMissingGetter" xml:space="preserve">
+    <value>Property '(0}' does not have a getter.</value>
+  </data>
+  <data name="PropertyMissingSetter" xml:space="preserve">
+    <value>Property '{0}' does not have a setter.</value>
   </data>
 </root>

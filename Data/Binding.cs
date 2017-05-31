@@ -261,7 +261,7 @@ namespace Prism.Data
             targetPropertyPath = targetPath;
             try
             {
-                targetPath.ResolvePath(targetObject, out targetObjects, out targetDescriptors);
+                targetPath.ResolvePath(targetObject, out targetObjects, out targetDescriptors, true);
             }
             catch (Exception ex)
             {
@@ -707,7 +707,7 @@ namespace Prism.Data
             {
                 try
                 {
-                    Path.ResolvePath(Source, out sourceObjects, out sourceDescriptors);
+                    Path.ResolvePath(Source, out sourceObjects, out sourceDescriptors, true);
                 }
                 catch (Exception ex)
                 {

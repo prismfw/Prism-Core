@@ -88,7 +88,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attempted to set the value of a read-only property..
+        ///   Looks up a localized string similar to Attempted to set the value of read-only property &apos;{0}&apos;..
         /// </summary>
         internal static string AttemptedToSetReadOnlyProperty {
             get {
@@ -570,6 +570,24 @@ namespace Prism.Resources {
         internal static string PropertyMetadataHasBeenSealed {
             get {
                 return ResourceManager.GetString("PropertyMetadataHasBeenSealed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;(0}&apos; does not have a getter..
+        /// </summary>
+        internal static string PropertyMissingGetter {
+            get {
+                return ResourceManager.GetString("PropertyMissingGetter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; does not have a setter..
+        /// </summary>
+        internal static string PropertyMissingSetter {
+            get {
+                return ResourceManager.GetString("PropertyMissingSetter", resourceCulture);
             }
         }
         

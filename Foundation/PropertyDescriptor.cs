@@ -73,6 +73,11 @@ namespace Prism
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
+        private readonly IGetSetInvoker getterSetter;
+
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
         private readonly PropertyInfo propertyInfo;
 
 #if !DEBUG
@@ -80,26 +85,26 @@ namespace Prism
 #endif
         private readonly Dictionary<Type, PropertyMetadata> typeMetadatas = new Dictionary<Type, PropertyMetadata>();
 
-        internal PropertyDescriptor(PropertyInfo info)
+        internal PropertyDescriptor(PropertyInfo info, bool cacheGetSetMethods)
         {
             propertyInfo = info;
             typeMetadatas[info.DeclaringType] = info.DeclaringType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject)) ?
                 new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None) : new PropertyMetadata(PropertyMetadataOptions.None);
 
             IsReadOnly = info.SetMethod == null || (!info.SetMethod.IsPublic && info.Module == GetType().GetTypeInfo().Module);
+
+            if (cacheGetSetMethods)
+            {
+                getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,>).MakeGenericType(info.DeclaringType, info.PropertyType), propertyInfo);
+            }
         }
 
-        private PropertyDescriptor(string name, Type propertyType, Type ownerType, bool isReadOnly, PropertyMetadata metadata)
+        internal PropertyDescriptor(PropertyInfo info, bool isReadOnly, PropertyMetadata metadata)
         {
-            propertyInfo = ownerType.GetRuntimeProperties().FirstOrDefault(p => p.Name == name && p.PropertyType == propertyType);
-            if (propertyInfo == null)
-            {
-                throw new MissingMemberException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.CannotLocatePropertyWithNameAndTypeForType, name, propertyType.Name, ownerType.FullName));
-            }
+            propertyInfo = info;
+            IsReadOnly = isReadOnly || info.SetMethod == null;
 
-            IsReadOnly = isReadOnly;
-
-            bool isFOSubclass = ownerType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject));
+            bool isFOSubclass = info.DeclaringType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject));
             if (metadata == null)
             {
                 metadata = isFOSubclass ? new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None) : new PropertyMetadata(PropertyMetadataOptions.None);
@@ -116,9 +121,11 @@ namespace Prism
                     typeof(FrameworkPropertyMetadata).FullName, typeof(FrameworkObject).FullName));
             }
 
-            typeMetadatas[ownerType] = metadata;
+            typeMetadatas[info.DeclaringType] = metadata;
             metadata.OnApply(this, null);
             metadata.IsSealed = true;
+
+            getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,>).MakeGenericType(info.DeclaringType, info.PropertyType), propertyInfo);
         }
 
         /// <summary>
@@ -201,19 +208,24 @@ namespace Prism
                 throw new ArgumentNullException(nameof(ownerType));
             }
 
-            List<PropertyDescriptor> descriptors;
-            if (!currentDescriptors.TryGetValue(ownerType, out descriptors))
+            var propertyInfo = ownerType.GetRuntimeProperties().FirstOrDefault(p => p.Name == name && p.PropertyType == propertyType);
+            if (propertyInfo == null)
             {
-                descriptors = new List<PropertyDescriptor>();
-                currentDescriptors[ownerType] = descriptors;
+                throw new MissingMemberException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.CannotLocatePropertyWithNameAndTypeForType, name, propertyType.Name, ownerType.FullName));
             }
 
-            if (descriptors.Any(d => d.Name == name && d.PropertyType == propertyType))
+            List<PropertyDescriptor> descriptors;
+            if (!currentDescriptors.TryGetValue(propertyInfo.DeclaringType, out descriptors))
+            {
+                descriptors = new List<PropertyDescriptor>();
+                currentDescriptors[propertyInfo.DeclaringType] = descriptors;
+            }
+            else if (descriptors.Any(d => d.Name == name && d.PropertyType == propertyType))
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.PropertyDescriptorAlreadyCreated, name, ownerType.FullName));
             }
 
-            var descriptor = new PropertyDescriptor(name, propertyType, ownerType, isReadOnly, metadata);
+            var descriptor = new PropertyDescriptor(propertyInfo, isReadOnly, metadata);
             descriptors.Add(descriptor);
             return descriptor;
         }
@@ -294,17 +306,82 @@ namespace Prism
 
         internal object GetValue(object obj)
         {
-            return propertyInfo.GetValue(obj);
+            if (getterSetter == null)
+            {
+                return propertyInfo.GetValue(obj);
+            }
+
+            try
+            {
+                return getterSetter.GetValue(obj);
+            }
+            catch (MissingMemberException)
+            {
+                throw new MissingMemberException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.PropertyMissingGetter, Name));
+            }
         }
 
         internal void SetValue(object obj, object value)
         {
             if (IsReadOnly)
             {
-                throw new InvalidOperationException(Resources.Strings.AttemptedToSetReadOnlyProperty);
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.AttemptedToSetReadOnlyProperty, Name));
             }
 
-            propertyInfo.SetValue(obj, value);
+            if (getterSetter == null)
+            {
+                propertyInfo.SetValue(obj, value);
+            }
+            else
+            {
+                try
+                {
+                    getterSetter.SetValue(obj, value);
+                }
+                catch (MissingMemberException)
+                {
+                    throw new MissingMemberException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.PropertyMissingSetter, Name));
+                }
+            }
+        }
+
+        private interface IGetSetInvoker
+        {
+            object GetValue(object obj);
+
+            void SetValue(object obj, object value);
+        }
+
+        private class GetSetInvoker<O, P> : IGetSetInvoker
+        {
+            private readonly Func<O, P> getMethod;
+            private readonly Action<O, P> setMethod;
+
+            public GetSetInvoker(PropertyInfo info)
+            {
+                getMethod = (Func<O, P>)info.GetMethod?.CreateDelegate(typeof(Func<O, P>));
+                setMethod = (Action<O, P>)info.SetMethod?.CreateDelegate(typeof(Action<O, P>));
+            }
+
+            public object GetValue(object obj)
+            {
+                if (getMethod == null)
+                {
+                    throw new MissingMemberException();
+                }
+
+                return getMethod((O)obj);
+            }
+
+            public void SetValue(object obj, object value)
+            {
+                if (setMethod == null)
+                {
+                    throw new MissingMemberException();
+                }
+
+                setMethod((O)obj, (P)value);
+            }
         }
     }
 }

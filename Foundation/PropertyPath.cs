@@ -296,7 +296,7 @@ namespace Prism
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
-        internal void ResolvePath(object sourceObj, out WeakReference[] objects, out PropertyDescriptor[] descriptors)
+        internal void ResolvePath(object sourceObj, out WeakReference[] objects, out PropertyDescriptor[] descriptors, bool cacheGetSetMethods)
         {
             objects = new WeakReference[pathTokens.Length];
             descriptors = new PropertyDescriptor[pathTokens.Length];
@@ -357,7 +357,8 @@ namespace Prism
                descriptors[i] = info.DeclaringType.GetRuntimeProperties()
                     .Where(p => p.GetMethod != null && p.GetMethod.IsStatic && p.PropertyType == typeof(PropertyDescriptor))
                     .Select(p => p.GetValue(null) as PropertyDescriptor)
-                    .FirstOrDefault(pd => pd.OwnerType == info.DeclaringType && pd.PropertyType == info.PropertyType && pd.Name == info.Name) ?? new PropertyDescriptor(info);
+                    .FirstOrDefault(pd => pd.OwnerType == info.DeclaringType && pd.PropertyType == info.PropertyType && pd.Name == info.Name)
+                    ?? new PropertyDescriptor(info, cacheGetSetMethods);
             }
         }
     }
