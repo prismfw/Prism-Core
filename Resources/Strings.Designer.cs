@@ -115,6 +115,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot convert object of type {0} to {1}..
+        /// </summary>
+        internal static string CannotConvertObjectToType {
+            get {
+                return ResourceManager.GetString("CannotConvertObjectToType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot locate an event with the name &apos;{0}&apos; and the handler type &apos;{1}&apos; for the type {2}..
         /// </summary>
         internal static string CannotLocateEventWithNameAndHandlerForType {

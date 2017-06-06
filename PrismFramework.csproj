@@ -45,6 +45,12 @@
     <Compile Include="Data\BindingFailedEventArgs.cs" />
     <Compile Include="Data\MultiBinding.cs" />
     <Compile Include="Data\MultiValueConverter.cs" />
+    <Compile Include="Extensions\EventInfoN.cs" />
+    <Compile Include="Extensions\MemberInfoN.cs" />
+    <Compile Include="Extensions\MethodInfoN.cs" />
+    <Compile Include="Extensions\FieldInfoN.cs" />
+    <Compile Include="Extensions\PropertyInfoN.cs" />
+    <Compile Include="Extensions\RuntimeReflectionNExtensions.cs" />
     <Compile Include="Extensions\Extendable.cs" />
     <Compile Include="Foundation\TypeResolutionException.cs" />
     <Compile Include="Foundation\ResolveAttribute.cs" />
@@ -359,6 +365,7 @@
     <Compile Include="Foundation\Size.cs" />
     <Compile Include="Foundation\Thickness.cs" />
     <Compile Include="Foundation\ValueChangedEventArgs.cs" />
+    <Compile Include="Utilities\TypeConverter.cs" />
     <Compile Include="Utilities\WeakEventManager.cs" />
     <Compile Include="Navigation\NavigationControllerAttribute.cs" />
     <Compile Include="Navigation\NavigationViewAttribute.cs" />

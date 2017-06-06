@@ -384,4 +384,7 @@
   <data name="PropertyMissingSetter" xml:space="preserve">
     <value>Property '{0}' does not have a setter.</value>
   </data>
+  <data name="CannotConvertObjectToType" xml:space="preserve">
+    <value>Cannot convert object of type {0} to {1}.</value>
+  </data>
 </root>

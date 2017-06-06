@@ -318,7 +318,9 @@ namespace Prism
             try
             {
                 propertyPath.ResolvePath(this, out refs, out descriptors, false);
-                descriptors.Last().SetValue(refs.Last().Target, value);
+
+                var finalDescriptor = descriptors.Last();
+                finalDescriptor.SetValue(refs.Last().Target, TypeConverter.Convert(value, finalDescriptor.PropertyType));
             }
             catch (Exception e)
             {
