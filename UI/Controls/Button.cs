@@ -25,6 +25,7 @@ using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
 using Prism.UI.Media.Imaging;
+using Prism.Utilities;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -88,7 +89,21 @@ namespace Prism.UI.Controls
         public ImageSource Image
         {
             get { return (ImageSource)ObjectRetriever.GetAgnosticObject(nativeObject.Image); }
-            set { nativeObject.Image = (INativeImageSource)ObjectRetriever.GetNativeObject(value); }
+            set
+            {
+                var oldImage = Image;
+                if (oldImage is BitmapImage)
+                {
+                    imageLoadedEventManager.RemoveHandler(oldImage, imageLoadedEventHandler);
+                }
+
+                if (value is BitmapImage)
+                {
+                    imageLoadedEventManager.AddHandler(value, imageLoadedEventHandler);
+                }
+
+                nativeObject.Image = (INativeImageSource)ObjectRetriever.GetNativeObject(value);
+            }
         }
 
         /// <summary>
@@ -112,8 +127,17 @@ namespace Prism.UI.Controls
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
+        private readonly static WeakEventManager imageLoadedEventManager = new WeakEventManager(BitmapImage.ImageLoadedEvent);
+
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
         // this field is to avoid casting
         private readonly INativeButton nativeObject;
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private readonly EventHandler imageLoadedEventHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Button"/> class.
@@ -134,6 +158,7 @@ namespace Prism.UI.Controls
         {
             this.nativeObject = nativeObject;
 
+            imageLoadedEventHandler = OnImageLoaded;
             Initialize();
         }
 
@@ -152,6 +177,7 @@ namespace Prism.UI.Controls
                     ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeButton).FullName));
             }
 
+            imageLoadedEventHandler = OnImageLoaded;
             Initialize();
         }
 
@@ -175,6 +201,12 @@ namespace Prism.UI.Controls
             SetResourceReference(FontStyleProperty, SystemResources.ButtonFontStyleKey);
             SetResourceReference(ForegroundProperty, SystemResources.ButtonForegroundBrushKey);
             SetResourceReference(PaddingProperty, SystemResources.ButtonPaddingKey);
+        }
+
+        private void OnImageLoaded(object sender, EventArgs args)
+        {
+            InvalidateMeasure();
+            InvalidateArrange();
         }
     }
 }
