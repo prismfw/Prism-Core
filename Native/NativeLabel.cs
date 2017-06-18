@@ -40,7 +40,7 @@ namespace Prism.Native
         /// <summary>
         /// Gets or sets the size of the text in the label.
         /// </summary>
-        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        [CoreBehavior(CoreBehaviors.ChecksInequality | CoreBehaviors.ChecksRange | CoreBehaviors.TriggersChangeNotification)]
         double FontSize { get; set; }
 
         /// <summary>
@@ -59,12 +59,6 @@ namespace Prism.Native
         Brush HighlightBrush { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum number of lines of text that the label can show.
-        /// A value of 0 means there is no limit.
-        /// </summary>
-        int Lines { get; set; }
-
-        /// <summary>
         /// Gets or sets the text of the label.
         /// </summary>
         string Text { get; set; }
@@ -73,5 +67,11 @@ namespace Prism.Native
         /// Gets or sets the alignment of the text within the label.
         /// </summary>
         TextAlignment TextAlignment { get; set; }
+
+        /// <summary>
+        /// Sets the maximum number of lines of text that the label can show.  A value of 0 means there is no limit.
+        /// </summary>
+        /// <param name="maxLines"></param>
+        void SetMaxLines([CoreBehavior(CoreBehaviors.ChecksRange)]int maxLines);
     }
 }

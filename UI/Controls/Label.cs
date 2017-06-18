@@ -20,15 +20,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
 using Prism.UI.Media;
-
-#if !DEBUG
-using System.Diagnostics;
-#endif
 
 namespace Prism.UI.Controls
 {
@@ -65,9 +62,19 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor HighlightBrushProperty { get; } = PropertyDescriptor.Create(nameof(HighlightBrush), typeof(Brush), typeof(Label));
 
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsAutoScalingEnabled"/> property.
+        /// </summary>
+        public static PropertyDescriptor IsAutoScalingEnabledProperty { get; } = PropertyDescriptor.Create(nameof(IsAutoScalingEnabled), typeof(bool), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Lines"/> property.
         /// </summary>
         public static PropertyDescriptor LinesProperty { get; } = PropertyDescriptor.Create(nameof(Lines), typeof(int), typeof(Label), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MinScaledFontSize"/> property.
+        /// </summary>
+        public static PropertyDescriptor MinScaledFontSizeProperty { get; } = PropertyDescriptor.Create(nameof(MinScaledFontSize), typeof(double), typeof(Label));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Text"/> property.
@@ -104,22 +111,29 @@ namespace Prism.UI.Controls
         [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public double FontSize
         {
-            get { return nativeObject.FontSize; }
+            get { return fontSize; }
             set
             {
-                if (double.IsNaN(value) || double.IsInfinity(value))
+                if (value != fontSize)
                 {
-                    throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
-                }
+                    if (double.IsNaN(value) || double.IsInfinity(value))
+                    {
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(FontSize));
+                    }
 
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(FontSize), Strings.ValueCannotBeLessThanZero);
-                }
+                    if (value < 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(FontSize), Strings.ValueCannotBeLessThanZero);
+                    }
 
-                nativeObject.FontSize = value;
+                    fontSize = value;
+                    nativeObject.FontSize = fontSize;
+                    OnPropertyChanged(FontSizeProperty);
+                }
             }
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private double fontSize;
 
         /// <summary>
         /// Gets or sets the style with which to render the text in the label.
@@ -149,14 +163,82 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the size of the text is automatically scaled down to fit within the space that it is given.
+        /// </summary>
+        public bool IsAutoScalingEnabled
+        {
+            get { return isAutoScalingEnabled; }
+            set
+            {
+                if (value != isAutoScalingEnabled)
+                {
+                    isAutoScalingEnabled = value;
+                    if (!isAutoScalingEnabled)
+                    {
+                        nativeObject.FontSize = fontSize;
+                    }
+
+                    OnPropertyChanged(IsAutoScalingEnabledProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool isAutoScalingEnabled;
+
+        /// <summary>
         /// Gets or sets the maximum number of lines of text that the label can show.
         /// A value of 0 means there is no limit.
         /// </summary>
         public int Lines
         {
-            get { return nativeObject.Lines; }
-            set { nativeObject.Lines = value; }
+            get { return lines; }
+            set
+            {
+                if (value != lines)
+                {
+                    lines = Math.Max(value, 0);
+                    nativeObject.SetMaxLines(lines);
+                    OnPropertyChanged(LinesProperty);
+                }
+            }
         }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int lines;
+
+        /// <summary>
+        /// Gets or sets the minimum allowable size of the font when scaling down the text through auto-scaling.
+        /// <see cref="P:IsAutoScalingEnabled"/> must be <c>true</c> for this to have any effect.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public double MinScaledFontSize
+        {
+            get { return minScaledFontSize; }
+            set
+            {
+                if (value != minScaledFontSize)
+                {
+                    if (double.IsNaN(value) || double.IsInfinity(value))
+                    {
+                        throw new ArgumentException(Strings.ValueCannotBeNaNOrInfinity, nameof(MinScaledFontSize));
+                    }
+
+                    if (value < 0)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(MinScaledFontSize), Strings.ValueCannotBeLessThanZero);
+                    }
+
+                    minScaledFontSize = value;
+                    OnPropertyChanged(MinScaledFontSizeProperty);
+
+                    if (isAutoScalingEnabled)
+                    {
+                        InvalidateArrange();
+                    }
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private double minScaledFontSize = 1;
 
         /// <summary>
         /// Gets or sets the text of the label.
@@ -220,6 +302,80 @@ namespace Prism.UI.Controls
             }
 
             Initialize();
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to arrange its children and returns the final rendering size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The final rendering size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size ArrangeOverride(Size constraints)
+        {
+            var renderSize = base.ArrangeOverride(constraints);
+            if (isAutoScalingEnabled)
+            {
+                nativeObject.SetMaxLines(0);
+                nativeObject.FontSize = fontSize;
+
+                var realSize = nativeObject.Measure(new Size(constraints.Width, double.MaxValue));
+                if (realSize.Height > renderSize.Height && minScaledFontSize < nativeObject.FontSize)
+                {
+                    realSize = Size.Empty;
+                    double maxFontSize = nativeObject.FontSize;
+                    double minFontSize = minScaledFontSize;
+                    
+                    while (maxFontSize - minFontSize > 1)
+                    {
+                        nativeObject.FontSize = (minFontSize + maxFontSize) / 2;
+                        var size = nativeObject.Measure(new Size(constraints.Width, double.MaxValue));
+
+                        if (lines > 0)
+                        {
+                            nativeObject.SetMaxLines(lines);
+                            renderSize = nativeObject.Measure(new Size(constraints.Width, double.MaxValue));
+                            renderSize.Height = Math.Min(renderSize.Height, constraints.Height);
+                            nativeObject.SetMaxLines(0);
+                        }
+
+                        if (size.Height > renderSize.Height)
+                        {
+                            maxFontSize = nativeObject.FontSize;
+                        }
+                        else
+                        {
+                            minFontSize = nativeObject.FontSize;
+                            realSize = size;
+                        }
+                    }
+
+                    nativeObject.FontSize = minFontSize;
+                }
+
+                nativeObject.SetMaxLines(lines);
+                return realSize == Size.Empty ? nativeObject.Measure(new Size(constraints.Width, double.MaxValue)) : realSize;
+            }
+
+            return renderSize;
+        }
+
+        /// <summary>
+        /// Called when this instance is ready to be measured and returns the desired size of the object.
+        /// </summary>
+        /// <param name="constraints">The width and height that this instance should not exceed.</param>
+        /// <returns>The desired size of the object as a <see cref="Size"/> instance.</returns>
+        protected override Size MeasureOverride(Size constraints)
+        {
+            if (isAutoScalingEnabled)
+            {
+                double currentFontSize = nativeObject.FontSize;
+                nativeObject.FontSize = FontSize;
+
+                var desiredSize = base.MeasureOverride(constraints);
+                nativeObject.FontSize = currentFontSize;
+                return desiredSize;
+            }
+
+            return base.MeasureOverride(constraints);
         }
 
         private void Initialize()
