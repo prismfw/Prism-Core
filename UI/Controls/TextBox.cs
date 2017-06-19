@@ -56,6 +56,11 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor ActionKeyTypeProperty { get; } = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(TextBox));
 
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxLength"/> property.
+        /// </summary>
+        public static PropertyDescriptor MaxLengthProperty { get; } = PropertyDescriptor.Create(nameof(MaxLength), typeof(int), typeof(TextBox));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Placeholder"/> property.
         /// </summary>
         public static PropertyDescriptor PlaceholderProperty { get; } = PropertyDescriptor.Create(nameof(Placeholder), typeof(string), typeof(TextBox));
@@ -90,6 +95,16 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.ActionKeyType; }
             set { nativeObject.ActionKeyType = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of characters that are allowed to be entered into the control.
+        /// A value of 0 means there is no limit.
+        /// </summary>
+        public int MaxLength
+        {
+            get { return nativeObject.MaxLength; }
+            set { nativeObject.MaxLength = Math.Max(value, 0); }
         }
 
         /// <summary>

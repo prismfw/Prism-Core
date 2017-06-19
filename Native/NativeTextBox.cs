@@ -47,6 +47,13 @@ namespace Prism.Native
         ActionKeyType ActionKeyType { get; set; }
 
         /// <summary>
+        /// Gets or sets the maximum number of characters that are allowed to be entered into the control.
+        /// A value of 0 means there is no limit.
+        /// </summary>
+        [CoreBehavior(CoreBehaviors.ChecksRange)]
+        int MaxLength { get; set; }
+
+        /// <summary>
         /// Gets or sets the text to display when the control does not have a value.
         /// </summary>
         string Placeholder { get; set; }
