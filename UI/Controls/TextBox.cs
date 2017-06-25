@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Prism.Input;
 using Prism.Native;
 using Prism.Resources;
 
@@ -54,6 +55,11 @@ namespace Prism.UI.Controls
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ActionKeyType"/> property.
         /// </summary>
         public static PropertyDescriptor ActionKeyTypeProperty { get; } = PropertyDescriptor.Create(nameof(ActionKeyType), typeof(ActionKeyType), typeof(TextBox));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:InputType"/> property.
+        /// </summary>
+        public static PropertyDescriptor InputTypeProperty { get; } = PropertyDescriptor.Create(nameof(InputType), typeof(InputType), typeof(TextBox));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxLength"/> property.
@@ -95,6 +101,15 @@ namespace Prism.UI.Controls
         {
             get { return nativeObject.ActionKeyType; }
             set { nativeObject.ActionKeyType = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of text that the user is expected to input.
+        /// </summary>
+        public InputType InputType
+        {
+            get { return nativeObject.InputType; }
+            set { nativeObject.InputType = value; }
         }
 
         /// <summary>
@@ -204,6 +219,7 @@ namespace Prism.UI.Controls
             nativeObject.TextChanged += (o, e) => OnTextChanged(e);
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
+            InputType = InputType.Alphanumeric;
 
             SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);

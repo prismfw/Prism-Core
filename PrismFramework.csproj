@@ -61,6 +61,7 @@
     <Compile Include="Foundation\TypeRegistrationOptions.cs" />
     <Compile Include="Foundation\TypeResolutionOptions.cs" />
     <Compile Include="Foundation\TypeManager.cs" />
+    <Compile Include="Input\InputType.cs" />
     <Compile Include="Media\MediaPlaybackSource.cs" />
     <Compile Include="Media\MediaTrackType.cs" />
     <Compile Include="Media\MediaTrack.cs" />

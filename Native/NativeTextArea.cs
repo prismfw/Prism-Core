@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using Prism.Input;
 using Prism.UI;
 using Prism.UI.Controls;
 
@@ -45,6 +46,11 @@ namespace Prism.Native
         /// Gets or sets the type of action key to use for the soft keyboard when the control has focus.
         /// </summary>
         ActionKeyType ActionKeyType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of text that the user is expected to input.
+        /// </summary>
+        InputType InputType { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum number of characters that are allowed to be entered into the control.

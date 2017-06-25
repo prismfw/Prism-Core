@@ -502,6 +502,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only {0} and {1} are supported for {2}..
+        /// </summary>
+        internal static string OnlyTwoInputTypesSupported {
+            get {
+                return ResourceManager.GetString("OnlyTwoInputTypesSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Owner type does not match type of current instance..
         /// </summary>
         internal static string OwnerTypeDoesNotMatchCurrentType {
