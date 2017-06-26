@@ -390,4 +390,7 @@
   <data name="OnlyTwoInputTypesSupported" xml:space="preserve">
     <value>Only {0} and {1} are supported for {2}.</value>
   </data>
+  <data name="CannotSetPropertyOnValueType" xml:space="preserve">
+    <value>Cannot set property '{0}' on value type '{1}'.</value>
+  </data>
 </root>

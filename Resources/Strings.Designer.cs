@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 namespace Prism.Resources {
+    using System;
     using System.Reflection;
     
     
@@ -192,6 +193,15 @@ namespace Prism.Resources {
         internal static string CannotResolvePropertyPathForObject {
             get {
                 return ResourceManager.GetString("CannotResolvePropertyPathForObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot set property &apos;{0}&apos; on value type &apos;{1}&apos;..
+        /// </summary>
+        internal static string CannotSetPropertyOnValueType {
+            get {
+                return ResourceManager.GetString("CannotSetPropertyOnValueType", resourceCulture);
             }
         }
         

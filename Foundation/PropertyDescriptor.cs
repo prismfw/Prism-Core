@@ -342,6 +342,10 @@ namespace Prism
                 {
                     throw new MissingMemberException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.PropertyMissingSetter, Name));
                 }
+                catch (NotSupportedException)
+                {
+                    throw new NotSupportedException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.CannotSetPropertyOnValueType, Name, OwnerType.FullName));
+                }
             }
         }
 
@@ -356,18 +360,32 @@ namespace Prism
         {
             private readonly Func<O, P> getMethod;
             private readonly Action<O, P> setMethod;
+            private readonly ValueTypeFunc<O, P> valueGetMethod;
 
             public GetSetInvoker(PropertyInfo info)
             {
-                getMethod = (Func<O, P>)info.GetMethod?.CreateDelegate(typeof(Func<O, P>));
-                setMethod = (Action<O, P>)info.SetMethod?.CreateDelegate(typeof(Action<O, P>));
+                if (info.DeclaringType.GetTypeInfo().IsValueType)
+                {
+                    valueGetMethod = (ValueTypeFunc<O, P>)info.GetMethod?.CreateDelegate(typeof(ValueTypeFunc<O, P>));
+                }
+                else
+                {
+                    getMethod = (Func<O, P>)info.GetMethod?.CreateDelegate(typeof(Func<O, P>));
+                    setMethod = (Action<O, P>)info.SetMethod?.CreateDelegate(typeof(Action<O, P>));
+                }
             }
 
             public object GetValue(object obj)
             {
                 if (getMethod == null)
                 {
-                    throw new MissingMemberException();
+                    if (valueGetMethod == null)
+                    {
+                        throw new MissingMemberException();
+                    }
+
+                    var instance = (O)obj;
+                    return valueGetMethod(ref instance);
                 }
 
                 return getMethod((O)obj);
@@ -377,11 +395,22 @@ namespace Prism
             {
                 if (setMethod == null)
                 {
-                    throw new MissingMemberException();
+                    if (valueGetMethod == null)
+                    {
+                        // Declaring type is a reference type, but the property setter is missing.
+                        throw new MissingMemberException();
+                    }
+                    else
+                    {
+                        // Declaring type is a value type.  This is unsupported!
+                        throw new NotSupportedException();
+                    }
                 }
 
                 setMethod((O)obj, (P)value);
             }
         }
+
+        private delegate P ValueTypeFunc<O, P>(ref O arg);
     }
 }
