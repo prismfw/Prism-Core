@@ -662,6 +662,16 @@ namespace Prism
         private static ResourceKey detailLabelForegroundBrushKey;
 
         /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a flyout object.
+        /// </summary>
+        public static ResourceKey FlyoutBackgroundBrushKey
+        {
+            get { return flyoutBackgroundBrushKey ?? (flyoutBackgroundBrushKey = new ResourceKey(SystemResourceKeyId.FlyoutBackgroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey flyoutBackgroundBrushKey;
+
+        /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of an unselected
         /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
@@ -764,6 +774,16 @@ namespace Prism
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static ResourceKey loadIndicatorForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="MenuFlyout"/>.
+        /// </summary>
+        public static ResourceKey MenuFlyoutForegroundBrushKey
+        {
+            get { return menuFlyoutForegroundBrushKey ?? (menuFlyoutForegroundBrushKey = new ResourceKey(SystemResourceKeyId.MenuFlyoutForegroundBrush, typeof(Brush))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey menuFlyoutForegroundBrushKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="ProgressBar"/>.

@@ -20,16 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
 using Prism.UI.Media.Imaging;
 using Prism.Utilities;
-
-#if !DEBUG
-using System.Diagnostics;
-#endif
 
 namespace Prism.UI.Controls
 {
@@ -51,6 +48,11 @@ namespace Prism.UI.Controls
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ContentDirection"/> property.
         /// </summary>
         public static PropertyDescriptor ContentDirectionProperty { get; } = PropertyDescriptor.Create(nameof(ContentDirection), typeof(ContentDirection), typeof(Button), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Flyout"/> property.
+        /// </summary>
+        public static PropertyDescriptor FlyoutProperty { get; } = PropertyDescriptor.Create(nameof(Flyout), typeof(FlyoutBase), typeof(Button));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Image"/> property.
@@ -82,6 +84,24 @@ namespace Prism.UI.Controls
             get { return nativeObject.ContentDirection; }
             set { nativeObject.ContentDirection = value; }
         }
+
+        /// <summary>
+        /// Gets or sets a flyout object to present when the button is clicked.
+        /// </summary>
+        public FlyoutBase Flyout
+        {
+            get { return flyout; }
+            set
+            {
+                if (value != flyout)
+                {
+                    flyout = value;
+                    OnPropertyChanged(FlyoutProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private FlyoutBase flyout;
 
         /// <summary>
         /// Gets or sets an image to display within the button.
@@ -192,7 +212,11 @@ namespace Prism.UI.Controls
 
         private void Initialize()
         {
-            nativeObject.Clicked += (o, e) => OnClicked(e);
+            nativeObject.Clicked += (o, e) =>
+            {
+                OnClicked(e);
+                flyout?.ShowAt(this);
+            };
 
             SetResourceReference(BackgroundProperty, SystemResources.ButtonBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.ButtonBorderBrushKey);

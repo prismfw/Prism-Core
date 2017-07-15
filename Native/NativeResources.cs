@@ -321,6 +321,10 @@ namespace Prism.Native
         /// </summary>
         DetailLabelForegroundBrush,
         /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default background of a flyout object.
+        /// </summary>
+        FlyoutBackgroundBrush,
+        /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the default background of an unselected
         /// <see cref="ListBoxItem"/> in a <see cref="ListBox"/> that uses <see cref="ListBoxStyle.Grouped"/>.
         /// </summary>
@@ -364,6 +368,10 @@ namespace Prism.Native
         /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="LoadIndicator"/>.
         /// </summary>
         LoadIndicatorForegroundBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="MenuFlyout"/>.
+        /// </summary>
+        MenuFlyoutForegroundBrush,
         /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the default background of a <see cref="ProgressBar"/>.
         /// </summary>

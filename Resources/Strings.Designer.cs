@@ -386,6 +386,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Menu button must be in an ActionMenu that has been loaded into the visual tree and cannot be inside of an overflow menu..
+        /// </summary>
+        internal static string MenuButtonCannotBeInOverflow {
+            get {
+                return ResourceManager.GetString("MenuButtonCannotBeInOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metadata of type {0} can only be applied to properties owned by types that are derived from {1}..
         /// </summary>
         internal static string MetadataCanOnlyBeAppliedToPropertiesOwnedByType {

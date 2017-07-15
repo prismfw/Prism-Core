@@ -393,4 +393,7 @@
   <data name="CannotSetPropertyOnValueType" xml:space="preserve">
     <value>Cannot set property '{0}' on value type '{1}'.</value>
   </data>
+  <data name="MenuButtonCannotBeInOverflow" xml:space="preserve">
+    <value>Menu button must be in an ActionMenu that has been loaded into the visual tree and cannot be inside of an overflow menu.</value>
+  </data>
 </root>

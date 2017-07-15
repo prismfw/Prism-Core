@@ -72,6 +72,9 @@
     <Compile Include="Media\MediaPlaybackItem.cs" />
     <Compile Include="Media\MediaPlaybackItemCollection.cs" />
     <Compile Include="Native\CoreBehaviorAttribute.cs" />
+    <Compile Include="Native\NativeMenuFlyout.cs" />
+    <Compile Include="Native\NativeFlyoutBase.cs" />
+    <Compile Include="Native\NativeFlyout.cs" />
     <Compile Include="Native\NativeErrorEventArgs.cs" />
     <Compile Include="Native\NativeItemEventArgs.cs" />
     <Compile Include="Native\NativeItemChangedEventArgs.cs" />
@@ -95,7 +98,11 @@
     <Compile Include="ResourceKey.cs" />
     <Compile Include="ResourceDictionary.cs" />
     <Compile Include="SystemResources.cs" />
+    <Compile Include="UI\Controls\FlyoutBase.cs" />
     <Compile Include="UI\Controls\MediaElement.cs" />
+    <Compile Include="UI\Controls\Flyout.cs" />
+    <Compile Include="UI\Controls\FlyoutPlacement.cs" />
+    <Compile Include="UI\Controls\MenuFlyout.cs" />
     <Compile Include="UI\Controls\WrapPanel.cs" />
     <Compile Include="UI\Controls\ProgressBar.cs" />
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
