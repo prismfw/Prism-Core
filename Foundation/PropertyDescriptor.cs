@@ -44,26 +44,17 @@ namespace Prism
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
-        public string Name
-        {
-            get { return propertyInfo.Name; }
-        }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the type of which the property is a member.
         /// </summary>
-        public Type OwnerType
-        {
-            get { return propertyInfo.DeclaringType; }
-        }
+        public Type OwnerType { get; }
 
         /// <summary>
         /// Gets the type of value that the property holds.
         /// </summary>
-        public Type PropertyType
-        {
-            get { return propertyInfo.PropertyType; }
-        }
+        public Type PropertyType { get; }
 
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -86,24 +77,15 @@ namespace Prism
         private readonly Dictionary<Type, PropertyMetadata> typeMetadatas = new Dictionary<Type, PropertyMetadata>();
 
         internal PropertyDescriptor(PropertyInfo info, bool cacheGetSetMethods)
+            : this(info, false, cacheGetSetMethods)
         {
-            propertyInfo = info;
             typeMetadatas[info.DeclaringType] = info.DeclaringType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject)) ?
                 new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.None) : new PropertyMetadata(PropertyMetadataOptions.None);
-
-            IsReadOnly = info.SetMethod == null || (!info.SetMethod.IsPublic && info.Module == GetType().GetTypeInfo().Module);
-
-            if (cacheGetSetMethods)
-            {
-                getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,>).MakeGenericType(info.DeclaringType, info.PropertyType), propertyInfo);
-            }
         }
 
         internal PropertyDescriptor(PropertyInfo info, bool isReadOnly, PropertyMetadata metadata)
+            : this(info, isReadOnly, true)
         {
-            propertyInfo = info;
-            IsReadOnly = isReadOnly || info.SetMethod == null;
-
             bool isFOSubclass = info.DeclaringType.GetTypeInfo().IsSubclassOf(typeof(FrameworkObject));
             if (metadata == null)
             {
@@ -124,8 +106,50 @@ namespace Prism
             typeMetadatas[info.DeclaringType] = metadata;
             metadata.OnApply(this, null);
             metadata.IsSealed = true;
+        }
 
-            getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,>).MakeGenericType(info.DeclaringType, info.PropertyType), propertyInfo);
+        // Special constructor for handling array indexers in property paths.
+        // Do NOT use this for anything other than array indexers.
+        internal PropertyDescriptor(Type ownerType, Type propertyType)
+        {
+            IsReadOnly = false;
+            Name = "[]";
+            OwnerType = ownerType;
+            PropertyType = propertyType;
+        }
+
+        private PropertyDescriptor(PropertyInfo info, bool isReadOnly, bool cacheGetSetMethods)
+        {
+            propertyInfo = info;
+            var indexParams = propertyInfo.GetIndexParameters();
+
+            IsReadOnly = isReadOnly || info.SetMethod == null || (!info.SetMethod.IsPublic && info.Module == GetType().GetTypeInfo().Module);
+            Name = indexParams.Length > 0 ? propertyInfo.Name + "[]" : propertyInfo.Name;
+            OwnerType = propertyInfo.DeclaringType;
+            PropertyType = propertyInfo.PropertyType;
+
+            if (cacheGetSetMethods)
+            {
+                try
+                {
+                    if (indexParams.Length == 0)
+                    {
+                        getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,>).MakeGenericType(info.DeclaringType, info.PropertyType), propertyInfo);
+                    }
+                    // We'll cache indexers with up to 2 parameters since those are the most common.
+                    else if (indexParams.Length == 1)
+                    {
+                        getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,,>).MakeGenericType(
+                            info.DeclaringType, indexParams[0].ParameterType, info.PropertyType), propertyInfo);
+                    }
+                    else if (indexParams.Length == 2)
+                    {
+                        getterSetter = (IGetSetInvoker)Activator.CreateInstance(typeof(GetSetInvoker<,,,>).MakeGenericType(
+                            info.DeclaringType, indexParams[0].ParameterType, indexParams[1].ParameterType, info.PropertyType), propertyInfo);
+                    }
+                }
+                catch (TargetInvocationException) { }
+            }
         }
 
         /// <summary>
@@ -304,16 +328,21 @@ namespace Prism
             }
         }
 
-        internal object GetValue(object obj)
+        internal object GetValue(object obj, object[] indices)
         {
+            if (obj.GetType().IsArray && Name == "[]")
+            {
+                return ((Array)obj).GetValue(indices.Cast<int>().ToArray());
+            }
+
             if (getterSetter == null)
             {
-                return propertyInfo.GetValue(obj);
+                return propertyInfo.GetValue(obj, indices);
             }
 
             try
             {
-                return getterSetter.GetValue(obj);
+                return getterSetter.GetValue(obj, indices);
             }
             catch (MissingMemberException)
             {
@@ -321,22 +350,26 @@ namespace Prism
             }
         }
 
-        internal void SetValue(object obj, object value)
+        internal void SetValue(object obj, object value, object[] indices)
         {
             if (IsReadOnly)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.AttemptedToSetReadOnlyProperty, Name));
             }
 
-            if (getterSetter == null)
+            if (obj.GetType().IsArray && Name == "[]")
             {
-                propertyInfo.SetValue(obj, value);
+                ((Array)obj).SetValue(value, indices.Cast<int>().ToArray());
+            }
+            else if (getterSetter == null)
+            {
+                propertyInfo.SetValue(obj, value, indices);
             }
             else
             {
                 try
                 {
-                    getterSetter.SetValue(obj, value);
+                    getterSetter.SetValue(obj, value, indices);
                 }
                 catch (MissingMemberException)
                 {
@@ -351,9 +384,9 @@ namespace Prism
 
         private interface IGetSetInvoker
         {
-            object GetValue(object obj);
+            object GetValue(object obj, object[] indices);
 
-            void SetValue(object obj, object value);
+            void SetValue(object obj, object value, object[] indices);
         }
 
         private class GetSetInvoker<O, P> : IGetSetInvoker
@@ -375,7 +408,7 @@ namespace Prism
                 }
             }
 
-            public object GetValue(object obj)
+            public object GetValue(object obj, object[] indices)
             {
                 if (getMethod == null)
                 {
@@ -391,7 +424,7 @@ namespace Prism
                 return getMethod((O)obj);
             }
 
-            public void SetValue(object obj, object value)
+            public void SetValue(object obj, object value, object[] indices)
             {
                 if (setMethod == null)
                 {
@@ -411,6 +444,118 @@ namespace Prism
             }
         }
 
-        private delegate P ValueTypeFunc<O, P>(ref O arg);
+        private class GetSetInvoker<O, A1, P> : IGetSetInvoker
+        {
+            private readonly Func<O, A1, P> getMethod;
+            private readonly Action<O, A1, P> setMethod;
+            private readonly ValueTypeFunc<O, A1, P> valueGetMethod;
+
+            public GetSetInvoker(PropertyInfo info)
+            {
+                if (info.DeclaringType.GetTypeInfo().IsValueType)
+                {
+                    valueGetMethod = (ValueTypeFunc<O, A1, P>)info.GetMethod?.CreateDelegate(typeof(ValueTypeFunc<O, A1, P>));
+                }
+                else
+                {
+                    getMethod = (Func<O, A1, P>)info.GetMethod?.CreateDelegate(typeof(Func<O, A1, P>));
+                    setMethod = (Action<O, A1, P>)info.SetMethod?.CreateDelegate(typeof(Action<O, A1, P>));
+                }
+            }
+
+            public object GetValue(object obj, object[] indices)
+            {
+                if (getMethod == null)
+                {
+                    if (valueGetMethod == null)
+                    {
+                        throw new MissingMemberException();
+                    }
+
+                    var instance = (O)obj;
+                    return valueGetMethod(ref instance, (A1)indices[0]);
+                }
+
+                return getMethod((O)obj, (A1)indices[0]);
+            }
+
+            public void SetValue(object obj, object value, object[] indices)
+            {
+                if (setMethod == null)
+                {
+                    if (valueGetMethod == null)
+                    {
+                        // Declaring type is a reference type, but the property setter is missing.
+                        throw new MissingMemberException();
+                    }
+                    else
+                    {
+                        // Declaring type is a value type.  This is unsupported!
+                        throw new NotSupportedException();
+                    }
+                }
+
+                setMethod((O)obj, (A1)indices[0], (P)value);
+            }
+        }
+
+        private class GetSetInvoker<O, A1, A2, P> : IGetSetInvoker
+        {
+            private readonly Func<O, A1, A2, P> getMethod;
+            private readonly Action<O, A1, A2, P> setMethod;
+            private readonly ValueTypeFunc<O, A1, A2, P> valueGetMethod;
+
+            public GetSetInvoker(PropertyInfo info)
+            {
+                if (info.DeclaringType.GetTypeInfo().IsValueType)
+                {
+                    valueGetMethod = (ValueTypeFunc<O, A1, A2, P>)info.GetMethod?.CreateDelegate(typeof(ValueTypeFunc<O, A1, A2, P>));
+                }
+                else
+                {
+                    getMethod = (Func<O, A1, A2, P>)info.GetMethod?.CreateDelegate(typeof(Func<O, A1, A2, P>));
+                    setMethod = (Action<O, A1, A2, P>)info.SetMethod?.CreateDelegate(typeof(Action<O, A1, A2, P>));
+                }
+            }
+
+            public object GetValue(object obj, object[] indices)
+            {
+                if (getMethod == null)
+                {
+                    if (valueGetMethod == null)
+                    {
+                        throw new MissingMemberException();
+                    }
+
+                    var instance = (O)obj;
+                    return valueGetMethod(ref instance, (A1)indices[0], (A2)indices[1]);
+                }
+
+                return getMethod((O)obj, (A1)indices[0], (A2)indices[1]);
+            }
+
+            public void SetValue(object obj, object value, object[] indices)
+            {
+                if (setMethod == null)
+                {
+                    if (valueGetMethod == null)
+                    {
+                        // Declaring type is a reference type, but the property setter is missing.
+                        throw new MissingMemberException();
+                    }
+                    else
+                    {
+                        // Declaring type is a value type.  This is unsupported!
+                        throw new NotSupportedException();
+                    }
+                }
+
+                setMethod((O)obj, (A1)indices[0], (A2)indices[1], (P)value);
+            }
+        }
+
+        private delegate P ValueTypeFunc<O, P>(ref O obj);
+        private delegate P ValueTypeFunc<O, A1, P>(ref O obj, A1 arg1);
+        private delegate P ValueTypeFunc<O, A1, A2, P>(ref O obj, A1 arg1, A2 arg2);
     }
 }

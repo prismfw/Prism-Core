@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -76,18 +75,37 @@ namespace Prism
             Path = path;
             PathParameters = new ReadOnlyCollection<object>(pathParameters);
 
-            pathTokens = Path.Split('.');
+            var tokenIndices = new List<int>() { 0 };
+            for (int i = 0; i < Path.Length; i++)
+            {
+                char c = Path[i];
+                if (c == '.' || c == '[')
+                {
+                    tokenIndices.Add(i);
+                }
+            }
+
+            pathTokens = new string[tokenIndices.Count];
+            for (int i = 0; i < tokenIndices.Count; i++)
+            {
+                int startIndex = tokenIndices[i];
+                if (Path[startIndex] == '.')
+                {
+                    startIndex++;
+                }
+
+                int endIndex = tokenIndices.Count - 1 > i ? tokenIndices[i + 1] : Path.Length;
+                pathTokens[i] = Path.Substring(startIndex, endIndex - startIndex);
+            }
+
             pathIndices = new object[pathTokens.Length][];
             for (int i = 0; i < pathTokens.Length; i++)
             {
                 string token = pathTokens[i];
-                if (token[token.Length - 1] == ']')
+                if (token[0] == '[')
                 {
-                    int index = token.LastIndexOf('[');
-                    string[] values = token.Substring(index + 1, token.Length - index - 2).Split(',');
+                    string[] values = token.Substring(1, token.Length - 2).Split(',');
                     object[] indices = new object[values.Length];
-
-                    token = token.Substring(0, index);
 
                     for (int j = 0; j < values.Length; j++)
                     {
@@ -97,6 +115,7 @@ namespace Prism
                             if (name.EndsWith("}", StringComparison.Ordinal))
                             {
                                 string value = name.Substring(1, name.Length - 2);
+                                int index;
                                 if (int.TryParse(value, out index))
                                 {
                                     if (index < 0 || PathParameters == null || index >= PathParameters.Count)
@@ -294,8 +313,7 @@ namespace Prism
         {
             return pathTokenIndex >= 0 && pathTokenIndex < pathIndices.Length ? pathIndices[pathTokenIndex] : null;
         }
-
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Method is sufficiently maintainable.")]
+        
         internal void ResolvePath(object sourceObj, out WeakReference[] objects, out PropertyDescriptor[] descriptors, bool cacheGetSetMethods)
         {
             objects = new WeakReference[pathTokens.Length];
@@ -304,14 +322,18 @@ namespace Prism
             for (int i = 0; i < pathTokens.Length; i++)
             {
                 var name = pathTokens[i];
-                if (name != null && name.Length > 0 && name[name.Length - 1] == ']')
+                var type = sourceObj.GetType();
+                if (type.IsArray && name[0] == '[')
                 {
-                    name = name.Substring(0, name.LastIndexOf('['));
+                    // Array indexers need to be handled specially since they cannot be accessed through property info.
+                    objects[i] = new WeakReference(sourceObj);
+                    descriptors[i] = new PropertyDescriptor(type, type.GetElementType());
+
+                    sourceObj = ((Array)sourceObj).GetValue(pathIndices[i].Cast<int>().ToArray());
+                    continue;
                 }
 
-                var type = sourceObj.GetType();
-                var props = type.GetRuntimeProperties().Where(p => p.Name == name);
-                var info = props.FirstOrDefault(p => p.DeclaringType == type) ?? props.FirstOrDefault();
+                var info = GetProperty(type, name, pathIndices[i]);
                 if (info == null)
                 {
                     sourceObj = (sourceObj is FrameworkObject ? ObjectRetriever.GetNativeObject(sourceObj) :
@@ -321,8 +343,7 @@ namespace Prism
                     if (sourceType != type)
                     {
                         type = sourceType;
-                        props = type.GetRuntimeProperties().Where(p => p.Name == name);
-                        info = props.FirstOrDefault(p => p.DeclaringType == type) ?? props.FirstOrDefault();
+                        info = GetProperty(type, name, pathIndices[i]);
                     }
 
                     if (info == null)
@@ -332,25 +353,20 @@ namespace Prism
                 }
 
                 objects[i] = new WeakReference(sourceObj);
-                sourceObj = info.GetValue(sourceObj);
 
-                var indices = pathIndices[i];
-                if (indices != null)
+                try
                 {
-                    try
-                    {
-                        if (info.PropertyType.IsArray)
-                        {
-                            sourceObj = ((Array)sourceObj).GetValue(indices.Cast<int>().ToArray());
-                        }
-                        else
-                        {
-                            sourceObj = sourceObj.GetType().GetRuntimeProperty("Item").GetValue(sourceObj, indices);
-                        }
-                    }
-                    catch (Exception e)
+                    sourceObj = info.GetValue(sourceObj, pathIndices[i]);
+                }
+                catch (Exception e)
+                {
+                    if (pathIndices != null)
                     {
                         throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.CannotResolveIndexerForPathToken, pathTokens[i]), e);
+                    }
+                    else
+                    {
+                        throw;
                     }
                 }
 
@@ -360,6 +376,46 @@ namespace Prism
                     .FirstOrDefault(pd => pd.OwnerType == info.DeclaringType && pd.PropertyType == info.PropertyType && pd.Name == info.Name)
                     ?? new PropertyDescriptor(info, cacheGetSetMethods);
             }
+        }
+
+        private static PropertyInfo GetProperty(Type type, string name, object[] indices)
+        {
+            PropertyInfo retval = null;
+            foreach (var prop in type.GetRuntimeProperties())
+            {
+                if (name == prop.Name || (name[0] == '[' && prop.Name == "Item" && IsMatch(prop.GetIndexParameters(), indices)))
+                {
+                    if (prop.DeclaringType == type)
+                    {
+                        return prop;
+                    }
+
+                    if (retval == null || prop.DeclaringType.GetTypeInfo().IsSubclassOf(retval.DeclaringType))
+                    {
+                        retval = prop;
+                    }
+                }
+            }
+
+            return retval;
+        }
+
+        private static bool IsMatch(ParameterInfo[] indexParams, object[] indices)
+        {
+            if (indexParams.Length != indices?.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < indexParams.Length; i++)
+            {
+                if (!indexParams[i].ParameterType.GetTypeInfo().IsAssignableFrom(indices[i].GetType().GetTypeInfo()))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

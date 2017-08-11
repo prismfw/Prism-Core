@@ -25,7 +25,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using Prism.Native;
 using Prism.UI;
@@ -382,25 +381,7 @@ namespace Prism.Data
 
         private static object GetValue(object obj, PropertyDescriptor descriptor, object[] indices)
         {
-            if (obj == null)
-            {
-                return null;
-            }
-        
-            if (indices != null)
-            {
-                obj = descriptor.GetValue(obj);
-                if (descriptor.PropertyType.IsArray)
-                {
-                    return ((Array)obj)?.GetValue(indices.Cast<int>().ToArray());
-                }
-                else
-                {
-                    return obj?.GetType().GetRuntimeProperty("Item").GetValue(obj, indices);
-                }
-            }
-
-            return descriptor.GetValue(obj);
+            return obj == null ? null : descriptor.GetValue(obj, indices);
         }
 
         private object GetConvertedValue(object value, Type targetType, bool isSource)
@@ -434,22 +415,7 @@ namespace Prism.Data
                 return;
             }
 
-            if (indices != null)
-            {
-                obj = descriptor.GetValue(obj);
-                if (descriptor.PropertyType.IsArray)
-                {
-                    ((Array)obj).SetValue(value, indices.Cast<int>().ToArray());
-                }
-                else
-                {
-                    obj.GetType().GetRuntimeProperty("Item").SetValue(obj, value, indices);
-                }
-            }
-            else
-            {
-                descriptor.SetValue(obj, value);
-            }
+            descriptor.SetValue(obj, value, indices);
         }
 
         private void OnDataContextChanged(IDataContext sender, DataContextChangedEventArgs e)

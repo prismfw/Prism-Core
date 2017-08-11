@@ -600,8 +600,8 @@ namespace Prism.UI
 
             try
             {
-                property.SetValue(this, TryFindResource(resourceKey));
-                resourceRef.Value = property.GetValue(this);
+                property.SetValue(this, TryFindResource(resourceKey), null);
+                resourceRef.Value = property.GetValue(this, null);
             }
             catch (Exception e)
             {
@@ -998,15 +998,15 @@ namespace Prism.UI
             try
             {
                 // If the property has been set to something else, the resource reference is no longer valid.
-                var propValue = resourceRef.Property.GetValue(this);
+                var propValue = resourceRef.Property.GetValue(this, null);
                 if (propValue == null ? resourceRef.Value == null : propValue.Equals(resourceRef.Value))
                 {
                     resourceRef.Value = TryFindResource(resourceRef.Key);
                     if (propValue == null ? resourceRef.Value != null : !propValue.Equals(resourceRef.Value))
                     {
-                        resourceRef.Property.SetValue(this, resourceRef.Value);
+                        resourceRef.Property.SetValue(this, resourceRef.Value, null);
                         // The exact value of the property could be different (for instance, with floating point numbers), so we read it and store it.
-                        resourceRef.Value = resourceRef.Property.GetValue(this);
+                        resourceRef.Value = resourceRef.Property.GetValue(this, null);
                     }
                     return true;
                 }

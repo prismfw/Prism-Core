@@ -265,7 +265,7 @@ namespace Prism
                 throw new ArgumentException(Resources.Strings.OwnerTypeDoesNotMatchCurrentType, nameof(property));
             }
 
-            property.SetValue(this, value);
+            property.SetValue(this, value, null);
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Prism
                 propertyPath.ResolvePath(this, out refs, out descriptors, false);
 
                 var finalDescriptor = descriptors.Last();
-                finalDescriptor.SetValue(refs.Last().Target, TypeConverter.Convert(value, finalDescriptor.PropertyType));
+                finalDescriptor.SetValue(refs.Last().Target, TypeConverter.Convert(value, finalDescriptor.PropertyType), propertyPath.GetIndexValues(descriptors.Length - 1));
             }
             catch (Exception e)
             {
