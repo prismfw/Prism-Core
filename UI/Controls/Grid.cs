@@ -695,6 +695,7 @@ namespace Prism.UI.Controls
 
                     double oldValue;
                     double newValue;
+                    double allocation;
                     double difference;
 
                     // if the child spans a star column, only expand the stars that it's in; otherwise, expand the autos that it's in
@@ -708,34 +709,43 @@ namespace Prism.UI.Controls
                         }
                     }
 
-                    while (desiredSize.Width / trueSpan > 0)
+                    if (desiredSize.Width > 0 && trueSpan > 0)
                     {
+                        allocation = Math.Min(desiredSize.Width / trueSpan, availableSize.Width);
                         for (i = columnIndex; i < columnSpan; i++)
                         {
                             column = ColumnDefinitions[i];
                             if ((inStar && column.Width.IsStar) || (!inStar && !column.Width.IsAbsolute))
                             {
                                 oldValue = columns[i];
-                                newValue = Math.Min(availableSize.Width + oldValue, Math.Max(column.MinWidth, Math.Min(column.MaxWidth, oldValue + (desiredSize.Width / trueSpan))));
+                                newValue = Math.Min(availableSize.Width + oldValue, Math.Max(column.MinWidth, Math.Min(column.MaxWidth, oldValue + allocation)));
                                 difference = newValue - oldValue;
 
-                                if (difference > 0)
+                                if (difference != allocation && difference != 0)
                                 {
+                                    columns[i] = newValue;
+
                                     availableSize.Width -= difference;
                                     desiredSize.Width -= difference;
-
-                                    columns[i] = newValue;
-                                }
-                                else
-                                {
-                                    trueSpan--;
+                                    allocation = desiredSize.Width / (--trueSpan);
+                                    i = -1;
                                 }
                             }
                         }
 
-                        if (trueSpan == 0)
+                        for (i = columnIndex; i < columnSpan; i++)
                         {
-                            break;
+                            column = ColumnDefinitions[i];
+                            if ((inStar && column.Width.IsStar) || (!inStar && !column.Width.IsAbsolute))
+                            {
+                                oldValue = columns[i];
+                                newValue = Math.Max(column.MinWidth, Math.Min(column.MaxWidth, oldValue + allocation));
+                                if (oldValue != newValue)
+                                {
+                                    availableSize.Width -= (newValue - oldValue);
+                                    columns[i] = newValue;
+                                }
+                            }
                         }
                     }
 
@@ -761,34 +771,43 @@ namespace Prism.UI.Controls
                         }
                     }
 
-                    while (desiredSize.Height / trueSpan > 0)
+                    if (desiredSize.Height > 0 && trueSpan > 0)
                     {
+                        allocation = Math.Min(desiredSize.Height / trueSpan, availableSize.Height);
                         for (i = rowIndex; i < rowSpan; i++)
                         {
                             row = RowDefinitions[i];
                             if ((inStar && row.Height.IsStar) || (!inStar && !row.Height.IsAbsolute))
                             {
                                 oldValue = rows[i];
-                                newValue = Math.Min(availableSize.Height + oldValue, Math.Max(row.MinHeight, Math.Min(row.MaxHeight, oldValue + (desiredSize.Height / trueSpan))));
+                                newValue = Math.Min(availableSize.Height + oldValue, Math.Max(row.MinHeight, Math.Min(row.MaxHeight, oldValue + allocation)));
                                 difference = newValue - oldValue;
 
-                                if (difference > 0)
+                                if (difference != allocation && difference != 0)
                                 {
+                                    rows[i] = newValue;
+
                                     availableSize.Height -= difference;
                                     desiredSize.Height -= difference;
-
-                                    rows[i] = newValue;
-                                }
-                                else
-                                {
-                                    trueSpan--;
+                                    allocation = desiredSize.Height / (--trueSpan);
+                                    i = -1;
                                 }
                             }
                         }
 
-                        if (trueSpan == 0)
+                        for (i = rowIndex; i < rowSpan; i++)
                         {
-                            break;
+                            row = RowDefinitions[i];
+                            if ((inStar && row.Height.IsStar) || (!inStar && !row.Height.IsAbsolute))
+                            {
+                                oldValue = rows[i];
+                                newValue = Math.Max(row.MinHeight, Math.Min(row.MaxHeight, oldValue + allocation));
+                                if (oldValue != newValue)
+                                {
+                                    availableSize.Height -= (newValue - oldValue);
+                                    rows[i] = newValue;
+                                }
+                            }
                         }
                     }
                 }
