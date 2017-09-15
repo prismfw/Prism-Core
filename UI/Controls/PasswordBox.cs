@@ -62,6 +62,11 @@ namespace Prism.UI.Controls
         public static PropertyDescriptor InputTypeProperty { get; } = PropertyDescriptor.Create(nameof(InputType), typeof(InputType), typeof(PasswordBox));
 
         /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsPasswordVisible"/> property.
+        /// </summary>
+        public static PropertyDescriptor IsPasswordVisibleProperty { get; } = PropertyDescriptor.Create(nameof(IsPasswordVisible), typeof(bool), typeof(PasswordBox));
+
+        /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxLength"/> property.
         /// </summary>
         public static PropertyDescriptor MaxLengthProperty { get; } = PropertyDescriptor.Create(nameof(MaxLength), typeof(int), typeof(PasswordBox));
@@ -113,6 +118,15 @@ namespace Prism.UI.Controls
 
                 nativeObject.InputType = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the password is displayed in plain text.
+        /// </summary>
+        public bool IsPasswordVisible
+        {
+            get { return nativeObject.IsPasswordVisible; }
+            set { nativeObject.IsPasswordVisible = value; }
         }
 
         /// <summary>
@@ -214,6 +228,7 @@ namespace Prism.UI.Controls
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
             InputType = InputType.Alphanumeric;
+            IsPasswordVisible = false;
 
             SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);

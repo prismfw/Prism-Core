@@ -54,6 +54,11 @@ namespace Prism.Native
         InputType InputType { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the password is displayed in plain text.
+        /// </summary>
+        bool IsPasswordVisible { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum number of characters that are allowed to be entered into the control.
         /// A value of 0 means there is no limit.
         /// </summary>
