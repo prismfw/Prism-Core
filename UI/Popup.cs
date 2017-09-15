@@ -80,6 +80,11 @@ namespace Prism.UI
         #endregion
 
         /// <summary>
+        /// Gets or sets a value indicating whether presentation styles that are normally restricted to certain device form factors are allowed for all form factors.
+        /// </summary>
+        public static bool AllowUnrestrictedPresentationStyles { get; set; }
+
+        /// <summary>
         /// Occurs when the popup is closed.
         /// </summary>
         [SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "Event handler provides a strongly-typed sender for easier use.")]
@@ -306,8 +311,7 @@ namespace Prism.UI
             {
                 presenter.PresentedPopup = this;
                 presentingObject = presenter;
-                nativeObject.Open(ObjectRetriever.GetNativeObject(presenter),
-                    Device.Current.FormFactor == FormFactor.Phone ? PopupPresentationStyle.FullScreen : presentationStyle);
+                nativeObject.Open(ObjectRetriever.GetNativeObject(presenter), GetActualPresentationStyle());
             }
             else if (presenter.PresentedPopup != this)
             {
@@ -332,8 +336,7 @@ namespace Prism.UI
             {
                 presenter.PresentedPopup = this;
                 presentingObject = presenter;
-                nativeObject.Open(ObjectRetriever.GetNativeObject(presenter),
-                    Device.Current.FormFactor == FormFactor.Phone ? PopupPresentationStyle.FullScreen : presentationStyle);
+                nativeObject.Open(ObjectRetriever.GetNativeObject(presenter), GetActualPresentationStyle());
             }
             else if (presenter.PresentedPopup != this)
             {
@@ -368,7 +371,7 @@ namespace Prism.UI
         {
             constraints = base.MeasureCore(constraints);
             
-            switch (Device.Current.FormFactor == FormFactor.Phone ? PopupPresentationStyle.FullScreen : presentationStyle)
+            switch (GetActualPresentationStyle())
             {
                 case PopupPresentationStyle.Default:
                     var size = (Size)FindResource(SystemResources.PopupSizeKey);
@@ -410,6 +413,17 @@ namespace Prism.UI
         protected virtual void OnOpened(EventArgs e)
         {   
             Opened?.Invoke(this, e);
+        }
+
+        private PopupPresentationStyle GetActualPresentationStyle()
+        {
+            if (Device.Current.FormFactor < FormFactor.Tablet && (presentationStyle == PopupPresentationStyle.Default ||
+                (presentationStyle == PopupPresentationStyle.Custom && !AllowUnrestrictedPresentationStyles)))
+            {
+                return PopupPresentationStyle.FullScreen;
+            }
+
+            return presentationStyle;
         }
 
         private void Initialize()
