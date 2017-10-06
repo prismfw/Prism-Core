@@ -58,7 +58,10 @@ namespace Prism.UI.Media
                 throw new ArgumentException(Resources.Strings.OneColorMinimum, nameof(colors));
             }
 
-            Colors = new ReadOnlyCollection<Color>(colors);
+            var colorArray = new Color[colors.Length];
+            colors.CopyTo(colorArray, 0);
+
+            Colors = new ReadOnlyCollection<Color>(colorArray);
             StartPoint = startPoint;
             EndPoint = endPoint;
         }
