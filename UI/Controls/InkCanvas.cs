@@ -59,14 +59,14 @@ namespace Prism.UI.Controls
             {
                 if (value != drawingAttributes)
                 {
-                    if (drawingAttributes != null)
-                    {
-                        drawingAttributes.PropertyChanged -= OnDrawingAttributeChanged;
-                    }
-
                     if (value == null)
                     {
                         throw new ArgumentNullException(nameof(DefaultDrawingAttributes));
+                    }
+
+                    if (drawingAttributes != null)
+                    {
+                        drawingAttributes.PropertyChanged -= OnDrawingAttributeChanged;
                     }
 
                     drawingAttributes = value;
