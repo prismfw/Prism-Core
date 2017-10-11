@@ -117,7 +117,7 @@ namespace Prism.UI.Media.Inking
         /// </summary>
         public InkDrawingAttributes()
         {
-            Color = (Color)Application.Current.FindResource(SystemResources.AltColorHighKey);
+            Color = (Color)Application.Current.FindResource(SystemResources.AltHighColorKey);
             PenTip = PenTipShape.Circle;
             Size = 2;
         }

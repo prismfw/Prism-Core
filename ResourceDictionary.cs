@@ -30,6 +30,7 @@ using System.Linq;
 using System.Reflection;
 using Prism.Native;
 using Prism.UI;
+using Prism.UI.Media;
 
 namespace Prism
 {
@@ -237,7 +238,7 @@ namespace Prism
             if (readFromSystem)
             {
                 var resourceKey = key as ResourceKey;
-                if (TryGetCoreResource(resourceKey, theme, out value))
+                if (TryGetCoreResource(obj, resourceKey, theme, out value))
                 {
                     return true;
                 }
@@ -247,7 +248,10 @@ namespace Prism
                     return true;
                 }
 
-                Debug.Assert(resourceKey == null, string.Format(CultureInfo.CurrentCulture, "Missing system resource value for {0}!", (SystemResourceKeyId)resourceKey.Id));
+                if (resourceKey != null)
+                {
+                    Debug.Assert(false, string.Format(CultureInfo.CurrentCulture, "Missing system resource value for {0}!", (SystemResourceKeyId)resourceKey.Id));
+                }
             }
 
             return false;
@@ -264,35 +268,52 @@ namespace Prism
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceMustBeOfType, typeInfo.FullName));
                 }
             }
-            else if(!(key is string))
+            else if (!(key is string))
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.ResourceKeyCanOnlyBeOfType, typeof(string).FullName, typeof(ResourceKey).FullName));
             }
         }
 
-        private static bool TryGetCoreResource(ResourceKey key, Theme theme, out object value)
+        private bool TryGetCoreResource(object obj, ResourceKey key, Theme theme, out object value)
         {
             if (key != null)
             {
                 switch ((SystemResourceKeyId)key.Id)
                 {
-                    case SystemResourceKeyId.AltColorHigh:
+                    case SystemResourceKeyId.AltHighColor:
                         value = theme == Theme.Dark ? Colors.White : Colors.Black;
                         return true;
-                    case SystemResourceKeyId.AltColorMedium:
+                    case SystemResourceKeyId.AltMediumColor:
                         value = theme == Theme.Dark ? new Color(214, 214, 214) : new Color(42, 42, 42);
                         return true;
-                    case SystemResourceKeyId.AltColorLow:
+                    case SystemResourceKeyId.AltLowColor:
                         value = theme == Theme.Dark ? new Color(171, 171, 171) : new Color(85, 85, 85);
                         return true;
-                    case SystemResourceKeyId.BaseColorHigh:
+                    case SystemResourceKeyId.BaseHighColor:
                         value = theme == Theme.Dark ? Colors.Black : Colors.White;
                         return true;
-                    case SystemResourceKeyId.BaseColorMedium:
+                    case SystemResourceKeyId.BaseMediumColor:
                         value = theme == Theme.Dark ? new Color(42, 42, 42) : new Color(214, 214, 214);
                         return true;
-                    case SystemResourceKeyId.BaseColorLow:
+                    case SystemResourceKeyId.BaseLowColor:
                         value = theme == Theme.Dark ? new Color(85, 85, 85) : new Color(171, 171, 171);
+                        return true;
+                    case SystemResourceKeyId.AltHighBrush:
+                    case SystemResourceKeyId.AltMediumBrush:
+                    case SystemResourceKeyId.AltLowBrush:
+                    case SystemResourceKeyId.BaseHighBrush:
+                    case SystemResourceKeyId.BaseMediumBrush:
+                    case SystemResourceKeyId.BaseLowBrush:
+                        var visual = obj as Visual;
+                        if (visual == null)
+                        {
+                            TryGetResource(obj, key.DependencyKey, out value, true);
+                        }
+                        else
+                        {
+                            value = visual.TryFindResource(key.DependencyKey);
+                        }
+                        value = new SolidColorBrush((Color)(value ?? new Color()));
                         return true;
                 }
             }

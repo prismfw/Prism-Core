@@ -492,62 +492,62 @@ namespace Prism
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
         /// </summary>
-        public static ResourceKey AltColorHighKey
+        public static ResourceKey AltHighColorKey
         {
-            get { return altColorHighKey ?? (altColorHighKey = new ResourceKey(SystemResourceKeyId.AltColorHigh, typeof(Color))); }
+            get { return altHighColorKey ?? (altHighColorKey = new ResourceKey(SystemResourceKeyId.AltHighColor, typeof(Color))); }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey altColorHighKey;
+        private static ResourceKey altHighColorKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with low contrast.
         /// </summary>
-        public static ResourceKey AltColorLowKey
+        public static ResourceKey AltLowColorKey
         {
-            get { return altColorLowKey ?? (altColorLowKey = new ResourceKey(SystemResourceKeyId.AltColorLow, typeof(Color))); }
+            get { return altLowColorKey ?? (altLowColorKey = new ResourceKey(SystemResourceKeyId.AltLowColor, typeof(Color))); }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey altColorLowKey;
+        private static ResourceKey altLowColorKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with high contrast.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the alternative color of the current theme with medium contrast.
         /// </summary>
-        public static ResourceKey AltColorMediumKey
+        public static ResourceKey AltMediumColorKey
         {
-            get { return altColorMediumKey ?? (altColorMediumKey = new ResourceKey(SystemResourceKeyId.AltColorMedium, typeof(Color))); }
+            get { return altMediumColorKey ?? (altMediumColorKey = new ResourceKey(SystemResourceKeyId.AltMediumColor, typeof(Color))); }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey altColorMediumKey;
-
-        /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
-        /// </summary>
-        public static ResourceKey BaseColorHighKey
-        {
-            get { return baseColorHighKey ?? (baseColorHighKey = new ResourceKey(SystemResourceKeyId.BaseColorHigh, typeof(Color))); }
-        }
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey baseColorHighKey;
+        private static ResourceKey altMediumColorKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
         /// </summary>
-        public static ResourceKey BaseColorLowKey
+        public static ResourceKey BaseHighColorKey
         {
-            get { return baseColorLowKey ?? (baseColorLowKey = new ResourceKey(SystemResourceKeyId.BaseColorLow, typeof(Color))); }
+            get { return baseHighColorKey ?? (baseHighColorKey = new ResourceKey(SystemResourceKeyId.BaseHighColor, typeof(Color))); }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey baseColorLowKey;
+        private static ResourceKey baseHighColorKey;
 
         /// <summary>
-        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with high contrast.
+        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with low contrast.
         /// </summary>
-        public static ResourceKey BaseColorMediumKey
+        public static ResourceKey BaseLowColorKey
         {
-            get { return baseColorMediumKey ?? (baseColorMediumKey = new ResourceKey(SystemResourceKeyId.BaseColorMedium, typeof(Color))); }
+            get { return baseLowColorKey ?? (baseLowColorKey = new ResourceKey(SystemResourceKeyId.BaseLowColor, typeof(Color))); }
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static ResourceKey baseColorMediumKey;
+        private static ResourceKey baseLowColorKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving the base color of the current theme with medium contrast.
+        /// </summary>
+        public static ResourceKey BaseMediumColorKey
+        {
+            get { return baseMediumColorKey ?? (baseMediumColorKey = new ResourceKey(SystemResourceKeyId.BaseMediumColor, typeof(Color))); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseMediumColorKey;
         #endregion
 
         #region Brushes
@@ -590,6 +590,66 @@ namespace Prism
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private static ResourceKey activityIndicatorForegroundBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the AltHighColor resource.
+        /// </summary>
+        public static ResourceKey AltHighBrushKey
+        {
+            get { return altHighBrushKey ?? (altHighBrushKey = new ResourceKey(SystemResourceKeyId.AltHighBrush, typeof(Brush), AltHighColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altHighBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the AltLowColor resource.
+        /// </summary>
+        public static ResourceKey AltLowBrushKey
+        {
+            get { return altLowBrushKey ?? (altLowBrushKey = new ResourceKey(SystemResourceKeyId.AltLowBrush, typeof(Brush), AltLowColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altLowBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the AltMediumColor resource.
+        /// </summary>
+        public static ResourceKey AltMediumBrushKey
+        {
+            get { return altMediumBrushKey ?? (altMediumBrushKey = new ResourceKey(SystemResourceKeyId.AltMediumBrush, typeof(Brush), AltMediumColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey altMediumBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the BaseHighColor resource.
+        /// </summary>
+        public static ResourceKey BaseHighBrushKey
+        {
+            get { return baseHighBrushKey ?? (baseHighBrushKey = new ResourceKey(SystemResourceKeyId.BaseHighBrush, typeof(Brush), BaseHighColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseHighBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the BaseLowColor resource.
+        /// </summary>
+        public static ResourceKey BaseLowBrushKey
+        {
+            get { return baseLowBrushKey ?? (baseLowBrushKey = new ResourceKey(SystemResourceKeyId.BaseLowBrush, typeof(Brush), BaseLowColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseLowBrushKey;
+
+        /// <summary>
+        /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the color that is associated with the BaseMediumColor resource.
+        /// </summary>
+        public static ResourceKey BaseMediumBrushKey
+        {
+            get { return baseMediumBrushKey ?? (baseMediumBrushKey = new ResourceKey(SystemResourceKeyId.BaseMediumBrush, typeof(Brush), BaseMediumColorKey)); }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private static ResourceKey baseMediumBrushKey;
 
         /// <summary>
         /// Gets a <see cref="ResourceKey"/> for retrieving a <see cref="Brush"/> with the default background of a <see cref="Button"/>.

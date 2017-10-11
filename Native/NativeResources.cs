@@ -252,27 +252,27 @@ namespace Prism.Native
         /// <summary>
         /// An identifier for retrieving the alternative color of the current theme with high contrast.
         /// </summary>
-        AltColorHigh,
+        AltHighColor,
         /// <summary>
         /// An identifier for retrieving the alternative color of the current theme with low contrast.
         /// </summary>
-        AltColorLow,
+        AltLowColor,
         /// <summary>
         /// An identifier for retrieving the alternative color of the current theme with medium contrast.
         /// </summary>
-        AltColorMedium,
+        AltMediumColor,
         /// <summary>
         /// An identifier for retrieving the base color of the current theme with high contrast.
         /// </summary>
-        BaseColorHigh,
+        BaseHighColor,
         /// <summary>
         /// An identifier for retrieving the base color of the current theme with low contrast.
         /// </summary>
-        BaseColorLow,
+        BaseLowColor,
         /// <summary>
         /// An identifier for retrieving the base color of the current theme with medium contrast.
         /// </summary>
-        BaseColorMedium,
+        BaseMediumColor,
         #endregion
 
         #region Brushes
@@ -292,6 +292,30 @@ namespace Prism.Native
         /// An identifier for retrieving a <see cref="Brush"/> with the default foreground of a <see cref="ActivityIndicator"/>.
         /// </summary>
         ActivityIndicatorForegroundBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the AltHighColor resource.
+        /// </summary>
+        AltHighBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the AltLowColor resource.
+        /// </summary>
+        AltLowBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the AltMediumColor resource.
+        /// </summary>
+        AltMediumBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the BaseHighColor resource.
+        /// </summary>
+        BaseHighBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the BaseLowColor resource.
+        /// </summary>
+        BaseLowBrush,
+        /// <summary>
+        /// An identifier for retrieving a <see cref="Brush"/> with the color that is associated with the BaseMediumColor resource.
+        /// </summary>
+        BaseMediumBrush,
         /// <summary>
         /// An identifier for retrieving a <see cref="Brush"/> with the default background of a <see cref="Button"/>.
         /// </summary>

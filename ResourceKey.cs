@@ -39,12 +39,18 @@ namespace Prism
         /// Gets an identifier for the resource.
         /// </summary>
         public int Id { get; }
+
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        internal ResourceKey DependencyKey { get; }
         
-        internal ResourceKey(SystemResourceKeyId id, Type expectedType)
+        internal ResourceKey(SystemResourceKeyId id, Type expectedType, ResourceKey dependencyKey = null)
         {
             Debug.Assert(id > SystemResourceKeyId.StartMarker && id < SystemResourceKeyId.EndMarker, "Undefined resource ID!");
             Debug.Assert(expectedType != null);
 
+            DependencyKey = dependencyKey;
             ExpectedType = expectedType;
             Id = (int)id;
         }

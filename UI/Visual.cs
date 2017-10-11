@@ -790,7 +790,7 @@ namespace Prism.UI
                 for (int i = 0; i < visualObj.resourceReferences.Count; i++)
                 {
                     var resourceRef = visualObj.resourceReferences[i];
-                    if (resourceRef.Key.Equals(key))
+                    if (resourceRef.IsKeyRelated(key))
                     {
                         if (!visualObj.UpdateResourceReference(resourceRef))
                         {
@@ -1029,6 +1029,27 @@ namespace Prism.UI
             public ResourceReference(PropertyDescriptor property)
             {
                 Property = property;
+            }
+
+            public bool IsKeyRelated(object key)
+            {
+                if (Key.Equals(key))
+                {
+                    return true;
+                }
+
+                var resourceKey = (Key as ResourceKey)?.DependencyKey;
+                while (resourceKey != null)
+                {
+                    if (resourceKey.Equals(key))
+                    {
+                        return true;
+                    }
+
+                    resourceKey = resourceKey.DependencyKey;
+                }
+
+                return false;
             }
         }
     }
