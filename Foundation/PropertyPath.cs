@@ -73,7 +73,12 @@ namespace Prism
             }
 
             Path = path;
-            PathParameters = new ReadOnlyCollection<object>(pathParameters);
+            if (pathParameters != null)
+            {
+                var paramArray = new object[pathParameters.Length];
+                pathParameters.CopyTo(paramArray, 0);
+                PathParameters = new ReadOnlyCollection<object>(paramArray);
+            }
 
             var tokenIndices = new List<int>() { 0 };
             for (int i = 0; i < Path.Length; i++)
@@ -175,12 +180,7 @@ namespace Prism
                 return other.PathParameters == null || other.PathParameters.Count == 0;
             }
             
-            if (other.PathParameters == null)
-            {
-                return false;
-            }
-            
-            if (PathParameters.Count != other.PathParameters.Count)
+            if (other.PathParameters == null || PathParameters.Count != other.PathParameters.Count)
             {
                 return false;
             }
@@ -256,7 +256,7 @@ namespace Prism
 
             var property = propertyPaths[0];
             string path = property.Path;
-            List<object> parameters = new List<object>(property.PathParameters);
+            List<object> parameters = property.PathParameters == null ? new List<object>() : new List<object>(property.PathParameters);
 
             for (int i = 1; i < propertyPaths.Length; i++)
             {
@@ -281,7 +281,10 @@ namespace Prism
                 }
 
                 path += "." + subPath;
-                parameters.AddRange(property.PathParameters);
+                if (property.PathParameters != null)
+                {
+                    parameters.AddRange(property.PathParameters);
+                }
             }
 
             return new PropertyPath(path, parameters.ToArray());
