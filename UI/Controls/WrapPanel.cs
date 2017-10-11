@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Prism.Resources;
 
 namespace Prism.UI.Controls
 {
@@ -35,6 +37,11 @@ namespace Prism.UI.Controls
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:HorizontalContentAlignment"/> property.
         /// </summary>
         public static PropertyDescriptor HorizontalContentAlignmentProperty { get; } = PropertyDescriptor.Create(nameof(HorizontalContentAlignment), typeof(HorizontalAlignment), typeof(WrapPanel), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsArrange));
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:MaxLength"/> property.
+        /// </summary>
+        public static PropertyDescriptor MaxLengthProperty { get; } = PropertyDescriptor.Create(nameof(MaxLength), typeof(int), typeof(WrapPanel), new FrameworkPropertyMetadata(FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
 
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Orientation"/> property.
@@ -64,6 +71,30 @@ namespace Prism.UI.Controls
         }
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private HorizontalAlignment horizontalContentAlignment;
+
+        /// <summary>
+        /// Gets or sets the maximum number of child elements allowed in a single column or row before a break is forced.
+        /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
+        public int MaxLength
+        {
+            get { return maxLength; }
+            set
+            {
+                if (value != maxLength)
+                {
+                    if (value < 1)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(MaxLength), Strings.ValueCannotBeLessThanOne);
+                    }
+
+                    maxLength = value;
+                    OnPropertyChanged(MaxLengthProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int maxLength = int.MaxValue;
 
         /// <summary>
         /// Gets or sets the direction in which the children are arranged.
@@ -119,18 +150,20 @@ namespace Prism.UI.Controls
 
             Rectangle frame = new Rectangle();
             int currentIndex = 0;
+            int length = 0;
 
             for (int i = 0; i < Children.Count; i++)
             {
                 var child = Children[i];
                 if (orientation == Orientation.Vertical)
                 {
-                    if (frame.Height > 0 && frame.Height + child.DesiredSize.Height > renderSize.Height)
+                    if (frame.Height + child.DesiredSize.Height > renderSize.Height || length++ == maxLength)
                     {
                         ArrangeVertical(currentIndex, i, frame, renderSize.Height);
                         frame.X += frame.Width;
                         frame.Width = child.DesiredSize.Width;
                         frame.Height = child.DesiredSize.Height;
+                        length = 0;
 
                         currentIndex = i;
                     }
@@ -142,12 +175,13 @@ namespace Prism.UI.Controls
                 }
                 else
                 {
-                    if (frame.Width > 0 && frame.Width + child.DesiredSize.Width > renderSize.Width)
+                    if (frame.Width + child.DesiredSize.Width > renderSize.Width || length++ == maxLength)
                     {
                         ArrangeHorizontal(currentIndex, i, frame, renderSize.Width);
                         frame.Y += frame.Height;
                         frame.Width = child.DesiredSize.Width;
                         frame.Height = child.DesiredSize.Height;
+                        length = 0;
 
                         currentIndex = i;
                     }
@@ -182,6 +216,7 @@ namespace Prism.UI.Controls
 
             double width = 0;
             double height = 0;
+            int length = 0;
             var desiredSize = new Size();
 
             foreach (var child in Children)
@@ -190,13 +225,14 @@ namespace Prism.UI.Controls
 
                 if (orientation == Orientation.Vertical)
                 {
-                    if (height > 0 && height + child.DesiredSize.Height > constraints.Height)
+                    if (height + child.DesiredSize.Height > constraints.Height || length++ == maxLength)
                     {
                         desiredSize.Width += width;
                         desiredSize.Height = Math.Max(desiredSize.Height, height);
 
                         width = child.DesiredSize.Width;
                         height = child.DesiredSize.Height;
+                        length = 0;
                     }
                     else
                     {
@@ -206,13 +242,14 @@ namespace Prism.UI.Controls
                 }
                 else
                 {
-                    if (width > 0 && width + child.DesiredSize.Width > constraints.Width)
+                    if (width + child.DesiredSize.Width > constraints.Width || length++ == maxLength)
                     {
                         desiredSize.Width = Math.Max(desiredSize.Width, width);
                         desiredSize.Height += height;
 
                         width = child.DesiredSize.Width;
                         height = child.DesiredSize.Height;
+                        length = 0;
                     }
                     else
                     {
