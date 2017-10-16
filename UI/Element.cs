@@ -143,6 +143,11 @@ namespace Prism.UI
         public event TypedEventHandler<Element, PointerEventArgs> PointerReleased;
 
         /// <summary>
+        /// Gets a collection of the gesture recognizers that are attached to the element.
+        /// </summary>
+        public GestureRecognizerCollection GestureRecognizers { get; }
+
+        /// <summary>
         /// Gets or sets the suggested height for the element.
         /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
@@ -449,6 +454,7 @@ namespace Prism.UI
         {
             this.nativeObject = nativeObject;
 
+            GestureRecognizers = new GestureRecognizerCollection(this);
             Initialize();
         }
 
@@ -468,6 +474,7 @@ namespace Prism.UI
                     ObjectRetriever.GetNativeObject(this).GetType().FullName, typeof(INativeElement).FullName));
             }
 
+            GestureRecognizers = new GestureRecognizerCollection(this);
             Initialize();
         }
 

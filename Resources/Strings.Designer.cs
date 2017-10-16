@@ -314,6 +314,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gesture recognizer already has a target.  Gesture recognizers can have only one target at a time..
+        /// </summary>
+        internal static string GestureRecognizerCannotHaveMultipleTargets {
+            get {
+                return ResourceManager.GetString("GestureRecognizerCannotHaveMultipleTargets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identity.
         /// </summary>
         internal static string Identity {

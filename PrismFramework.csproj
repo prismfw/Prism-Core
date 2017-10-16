@@ -61,7 +61,14 @@
     <Compile Include="Foundation\TypeRegistrationOptions.cs" />
     <Compile Include="Foundation\TypeResolutionOptions.cs" />
     <Compile Include="Foundation\TypeManager.cs" />
+    <Compile Include="Input\HoldingState.cs" />
+    <Compile Include="Input\GestureRecognizerCollection.cs" />
+    <Compile Include="Input\HoldingEventArgs.cs" />
+    <Compile Include="Input\HoldingGestureRecognizer.cs" />
+    <Compile Include="Input\TappedEventArgs.cs" />
+    <Compile Include="Input\TapGestureRecognizer.cs" />
     <Compile Include="Input\InputType.cs" />
+    <Compile Include="Input\GestureRecognizer.cs" />
     <Compile Include="Media\MediaPlaybackSource.cs" />
     <Compile Include="Media\MediaTrackType.cs" />
     <Compile Include="Media\MediaTrack.cs" />
@@ -72,6 +79,9 @@
     <Compile Include="Media\MediaPlaybackItem.cs" />
     <Compile Include="Media\MediaPlaybackItemCollection.cs" />
     <Compile Include="Native\CoreBehaviorAttribute.cs" />
+    <Compile Include="Native\NativeHoldingGestureRecognizer.cs" />
+    <Compile Include="Native\NativeTapGestureRecognizer.cs" />
+    <Compile Include="Native\NativeGestureRecognizer.cs" />
     <Compile Include="Native\NativeMenuFlyout.cs" />
     <Compile Include="Native\NativeFlyoutBase.cs" />
     <Compile Include="Native\NativeFlyout.cs" />
