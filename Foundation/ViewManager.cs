@@ -54,7 +54,7 @@ namespace Prism
                 }
                 else
                 {
-                    Register(new ViewRegistrationKey(att.ModelType, att.Perspective, att.FormFactor),  type);
+                    Register(new ViewRegistrationKey(att.ModelType, att.Perspective, att.FormFactor), type);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace Prism
             var enumerator = GetEnumerator();
             var potentials = enumerator.OfType<ViewRegistrationKey>().Where(key => key.RegisteredName == name &&
                         (key.RegisteredType == registerType || key.RegisteredType.GetTypeInfo().IsAssignableFrom(registerType.GetTypeInfo())));
-            
+
             var regkey = GetKey(potentials.Where(key => key.RegisteredType == registerType));
             if (regkey == null)
             {
@@ -80,13 +80,18 @@ namespace Prism
                     modelType = modelType.GetTypeInfo().BaseType;
                 }
             }
-            
+
             if (regkey == null)
             {
                 var interfaces = registerType.GetTypeInfo().ImplementedInterfaces;
                 if (interfaces.Any())
                 {
                     regkey = GetKey(potentials.Where(key => interfaces.Contains(key.RegisteredType)));
+                }
+
+                if (regkey == null)
+                {
+                    return null;
                 }
             }
 
@@ -110,7 +115,7 @@ namespace Prism
             public FormFactor FormFactor { get; }
 
             private readonly int hash;
-            
+
             public ViewRegistrationKey(Type type, string name, FormFactor formFactor)
             {
                 RegisteredType = type;
