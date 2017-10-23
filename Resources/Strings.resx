@@ -154,10 +154,10 @@
     <value>Controller does not implement {0}.</value>
   </data>
   <data name="ControllerLoadedAndReturnedPerspective" xml:space="preserve">
-    <value>Controller successfully loaded and returned '{0}'.</value>
+    <value>{0} successfully loaded and returned '{1}'.</value>
   </data>
   <data name="ControllerLoadFailedWithMessage" xml:space="preserve">
-    <value>Controller load failed with message '{0}'.</value>
+    <value>{0} load failed with message '{1}'.</value>
   </data>
   <data name="EventDescriptorAlreadyCreated" xml:space="preserve">
     <value>An EventDescriptor for the event '{0}' and owning type '{1}' has already been created.  Only one EventDescriptor is allowed per event.</value>
@@ -217,7 +217,7 @@
     <value>Null reuse identifier returned.</value>
   </data>
   <data name="NullViewPerspectiveReturned" xml:space="preserve">
-    <value>Null view perspective given.  Cannot output a view.  If this was intentional, then this message can be ignored.</value>
+    <value>Null view perspective returned from {0}.  Cannot output a view.</value>
   </data>
   <data name="ObjectIsNotADescendant" xml:space="preserve">
     <value>Object is not a descendant of this instance.</value>

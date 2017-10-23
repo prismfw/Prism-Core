@@ -108,7 +108,7 @@ namespace Prism
                         resources.ResourceChanged -= OnResourceChanged;
                         resources.ResourceCollectionChanged -= OnResourceCollectionChanged;
                     }
-                    
+
                     resources = value;
                     if (resources != null)
                     {
@@ -447,13 +447,14 @@ namespace Prism
         /// Called when a controller has successfully completed a load.
         /// </summary>
         /// <param name="controller">The controller that was loaded.</param>
+        /// <param name="context">The context describing the navigation that resulted in the controller being loaded.</param>
         /// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
         /// <param name="perspective">The perspective that was returned from the controller.</param>
-        protected virtual void OnControllerLoaded(IController controller, IView fromView, string perspective)
+        protected virtual void OnControllerLoaded(IController controller, NavigationContext context, IView fromView, string perspective)
         {
-            if (perspective == null)
+            if (perspective == null && context == LastNavigationContext)
             {
-                Logger.Warn(CultureInfo.CurrentCulture, Strings.NullViewPerspectiveReturned);
+                Logger.Warn(CultureInfo.CurrentCulture, Strings.NullViewPerspectiveReturned, controller?.GetType().FullName);
             }
         }
 
@@ -461,9 +462,10 @@ namespace Prism
         /// Called when a controller is about to be loaded.
         /// </summary>
         /// <param name="controller">The controller being loaded.</param>
+        /// <param name="context">The context describing the navigation that resulted in the controller being loaded.</param>
         /// <param name="fromView">The view that initiated the navigation that resulted in the controller being loaded.</param>
         /// <param name="e">The <see cref="CancelEventArgs"/> that contain the event data.</param>
-        protected virtual void OnControllerLoading(IController controller, IView fromView, CancelEventArgs e)
+        protected virtual void OnControllerLoading(IController controller, NavigationContext context, IView fromView, CancelEventArgs e)
         {
         }
 
@@ -544,7 +546,7 @@ namespace Prism
         protected virtual void OnViewPresenting(IView view, IController fromController, CancelEventArgs e)
         {
         }
-        
+
         internal static void Initialize(Application appInstance)
         {
             if (appInstance.nativeObject == null)
@@ -613,7 +615,7 @@ namespace Prism
                 current.LastNavigationContext = context;
 
                 var args = new CancelEventArgs();
-                current.OnControllerLoading(controller, fromView, args);
+                current.OnControllerLoading(controller, context, fromView, args);
                 if (args.Cancel)
                 {
                     return;
@@ -665,7 +667,7 @@ namespace Prism
                             current.EndIgnoringUserInput();
                         });
 
-                        Logger.Warn(CultureInfo.CurrentCulture, Strings.ControllerLoadFailedWithMessage, ex.Message);
+                        Logger.Warn(CultureInfo.CurrentCulture, Strings.ControllerLoadFailedWithMessage, controller.GetType().FullName, ex.Message);
                         current.OnControllerLoadFailed(controller, ex);
                         return;
                     }
@@ -673,8 +675,8 @@ namespace Prism
                     loadTimer?.Stop();
                     loadTimer = null;
 
-                    Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadedAndReturnedPerspective, perspective);
-                    current.OnControllerLoaded(controller, fromView, perspective);
+                    Logger.Trace(CultureInfo.CurrentCulture, Strings.ControllerLoadedAndReturnedPerspective, controller.GetType().FullName, perspective);
+                    current.OnControllerLoaded(controller, context, fromView, perspective);
 
                     if (perspective == null)
                     {
@@ -688,7 +690,7 @@ namespace Prism
                         current.EndIgnoringUserInput();
 
                         var controllerModelType = controller.GetModel()?.GetType() ?? controller.ModelType;
-                        
+
                         var view = ViewManager.Default.Resolve(controllerModelType, perspective) as IView;
                         if (view == null)
                         {
@@ -846,7 +848,7 @@ namespace Prism
                         stack.PopToView(view, Animate.Default);
                         return true;
                     }
-                    
+
                     if (vsc != null)
                     {
                         var currentVSC = currentView as IViewStackChild;

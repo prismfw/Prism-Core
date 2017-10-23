@@ -215,7 +215,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controller successfully loaded and returned &apos;{0}&apos;..
+        ///   Looks up a localized string similar to {0} successfully loaded and returned &apos;{1}&apos;..
         /// </summary>
         internal static string ControllerLoadedAndReturnedPerspective {
             get {
@@ -224,7 +224,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controller load failed with message &apos;{0}&apos;..
+        ///   Looks up a localized string similar to {0} load failed with message &apos;{1}&apos;..
         /// </summary>
         internal static string ControllerLoadFailedWithMessage {
             get {
@@ -485,7 +485,7 @@ namespace Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Null view perspective given.  Cannot output a view.  If this was intentional, then this message can be ignored..
+        ///   Looks up a localized string similar to Null view perspective returned from {0}.  Cannot output a view..
         /// </summary>
         internal static string NullViewPerspectiveReturned {
             get {
