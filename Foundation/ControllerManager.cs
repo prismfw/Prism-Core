@@ -60,7 +60,46 @@ namespace Prism
             }
             else
             {
-                regkey = enumerator.FirstOrDefault(key => key.RegisteredName != null && IsMatch(uriParts, key.RegisteredName.Split('/')));
+                regkey = null;
+                var literalMatches = new bool[uriParts.Length];
+                foreach (var key in enumerator)
+                {
+                    // The URI is considered a match to the pattern if they have equal parts and non-parameter parts are equal.
+                    // For example, "MyController/Parameter1" would match "MyController/{MyParameter}".
+                    string[] patternParts = key.RegisteredName?.Split('/');
+                    if (patternParts?.Length != uriParts.Length)
+                    {
+                        continue;
+                    }
+
+                    for (int i = 0; i < uriParts.Length; i++)
+                    {
+                        string uriPart = uriParts[i];
+                        string patternPart = patternParts[i];
+
+                        // Literal matches have priority over parameter matches.
+                        if (uriPart == patternPart)
+                        {
+                            literalMatches[i] = true;
+                        }
+                        else if (literalMatches[i] || !IsParameter(patternPart.Trim()))
+                        {
+                            break;
+                        }
+
+                        if (i == uriParts.Length - 1)
+                        {
+                            regkey = key;
+                        }
+                    }
+
+                    // If the last segment is a literal match, then we can guarantee that this
+                    // key is the closest match and there's no need to continue searching.
+                    if (literalMatches[literalMatches.Length - 1])
+                    {
+                        break;
+                    }
+                }
             }
 
             if (regkey == null)
@@ -73,25 +112,9 @@ namespace Prism
             return Resolve(regkey.RegisteredType, uriPattern) as IController;
         }
 
-        private static bool IsMatch(string[] uriParts, string[] patternParts)
+        private static bool IsParameter(string segment)
         {
-            // the URI is considered a match to the pattern if they have equal parts and non-parameter parts are equal.
-            // for example, "MyController/Parameter1" would match "MyController/{MyParameter}".
-            if (patternParts.Length != uriParts.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < uriParts.Length; i++)
-            {
-                string segment = patternParts[i].Trim();
-                if (!(segment.Length > 1 && segment[0] == '{' && segment[segment.Length - 1] == '}') && uriParts[i] != segment)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return segment.Length > 1 && segment[0] == '{' && segment[segment.Length - 1] == '}';
         }
     }
 }
