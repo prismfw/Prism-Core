@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
@@ -85,10 +86,20 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets the thickness of the border.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public Thickness BorderThickness
         {
             get { return nativeObject.BorderThickness; }
-            set { nativeObject.BorderThickness = value; }
+            set
+            {
+                if (double.IsNaN(value.Left) || double.IsInfinity(value.Left) || double.IsNaN(value.Top) || double.IsInfinity(value.Top) ||
+                    double.IsNaN(value.Right) || double.IsInfinity(value.Right) || double.IsNaN(value.Bottom) || double.IsInfinity(value.Bottom))
+                {
+                    throw new ArgumentException(Strings.ThicknessContainsNaNOrInfiniteValue, nameof(BorderThickness));
+                }
+
+                nativeObject.BorderThickness = value;
+            }
         }
 
         /// <summary>
@@ -103,10 +114,20 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets the padding between the border and the child element.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public Thickness Padding
         {
             get { return nativeObject.Padding; }
-            set { nativeObject.Padding = value; }
+            set
+            {
+                if (double.IsNaN(value.Left) || double.IsInfinity(value.Left) || double.IsNaN(value.Top) || double.IsInfinity(value.Top) ||
+                    double.IsNaN(value.Right) || double.IsInfinity(value.Right) || double.IsNaN(value.Bottom) || double.IsInfinity(value.Bottom))
+                {
+                    throw new ArgumentException(Strings.ThicknessContainsNaNOrInfiniteValue, nameof(Padding));
+                }
+
+                nativeObject.Padding = value;
+            }
         }
 
 #if !DEBUG
@@ -170,8 +191,8 @@ namespace Prism.UI.Controls
             if (currentChild != null)
             {
                 currentChild.Arrange(new Rectangle(thickness.Left + padding.Left, thickness.Top + padding.Top,
-                    constraints.Width - (thickness.Left + thickness.Right + padding.Left + padding.Right),
-                    constraints.Height - (thickness.Top + thickness.Bottom + padding.Top + padding.Bottom)));
+                    Math.Max(constraints.Width - (thickness.Left + thickness.Right + padding.Left + padding.Right), 0),
+                    Math.Max(constraints.Height - (thickness.Top + thickness.Bottom + padding.Top + padding.Bottom), 0)));
             }
 
             return constraints;

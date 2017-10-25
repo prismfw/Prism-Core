@@ -755,6 +755,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thickness contains a NaN or infinite value..
+        /// </summary>
+        internal static string ThicknessContainsNaNOrInfiniteValue {
+            get {
+                return ResourceManager.GetString("ThicknessContainsNaNOrInfiniteValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type &apos;{0}&apos; could not be resolved..
         /// </summary>
         internal static string TypeCouldNotBeResolved {

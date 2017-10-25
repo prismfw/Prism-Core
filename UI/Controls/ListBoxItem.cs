@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Prism.Native;
 using Prism.Resources;
@@ -127,11 +128,18 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets the amount to indent the separator.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public Thickness SeparatorIndentation
         {
             get { return nativeObject.SeparatorIndentation; }
             set
             {
+                if (double.IsNaN(value.Left) || double.IsInfinity(value.Left) || double.IsNaN(value.Top) || double.IsInfinity(value.Top) ||
+                    double.IsNaN(value.Right) || double.IsInfinity(value.Right) || double.IsNaN(value.Bottom) || double.IsInfinity(value.Bottom))
+                {
+                    throw new ArgumentException(Strings.ThicknessContainsNaNOrInfiniteValue, nameof(SeparatorIndentation));
+                }
+
                 setSeparatorIndentation = false;
                 nativeObject.SeparatorIndentation = value;
             }

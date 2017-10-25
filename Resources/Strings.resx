@@ -396,6 +396,9 @@
   <data name="MenuButtonCannotBeInOverflow" xml:space="preserve">
     <value>Menu button must be in an ActionMenu that has been loaded into the visual tree and cannot be inside of an overflow menu.</value>
   </data>
+  <data name="ThicknessContainsNaNOrInfiniteValue" xml:space="preserve">
+    <value>Thickness contains a NaN or infinite value.</value>
+  </data>
   <data name="GestureRecognizerCannotHaveMultipleTargets" xml:space="preserve">
     <value>Gesture recognizer already has a target.  Gesture recognizers can have only one target at a time.</value>
   </data>

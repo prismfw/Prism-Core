@@ -129,10 +129,20 @@ namespace Prism.UI.Controls
         /// <summary>
         /// Gets or sets the inner padding of the element.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2208:InstantiateArgumentExceptionsCorrectly", Justification = "Exception parameter refers to property name for easier understanding of invalid value.")]
         public Thickness Padding
         {
             get { return nativeObject.Padding; }
-            set { nativeObject.Padding = value; }
+            set
+            {
+                if (double.IsNaN(value.Left) || double.IsInfinity(value.Left) || double.IsNaN(value.Top) || double.IsInfinity(value.Top) ||
+                    double.IsNaN(value.Right) || double.IsInfinity(value.Right) || double.IsNaN(value.Bottom) || double.IsInfinity(value.Bottom))
+                {
+                    throw new ArgumentException(Strings.ThicknessContainsNaNOrInfiniteValue, nameof(Padding));
+                }
+
+                nativeObject.Padding = value;
+            }
         }
 
         /// <summary>
