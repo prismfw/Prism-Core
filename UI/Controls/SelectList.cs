@@ -99,10 +99,13 @@ namespace Prism.UI.Controls
                     adapter = value;
                     OnPropertyChanged(AdapterProperty);
 
-                    nativeObject.RefreshDisplayItem();
-                    if (nativeObject.Items != null && nativeObject.Items.Count > 0)
+                    if (IsLoaded)
                     {
-                        nativeObject.RefreshListItems();
+                        nativeObject.RefreshDisplayItem();
+                        if (nativeObject.Items != null && nativeObject.Items.Count > 0)
+                        {
+                            nativeObject.RefreshListItems();
+                        }
                     }
                 }
             }
@@ -224,7 +227,8 @@ namespace Prism.UI.Controls
             if (content != null)
             {
                 double borderWidth = nativeObject.BorderWidth;
-                content.Arrange(new Rectangle(borderWidth, borderWidth, constraints.Width - borderWidth * 2, constraints.Height - borderWidth * 2));
+                content.Arrange(new Rectangle(borderWidth, borderWidth, Math.Max(constraints.Width - borderWidth * 2, 0),
+                    Math.Max(constraints.Height - borderWidth * 2, 0)));
             }
 
             return constraints;
@@ -243,7 +247,6 @@ namespace Prism.UI.Controls
             var content = VisualTreeHelper.GetChild<Visual>(this);
             if (content != null)
             {
-                
                 content.Measure(new Size(constraints.Width - borderWidth * 2, constraints.Height - borderWidth * 2));
                 return new Size(content.DesiredSize.Width + borderWidth * 2, content.DesiredSize.Height + borderWidth * 2);
             }
