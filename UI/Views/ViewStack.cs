@@ -448,6 +448,12 @@ namespace Prism.UI
             ViewChanging?.Invoke(this, e);
         }
 
+        internal override Size GetChildConstraints(Visual child)
+        {
+            var offset = nativeObject.IsHeaderHidden || Header.IsInset ? Size.Empty : Header.DesiredSize;
+            return new Size(Math.Max(RenderSize.Width, 0), Math.Max(RenderSize.Height - offset.Height, 0));
+        }
+
         internal void UpdateBackButtonState()
         {
             if (backButtonState == BackButtonState.Auto)

@@ -837,6 +837,11 @@ namespace Prism.UI
             }
         }
 
+        internal virtual Size GetChildConstraints(Visual child)
+        {
+            return new Size(double.PositiveInfinity, double.PositiveInfinity);
+        }
+
         private void Initialize()
         {
             nativeObject.ArrangeRequest = OnArrangeRequest;
@@ -941,7 +946,7 @@ namespace Prism.UI
                     var window = Parent as Window;
                     if (window == null)
                     {
-                        constraints = (Parent as Popup)?.RenderSize ?? new Size(double.PositiveInfinity, double.PositiveInfinity);
+                        constraints = (Parent as Visual)?.GetChildConstraints(this) ?? new Size(double.PositiveInfinity, double.PositiveInfinity);
                     }
                     else
                     {

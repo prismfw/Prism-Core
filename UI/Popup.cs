@@ -415,6 +415,11 @@ namespace Prism.UI
             Opened?.Invoke(this, e);
         }
 
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return RenderSize;
+        }
+
         private PopupPresentationStyle GetActualPresentationStyle()
         {
             if (Device.Current.FormFactor < FormFactor.Tablet && (presentationStyle == PopupPresentationStyle.Default ||

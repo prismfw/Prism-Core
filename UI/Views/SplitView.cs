@@ -360,6 +360,11 @@ namespace Prism.UI
             return nativeObject.Measure(constraints);
         }
 
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return new Size(child == MasterContent ? ActualMasterWidth : ActualDetailWidth, RenderSize.Height);
+        }
+
         internal void OnMasterContentChanged()
         {
             if (isDetailAutoResetEnabled)

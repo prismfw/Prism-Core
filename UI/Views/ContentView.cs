@@ -288,7 +288,7 @@ namespace Prism.UI
                     inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.RenderSize.Height;
                 }
 
-                currentContent.Arrange(new Rectangle(0, inset, constraints.Width, constraints.Height - inset));
+                currentContent.Arrange(new Rectangle(0, inset, Math.Max(constraints.Width, 0), Math.Max(constraints.Height - inset, 0)));
             }
 
             return constraints;
@@ -304,21 +304,32 @@ namespace Prism.UI
             var currentContent = (Content as Visual) ?? VisualTreeHelper.GetChild<Visual>(this);
             if (currentContent != null)
             {
-                double inset;
-                if (currentContent is IScrollable)
-                {
-                    inset = 0;
-                }
-                else
-                {
-                    var viewStack = Parent as ViewStack;
-                    inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 : viewStack.Header.DesiredSize.Height;
-                }
-
-                currentContent.Measure(new Size(Math.Max(constraints.Width, 0), Math.Max(constraints.Height - inset, 0)));
+                currentContent.Measure(GetChildConstraints(currentContent, constraints, false));
             }
 
             return nativeObject.Measure(constraints);
+        }
+
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return GetChildConstraints(child, RenderSize, true);
+        }
+
+        private Size GetChildConstraints(Visual child, Size constraints, bool useRenderSize)
+        {
+            double inset;
+            if (child is IScrollable)
+            {
+                inset = 0;
+            }
+            else
+            {
+                var viewStack = Parent as ViewStack;
+                inset = (viewStack == null || viewStack.IsHeaderHidden || !viewStack.Header.IsInset) ? 0 :
+                    (useRenderSize ? viewStack.Header.RenderSize : viewStack.Header.DesiredSize).Height;
+            }
+
+            return new Size(Math.Max(constraints.Width, 0), Math.Max(constraints.Height - inset, 0));
         }
 
         private void Initialize()

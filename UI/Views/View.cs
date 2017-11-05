@@ -203,6 +203,11 @@ namespace Prism.UI
             return constraints;
         }
 
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return RenderSize;
+        }
+
         [SuppressMessage("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes", Justification = "Accessible via Model property.")]
         object IView.GetModel()
         {

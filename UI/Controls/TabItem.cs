@@ -272,6 +272,11 @@ namespace Prism.UI.Controls
             return base.MeasureCore(constraints);
         }
 
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return (Parent as TabView)?.GetChildConstraints(this) ?? base.GetChildConstraints(child);
+        }
+
         private void Initialize()
         {
             SetResourceReference(FontFamilyProperty, SystemResources.BaseFontFamilyKey);

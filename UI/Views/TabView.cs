@@ -195,16 +195,9 @@ namespace Prism.UI
         protected override Size ArrangeOverride(Size constraints)
         {
             var retVal = constraints;
-            var tabBarFrame = nativeObject.TabBarFrame;
-            if (tabBarFrame.Height > tabBarFrame.Width)
-            {
-                constraints.Width -= tabBarFrame.Width;
-            }
-            else
-            {
-                constraints.Height -= tabBarFrame.Height;
-            }
+            constraints = GetChildConstraints(constraints);
 
+            var tabBarFrame = nativeObject.TabBarFrame;
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
@@ -228,16 +221,9 @@ namespace Prism.UI
         protected override Size MeasureOverride(Size constraints)
         {
             var retVal = constraints;
-            var tabBarFrame = nativeObject.TabBarFrame;
-            if (tabBarFrame.Height > tabBarFrame.Width)
-            {
-                constraints.Width -= tabBarFrame.Width;
-            }
-            else
-            {
-                constraints.Height -= tabBarFrame.Height;
-            }
+            constraints = GetChildConstraints(constraints);
 
+            var tabBarFrame = nativeObject.TabBarFrame;
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {
@@ -260,6 +246,26 @@ namespace Prism.UI
         protected virtual void OnTabItemSelected(TabItemSelectedEventArgs e)
         {
             TabItemSelected?.Invoke(this, e);
+        }
+
+        internal override Size GetChildConstraints(Visual child)
+        {
+            return GetChildConstraints(RenderSize);
+        }
+
+        private Size GetChildConstraints(Size constraints)
+        {
+            var tabBarFrame = nativeObject.TabBarFrame;
+            if (tabBarFrame.Height > tabBarFrame.Width)
+            {
+                constraints.Width -= tabBarFrame.Width;
+            }
+            else
+            {
+                constraints.Height -= tabBarFrame.Height;
+            }
+
+            return constraints;
         }
 
         private void Initialize()
