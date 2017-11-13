@@ -243,5 +243,15 @@ namespace Prism.IO
         {
             await Current.MoveAsync(sourceDirectoryPath, destinationDirectoryPath, overwrite);
         }
+
+        internal static Uri ValidateUri(Uri uri)
+        {
+            if (uri == null || uri.IsAbsoluteUri || uri.OriginalString.StartsWith(AssetDirectoryPath, StringComparison.OrdinalIgnoreCase))
+            {
+                return uri;
+            }
+
+            return new Uri(AssetDirectoryPath + uri.OriginalString, UriKind.RelativeOrAbsolute);
+        }
     }
 }

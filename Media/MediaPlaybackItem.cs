@@ -81,6 +81,8 @@ namespace Prism.Media
                 throw new ArgumentNullException(nameof(uri));
             }
 
+            uri = IO.Directory.ValidateUri(uri);
+
             nativeObject = TypeManager.Default.Resolve<INativeMediaPlaybackItem>(new object[] { uri },
                 TypeResolutionOptions.UseFuzzyNameResolution | TypeResolutionOptions.UseFuzzyParameterResolution);
 

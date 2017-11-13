@@ -108,8 +108,9 @@ namespace Prism.UI.Media.Imaging
         /// <param name="options">Additional options to adhere to when creating the image.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceUri"/> is <c>null</c>.</exception>
         public BitmapImage(Uri sourceUri, ImageCreationOptions options)
-            : this(new[] { new ResolveParameter(nameof(sourceUri), sourceUri),
-            new ResolveParameter("cachedImage", options.HasFlag(ImageCreationOptions.RefreshCache) || options.HasFlag(ImageCreationOptions.AvoidCache) ? null : ObjectRetriever.GetNativeObject(ImageCache.GetImage(sourceUri)), true) })
+            : this(new[] { new ResolveParameter(nameof(sourceUri), IO.Directory.ValidateUri(sourceUri)),
+            new ResolveParameter("cachedImage", options.HasFlag(ImageCreationOptions.RefreshCache) || options.HasFlag(ImageCreationOptions.AvoidCache) ?
+                null : ObjectRetriever.GetNativeObject(ImageCache.GetImage(sourceUri)), true) })
         {
             if (options.HasFlag(ImageCreationOptions.AvoidCache))
             {

@@ -69,7 +69,7 @@ namespace Prism.UI.Controls
         public Uri ImageUri
         {
             get { return nativeObject.ImageUri; }
-            set { nativeObject.ImageUri = value; }
+            set { nativeObject.ImageUri = IO.Directory.ValidateUri(value); }
         }
 
         /// <summary>

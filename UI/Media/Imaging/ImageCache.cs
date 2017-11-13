@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Prism.IO;
 
 #if !DEBUG
 using System.Diagnostics;
@@ -139,17 +140,7 @@ namespace Prism.UI.Media.Imaging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="sourceUri"/> is <c>null</c> -or- when <paramref name="image"/> is <c>null</c>.</exception>
         public static void Add(Uri sourceUri, ImageSource image)
         {
-            if (sourceUri == null)
-            {
-                throw new ArgumentNullException(nameof(sourceUri));
-            }
-
-            if (image == null)
-            {
-                throw new ArgumentNullException(nameof(image));
-            }
-
-            Current.Add(sourceUri, image, null);
+            Add(sourceUri, image, null);
         }
 
         /// <summary>
@@ -172,7 +163,7 @@ namespace Prism.UI.Media.Imaging
                 throw new ArgumentNullException(nameof(image));
             }
 
-            Current.Add(sourceUri, image, expirationDate);
+            Current.Add(Directory.ValidateUri(sourceUri), image, expirationDate);
         }
 
         /// <summary>
@@ -196,7 +187,7 @@ namespace Prism.UI.Media.Imaging
                 throw new ArgumentNullException(nameof(sourceUri));
             }
 
-            return Current.Contains(sourceUri);
+            return Current.Contains(Directory.ValidateUri(sourceUri));
         }
 
         /// <summary>
@@ -212,7 +203,7 @@ namespace Prism.UI.Media.Imaging
                 throw new ArgumentNullException(nameof(sourceUri));
             }
 
-            return Current.GetImage(sourceUri);
+            return Current.GetImage(Directory.ValidateUri(sourceUri));
         }
 
         /// <summary>
@@ -223,7 +214,7 @@ namespace Prism.UI.Media.Imaging
         {
             if (sourceUri != null)
             {
-                Current.Remove(sourceUri);
+                Current.Remove(Directory.ValidateUri(sourceUri));
             }
         }
 

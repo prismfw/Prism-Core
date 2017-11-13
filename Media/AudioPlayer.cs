@@ -221,6 +221,8 @@ namespace Prism.Media
                 throw new ArgumentNullException(nameof(source));
             }
 
+            source = IO.Directory.ValidateUri(source);
+
             Source = source;
             nativeObject.Open(source);
         }

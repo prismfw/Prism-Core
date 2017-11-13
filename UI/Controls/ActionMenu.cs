@@ -121,7 +121,7 @@ namespace Prism.UI.Controls
         public Uri OverflowImageUri
         {
             get { return nativeObject.OverflowImageUri; }
-            set { nativeObject.OverflowImageUri = value; }
+            set { nativeObject.OverflowImageUri = IO.Directory.ValidateUri(value); }
         }
 
 #if !DEBUG
