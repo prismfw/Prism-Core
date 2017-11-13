@@ -69,6 +69,10 @@
     <Compile Include="Input\TapGestureRecognizer.cs" />
     <Compile Include="Input\InputType.cs" />
     <Compile Include="Input\GestureRecognizer.cs" />
+    <Compile Include="IO\DirectoryInfo.cs" />
+    <Compile Include="IO\FileInfo.cs" />
+    <Compile Include="IO\FileAttributes.cs" />
+    <Compile Include="IO\SystemDirectory.cs" />
     <Compile Include="Media\MediaPlaybackSource.cs" />
     <Compile Include="Media\MediaTrackType.cs" />
     <Compile Include="Media\MediaTrack.cs" />
@@ -79,6 +83,8 @@
     <Compile Include="Media\MediaPlaybackItem.cs" />
     <Compile Include="Media\MediaPlaybackItemCollection.cs" />
     <Compile Include="Native\CoreBehaviorAttribute.cs" />
+    <Compile Include="Native\NativeDirectoryInfo.cs" />
+    <Compile Include="Native\NativeFileInfo.cs" />
     <Compile Include="Native\NativeHoldingGestureRecognizer.cs" />
     <Compile Include="Native\NativeTapGestureRecognizer.cs" />
     <Compile Include="Native\NativeGestureRecognizer.cs" />

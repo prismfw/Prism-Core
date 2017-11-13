@@ -78,7 +78,7 @@ namespace Prism.Native
 
                 if (Logger.LogFilePath == null)
                 {
-                    Logger.LogFilePath = System.IO.Path.Combine(Directory.DataDirectory, "Logs", DateTime.Today.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture) + ".log");
+                    Logger.LogFilePath = System.IO.Path.Combine(Directory.DataDirectoryPath, "Logs", DateTime.Today.ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture) + ".log");
                 }
 
 #if DEBUG

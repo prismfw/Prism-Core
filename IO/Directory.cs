@@ -36,19 +36,19 @@ namespace Prism.IO
     public static class Directory
     {
         /// <summary>
-        /// Gets the directory path to a folder with read-only access that contains the application's bundled assets.
+        /// Gets the directory path to the folder that contains the application's bundled assets.
         /// </summary>
-        public static string AssetDirectory
+        public static string AssetDirectoryPath
         {
-            get { return Current.AssetDirectory; }
+            get { return Current.AssetDirectoryPath; }
         }
 
         /// <summary>
-        /// Gets the directory path to a folder with read/write access for storing persisted application data.
+        /// Gets the directory path to a folder for storing persisted application data that is specific to the user.
         /// </summary>
-        public static string DataDirectory
+        public static string DataDirectoryPath
         {
-            get { return Current.DataDirectory; }
+            get { return Current.DataDirectoryPath; }
         }
 
         /// <summary>
@@ -57,14 +57,6 @@ namespace Prism.IO
         public static char SeparatorChar
         {
             get { return Current.SeparatorChar; }
-        }
-
-        /// <summary>
-        /// Gets the directory path to a folder with read/write access for storing temporary application data.
-        /// </summary>
-        public static string TempDirectory
-        {
-            get { return Current.TempDirectory; }
         }
 
 #if !DEBUG
@@ -139,7 +131,7 @@ namespace Prism.IO
         /// <param name="directoryPath">The path of the directory whose subdirectories are to be retrieved.</param>
         /// <returns>An <see cref="Array"/> containing the names of the subdirectories.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="directoryPath"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path..</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
         /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
         public static async Task<string[]> GetDirectoriesAsync(string directoryPath)
         {
@@ -154,7 +146,7 @@ namespace Prism.IO
         /// <param name="searchOption">A value indicating whether to search subdirectories or just the top directory.</param>
         /// <returns>An <see cref="Array"/> containing the names of the subdirectories.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="directoryPath"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path..</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
         /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
         public static async Task<string[]> GetDirectoriesAsync(string directoryPath, SearchOption searchOption)
         {
@@ -167,7 +159,7 @@ namespace Prism.IO
         /// <param name="directoryPath">The path of the directory whose files are to be retrieved.</param>
         /// <returns>An <see cref="Array"/> containing the names of the files.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="directoryPath"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path..</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
         /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
         public static async Task<string[]> GetFilesAsync(string directoryPath)
         {
@@ -182,11 +174,46 @@ namespace Prism.IO
         /// <param name="searchOption">A value indicating whether to search subdirectories or just the top directory.</param>
         /// <returns>An <see cref="Array"/> containing the names of the files.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="directoryPath"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path..</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
         /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
         public static async Task<string[]> GetFilesAsync(string directoryPath, SearchOption searchOption)
         {
             return await Current.GetFilesAsync(directoryPath, searchOption);
+        }
+
+        /// <summary>
+        /// Gets the number of free bytes that are available on the drive that contains the directory at the specified path.
+        /// </summary>
+        /// <param name="directoryPath">The path of a directory on the drive.  If <c>null</c>, the current drive is used.</param>
+        /// <returns>A <see cref="long"/> representing the number of free bytes on the drive.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
+        public static async Task<long> GetFreeBytesAsync(string directoryPath)
+        {
+            return await Current.GetFreeBytesAsync(directoryPath);
+        }
+
+        /// <summary>
+        /// Gets information about the specified system directory.
+        /// </summary>
+        /// <param name="directory">The system directory whose information is to be retrieved.</param>
+        /// <returns>A <see cref="DirectoryInfo"/> containing information about the system directory.</returns>
+        public static async Task<DirectoryInfo> GetSystemDirectoryInfoAsync(SystemDirectory directory)
+        {
+            var info = await Current.GetSystemDirectoryInfoAsync(directory);
+            return info == null ? null : new DirectoryInfo(info);
+        }
+
+        /// <summary>
+        /// Gets the total number of bytes on the drive that contains the directory at the specified path.
+        /// </summary>
+        /// <param name="directoryPath">The path of a directory on the drive.  If <c>null</c>, the current drive is used.</param>
+        /// <returns>A <see cref="long"/> representing the total number of bytes on the drive.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="directoryPath"/> is an invalid path.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when <paramref name="directoryPath"/> does not point to an existing directory.</exception>
+        public static async Task<long> GetTotalBytesAsync(string directoryPath)
+        {
+            return await Current.GetTotalBytesAsync(directoryPath);
         }
 
         /// <summary>
