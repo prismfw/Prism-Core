@@ -253,6 +253,35 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Removes all of the menu items that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The delegate that defines the conditions of the menu items to remove.</param>
+        /// <returns>The number of menu items that were removed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="match"/> is <c>null</c>.</exception>
+        public int RemoveAll(Predicate<MenuItem> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            int count = nativeObject.Items.Count;
+            for (int i = 0; i < nativeObject.Items.Count;)
+            {
+                if (match((MenuItem)ObjectRetriever.GetAgnosticObject(nativeObject.Items[i])))
+                {
+                    nativeObject.Items.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return count - nativeObject.Items.Count;
+        }
+
+        /// <summary>
         /// Removes the menu item at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the menu item to be removed.</param>

@@ -253,6 +253,35 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Removes all of the tab items that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The delegate that defines the conditions of the tab items to remove.</param>
+        /// <returns>The number of tab items that were removed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="match"/> is <c>null</c>.</exception>
+        public int RemoveAll(Predicate<TabItem> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            int count = nativeObject.TabItems.Count;
+            for (int i = 0; i < nativeObject.TabItems.Count;)
+            {
+                if (match((TabItem)ObjectRetriever.GetAgnosticObject(nativeObject.TabItems[i])))
+                {
+                    nativeObject.TabItems.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return count - nativeObject.TabItems.Count;
+        }
+
+        /// <summary>
         /// Removes the tab item at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the tab item to be removed.</param>

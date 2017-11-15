@@ -294,6 +294,41 @@ namespace Prism.UI.Media
         }
 
         /// <summary>
+        /// Removes all of the path figures that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The delegate that defines the conditions of the path figures to remove.</param>
+        /// <returns>The number of path figures that were removed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="match"/> is <c>null</c>.</exception>
+        public int RemoveAll(Predicate<PathFigure> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            int count = collection.Count;
+            for (int i = 0; i < collection.Count;)
+            {
+                var item = collection[i];
+                if (match(item))
+                {
+                    RemoveItem(item, false);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            if (count > collection.Count)
+            {
+                path.Invalidate();
+            }
+
+            return count - collection.Count;
+        }
+
+        /// <summary>
         /// Removes the path figure at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the path figure to be removed.</param>

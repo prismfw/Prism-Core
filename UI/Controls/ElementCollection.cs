@@ -314,6 +314,35 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Removes all of the UI elements that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The delegate that defines the conditions of the UI elements to remove.</param>
+        /// <returns>The number of elements that were removed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="match"/> is <c>null</c>.</exception>
+        public int RemoveAll(Predicate<Element> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            int count = nativeObject.Children.Count;
+            for (int i = 0; i < nativeObject.Children.Count;)
+            {
+                if (match((Element)ObjectRetriever.GetAgnosticObject(nativeObject.Children[i])))
+                {
+                    nativeObject.Children.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return count - nativeObject.Children.Count;
+        }
+
+        /// <summary>
         /// Removes the UI element at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the UI element to be removed.</param>
