@@ -26,7 +26,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+
+#if DEBUG
 using Prism.Utilities;
+#endif
 
 namespace Prism
 {
@@ -1038,7 +1041,7 @@ namespace Prism
             TypeRegistrationData entry;
             if (entries.TryGetValue(key, out entry))
             {
-                if (options.HasFlag(TypeRegistrationOptions.ThrowIfExists) || entry.IsProtected)
+                if (options.HasFlag(TypeRegistrationOptions.ThrowIfExists) || (entry.IsProtected && !options.HasFlag(TypeRegistrationOptions.SkipIfExists)))
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Resources.Strings.TypeRegistrationAlreadyExists, key.RegisteredType.FullName, key.RegisteredName));
                 }

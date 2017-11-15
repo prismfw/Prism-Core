@@ -60,15 +60,19 @@ namespace Prism.Native
                     var regAtts = info.GetCustomAttributes<RegisterAttribute>(false);
                     foreach (var att in regAtts)
                     {
+                        var options = TypeRegistrationOptions.SkipIfExists;
+                        if (att.IsProtected)
+                        {
+                            options |= TypeRegistrationOptions.Protect;
+                        }
+
                         if (att.IsSingleton)
                         {
-                            TypeManager.Default.RegisterSingleton(att.RegisterType, att.Name, type, att.InitializeMethod,
-                                att.IsProtected ? TypeRegistrationOptions.Protect : TypeRegistrationOptions.None);
+                            TypeManager.Default.RegisterSingleton(att.RegisterType, att.Name, type, att.InitializeMethod, options);
                         }
                         else
                         {
-                            TypeManager.Default.Register(att.RegisterType, att.Name, type, att.InitializeMethod,
-                                att.IsProtected ? TypeRegistrationOptions.Protect : TypeRegistrationOptions.None);
+                            TypeManager.Default.Register(att.RegisterType, att.Name, type, att.InitializeMethod, options);
                         }
                     }
 
