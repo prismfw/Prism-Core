@@ -663,7 +663,7 @@ namespace Prism.UI
             if (e == null || !e.IsHandled)
             {
                 var parent = VisualTreeHelper.GetParent<Element>(this);
-                parent?.OnPointerCanceled(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                parent?.OnPointerCanceled(e == null ? null : new PointerEventArgs(e.Source, e.PointerId, e.PointerType,
                     TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
             }
         }
@@ -678,7 +678,7 @@ namespace Prism.UI
             if (e == null || !e.IsHandled)
             {
                 var parent = VisualTreeHelper.GetParent<Element>(this);
-                parent?.OnPointerMoved(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                parent?.OnPointerMoved(e == null ? null : new PointerEventArgs(e.Source, e.PointerId, e.PointerType,
                     TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
             }
         }
@@ -693,7 +693,7 @@ namespace Prism.UI
             if (e == null || !e.IsHandled)
             {
                 var parent = VisualTreeHelper.GetParent<Element>(this);
-                parent?.OnPointerPressed(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                parent?.OnPointerPressed(e == null ? null : new PointerEventArgs(e.Source, e.PointerId, e.PointerType,
                     TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
             }
         }
@@ -708,7 +708,7 @@ namespace Prism.UI
             if (e == null || !e.IsHandled)
             {
                 var parent = VisualTreeHelper.GetParent<Element>(this);
-                parent?.OnPointerReleased(e == null ? null : new PointerEventArgs(e.Source, e.PointerType,
+                parent?.OnPointerReleased(e == null ? null : new PointerEventArgs(e.Source, e.PointerId, e.PointerType,
                     TranslatePointToAncestor(e.Position, parent), e.Pressure, e.Timestamp));
             }
         }

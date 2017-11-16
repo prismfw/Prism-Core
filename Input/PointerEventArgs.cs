@@ -32,6 +32,11 @@ namespace Prism.Input
     public class PointerEventArgs : HandledEventArgs
     {
         /// <summary>
+        /// Gets an identifier for the pointer device that raised the event.
+        /// </summary>
+        public long PointerId { get; }
+
+        /// <summary>
         /// Gets the type of the pointer device that raised the event.
         /// </summary>
         public PointerType PointerType { get; }
@@ -61,13 +66,15 @@ namespace Prism.Input
         /// Initializes a new instance of the <see cref="PointerEventArgs"/> class.
         /// </summary>
         /// <param name="source">The object that initially raised the event.</param>
+        /// <param name="pointerId">An identifier for the pointer device that raised the event.</param>
         /// <param name="pointerType">The type of the pointer device that raised the event.</param>
         /// <param name="position">The position of the pointer when the event was raised, relative to the element that raised it.</param>
         /// <param name="pressure">The amount of pressure applied by the pointer.</param>
         /// <param name="timestamp">The time at which the event took place, in milliseconds since system startup.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="source"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="pressure"/> is NaN or infinite.</exception>
-        public PointerEventArgs(object source, PointerType pointerType, Point position, double pressure, long timestamp)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "pointer", Justification = "'Pointer' is not meant to signify a type.")]
+        public PointerEventArgs(object source, long pointerId, PointerType pointerType, Point position, double pressure, long timestamp)
         {
             if (source == null)
             {
@@ -80,6 +87,7 @@ namespace Prism.Input
             }
 
             Source = ObjectRetriever.GetAgnosticObject(source);
+            PointerId = pointerId;
             PointerType = pointerType;
             Position = position;
             Pressure = Math.Max(pressure, 0);
