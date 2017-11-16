@@ -335,7 +335,7 @@ namespace Prism
                 return ((Array)obj).GetValue(indices.Cast<int>().ToArray());
             }
 
-            if (getterSetter == null)
+            if (getterSetter == null || Application.Current.Platform == Platform.iOS)
             {
                 return propertyInfo.GetValue(obj, indices);
             }
@@ -361,7 +361,7 @@ namespace Prism
             {
                 ((Array)obj).SetValue(value, indices.Cast<int>().ToArray());
             }
-            else if (getterSetter == null)
+            else if (getterSetter == null || Application.Current.Platform == Platform.iOS)
             {
                 propertyInfo.SetValue(obj, value, indices);
             }
