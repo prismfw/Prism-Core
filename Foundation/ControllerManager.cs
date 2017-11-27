@@ -61,6 +61,8 @@ namespace Prism
             else
             {
                 regkey = null;
+
+                bool exactMatchFound = false;
                 var literalMatches = new bool[uriParts.Length];
                 foreach (var key in enumerator)
                 {
@@ -72,6 +74,7 @@ namespace Prism
                         continue;
                     }
 
+                    bool hasCloserLiteral = false;
                     for (int i = 0; i < uriParts.Length; i++)
                     {
                         string uriPart = uriParts[i];
@@ -80,9 +83,9 @@ namespace Prism
                         // Literal matches have priority over parameter matches.
                         if (uriPart == patternPart)
                         {
-                            literalMatches[i] = true;
+                            hasCloserLiteral = hasCloserLiteral || !literalMatches[i];
                         }
-                        else if (literalMatches[i] || !IsParameter(patternPart.Trim()))
+                        else if ((!hasCloserLiteral && literalMatches[i]) || !IsParameter(patternPart.Trim()))
                         {
                             break;
                         }
@@ -90,12 +93,20 @@ namespace Prism
                         if (i == uriParts.Length - 1)
                         {
                             regkey = key;
+
+                            exactMatchFound = true;
+                            for (int j = 0; j < uriParts.Length; j++)
+                            {
+                                bool isMatch = uriParts[j] == patternParts[j];
+                                literalMatches[j] = isMatch;
+                                exactMatchFound = exactMatchFound && isMatch;
+                            }
                         }
                     }
 
-                    // If the last segment is a literal match, then we can guarantee that this
+                    // If each segment is a literal match, then we can guarantee that this
                     // key is the closest match and there's no need to continue searching.
-                    if (literalMatches[literalMatches.Length - 1])
+                    if (exactMatchFound)
                     {
                         break;
                     }
