@@ -154,6 +154,7 @@ namespace Prism.UI.Controls
         {
             nativeObject.ValueChanged += (o, e) => OnValueChanged(e);
 
+            SetParameterValueOverride(ValueProperty);
             SetResourceReference(BackgroundProperty, SystemResources.ToggleSwitchBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.ToggleSwitchBorderBrushKey);
             SetResourceReference(ForegroundProperty, SystemResources.ToggleSwitchForegroundBrushKey);

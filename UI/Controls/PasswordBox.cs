@@ -230,6 +230,7 @@ namespace Prism.UI.Controls
             InputType = InputType.Alphanumeric;
             IsPasswordVisible = false;
 
+            SetParameterValueOverride(PasswordProperty);
             SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.TextBoxBorderWidthKey);

@@ -201,6 +201,7 @@ namespace Prism.UI.Controls
             MinValue = 0;
             StepFrequency = 0;
 
+            SetParameterValueOverride(ValueProperty);
             SetResourceReference(BackgroundProperty, SystemResources.SliderBackgroundBrushKey);
             SetResourceReference(ForegroundProperty, SystemResources.SliderForegroundBrushKey);
             SetResourceReference(ThumbBrushProperty, SystemResources.SliderThumbBrushKey);

@@ -176,6 +176,7 @@ namespace Prism.UI.Controls
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
 
+            SetParameterValueOverride(QueryTextProperty);
             SetResourceReference(BackgroundProperty, SystemResources.SearchBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.SearchBoxBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.SearchBoxBorderWidthKey);

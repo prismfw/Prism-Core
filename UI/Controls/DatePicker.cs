@@ -152,7 +152,8 @@ namespace Prism.UI.Controls
         private void Initialize()
         {
             nativeObject.DateChanged += (o, e) => OnDateChanged(e);
-            
+
+            SetParameterValueOverride(SelectedDateProperty);
             SetResourceReference(BackgroundProperty, SystemResources.DateTimePickerBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.DateTimePickerBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.DateTimePickerBorderWidthKey);

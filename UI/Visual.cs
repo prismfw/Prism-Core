@@ -777,6 +777,57 @@ namespace Prism.UI
             Unloaded?.Invoke(this, e);
         }
 
+        internal virtual void OnLoadedInternal(object sender, EventArgs e)
+        {
+            parent = VisualTreeHelper.GetParent(this, p => p is Visual || p is IView || p is Window);
+
+            if (resourceReferences != null)
+            {
+                for (int i = 0; i < resourceReferences.Count; i++)
+                {
+                    if (!UpdateResourceReference(resourceReferences[i]))
+                    {
+                        i--;
+                    }
+                }
+            }
+
+            BindingOperations.ActivateBindings(this);
+
+            if (IsMeasureValid)
+            {
+                InvalidateMeasure();
+            }
+
+            var parentVisual = Parent as Visual;
+            if (parentVisual != null && parentVisual.IsArrangeValid)
+            {
+                parentVisual.InvalidateArrange();
+            }
+            else if (IsArrangeValid)
+            {
+                InvalidateArrange();
+            }
+
+            OnLoaded(e);
+        }
+
+        internal virtual void OnUnloadedInternal(object sender, EventArgs e)
+        {
+            parent = null;
+
+            var bindings = BindingOperations.GetAllBindings(this);
+            if (bindings != null)
+            {
+                foreach (var binding in bindings)
+                {
+                    binding.Deactivate();
+                }
+            }
+
+            OnUnloaded(e);
+        }
+
         internal static void PropagateResourceChange(object obj, object key)
         {
             if (obj == null)
@@ -847,8 +898,8 @@ namespace Prism.UI
             nativeObject.ArrangeRequest = OnArrangeRequest;
             nativeObject.MeasureRequest = OnMeasureRequest;
 
-            nativeObject.Loaded += OnLoad;
-            nativeObject.Unloaded += OnUnload;
+            nativeObject.Loaded += OnLoadedInternal;
+            nativeObject.Unloaded += OnUnloadedInternal;
 
             AreAnimationsEnabled = true;
         }
@@ -901,41 +952,6 @@ namespace Prism.UI
 #endif
         }
 
-        private void OnLoad(object sender, EventArgs e)
-        {
-            parent = VisualTreeHelper.GetParent(this, p => p is Visual || p is IView || p is Window);
-
-            if (resourceReferences != null)
-            {
-                for (int i = 0; i < resourceReferences.Count; i++)
-                {
-                    if (!UpdateResourceReference(resourceReferences[i]))
-                    {
-                        i--;
-                    }
-                }
-            }
-
-            BindingOperations.ActivateBindings(this);
-
-            if (IsMeasureValid)
-            {
-                InvalidateMeasure();
-            }
-
-            var parentVisual = Parent as Visual;
-            if (parentVisual != null && parentVisual.IsArrangeValid)
-            {
-                parentVisual.InvalidateArrange();
-            }
-            else if (IsArrangeValid)
-            {
-                InvalidateArrange();
-            }
-
-            OnLoaded(e);
-        }
-
         private Size OnMeasureRequest(bool forceMeasure, Size? constraintsOverride)
         {
             if (!isMeasuring && (forceMeasure || !IsMeasureValid))
@@ -979,22 +995,6 @@ namespace Prism.UI
         private void OnResourceCollectionChanged(object sender, EventArgs e)
         {
             PropagateResourceCollectionChange(this);
-        }
-
-        private void OnUnload(object sender, EventArgs e)
-        {
-            parent = null;
-
-            var bindings = BindingOperations.GetAllBindings(this);
-            if (bindings != null)
-            {
-                foreach (var binding in bindings)
-                {
-                    binding.Deactivate();
-                }
-            }
-
-            OnUnloaded(e);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exact error types can be unpredictable but should not interfere with execution of the program.  The error is logged to facilitate debugging.")]

@@ -221,6 +221,7 @@ namespace Prism.UI.Controls
             HorizontalAlignment = HorizontalAlignment.Stretch;
             InputType = InputType.Alphanumeric;
 
+            SetParameterValueOverride(TextProperty);
             SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.TextBoxBorderWidthKey);

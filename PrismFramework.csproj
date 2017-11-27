@@ -52,6 +52,7 @@
     <Compile Include="Extensions\PropertyInfoN.cs" />
     <Compile Include="Extensions\RuntimeReflectionNExtensions.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Navigation\NavigationService.cs" />
     <Compile Include="Foundation\TypeResolutionException.cs" />
     <Compile Include="Foundation\ResolveAttribute.cs" />
     <Compile Include="Foundation\TypeUnregistrationOptions.cs" />
@@ -358,9 +359,7 @@
     <Compile Include="Systems\DeviceOrientation.cs" />
     <Compile Include="Systems\OperatingSystem.cs" />
     <Compile Include="Systems\PowerSource.cs" />
-    <Compile Include="Systems\Device.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Systems\Device.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\LoggingLevel.cs" />
     <Compile Include="Systems\FormFactor.cs" />

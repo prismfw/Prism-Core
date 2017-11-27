@@ -20,15 +20,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Reflection;
 using Prism.Native;
 using Prism.Resources;
 using Prism.UI.Media;
-
-#if !DEBUG
-using System.Diagnostics;
-#endif
 
 namespace Prism.UI.Controls
 {
@@ -94,6 +92,11 @@ namespace Prism.UI.Controls
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:IsFocused"/> property.
         /// </summary>
         public static PropertyDescriptor IsFocusedProperty { get; } = PropertyDescriptor.Create(nameof(IsFocused), typeof(bool), typeof(Control), true);
+
+        /// <summary>
+        /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:ParameterId"/> property.
+        /// </summary>
+        public static PropertyDescriptor ParameterIdProperty { get; } = PropertyDescriptor.Create(nameof(ParameterId), typeof(string), typeof(Control));
         #endregion
 
         /// <summary>
@@ -211,11 +214,48 @@ namespace Prism.UI.Controls
             get { return nativeObject.IsFocused; }
         }
 
+        /// <summary>
+        /// Gets or sets the identifier to use when gathering control values for navigation parameters.
+        /// This is used in conjunction with the value of the control to create an entry in the parameters of the navigation context.
+        /// </summary>
+        public string ParameterId
+        {
+            get { return parameterId; }
+            set
+            {
+                if (value != parameterId)
+                {
+                    if (parentView != null && parameterId != null)
+                    {
+                        NavigationService.SetControlParameter(parentView, this);
+                    }
+
+                    parameterId = value;
+                    if (parameterId != null && parentView == null && IsLoaded)
+                    {
+                        parentView = VisualTreeHelper.GetParent<IView>(this);
+                    }
+
+                    OnPropertyChanged(ParameterIdProperty);
+                }
+            }
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string parameterId;
+
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        internal PropertyDescriptor ParameterValueProperty { get; private set; }
 #if !DEBUG
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
 #endif
         // this field is to avoid casting
         private readonly INativeControl nativeObject;
+#if !DEBUG
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+#endif
+        private IView parentView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Control"/> class and pairs it with the specified native object.
@@ -264,6 +304,28 @@ namespace Prism.UI.Controls
         }
 
         /// <summary>
+        /// Sets the property that contains the value of the control for when navigation parameters are gathered.
+        /// This is used in conjunction with the <see cref="ParameterId"/> to create an entry in the parameters of the navigation context. 
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property that contains the control's value.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="property"/> does not describe a valid property on this instance.</exception>
+        public void SetParameterValueOverride(PropertyDescriptor property)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (!property.OwnerType.GetTypeInfo().IsAssignableFrom(GetType().GetTypeInfo()))
+            {
+                throw new ArgumentException(Strings.OwnerTypeDoesNotMatchCurrentType, nameof(property));
+            }
+
+            ParameterValueProperty = property;
+        }
+
+        /// <summary>
         /// Attempts to remove focus from the control.
         /// </summary>
         public void Unfocus()
@@ -289,6 +351,27 @@ namespace Prism.UI.Controls
             LostFocus?.Invoke(this, e);
         }
 
+        internal override void OnLoadedInternal(object sender, EventArgs e)
+        {
+            if (parameterId != null)
+            {
+                parentView = VisualTreeHelper.GetParent<IView>(this);
+            }
+
+            base.OnLoadedInternal(sender, e);
+        }
+
+        internal override void OnUnloadedInternal(object sender, EventArgs e)
+        {
+            if (parentView != null && parameterId != null)
+            {
+                NavigationService.SetControlParameter(parentView, this);
+            }
+
+            parentView = null;
+            base.OnUnloadedInternal(sender, e);
+        }
+
         private void Initialize()
         {
             nativeObject.GotFocus += (o, e) => OnGotFocus(e);
@@ -296,6 +379,7 @@ namespace Prism.UI.Controls
 
             IsEnabled = true;
 
+            SetParameterValueOverride(TagProperty);
             SetResourceReference(FontFamilyProperty, SystemResources.BaseFontFamilyKey);
         }
     }

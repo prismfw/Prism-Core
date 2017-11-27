@@ -278,6 +278,7 @@ namespace Prism.UI.Controls
             nativeObject.DisplayItemRequest = () => OnDisplayItemRequest();
             nativeObject.ListItemRequest = (value) => OnListItemRequest(value);
 
+            SetParameterValueOverride(SelectedItemProperty);
             SetResourceReference(BackgroundProperty, SystemResources.SelectListBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.SelectListBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.SelectListBorderWidthKey);

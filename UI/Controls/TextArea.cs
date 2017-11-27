@@ -269,6 +269,7 @@ namespace Prism.UI.Controls
             MaxLines = int.MaxValue;
             MinLines = 0;
 
+            SetParameterValueOverride(TextProperty);
             SetResourceReference(BackgroundProperty, SystemResources.TextBoxBackgroundBrushKey);
             SetResourceReference(BorderBrushProperty, SystemResources.TextBoxBorderBrushKey);
             SetResourceReference(BorderWidthProperty, SystemResources.TextBoxBorderWidthKey);
