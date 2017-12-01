@@ -52,6 +52,7 @@
     <Compile Include="Extensions\PropertyInfoN.cs" />
     <Compile Include="Extensions\RuntimeReflectionNExtensions.cs" />
     <Compile Include="Extensions\Extendable.cs" />
+    <Compile Include="Native\NativeAccelerometer.cs" />
     <Compile Include="Navigation\NavigationService.cs" />
     <Compile Include="Foundation\TypeResolutionException.cs" />
     <Compile Include="Foundation\ResolveAttribute.cs" />
@@ -115,6 +116,9 @@
     <Compile Include="ResourceKey.cs" />
     <Compile Include="ResourceDictionary.cs" />
     <Compile Include="SystemResources.cs" />
+    <Compile Include="Systems\Sensors\Accelerometer.cs" />
+    <Compile Include="Systems\Sensors\AccelerometerReading.cs" />
+    <Compile Include="Systems\Sensors\AccelerometerReadingChangedEventArgs.cs" />
     <Compile Include="UI\Controls\FlyoutBase.cs" />
     <Compile Include="UI\Controls\MediaElement.cs" />
     <Compile Include="UI\Controls\Flyout.cs" />
