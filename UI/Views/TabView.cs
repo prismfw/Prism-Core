@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017  Prism Framework Team
+Copyright (C) 2018  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -197,7 +197,6 @@ namespace Prism.UI
             var retVal = constraints;
             constraints = GetChildConstraints(constraints);
 
-            var tabBarFrame = nativeObject.TabBarFrame;
             var currentTab = TabItems.ElementAtOrDefault(SelectedIndex);
             foreach (var tab in TabItems)
             {

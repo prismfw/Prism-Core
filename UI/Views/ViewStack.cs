@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017  Prism Framework Team
+Copyright (C) 2018  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -484,7 +484,8 @@ namespace Prism.UI
 
             nativeObject.ViewChanging += (o, e) =>
             {
-                OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView, ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
+                OnViewChanging(new ViewStackViewChangingEventArgs(ObjectRetriever.GetAgnosticObject(e.OldView) as IView,
+                    ObjectRetriever.GetAgnosticObject(e.NewView) as IView));
 
                 var splitView = Parent as SplitView;
                 if (splitView != null && splitView.MasterContent == this)

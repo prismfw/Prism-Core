@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017  Prism Framework Team
+Copyright (C) 2018  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -97,11 +97,11 @@ namespace Prism.UI.Media.Inking
         [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Performance may be less than what is expected of a property.")]
         public IEnumerable<InkStroke> GetStrokes()
         {
-            return nativeObject.Strokes.Select(s =>
+            foreach (var s in nativeObject.Strokes)
             {
                 var stroke = ObjectRetriever.GetAgnosticObject(s);
-                return stroke as InkStroke ?? new InkStroke(s);
-            });
+                yield return stroke as InkStroke ?? new InkStroke(s);
+            }
         }
     }
 }

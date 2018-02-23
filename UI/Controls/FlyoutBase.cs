@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2017  Prism Framework Team
+Copyright (C) 2018  Prism Framework Team
 
 This file is part of the Prism Framework.
 
@@ -37,7 +37,7 @@ namespace Prism.UI.Controls
     /// </summary>
     public abstract class FlyoutBase : Visual
     {
-#region Event Descriptors
+        #region Event Descriptors
         /// <summary>
         /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Closed"/> event.
         /// </summary>
@@ -47,9 +47,9 @@ namespace Prism.UI.Controls
         /// Gets an <see cref="EventDescriptor"/> describing the <see cref="E:Opened"/> event.
         /// </summary>
         public static EventDescriptor OpenedEvent { get; } = EventDescriptor.Create(nameof(Opened), typeof(TypedEventHandler<FlyoutBase>), typeof(FlyoutBase));
-#endregion
+        #endregion
 
-#region Property Descriptors
+        #region Property Descriptors
         /// <summary>
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:Background"/> property.
         /// </summary>
@@ -64,7 +64,7 @@ namespace Prism.UI.Controls
         /// Gets a <see cref="PropertyDescriptor"/> describing the <see cref="P:PlacementTarget"/> property.
         /// </summary>
         public static PropertyDescriptor PlacementTargetProperty { get; } = PropertyDescriptor.Create(nameof(PlacementTarget), typeof(object), typeof(FlyoutBase));
-#endregion
+        #endregion
 
         /// <summary>
         /// Occurs when the flyout is closed.
