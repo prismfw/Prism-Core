@@ -260,6 +260,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to get value of target property &apos;{0}&apos;.  {1}.
+        /// </summary>
+        internal static string FailedToGetValueOfTargetProperty {
+            get {
+                return ResourceManager.GetString("FailedToGetValueOfTargetProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to set resource value &apos;{0}&apos; on property &apos;{1}&apos;.  {2}.
         /// </summary>
         internal static string FailedToSetResourceValueOnProperty {

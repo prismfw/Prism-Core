@@ -357,6 +357,108 @@ namespace Prism
         }
 
         /// <summary>
+        /// Gets the value of the property described by the specified <see cref="PropertyDescriptor"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property whose value is to be retrieved.</param>
+        /// <param name="value">When this method returns, the value of the property, if retrieval was successful; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
+        /// <returns><c>true</c> if the value of the property was successfully retrieved; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Generics are not appropriate in this case.")]
+        public bool TryGetValue(PropertyDescriptor property, out object value)
+        {
+            if (property == null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
+            if (property.OwnerType.GetTypeInfo().IsAssignableFrom(GetType().GetTypeInfo()))
+            {
+                value = property.GetValue(this, null);
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the value of the property described by the specified <see cref="PropertyDescriptor"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property whose value is to be retrieved.</param>
+        /// <param name="value">When this method returns, the value of the property, if retrieval was successful; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
+        /// <param name="platforms">The platforms on which the property value should be retrieved.  Platforms that are not specified will not attempt to retrieve the property value.</param>
+        /// <returns><c>true</c> if the value of the property was successfully retrieved; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="property"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "1#", Justification = "This method follows the TryGet pattern.")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Generics are not appropriate in this case.")]
+        public bool TryGetValue(PropertyDescriptor property, out object value, PlatformMask platforms)
+        {
+            if (((int)platforms & (int)Application.Current.Platform) != 0)
+            {
+                return TryGetValue(property, out value);
+            }
+
+            value = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the value of the property described by the specified <see cref="PropertyPath"/>.
+        /// </summary>
+        /// <param name="propertyPath">The <see cref="PropertyPath"/> describing the property whose value is to be retrieved.</param>
+        /// <param name="value">When this method returns, the value of the property, if retrieval was successful; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
+        /// <returns><c>true</c> if the value of the property was successfully retrieved; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyPath"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exact error types can be unpredictable but should not interfere with execution of the program.  The error is logged to facilitate debugging.")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Generics are not appropriate in this case.")]
+        public bool TryGetValue(PropertyPath propertyPath, out object value)
+        {
+            if (propertyPath == null)
+            {
+                throw new ArgumentNullException(nameof(propertyPath));
+            }
+
+            WeakReference[] refs;
+            PropertyDescriptor[] descriptors;
+
+            try
+            {
+                propertyPath.ResolvePath(this, out refs, out descriptors, false);
+
+                var finalDescriptor = descriptors.Last();
+                value = finalDescriptor.GetValue(refs.Last().Target, propertyPath.GetIndexValues(descriptors.Length - 1));
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(CultureInfo.CurrentCulture, Resources.Strings.FailedToGetValueOfTargetProperty, propertyPath.Path, e);
+                value = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of the property described by the specified <see cref="PropertyPath"/>.
+        /// </summary>
+        /// <param name="propertyPath">The <see cref="PropertyPath"/> describing the property whose value is to be retrieved.</param>
+        /// <param name="value">When this method returns, the value of the property, if retrieval was successful; otherwise, <c>null</c>. This parameter is passed uninitialized.</param>
+        /// <param name="platforms">The platforms on which the property value should be retrieved.  Platforms that are not specified will not attempt to retrieve the property value.</param>
+        /// <returns><c>true</c> if the value of the property was successfully retrieved; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyPath"/> is <c>null</c>.</exception>
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "1#", Justification = "This method follows the TryGet pattern.")]
+        [SuppressMessage("Microsoft.Design", "CA1007:UseGenericsWhereAppropriate", Justification = "Generics are not appropriate in this case.")]
+        public bool TryGetValue(PropertyPath propertyPath, out object value, PlatformMask platforms)
+        {
+            if (((int)platforms & (int)Application.Current.Platform) != 0)
+            {
+                return TryGetValue(propertyPath, out value);
+            }
+
+            value = null;
+            return false;
+        }
+
+        /// <summary>
         /// Unregisters a previously registered callback from the property described by the specified <see cref="PropertyDescriptor"/>.
         /// </summary>
         /// <param name="property">The <see cref="PropertyDescriptor"/> describing the property from which to unregister the callback.</param>

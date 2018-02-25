@@ -402,4 +402,7 @@
   <data name="GestureRecognizerCannotHaveMultipleTargets" xml:space="preserve">
     <value>Gesture recognizer already has a target.  Gesture recognizers can have only one target at a time.</value>
   </data>
+  <data name="FailedToGetValueOfTargetProperty" xml:space="preserve">
+    <value>Failed to get value of target property '{0}'.  {1}</value>
+  </data>
 </root>
