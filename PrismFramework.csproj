@@ -53,6 +53,7 @@
     <Compile Include="Extensions\RuntimeReflectionNExtensions.cs" />
     <Compile Include="Extensions\Extendable.cs" />
     <Compile Include="Native\NativeAccelerometer.cs" />
+    <Compile Include="Native\NativeWritableBitmap.cs" />
     <Compile Include="Navigation\NavigationService.cs" />
     <Compile Include="Foundation\TypeResolutionException.cs" />
     <Compile Include="Foundation\ResolveAttribute.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="UI\Controls\ItemClickedEventArgs.cs" />
     <Compile Include="UI\Controls\ActivityIndicator.cs" />
     <Compile Include="UI\Media\ArcSegment.cs" />
+    <Compile Include="UI\Media\Imaging\WritableBitmap.cs" />
     <Compile Include="UI\Media\SweepDirection.cs" />
     <Compile Include="UI\Media\QuadraticBezierSegment.cs" />
     <Compile Include="UI\Media\BezierSegment.cs" />

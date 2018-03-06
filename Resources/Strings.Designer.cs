@@ -89,6 +89,15 @@ namespace Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Array is of an invalid length.  Expecting length of {0}..
+        /// </summary>
+        internal static string ArrayLengthIsInvalid {
+            get {
+                return ResourceManager.GetString("ArrayLengthIsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attempted to set the value of read-only property &apos;{0}&apos;..
         /// </summary>
         internal static string AttemptedToSetReadOnlyProperty {
