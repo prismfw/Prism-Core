@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 using System;
+using System.Threading.Tasks;
 using Prism.UI.Media.Imaging;
 
 namespace Prism.Native
@@ -54,5 +55,11 @@ namespace Prism.Native
         /// Gets the URI of the source file containing the image data.
         /// </summary>
         Uri SourceUri { get; }
+
+        /// <summary>
+        /// Creates a writable bitmap instance with a copy of the image data.
+        /// </summary>
+        /// <returns>The newly created <see cref="INativeWritableBitmap"/> instance.</returns>
+        Task<INativeWritableBitmap> CreateWritableCopyAsync();
     }
 }

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Threading.Tasks;
 using Prism.Native;
 using Prism.UI.Controls;
 
@@ -148,6 +149,15 @@ namespace Prism.UI.Media.Imaging
 
             nativeObject.ImageFailed += (o, e) => OnImageFailed(e);
             nativeObject.ImageLoaded += (o, e) => OnImageLoaded(e);
+        }
+
+        /// <summary>
+        /// Creates a writable bitmap instance with a copy of the image data.
+        /// </summary>
+        /// <returns>The newly created <see cref="WritableBitmap"/> instance.</returns>
+        public async Task<WritableBitmap> CreateWritableCopyAsync()
+        {
+            return new WritableBitmap(await nativeObject.CreateWritableCopyAsync());
         }
 
         /// <summary>
